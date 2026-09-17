@@ -1,0 +1,6 @@
+Hanafi Learning Deck — Version 1.0 QA
+Cards: 145
+Sheets: 37
+Header size: fixed 48 pt; long titles wrap instead of shrinking
+Accent bar: y=42 to y=1358, ending at rounded-border tangent points
+Structural QA: PASS
