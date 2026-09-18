@@ -1,0 +1,320 @@
+name: Publish v1.3 99 Names Expansion
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/publish-v13-99-names.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install rendering dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core fonts-noto-core libraqm0
+          python3 -m pip install --quiet Pillow
+
+      - name: Generate accepted v1.3 expansion
+        run: |
+          python3 <<'PY'
+          from PIL import Image, ImageDraw, ImageFont
+          from pathlib import Path
+          import hashlib, zipfile, shutil
+
+          OUTROOT = Path('99-Names-of-Allah-Expansion')
+          if OUTROOT.exists():
+              raise SystemExit('Refusing to overwrite an existing 99-Names-of-Allah-Expansion folder')
+          OUTROOT.mkdir(parents=True)
+
+          W, H = 1000, 1400
+          FONT_LATIN = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+          FONT_LATIN_B = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+          FONT_ARABIC = '/usr/share/fonts/truetype/noto/NotoNaskhArabic-Bold.ttf'
+
+          def f(path, size):
+              return ImageFont.truetype(path, size=size)
+
+          BG=(248,246,236)
+          GREEN_DARK=(12,49,35)
+          GOLD=(181,139,42)
+          GOLD_LIGHT=(220,195,124)
+          TEXT=(24,27,24)
+          MUTED=(89,89,80)
+          LINE=(205,194,161)
+          WHITE=(255,255,255)
+
+          names = [
+          ('اللَّهُ','Allāh','Allah, the One worthy of worship'),
+          ('الرَّحْمَنُ','Ar-Raḥmān','The Most Merciful'),
+          ('الرَّحِيمُ','Ar-Raḥīm','The Especially Merciful'),
+          ('الْمَلِكُ','Al-Malik','The King'),
+          ('الْقُدُّوسُ','Al-Quddūs','The Absolutely Pure'),
+          ('السَّلَامُ','As-Salām','The Source of Peace'),
+          ('الْمُؤْمِنُ','Al-Muʾmin','The Granter of Security'),
+          ('الْمُهَيْمِنُ','Al-Muhaymin','The Guardian'),
+          ('الْعَزِيزُ','Al-ʿAzīz','The Almighty'),
+          ('الْجَبَّارُ','Al-Jabbār','The Compeller'),
+          ('الْمُتَكَبِّرُ','Al-Mutakabbir','The Supremely Great'),
+          ('الْخَالِقُ','Al-Khāliq','The Creator'),
+          ('الْبَارِئُ','Al-Bāriʾ','The Originator'),
+          ('الْمُصَوِّرُ','Al-Muṣawwir','The Fashioner'),
+          ('الْغَفَّارُ','Al-Ghaffār','The Constantly Forgiving'),
+          ('الْقَهَّارُ','Al-Qahhār','The All-Subduing'),
+          ('الْوَهَّابُ','Al-Wahhāb','The Bestower'),
+          ('الرَّزَّاقُ','Ar-Razzāq','The Provider'),
+          ('الْفَتَّاحُ','Al-Fattāḥ','The Opener'),
+          ('الْعَلِيمُ','Al-ʿAlīm','The All-Knowing'),
+          ('الْقَابِضُ','Al-Qābiḍ','The Withholder'),
+          ('الْبَاسِطُ','Al-Bāsiṭ','The Expander'),
+          ('الْخَافِضُ','Al-Khāfiḍ','The Abaser'),
+          ('الرَّافِعُ','Ar-Rāfiʿ','The Exalter'),
+          ('الْمُعِزُّ','Al-Muʿizz','The Giver of Honor'),
+          ('الْمُذِلُّ','Al-Mudhill','The One Who Humbles'),
+          ('السَّمِيعُ','As-Samīʿ','The All-Hearing'),
+          ('الْبَصِيرُ','Al-Baṣīr','The All-Seeing'),
+          ('الْحَكَمُ','Al-Ḥakam','The Judge'),
+          ('الْعَدْلُ','Al-ʿAdl','The Just'),
+          ('اللَّطِيفُ','Al-Laṭīf','The Subtle and Kind'),
+          ('الْخَبِيرُ','Al-Khabīr','The All-Aware'),
+          ('الْحَلِيمُ','Al-Ḥalīm','The Forbearing'),
+          ('الْعَظِيمُ','Al-ʿAẓīm','The Magnificent'),
+          ('الْغَفُورُ','Al-Ghafūr','The Oft-Forgiving'),
+          ('الشَّكُورُ','Ash-Shakūr','The Appreciative'),
+          ('الْعَلِيُّ','Al-ʿAliyy','The Most High'),
+          ('الْكَبِيرُ','Al-Kabīr','The Great'),
+          ('الْحَفِيظُ','Al-Ḥafīẓ','The Preserver'),
+          ('الْمُقِيتُ','Al-Muqīt','The Sustainer'),
+          ('الْحَسِيبُ','Al-Ḥasīb','The Reckoner'),
+          ('الْجَلِيلُ','Al-Jalīl','The Majestic'),
+          ('الْكَرِيمُ','Al-Karīm','The Generous'),
+          ('الرَّقِيبُ','Ar-Raqīb','The Watchful'),
+          ('الْمُجِيبُ','Al-Mujīb','The Responsive'),
+          ('الْوَاسِعُ','Al-Wāsiʿ','The All-Encompassing'),
+          ('الْحَكِيمُ','Al-Ḥakīm','The Wise'),
+          ('الْوَدُودُ','Al-Wadūd','The Loving'),
+          ('الْمَجِيدُ','Al-Majīd','The Glorious'),
+          ('الْبَاعِثُ','Al-Bāʿith','The Resurrector'),
+          ('الشَّهِيدُ','Ash-Shahīd','The Witness'),
+          ('الْحَقُّ','Al-Ḥaqq','The Truth'),
+          ('الْوَكِيلُ','Al-Wakīl','The Trustee'),
+          ('الْقَوِيُّ','Al-Qawiyy','The Strong'),
+          ('الْمَتِينُ','Al-Matīn','The Firm'),
+          ('الْوَلِيُّ','Al-Waliyy','The Protecting Friend'),
+          ('الْحَمِيدُ','Al-Ḥamīd','The Praiseworthy'),
+          ('الْمُحْصِي','Al-Muḥṣī','The One Who Enumerates'),
+          ('الْمُبْدِئُ','Al-Mubdiʾ','The Originator'),
+          ('الْمُعِيدُ','Al-Muʿīd','The Restorer'),
+          ('الْمُحْيِي','Al-Muḥyī','The Giver of Life'),
+          ('الْمُمِيتُ','Al-Mumīt','The Giver of Death'),
+          ('الْحَيُّ','Al-Ḥayy','The Ever-Living'),
+          ('الْقَيُّومُ','Al-Qayyūm','The Self-Sustaining'),
+          ('الْوَاجِدُ','Al-Wājid','The Finder'),
+          ('الْمَاجِدُ','Al-Mājid','The Illustrious'),
+          ('الْوَاحِدُ','Al-Wāḥid','The One'),
+          ('الصَّمَدُ','Aṣ-Ṣamad','The Eternal Refuge'),
+          ('الْقَادِرُ','Al-Qādir','The Able'),
+          ('الْمُقْتَدِرُ','Al-Muqtadir','The All-Powerful'),
+          ('الْمُقَدِّمُ','Al-Muqaddim','The One Who Brings Forward'),
+          ('الْمُؤَخِّرُ','Al-Muʾakhkhir','The One Who Delays'),
+          ('الْأَوَّلُ','Al-Awwal','The First'),
+          ('الْآخِرُ','Al-Ākhir','The Last'),
+          ('الظَّاهِرُ','Aẓ-Ẓāhir','The Manifest'),
+          ('الْبَاطِنُ','Al-Bāṭin','The Hidden'),
+          ('الْوَالِي','Al-Wālī','The Governor'),
+          ('الْمُتَعَالِي','Al-Mutaʿālī','The Most Exalted'),
+          ('الْبَرُّ','Al-Barr','The Source of Goodness'),
+          ('التَّوَّابُ','At-Tawwāb','The Accepter of Repentance'),
+          ('الْمُنْتَقِمُ','Al-Muntaqim','The Avenger'),
+          ('الْعَفُوُّ','Al-ʿAfuww','The Pardoner'),
+          ('الرَّؤُوفُ','Ar-Raʾūf','The Most Kind'),
+          ('مَالِكُ الْمُلْكِ','Mālik al-Mulk','Owner of All Dominion'),
+          ('ذُو الْجَلَالِ وَالْإِكْرَامِ','Dhū al-Jalāli wa-l-Ikrām','Possessor of Majesty and Honor'),
+          ('الْمُقْسِطُ','Al-Muqsiṭ','The Equitable'),
+          ('الْجَامِعُ','Al-Jāmiʿ','The Gatherer'),
+          ('الْغَنِيُّ','Al-Ghaniyy','The Self-Sufficient'),
+          ('الْمُغْنِي','Al-Mughnī','The Enricher'),
+          ('الْمَانِعُ','Al-Māniʿ','The Preventer'),
+          ('الضَّارُّ','Aḍ-Ḍārr','The One Who Can Bring Harm'),
+          ('النَّافِعُ','An-Nāfiʿ','The Giver of Benefit'),
+          ('النُّورُ','An-Nūr','The Light'),
+          ('الْهَادِي','Al-Hādī','The Guide'),
+          ('الْبَدِيعُ','Al-Badīʿ','The Incomparable Originator'),
+          ('الْبَاقِي','Al-Bāqī','The Everlasting'),
+          ('الْوَارِثُ','Al-Wārith','The Inheritor'),
+          ('الرَّشِيدُ','Ar-Rashīd','The Guide to the Right Way'),
+          ('الصَّبُورُ','Aṣ-Ṣabūr','The Most Patient'),
+          ]
+          assert len(names) == 99
+
+          def rounded_border(draw):
+              draw.rounded_rectangle((20,20,W-20,H-20), radius=42, fill=BG, outline=GREEN_DARK, width=8)
+              draw.rounded_rectangle((34,34,W-34,H-34), radius=34, outline=GOLD, width=3)
+
+          def centered(draw,text,y,font,fill,rtl=False):
+              kw={'direction':'rtl','language':'ar'} if rtl else {}
+              box=draw.textbbox((0,0),text,font=font,**kw)
+              draw.text(((W-(box[2]-box[0]))/2,y),text,font=font,fill=fill,**kw)
+
+          def wrap_pixels(draw,text,font,max_w):
+              words=text.split(); lines=[]; cur=''
+              for word in words:
+                  t=word if not cur else cur+' '+word
+                  if draw.textbbox((0,0),t,font=font)[2] <= max_w:
+                      cur=t
+                  else:
+                      if cur: lines.append(cur)
+                      cur=word
+              if cur: lines.append(cur)
+              return lines
+
+          def fit_text_font(draw,text,font_path,start,min_size,max_w,rtl=False):
+              size=start
+              while size>min_size:
+                  ft=f(font_path,size)
+                  kw={'direction':'rtl','language':'ar'} if rtl else {}
+                  b=draw.textbbox((0,0),text,font=ft,**kw)
+                  if (b[2]-b[0])<=max_w:
+                      return ft
+                  size-=1
+              return f(font_path,min_size)
+
+          # Card 165: guide, accepted design with NO corner ornaments.
+          img=Image.new('RGB',(W,H),BG)
+          d=ImageDraw.Draw(img)
+          rounded_border(d)
+          d.rectangle((45,45,W-45,192),fill=GREEN_DARK)
+          centered(d,'165. THE 99 NAMES OF ALLAH',70,f(FONT_LATIN_B,42),WHITE)
+          centered(d,'AL-ASMĀʾ AL-ḤUSNĀ • EXPANSION GUIDE',132,f(FONT_LATIN_B,22),GOLD_LIGHT)
+          centered(d,'وَلِلَّهِ الْأَسْمَاءُ الْحُسْنَىٰ',230,f(FONT_ARABIC,56),GOLD,rtl=True)
+          centered(d,'“To Allah belong the Most Beautiful Names, so call upon Him by them.”',315,f(FONT_LATIN,25),TEXT)
+          sections=[
+              ('WHAT IS AUTHENTIC?','Sahih al-Bukhari 2736 and Sahih Muslim 2677 establish that Allah has ninety-nine Names and that whoever enumerates them enters Paradise.'),
+              ('WHICH LIST DOES THIS DECK USE?','Cards 166–176 follow the enumeration reported in Jamiʿ at-Tirmidhi 3507, in its transmitted order. The enumeration itself is graded weak, while the basic ninety-nine-Names hadith is authentic.'),
+              ('IMPORTANT','Allah’s Names are not understood to be limited to only ninety-nine. This expansion is a memorization and study set built around the traditional enumeration, not a claim that no other Divine Names exist.'),
+              ('HOW TO STUDY','Each card contains nine Names: Arabic, transliteration, and a short English study gloss. The gloss is a learning aid, not a complete theological definition.')
+          ]
+          y=390
+          for head,body in sections:
+              d.rounded_rectangle((78,y,922,y+46),radius=12,fill=(234,230,210))
+              d.text((98,y+9),head,font=f(FONT_LATIN_B,22),fill=GREEN_DARK)
+              y+=58
+              for ln in wrap_pixels(d,body,f(FONT_LATIN,23),804):
+                  d.text((98,y),ln,font=f(FONT_LATIN,23),fill=TEXT)
+                  y+=34
+              y+=18
+          d.line((95,1250,905,1250),fill=LINE,width=2)
+          centered(d,'Sources: Qur’an 7:180 • Sahih al-Bukhari 2736 • Sahih Muslim 2677',1270,f(FONT_LATIN,17),MUTED)
+          centered(d,'Traditional enumeration: Jamiʿ at-Tirmidhi 3507',1302,f(FONT_LATIN,17),MUTED)
+          img.save(OUTROOT/'card_165_99_names_expansion_guide.png',dpi=(400,400),compress_level=6)
+
+          # Cards 166-176: nine Names per card, accepted border, no corner ornaments.
+          for group in range(11):
+              cardno=166+group
+              start=group*9
+              chunk=names[start:start+9]
+              img=Image.new('RGB',(W,H),BG)
+              d=ImageDraw.Draw(img)
+              rounded_border(d)
+              d.rectangle((45,45,W-45,174),fill=GREEN_DARK)
+              centered(d,f'{cardno}. THE 99 NAMES OF ALLAH',66,f(FONT_LATIN_B,36),WHITE)
+              centered(d,f'NAMES {start+1}–{start+9}',119,f(FONT_LATIN_B,22),GOLD_LIGHT)
+              top=195; row_h=123
+              for i,(arabic,trans,meaning) in enumerate(chunk):
+                  n=start+i+1; y=top+i*row_h
+                  if i%2==0:
+                      d.rounded_rectangle((68,y,932,y+108),radius=13,fill=(241,238,224))
+                  d.text((86,y+33),str(n),font=f(FONT_LATIN_B,23),fill=GOLD)
+                  ar_font=fit_text_font(d,arabic,FONT_ARABIC,46,28,350,rtl=True)
+                  ar_box=d.textbbox((0,0),arabic,font=ar_font,direction='rtl',language='ar')
+                  ar_w=ar_box[2]-ar_box[0]
+                  ar_x=145+(355-ar_w)/2
+                  d.text((ar_x,y+14),arabic,font=ar_font,fill=GREEN_DARK,direction='rtl',language='ar')
+                  tr_font=fit_text_font(d,trans,FONT_LATIN_B,23,17,375)
+                  d.text((535,y+15),trans,font=tr_font,fill=TEXT)
+                  m_font=fit_text_font(d,meaning,FONT_LATIN,20,16,375)
+                  my=y+54
+                  for ln in wrap_pixels(d,meaning,m_font,375)[:2]:
+                      d.text((535,my),ln,font=m_font,fill=MUTED)
+                      my+=26
+                  if i<8:
+                      d.line((84,y+115,916,y+115),fill=LINE,width=1)
+              d.line((95,1314,905,1314),fill=LINE,width=2)
+              centered(d,'Traditional enumeration: Jamiʿ at-Tirmidhi 3507',1328,f(FONT_LATIN,15),MUTED)
+              img.save(OUTROOT/f'card_{cardno:03d}_names_{start+1:02d}_{start+9:02d}.png',dpi=(400,400),compress_level=6)
+
+          source_notes='''# 99 Names of Allah Expansion — Source Notes\n\n## Scope\nCards 165–176 only. This expansion is separate from the Base Deck and all other expansions.\n\n## Source rule used for this release\n- Qur'an 7:180: Allah has the Most Beautiful Names and believers are instructed to call upon Him by them.\n- Sahih al-Bukhari 2736 and Sahih Muslim 2677: authentic hadith establishing ninety-nine Names and the virtue of enumerating them.\n- Jami' at-Tirmidhi 3507: used for the 99-name sequence in Cards 166–176.\n\n## Important hadith note\nThe basic hadith concerning ninety-nine Names is authentic. The explicit enumeration attached in Jami' at-Tirmidhi 3507 is not at the same level of authenticity; it is graded weak in the Darussalam grading displayed by Sunnah.com, and al-Tirmidhi himself comments on the chain and other versions.\n\nFor that reason:\n- this expansion labels the list as the traditional enumeration;\n- it does not claim this is the only valid list;\n- it does not claim Allah's Names are limited to ninety-nine.\n\n## Translation note\nEnglish meanings are deliberately short study glosses. Divine Names can carry richer meanings than a one-line English translation can express.\n\n## Numbering\n165 — Expansion Guide\n166–176 — eleven cards, nine Names each, total 99 Names\n'''
+          (OUTROOT/'SOURCE_NOTES.md').write_text(source_notes,encoding='utf-8')
+
+          cards=sorted(OUTROOT.glob('card_*.png'))
+          assert len(cards)==12
+          for p in cards:
+              with Image.open(p) as check:
+                  assert check.size==(1000,1400)
+
+          manifest=['99 Names of Allah Expansion v1.3','Cards 165-176','1000 x 1400 px, 5:7 playing-card format','Corner medallion ornaments removed','']
+          for p in cards:
+              manifest.append(f'{p.name}  {p.stat().st_size} bytes  SHA-256 {hashlib.sha256(p.read_bytes()).hexdigest()}')
+          (OUTROOT/'MANIFEST.txt').write_text('\n'.join(manifest)+'\n',encoding='utf-8')
+
+          release=Path('/tmp/v13-release')
+          release.mkdir(parents=True,exist_ok=True)
+          zip_path=release/'Hanafi-Learning-Deck-v1.3-99-Names-of-Allah-Expansion.zip'
+          with zipfile.ZipFile(zip_path,'w',zipfile.ZIP_DEFLATED) as z:
+              for p in sorted(OUTROOT.rglob('*')):
+                  if p.is_file():
+                      z.write(p,arcname=f'{OUTROOT.name}/{p.relative_to(OUTROOT)}')
+          sha=hashlib.sha256(zip_path.read_bytes()).hexdigest()
+          (release/'SHA256SUMS.txt').write_text(f'{sha}  {zip_path.name}\n',encoding='utf-8')
+          print('Generated 12 cards and release ZIP')
+          print('SHA-256:',sha)
+          PY
+
+      - name: Verify isolation
+        run: |
+          test "$(find 99-Names-of-Allah-Expansion -maxdepth 1 -name 'card_*.png' | wc -l)" -eq 12
+          test -f 99-Names-of-Allah-Expansion/card_165_99_names_expansion_guide.png
+          test -f 99-Names-of-Allah-Expansion/card_176_names_91_99.png
+          git diff --name-only > /tmp/prestage-diff.txt
+          if grep -E '^(cards/|Sacred-Places-Expansion/)' /tmp/prestage-diff.txt; then
+            echo 'ERROR: base deck or Sacred Places was touched'
+            exit 1
+          fi
+
+      - name: Commit separate expansion and remove temporary publisher
+        run: |
+          rm .github/workflows/publish-v13-99-names.yml
+          git config user.name 'Abdullāh ibn al-Malik al-Jazzār'
+          git config user.email 'dereksparks1982@gmail.com'
+          git add 99-Names-of-Allah-Expansion .github/workflows/publish-v13-99-names.yml
+          git diff --cached --name-only > /tmp/changed.txt
+          if grep -E '^(cards/|Sacred-Places-Expansion/)' /tmp/changed.txt; then
+            echo 'ERROR: protected deck folders staged'
+            exit 1
+          fi
+          git commit -m 'Add separate 99 Names of Allah Expansion v1.3 [skip ci]'
+          git push origin HEAD:main
+
+      - name: Publish separate v1.3 release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git ls-remote --tags origin refs/tags/v1.3.0 | grep -q .; then
+            echo 'ERROR: v1.3.0 tag already exists'
+            exit 1
+          fi
+          SHA="$(git rev-parse HEAD)"
+          gh release create v1.3.0 \
+            /tmp/v13-release/Hanafi-Learning-Deck-v1.3-99-Names-of-Allah-Expansion.zip \
+            /tmp/v13-release/SHA256SUMS.txt \
+            --target "$SHA" \
+            --title '99 Names of Allah Expansion — Version 1.3' \
+            --notes 'Separate 12-card expansion covering the traditional enumeration of the 99 Names of Allah. Card 165 is the source/usage guide; Cards 166–176 contain nine Names each. The base deck and Sacred Places Expansion are unchanged.'
