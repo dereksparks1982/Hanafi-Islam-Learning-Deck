@@ -1,6 +1,6 @@
 # Hanafi Learning Deck
 
-A practical, printable **Hanafi study deck** for learning salah, purification, duʿā, daily worship, travel rulings, illness accommodations, special prayers, spiritual protection, and other common situations in Muslim life.
+A practical, printable **Hanafi study deck** for learning salah, purification, duʿā, daily worship, travel rulings, illness accommodations, special prayers, spiritual protection, sacred places, and other common situations in Muslim life.
 
 The deck is designed so that a learner can pick up a card, understand what it is teaching, and then go deeper through the notes and sources at the bottom. It is intentionally structured more like a study reference than a bare flash-card set.
 
@@ -14,9 +14,9 @@ A madhhab is not a separate religion or sect. It is a disciplined legal method f
 
 This project follows **Hanafi fiqh** so that a learner has one consistent framework instead of mixing unrelated rulings from different schools without realizing it. Where an important difference exists within the Hanafi school, or where a difference from another school is especially relevant, the deck should say so.
 
-## What Version 1 Contains
+## Base Deck - Version 1.0
 
-Version 1 includes **145 study cards** covering:
+The Version 1.0 base deck contains **145 study cards** covering:
 
 - foundations and the meaning of the Hanafi school
 - wudu, ghusl, tayammum, and purity
@@ -34,7 +34,100 @@ Version 1 includes **145 study cards** covering:
 - daily-life duʿās and remembrance
 - selected reflection material on cards that genuinely have room for it
 
-The repository also includes printable card images, source/audit notes, an imam-review file, and a card manifest.
+The base deck remains in `cards/` and stops at **Card 145**.
+
+## Sacred Places Expansion - Version 1.2
+
+Version 1.2 adds a separate **Sacred Places Expansion** containing **19 cards, Cards 146-164**.
+
+It is stored separately in:
+
+`Sacred-Places-Expansion/`
+
+The expansion begins with **Card 146**, a color-key card, followed by cards covering major sacred, Hajj, Madinah, Al-Aqsa, and Seerah-related locations, including:
+
+- Masjid al-Haram
+- the Kaʿbah
+- Maqam Ibrahim
+- Zamzam
+- Safa and Marwah
+- Mina
+- ʿArafat
+- Muzdalifah
+- Masjid an-Nabawi
+- the Rawdah
+- Jannat al-Baqiʿ
+- Masjid Quba
+- Masjid al-Qiblatayn
+- Al-Masjid al-Aqsa
+- the Dome of the Rock
+- Jabal al-Nur and Cave Hira
+- Cave Thawr
+- Mount Uhud
+
+The Sacred Places expansion is intentionally **not merged into the base `cards/` folder**. Expansion packs remain separate so learners can download, print, and add only the sets they want.
+
+### Sacred Places Download
+
+The separate Version 1.2 release contains only the Sacred Places Expansion and its checksum:
+
+https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/releases/tag/v1.2.0
+
+Expansion ZIP:
+
+`Hanafi-Learning-Deck-v1.2-Sacred-Places-Expansion.zip`
+
+SHA-256:
+
+`1623bcaf21527a84173f544de491683f40800e8be56ee7d68c7b7e2a43107807`
+
+## Expansion Roadmap
+
+Future expansion packs will remain in their own folders and downloadable packages rather than being mixed into the base deck.
+
+### The Life of Prophet Muhammad ﷺ
+
+A major planned expansion will cover **the life of Prophet Muhammad ﷺ from birth to death in chronological order**, using as many well-attested events as can reasonably be documented from reliable Islamic sources.
+
+The goal is not to compress the Seerah into a tiny summary set. Important individual events should receive their own cards when the sources support doing so.
+
+Planned coverage includes:
+
+- ancestry, birth, childhood, and guardianship
+- youth, trade, al-Amin, Hilf al-Fudul, and marriage to Khadijah رضي الله عنها
+- rebuilding of the Kaʿbah and the Black Stone arbitration
+- Cave Hira and the first revelation
+- the earliest Muslims and Dar al-Arqam
+- public preaching and Makkan persecution
+- the migrations to Abyssinia
+- Hamzah and ʿUmar accepting Islam
+- the boycott of Banu Hashim
+- the Year of Sorrow and journey to Taʾif
+- Israʾ and Miʿraj
+- the pledges of ʿAqabah
+- the Hijrah, Cave Thawr, Quba, and arrival in Madinah
+- establishment of the Madinan Muslim community
+- Badr
+- Uhud
+- expeditions and major events between Uhud and the Trench
+- the Battle of the Trench
+- Hudaybiyyah
+- letters and envoys to rulers
+- Khaybar
+- Muʾtah
+- the Conquest of Makkah
+- Hunayn and Taʾif
+- Tabuk
+- delegations and the spread of Islam across Arabia
+- the Farewell Hajj
+- the final illness, death, and burial
+- a final source-audit pass for smaller journeys, treaties, family events, revelations tied to specific incidents, miracles, delegations, and other well-attested events worth preserving as individual cards
+
+**Visual rule:** Prophet Muhammad ﷺ will not be depicted. No face, body, silhouette, shadow, outline, or stand-in figure will be used to represent him. Cards will instead use locations, landscapes, maps, architecture, objects, manuscripts, calligraphy, routes, battle maps, timelines, and environmental scenes.
+
+### Other Planned Expansion
+
+A future expansion for the **99 Names of Allah** is also planned. It will remain separate from both the base deck and the Sacred Places Expansion.
 
 ## Design Approach
 
@@ -62,11 +155,20 @@ If possible, also include the source or explanation the scholar gave.
 
 That lets us revise the deck cleanly instead of allowing conflicting copies to circulate. If there is an error, we want to know about it so the card and the deck can be corrected for everyone who uses it.
 
-Please do not assume that a card is beyond correction simply because it appears in Version 1.
+Please do not assume that a card is beyond correction simply because it appears in a published version.
 
-## Version 1 Notes
+## Release Notes
 
-**Version 1.0**
+### Version 1.2 - Sacred Places Expansion
+
+- Added a separate 19-card Sacred Places Expansion
+- Added Card 146 as the Sacred Places color key
+- Added Cards 147-164 covering major sacred, Hajj, Madinah, Al-Aqsa, and Seerah-related locations
+- Kept the base deck unchanged at Cards 1-145
+- Published the expansion as its own downloadable ZIP
+- Established the rule that future expansion packs remain separate from the base deck
+
+### Version 1.0 - Base Deck
 
 - First public baseline of the Hanafi Learning Deck
 - 145 cards
@@ -87,12 +189,13 @@ This deck is a **learning aid**, not a fatwa service and not a substitute for a 
 
 ## Repository Contents
 
-- `cards/` — individual study cards
-- `sheets/` — printable four-card sheets
-- `CARD_MANIFEST.txt` — card index
-- `AUDIT_AND_SOURCES.md` — sourcing and audit notes
-- `IMAM_REVIEW_NOTES.md` — place to record corrections and review findings
-- `QA_REPORT.txt` — build-quality checks
+- `cards/` - Version 1.0 base deck, Cards 1-145
+- `Sacred-Places-Expansion/` - Version 1.2 Sacred Places Expansion, Cards 146-164
+- `sheets/` - printable four-card sheets for the base deck
+- `CARD_MANIFEST.txt` - base-deck card index
+- `AUDIT_AND_SOURCES.md` - sourcing and audit notes
+- `IMAM_REVIEW_NOTES.md` - place to record corrections and review findings
+- `QA_REPORT.txt` - build-quality checks
 
 ## Contributing Corrections
 
@@ -108,4 +211,4 @@ That format makes corrections much easier to verify and apply accurately.
 
 ---
 
-**Hanafi Learning Deck — Version 1.0**
+**Hanafi Learning Deck - Base Version 1.0 + Sacred Places Expansion Version 1.2**
