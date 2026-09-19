@@ -82,47 +82,39 @@ def wrap_header_title(draw, full_text, font, max_width):
     return lines
 
 def header_fixed(draw,n,title,tag,color):
-    draw.rounded_rectangle((18,18,W-18,H-18),radius=BORDER_RADIUS,
-                           outline=COLORS["black"],width=4)
-    draw.rectangle((20,BAR_Y1,31,BAR_Y2),fill=color)
+    inner=(12,49,35) if color==COLORS["gold"] else (181,139,42)
+    draw.rounded_rectangle((20,20,W-20,H-20),radius=42,outline=color,width=8)
+    draw.rounded_rectangle((34,34,W-34,H-34),radius=34,outline=inner,width=3)
     full=f"{n}. {title}"
     tf=F(FONT_B,TITLE_FS)
     maxw=W-2*(M+14)
     lines=wrap_header_title(draw,full,tf,maxw)
     if len(lines)<=1:
-        draw.text((M+14,31),lines[0],font=tf,fill=COLORS["black"])
+        draw.text((M+14,49),lines[0],font=tf,fill=COLORS["black"])
         if tag:
             tagf=F(FONT_B,TAG_FS)
-            draw.text((W-M-10,112),tag,font=tagf,fill=color,anchor="ra")
-        divider_y=HEADER_SINGLE_DIVIDER_Y
-        body_y=divider_y+37
-        used_lines=1
+            draw.text((W-M-10,130),tag,font=tagf,fill=color,anchor="ra")
+        divider_y=186
+        body_y=divider_y+34
     else:
         if len(lines)>2:
-            words=full.split()
-            best=None
+            words=full.split(); best=None
             for split in range(1,len(words)):
                 a=" ".join(words[:split]); b=" ".join(words[split:])
                 wa,wb=tw(draw,a,tf),tw(draw,b,tf)
                 if wa<=maxw and wb<=maxw:
                     score=abs(wa-wb)
-                    if best is None or score<best[0]:
-                        best=(score,a,b)
-            if best:
-                lines=[best[1],best[2]]
-            else:
-                split=len(words)//2
-                lines=[" ".join(words[:split])," ".join(words[split:])]
-        draw.text((M+14,27),lines[0],font=tf,fill=COLORS["black"])
-        draw.text((M+14,82),lines[1],font=tf,fill=COLORS["black"])
+                    if best is None or score<best[0]: best=(score,a,b)
+            lines=[best[1],best[2]] if best else [" ".join(words[:len(words)//2])," ".join(words[len(words)//2:])]
+        draw.text((M+14,45),lines[0],font=tf,fill=COLORS["black"])
+        draw.text((M+14,100),lines[1],font=tf,fill=COLORS["black"])
         if tag:
             tagf=F(FONT_B,TAG_FS)
-            draw.text((W-M-10,163),tag,font=tagf,fill=color,anchor="ra")
-        divider_y=HEADER_DOUBLE_DIVIDER_Y
-        body_y=divider_y+35
-        used_lines=2
+            draw.text((W-M-10,181),tag,font=tagf,fill=color,anchor="ra")
+        divider_y=240
+        body_y=divider_y+34
     draw.line((M,divider_y,W-M,divider_y),fill=COLORS["black"],width=3)
-    return body_y,divider_y,used_lines
+    return body_y,divider_y,len(lines)
 
 def measure_bullet_rows(draw,bullets,fs,label_gap=36):
     f=F(FONT_R,fs); fb=F(FONT_B,fs)

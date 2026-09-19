@@ -6,6 +6,8 @@ The deck is designed so that a learner can pick up a card, understand what it is
 
 > **Status:** Hanafi study aid, pending imam review.
 
+> **Development checkpoint:** v1.4 R1 replaces the obsolete 145-card main deck. Expansion renumbering is still in progress.
+
 ## Introduction
 
 The Hanafi school is one of the four major Sunni schools of Islamic law (*madhhabs*). It traces its legal tradition to **Imam Abu Hanifa** and was developed and transmitted through generations of Hanafi jurists, including his students **Abu Yusuf** and **Muhammad al-Shaybani**.
@@ -14,9 +16,9 @@ A madhhab is not a separate religion or sect. It is a disciplined legal method f
 
 This project follows **Hanafi fiqh** so that a learner has one consistent framework instead of mixing unrelated rulings from different schools without realizing it. Where an important difference exists within the Hanafi school, or where a difference from another school is especially relevant, the deck should say so.
 
-## Base Deck - Version 1.0
+## Main Deck - Version 1.4 R1
 
-The Version 1.0 base deck contains **145 study cards** covering:
+The Version 1.4 R1 main deck contains **146 study cards** covering:
 
 - foundations and the meaning of the Hanafi school
 - wudu, ghusl, tayammum, and purity
@@ -34,7 +36,7 @@ The Version 1.0 base deck contains **145 study cards** covering:
 - daily-life duʿās and remembrance
 - selected reflection material on cards that genuinely have room for it
 
-The base deck remains in `cards/` and stops at **Card 145**.
+The main deck remains in `cards/` and currently stops at **Card 146**.
 
 ## Sacred Places Expansion - Version 1.2
 
@@ -230,7 +232,7 @@ This deck is a **learning aid**, not a fatwa service and not a substitute for a 
 
 ## Repository Contents
 
-- `cards/` - Version 1.0 Base Deck, Cards 1-145
+- `cards/` - Version 1.4 R1 Main Deck, Cards 1-146
 - `Sacred-Places-Expansion/` - Version 1.2 Sacred Places Expansion, Cards 146-164
 - `99-Names-of-Allah-Expansion/` - Version 1.3 99 Names of Allah Expansion, Cards 165-176
 - `sheets/` - printable four-card sheets for the base deck

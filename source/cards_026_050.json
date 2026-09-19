@@ -1,1 +1,567 @@
-[{"n":26,"title":"AFTER THE ADHAN","tag":"SUNNAH DUʿA","color":"green","arabic":"اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ، وَالصَّلَاةِ الْقَائِمَةِ، آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ، وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ","translit":"Allāhumma rabba hādhihi d-daʿwati t-tāmmah, wa-ṣ-ṣalāti l-qāʾimah, āti Muḥammadan al-wasīlata wa-l-faḍīlah, wa-bʿath-hu maqāman maḥmūdan alladhī waʿadtah.","meaning":"O Allah, Lord of this perfect call and established prayer, grant Muhammad the Wasīlah and excellence, and raise him to the praised station You promised him.","ar_size":59,"ar_min":42,"source":"Sahih al-Bukhari 614."},{"n":27,"title":"IQAMAH","tag":"HANAFI","color":"blue","arabic":"اللَّهُ أَكْبَرُ\nأَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللَّهُ\nأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ اللَّهِ\nحَيَّ عَلَى الصَّلَاةِ\nحَيَّ عَلَى الْفَلَاحِ\nقَدْ قَامَتِ الصَّلَاةُ\nاللَّهُ أَكْبَرُ\nلَا إِلٰهَ إِلَّا اللَّهُ","translit":"Hanafi count: Allāhu akbar ×4 • both testimonies ×2 each • both ḥayya phrases ×2 each • Qad qāmati ṣ-ṣalāh ×2 • Allāhu akbar ×2 • Lā ilāha illā Allāh ×1.","meaning":"The relied-upon Hanafi iqamah has 17 phrases.","ar_size":55,"ar_min":41,"source":"Hanafi fiqh; reports of Abu Mahdhura and Hanafi transmitted practice."},{"n":28,"title":"BEFORE STARTING SALAH","tag":"HANAFI • CHECKLIST","color":"red","bullets":[["1","The prayer time has entered."],["2","You have valid wudu, or ghusl when required."],["3","Body, clothing, and prayer place are free of disqualifying impurity."],["4","Cover the ʿawrah. For a man: below the navel through and including the knees."],["5","Face the qiblah."],["6","Form the intention in your heart for the prayer you are about to pray."]],"source":"Hanafi fiqh: conditions of prayer."},{"n":29,"title":"FARD ACTS INSIDE SALAH","tag":"HANAFI • ESSENTIAL","color":"red","bullets":[["•","Opening takbir enters you into the prayer."],["•","Standing in fard prayer when physically able."],["•","The required Qur'an recitation."],["•","Ruku."],["•","Two sujuds in each rakʿah."],["•","The final sitting long enough for the tashahhud."]],"note":"Hanafi books discuss the opening takbir as an essential connected to the prayer; the key study point is that these essentials cannot simply be replaced by Sajdat al-Sahw.","source":"Hanafi fiqh: Nur al-Idah / Maraqi al-Falah."},{"n":30,"title":"WAJIB ACTS: WHY THEY MATTER","tag":"HANAFI • IMPORTANT","color":"red","bullets":[["•","Examples include reciting al-Fātiḥah where required, adding a surah/verses where required, the first sitting, tashahhud in sittings, and Witr Qunut."],["•","If a wajib is accidentally omitted or delayed, Sajdat al-Sahw is normally required."],["•","Deliberately omitting a wajib is sinful and can require repeating the prayer."]],"source":"Hanafi fiqh; details vary by the specific wajib."},{"n":31,"title":"OPENING TAKBIR","tag":"HANAFI • SALAH","color":"red","arabic":"اللَّهُ أَكْبَرُ","translit":"Allāhu akbar.","meaning":"Allah is greater.","bullets":[["1","Stand facing the qiblah."],["2","A man raises both hands so the thumbs are level with the earlobes, palms facing the qiblah."],["3","Say the opening takbir."],["4","Fold the right hand over the left below the navel."]],"source":"Hanafi fiqh; opening takbir is essential."},{"n":32,"title":"OPENING PRAISE (THANA)","tag":"HANAFI • SUNNAH","color":"green","arabic":"سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، وَتَبَارَكَ اسْمُكَ، وَتَعَالَى جَدُّكَ، وَلَا إِلٰهَ غَيْرُكَ","translit":"Subḥānaka Allāhumma wa biḥamdik, wa tabāraka-smuk, wa taʿālā jadduk, wa lā ilāha ghayruk.","meaning":"Glory and praise are Yours, O Allah. Blessed is Your Name, exalted is Your majesty, and none is worthy of worship but You.","source":"Jamiʿ at-Tirmidhi 243; Hanafi practice."},{"n":33,"title":"BEFORE AL-FATIHA","tag":"HANAFI • RECITATION","color":"gold","arabic":"أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ\nبِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ","translit":"Aʿūdhu billāhi mina sh-shayṭāni r-rajīm. Bismi-llāhi r-Raḥmāni r-Raḥīm.","meaning":"I seek refuge in Allah from Satan, the accursed. In the name of Allah, the Most Compassionate, the Most Merciful.","bullets":[["•","When praying alone or leading: taʿawwudh in the first rakʿah; basmalah quietly before al-Fātiḥah."],["•","When following an imam in Hanafi fiqh, do not recite Qur'an behind the imam."]],"source":"Hanafi fiqh: follower recitation and basmalah."},{"n":34,"title":"SURAH AL-FATIHA","tag":"QUR'AN • SALAH","color":"gold","arabic":"الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ\nالرَّحْمَٰنِ الرَّحِيمِ\nمَالِكِ يَوْمِ الدِّينِ\nإِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ\nاهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ\nصِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ\nغَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ","translit":"Al-ḥamdu lillāhi rabbi l-ʿālamīn. Ar-raḥmāni r-raḥīm. Māliki yawmi d-dīn. Iyyāka naʿbudu wa iyyāka nastaʿīn. Ihdinā ṣ-ṣirāṭa l-mustaqīm. Ṣirāṭa lladhīna anʿamta ʿalayhim. Ghayri l-maghḍūbi ʿalayhim wa lā ḍ-ḍāllīn.","meaning":"All praise belongs to Allah, Lord of all worlds, the Most Compassionate, Most Merciful, Master of the Day of Judgment. You alone we worship and ask for help. Guide us to the straight path: the path of those You blessed, not those who earned anger nor those who went astray.","ar_size":55,"ar_min":41,"ar_height":520,"note":"Say Āmīn quietly after al-Fātiḥah in Hanafi practice. Āmīn is not part of the Qur'an.","source":"Qur'an 1:1–7."},{"n":35,"title":"SURAH AL-IKHLAS","tag":"QUR'AN","color":"gold","arabic":"قُلْ هُوَ اللَّهُ أَحَدٌ\nاللَّهُ الصَّمَدُ\nلَمْ يَلِدْ وَلَمْ يُولَدْ\nوَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ","translit":"Qul huwa Allāhu aḥad. Allāhu ṣ-ṣamad. Lam yalid wa lam yūlad. Wa lam yakun lahu kufuwan aḥad.","meaning":"Say: He is Allah, One. Allah, the One upon whom all depend. He neither begets nor was begotten. And none is comparable to Him.","source":"Qur'an 112:1–4."},{"n":36,"title":"RUKU: BOWING","tag":"HANAFI • POSTURE","color":"green","arabic":"سُبْحَانَ رَبِّيَ الْعَظِيمِ","translit":"Subḥāna Rabbiya l-ʿAẓīm. ×3","meaning":"Glory be to my Lord, the Magnificent.","bullets":[["1","Say Allāhu akbar while moving into ruku."],["2","Bend forward until the back is level, if physically able."],["3","Place both hands firmly on the knees with fingers spread naturally."],["4","Keep the head in line with the back."],["5","Recite the tasbih three times."]],"source":"Hanafi prayer method."},{"n":37,"title":"RISE FROM RUKU","tag":"HANAFI • POSTURE","color":"green","arabic":"سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ\nرَبَّنَا لَكَ الْحَمْدُ","translit":"Samiʿa Allāhu liman ḥamidah. Rabbanā laka l-ḥamd.","meaning":"Allah hears the one who praises Him. Our Lord, to You belongs all praise.","bullets":[["•","Imam: Samiʿa Allāhu liman ḥamidah."],["•","Follower: Rabbanā laka l-ḥamd."],["•","Praying alone: say both."],["•","Return fully upright and pause before going to sujud."]],"source":"Sahih hadith; Hanafi prayer method."},{"n":38,"title":"SUJUD: PROSTRATION","tag":"HANAFI • POSTURE","color":"green","arabic":"سُبْحَانَ رَبِّيَ الْأَعْلَى","translit":"Subḥāna Rabbiya l-Aʿlā. ×3","meaning":"Glory be to my Lord, the Most High.","bullets":[["1","Say Allāhu akbar while lowering yourself."],["2","Place the forehead and nose on the ground, with both palms, both knees, and the toes supported."],["3","Keep the toes directed toward the qiblah as able."],["4","A man keeps the abdomen away from the thighs and the upper arms away from the sides when space allows."],["5","Recite the tasbih three times."]],"source":"Hanafi prayer method."},{"n":39,"title":"BETWEEN THE TWO SUJUDS","tag":"HANAFI • RECOMMENDED","color":"green","arabic":"رَبِّ اغْفِرْ لِي، رَبِّ اغْفِرْ لِي","translit":"Rabbi-ghfir lī, Rabbi-ghfir lī.","meaning":"My Lord, forgive me. My Lord, forgive me.","bullets":[["1","Rise from the first sujud saying Allāhu akbar."],["2","Sit upright. If able, sit on the left foot with the right foot upright and toes toward the qiblah."],["3","The supplication above is recommended in Hanafi practice."],["4","Return to the second sujud saying Allāhu akbar."]],"source":"Sunan Ibn Majah 897; Hanafi ruling: recommended, not fard/wajib."},{"n":40,"title":"SECOND SUJUD + NEXT RAKʿAH","tag":"HANAFI • SEQUENCE","color":"blue","bullets":[["1","Perform the second sujud like the first."],["2","Rise saying Allāhu akbar."],["3","After rakʿah 2 of a 3- or 4-rakʿah fard prayer, sit for the first tashahhud, then stand."],["4","In the final rakʿah, remain seated for tashahhud, salawat, duʿā, and salam."]],"source":"Hanafi prayer sequence."},{"n":41,"title":"TASHAHHUD","tag":"SALAH RECITATION","color":"gold","arabic":"التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ، السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلَامُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ، أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللَّهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ","translit":"At-taḥiyyātu lillāhi wa-ṣ-ṣalawātu wa-ṭ-ṭayyibāt. As-salāmu ʿalayka ayyuhā n-nabiyyu wa raḥmatullāhi wa barakātuh. As-salāmu ʿalaynā wa ʿalā ʿibādillāhi ṣ-ṣāliḥīn. Ashhadu an lā ilāha illā Allāh, wa ashhadu anna Muḥammadan ʿabduhu wa rasūluh.","meaning":"All greetings, prayers, and pure words belong to Allah. Peace be upon you, O Prophet, and Allah’s mercy and blessings. Peace be upon us and Allah’s righteous servants. I testify that none is worthy of worship except Allah, and Muhammad is His servant and Messenger.","ar_size":51,"ar_min":39,"ar_height":470,"note":"Hanafi practice: point with the right index finger at lā ilāha and lower it at illā Allāh.","source":"Sahih al-Bukhari 6230; Hanafi prayer method."},{"n":42,"title":"SALAWAT IBRAHIMIYYA","tag":"FINAL SITTING","color":"gold","arabic":"اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ، وَعَلَى آلِ مُحَمَّدٍ، كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ، وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ\nاللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ، وَعَلَى آلِ مُحَمَّدٍ، كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ، وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ","translit":"Allāhumma ṣalli ʿalā Muḥammadin wa ʿalā āli Muḥammad, kamā ṣallayta ʿalā Ibrāhīma wa ʿalā āli Ibrāhīm, innaka Ḥamīdun Majīd. Allāhumma bārik ʿalā Muḥammadin wa ʿalā āli Muḥammad, kamā bārakta ʿalā Ibrāhīma wa ʿalā āli Ibrāhīm, innaka Ḥamīdun Majīd.","meaning":"O Allah, bless Muhammad and the family of Muhammad as You blessed Ibrahim and his family; You are Praiseworthy, Glorious. O Allah, grant blessing to Muhammad and his family as You granted blessing to Ibrahim and his family.","ar_size":49,"ar_min":37,"ar_height":450,"source":"Sahih al-Bukhari 3370."},{"n":43,"title":"FINAL DUʿA BEFORE SALAM","tag":"FINAL SITTING","color":"green","arabic":"اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا، وَلَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ، فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ، وَارْحَمْنِي، إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ","translit":"Allāhumma innī ẓalamtu nafsī ẓulman kathīran, wa lā yaghfiru dh-dhunūba illā Anta, fa-ghfir lī maghfiratan min ʿindika, warḥamnī, innaka Anta l-Ghafūru r-Raḥīm.","meaning":"O Allah, I have greatly wronged myself, and none forgives sins except You. Grant me forgiveness from You and have mercy on me. You are the All-Forgiving, Most Merciful.","ar_size":56,"ar_min":41,"source":"Sahih al-Bukhari 834."},{"n":44,"title":"END PRAYER: TASLIM","tag":"HANAFI • SALAH","color":"green","arabic":"السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ","translit":"As-salāmu ʿalaykum wa raḥmatullāh.","meaning":"Peace and the mercy of Allah be upon you.","bullets":[["1","Turn the head to the right and say the taslim."],["2","Turn the head to the left and repeat it."]],"source":"Established prayer practice; Hanafi fiqh."},{"n":45,"title":"FOLLOWING AN IMAM","tag":"HANAFI • CONGREGATION","color":"red","bullets":[["1","Say the opening takbir and Thana quietly."],["2","Do not recite Qur'an behind the imam in any rakʿah, whether the imam recites aloud or silently."],["3","Say Āmīn quietly after the imam finishes al-Fātiḥah."],["4","Say the movement takbirs, ruku/sujud tasbihs, tashahhud, salawat, duʿā, and salams quietly."],["5","After ruku, the follower says Rabbanā laka l-ḥamd."]],"source":"Hanafi fiqh: follower recitation behind the imam."},{"n":46,"title":"LATECOMER (MASBUQ)","tag":"HANAFI • CONGREGATION","color":"blue","bullets":[["1","Join the imam immediately in whatever posture he is in."],["2","A rakʿah is caught if you join the imam in ruku before he rises from it."],["3","When the imam gives the final salam, stand to complete what you missed."],["4","While making up missed rakʿahs, you are treated as praying alone and recite accordingly."],["5","Make up the missed rakʿahs in their proper order."]],"source":"Hanafi fiqh: rulings of the masbuq."},{"n":47,"title":"LOUD + QUIET RECITATION","tag":"HANAFI • RECITATION","color":"blue","bullets":[["•","Fajr: both rakʿahs are recited aloud by the imam; a man praying alone may recite aloud or quietly within Hanafi limits."],["•","Maghrib and Isha: first two rakʿahs aloud by the imam; remaining fard rakʿahs quiet."],["•","Dhuhr and Asr: fard recitation is quiet."],["•","A follower does not recite Qur'an behind the imam in Hanafi fiqh."]],"source":"Hanafi fiqh of jahr and sirr."},{"n":48,"title":"WHAT INVALIDATES SALAH","tag":"HANAFI • WARNING","color":"red","bullets":[["•","Deliberate ordinary speech, eating, or drinking."],["•","A major amount of unrelated movement such that an observer would think you were not praying."],["•","Turning the chest away from the qiblah without excuse."],["•","Losing wudu."],["•","Exposing the required ʿawrah beyond the excused amount/time."],["•","Deliberately abandoning a fard integral of the prayer."]],"alert":"WHEN UNSURE WHETHER A SPECIFIC EVENT INVALIDATED YOUR PRAYER, ASK A QUALIFIED HANAFI SCHOLAR.","source":"Hanafi fiqh: invalidators of prayer."},{"n":49,"title":"DISLIKED ACTIONS IN SALAH","tag":"HANAFI • AVOID","color":"red","bullets":[["•","Unnecessary fidgeting, playing with clothes/body, or looking around."],["•","Cracking fingers or deliberately distracting yourself."],["•","Praying while urgently needing the toilet or when food is present and strongly distracting."],["•","Closing the eyes without a reason if it is merely habitual."],["•","Anything that damages humility and attentiveness without a genuine need."]],"source":"Hanafi fiqh; individual details can vary in degree."},{"n":50,"title":"SAJDAT AL-SAHW: WHEN","tag":"HANAFI • WAJIB REPAIR","color":"red","bullets":[["•","Used when a wajib act of prayer is accidentally omitted, delayed, or displaced in a way that calls for the prostrations of forgetfulness."],["•","It does not repair deliberate abandonment of a fard integral."],["•","It also does not make deliberate disregard of wajib acts harmless."]],"source":"Hanafi fiqh: Sajdat al-Sahw."}]
+[
+  {
+    "n": 26,
+    "title": "AFTER THE ADHAN",
+    "tag": "SUNNAH DUʿA",
+    "color": "green",
+    "arabic": "اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ، وَالصَّلَاةِ الْقَائِمَةِ، آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ، وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ",
+    "translit": "Allāhumma rabba hādhihi d-daʿwati t-tāmmah, wa-ṣ-ṣalāti l-qāʾimah, āti Muḥammadan al-wasīlata wa-l-faḍīlah, wa-bʿath-hu maqāman maḥmūdan alladhī waʿadtah.",
+    "meaning": "O Allah, Lord of this perfect call and established prayer, grant Muhammad the Wasīlah and excellence, and raise him to the praised station You promised him.",
+    "ar_size": 59,
+    "ar_min": 42,
+    "source": "Sahih al-Bukhari 614."
+  },
+  {
+    "n": 27,
+    "title": "IQAMAH",
+    "tag": "HANAFI",
+    "color": "blue",
+    "arabic": "اللَّهُ أَكْبَرُ\nأَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللَّهُ\nأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ اللَّهِ\nحَيَّ عَلَى الصَّلَاةِ\nحَيَّ عَلَى الْفَلَاحِ\nقَدْ قَامَتِ الصَّلَاةُ\nاللَّهُ أَكْبَرُ\nلَا إِلٰهَ إِلَّا اللَّهُ",
+    "translit": "Hanafi count: Allāhu akbar ×4 • both testimonies ×2 each • both ḥayya phrases ×2 each • Qad qāmati ṣ-ṣalāh ×2 • Allāhu akbar ×2 • Lā ilāha illā Allāh ×1.",
+    "meaning": "The relied-upon Hanafi iqamah has 17 phrases.",
+    "ar_size": 55,
+    "ar_min": 41,
+    "source": "Hanafi fiqh; reports of Abu Mahdhura and Hanafi transmitted practice."
+  },
+  {
+    "n": 28,
+    "title": "BEFORE STARTING SALAH",
+    "tag": "HANAFI • CHECKLIST",
+    "color": "red",
+    "bullets": [
+      [
+        "1",
+        "The prayer time has entered."
+      ],
+      [
+        "2",
+        "You have valid wudu, or ghusl when required."
+      ],
+      [
+        "3",
+        "Body, clothing, and prayer place are free of disqualifying impurity."
+      ],
+      [
+        "4",
+        "Cover the ʿawrah. For a man: below the navel through and including the knees."
+      ],
+      [
+        "5",
+        "Face the qiblah."
+      ],
+      [
+        "6",
+        "Form the intention in your heart for the prayer you are about to pray."
+      ]
+    ],
+    "source": "Hanafi fiqh: conditions of prayer."
+  },
+  {
+    "n": 29,
+    "title": "FARD ACTS INSIDE SALAH",
+    "tag": "HANAFI • ESSENTIAL",
+    "color": "red",
+    "bullets": [
+      [
+        "•",
+        "Opening takbir enters you into the prayer."
+      ],
+      [
+        "•",
+        "Standing in fard prayer when physically able."
+      ],
+      [
+        "•",
+        "The required Qur'an recitation."
+      ],
+      [
+        "•",
+        "Ruku."
+      ],
+      [
+        "•",
+        "Two sujuds in each rakʿah."
+      ],
+      [
+        "•",
+        "The final sitting long enough for the tashahhud."
+      ]
+    ],
+    "note": "Hanafi books discuss the opening takbir as an essential connected to the prayer; the key study point is that these essentials cannot simply be replaced by Sajdat al-Sahw.",
+    "source": "Hanafi fiqh: Nur al-Idah / Maraqi al-Falah."
+  },
+  {
+    "n": 30,
+    "title": "WAJIB ACTS: WHY THEY MATTER",
+    "tag": "HANAFI • IMPORTANT",
+    "color": "red",
+    "bullets": [
+      [
+        "•",
+        "Examples include reciting al-Fātiḥah where required, adding a surah/verses where required, the first sitting, tashahhud in sittings, and Witr Qunut."
+      ],
+      [
+        "•",
+        "If a wajib is accidentally omitted or delayed, Sajdat al-Sahw is normally required."
+      ],
+      [
+        "•",
+        "Deliberately omitting a wajib is sinful and can require repeating the prayer."
+      ]
+    ],
+    "source": "Hanafi fiqh; details vary by the specific wajib."
+  },
+  {
+    "n": 31,
+    "title": "OPENING TAKBIR",
+    "tag": "HANAFI • SALAH",
+    "color": "red",
+    "arabic": "اللَّهُ أَكْبَرُ",
+    "translit": "Allāhu akbar.",
+    "meaning": "Allah is greater.",
+    "bullets": [
+      [
+        "1",
+        "Stand facing the qiblah."
+      ],
+      [
+        "2",
+        "A man raises both hands so the thumbs are level with the earlobes, palms facing the qiblah."
+      ],
+      [
+        "3",
+        "Say the opening takbir."
+      ],
+      [
+        "4",
+        "Fold the right hand over the left below the navel."
+      ]
+    ],
+    "source": "Hanafi fiqh; opening takbir is essential."
+  },
+  {
+    "n": 32,
+    "title": "OPENING PRAISE (THANA)",
+    "tag": "HANAFI • SUNNAH",
+    "color": "green",
+    "arabic": "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، وَتَبَارَكَ اسْمُكَ، وَتَعَالَى جَدُّكَ، وَلَا إِلٰهَ غَيْرُكَ",
+    "translit": "Subḥānaka Allāhumma wa biḥamdik, wa tabāraka-smuk, wa taʿālā jadduk, wa lā ilāha ghayruk.",
+    "meaning": "Glory and praise are Yours, O Allah. Blessed is Your Name, exalted is Your majesty, and none is worthy of worship but You.",
+    "source": "Jamiʿ at-Tirmidhi 243; Hanafi practice."
+  },
+  {
+    "n": 33,
+    "title": "BEFORE AL-FATIHA",
+    "tag": "HANAFI • RECITATION",
+    "color": "gold",
+    "arabic": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ\nبِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+    "translit": "Aʿūdhu billāhi mina sh-shayṭāni r-rajīm. Bismi-llāhi r-Raḥmāni r-Raḥīm.",
+    "meaning": "I seek refuge in Allah from Satan, the accursed. In the name of Allah, the Most Compassionate, the Most Merciful.",
+    "bullets": [
+      [
+        "•",
+        "When praying alone or leading: taʿawwudh in the first rakʿah; basmalah quietly before al-Fātiḥah."
+      ],
+      [
+        "•",
+        "When following an imam in Hanafi fiqh, do not recite Qur'an behind the imam."
+      ]
+    ],
+    "source": "Hanafi fiqh: follower recitation and basmalah."
+  },
+  {
+    "n": 34,
+    "title": "SURAH AL-FATIHA",
+    "tag": "QUR'AN • SALAH",
+    "color": "gold",
+    "arabic": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ\nالرَّحْمَٰنِ الرَّحِيمِ\nمَالِكِ يَوْمِ الدِّينِ\nإِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ\nاهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ\nصِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ\nغَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
+    "translit": "Al-ḥamdu lillāhi rabbi l-ʿālamīn. Ar-raḥmāni r-raḥīm. Māliki yawmi d-dīn. Iyyāka naʿbudu wa iyyāka nastaʿīn. Ihdinā ṣ-ṣirāṭa l-mustaqīm. Ṣirāṭa lladhīna anʿamta ʿalayhim. Ghayri l-maghḍūbi ʿalayhim wa lā ḍ-ḍāllīn.",
+    "meaning": "All praise belongs to Allah, Lord of all worlds, the Most Compassionate, Most Merciful, Master of the Day of Judgment. You alone we worship and ask for help. Guide us to the straight path: the path of those You blessed, not those who earned anger nor those who went astray.",
+    "ar_size": 55,
+    "ar_min": 41,
+    "ar_height": 520,
+    "note": "Say Āmīn quietly after al-Fātiḥah in Hanafi practice. Āmīn is not part of the Qur'an.",
+    "source": "Qur'an 1:1–7."
+  },
+  {
+    "n": 35,
+    "title": "SURAH AL-IKHLAS",
+    "tag": "QUR'AN",
+    "color": "gold",
+    "arabic": "قُلْ هُوَ اللَّهُ أَحَدٌ\nاللَّهُ الصَّمَدُ\nلَمْ يَلِدْ وَلَمْ يُولَدْ\nوَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ",
+    "translit": "Qul huwa Allāhu aḥad. Allāhu ṣ-ṣamad. Lam yalid wa lam yūlad. Wa lam yakun lahu kufuwan aḥad.",
+    "meaning": "Say: He is Allah, One. Allah, the One upon whom all depend. He neither begets nor was begotten. And none is comparable to Him.",
+    "source": "Qur'an 112:1–4."
+  },
+  {
+    "n": 36,
+    "title": "RUKU: BOWING",
+    "tag": "HANAFI • POSTURE",
+    "color": "green",
+    "arabic": "سُبْحَانَ رَبِّيَ الْعَظِيمِ",
+    "translit": "Subḥāna Rabbiya l-ʿAẓīm. ×3",
+    "meaning": "Glory be to my Lord, the Magnificent.",
+    "bullets": [
+      [
+        "1",
+        "Say Allāhu akbar while moving into ruku."
+      ],
+      [
+        "2",
+        "Bend forward until the back is level, if physically able."
+      ],
+      [
+        "3",
+        "Place both hands firmly on the knees with fingers spread naturally."
+      ],
+      [
+        "4",
+        "Keep the head in line with the back."
+      ],
+      [
+        "5",
+        "Recite the tasbih three times."
+      ]
+    ],
+    "source": "Hanafi prayer method."
+  },
+  {
+    "n": 37,
+    "title": "RISE FROM RUKU",
+    "tag": "HANAFI • POSTURE",
+    "color": "green",
+    "arabic": "سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ\nرَبَّنَا لَكَ الْحَمْدُ",
+    "translit": "Samiʿa Allāhu liman ḥamidah. Rabbanā laka l-ḥamd.",
+    "meaning": "Allah hears the one who praises Him. Our Lord, to You belongs all praise.",
+    "bullets": [
+      [
+        "•",
+        "Imam: Samiʿa Allāhu liman ḥamidah."
+      ],
+      [
+        "•",
+        "Follower: Rabbanā laka l-ḥamd."
+      ],
+      [
+        "•",
+        "Praying alone: say both."
+      ],
+      [
+        "•",
+        "Return fully upright and pause before going to sujud."
+      ]
+    ],
+    "source": "Sahih hadith; Hanafi prayer method."
+  },
+  {
+    "n": 38,
+    "title": "SUJUD: PROSTRATION",
+    "tag": "HANAFI • POSTURE",
+    "color": "green",
+    "arabic": "سُبْحَانَ رَبِّيَ الْأَعْلَى",
+    "translit": "Subḥāna Rabbiya l-Aʿlā. ×3",
+    "meaning": "Glory be to my Lord, the Most High.",
+    "bullets": [
+      [
+        "1",
+        "Say Allāhu akbar while lowering yourself."
+      ],
+      [
+        "2",
+        "Place the forehead and nose on the ground, with both palms, both knees, and the toes supported."
+      ],
+      [
+        "3",
+        "Keep the toes directed toward the qiblah as able."
+      ],
+      [
+        "4",
+        "A man keeps the abdomen away from the thighs and the upper arms away from the sides when space allows."
+      ],
+      [
+        "5",
+        "Recite the tasbih three times."
+      ]
+    ],
+    "source": "Hanafi prayer method."
+  },
+  {
+    "n": 39,
+    "title": "BETWEEN THE TWO SUJUDS",
+    "tag": "HANAFI • RECOMMENDED",
+    "color": "green",
+    "arabic": "رَبِّ اغْفِرْ لِي، رَبِّ اغْفِرْ لِي",
+    "translit": "Rabbi-ghfir lī, Rabbi-ghfir lī.",
+    "meaning": "My Lord, forgive me. My Lord, forgive me.",
+    "bullets": [
+      [
+        "1",
+        "Rise from the first sujud saying Allāhu akbar."
+      ],
+      [
+        "2",
+        "Sit upright. If able, sit on the left foot with the right foot upright and toes toward the qiblah."
+      ],
+      [
+        "3",
+        "The supplication above is recommended in Hanafi practice."
+      ],
+      [
+        "4",
+        "Return to the second sujud saying Allāhu akbar."
+      ]
+    ],
+    "source": "Sunan Ibn Majah 897; Hanafi ruling: recommended, not fard/wajib."
+  },
+  {
+    "n": 40,
+    "title": "SECOND SUJUD + NEXT RAKʿAH",
+    "tag": "HANAFI • SEQUENCE",
+    "color": "blue",
+    "bullets": [
+      [
+        "1",
+        "Perform the second sujud like the first."
+      ],
+      [
+        "2",
+        "Rise saying Allāhu akbar."
+      ],
+      [
+        "3",
+        "After rakʿah 2 of a 3- or 4-rakʿah fard prayer, sit for the first tashahhud, then stand."
+      ],
+      [
+        "4",
+        "In the final rakʿah, remain seated for tashahhud, salawat, duʿā, and salam."
+      ]
+    ],
+    "source": "Hanafi prayer sequence."
+  },
+  {
+    "n": 41,
+    "title": "TASHAHHUD",
+    "tag": "SALAH RECITATION",
+    "color": "gold",
+    "arabic": "التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ، السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلَامُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ، أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللَّهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
+    "translit": "At-taḥiyyātu lillāhi wa-ṣ-ṣalawātu wa-ṭ-ṭayyibāt. As-salāmu ʿalayka ayyuhā n-nabiyyu wa raḥmatullāhi wa barakātuh. As-salāmu ʿalaynā wa ʿalā ʿibādillāhi ṣ-ṣāliḥīn. Ashhadu an lā ilāha illā Allāh, wa ashhadu anna Muḥammadan ʿabduhu wa rasūluh.",
+    "meaning": "All greetings, prayers, and pure words belong to Allah. Peace be upon you, O Prophet, and Allah’s mercy and blessings. Peace be upon us and Allah’s righteous servants. I testify that none is worthy of worship except Allah, and Muhammad is His servant and Messenger.",
+    "ar_size": 51,
+    "ar_min": 39,
+    "ar_height": 470,
+    "note": "Hanafi practice: point with the right index finger at lā ilāha and lower it at illā Allāh.",
+    "source": "Sahih al-Bukhari 6230; Hanafi prayer method."
+  },
+  {
+    "n": 42,
+    "title": "SALAWAT IBRAHIMIYYA",
+    "tag": "FINAL SITTING",
+    "color": "gold",
+    "arabic": "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ، وَعَلَى آلِ مُحَمَّدٍ، كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ، وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ\nاللَّهُمَّ بَارِكْ عَلَى مُحَمَّدٍ، وَعَلَى آلِ مُحَمَّدٍ، كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ، وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ",
+    "translit": "Allāhumma ṣalli ʿalā Muḥammadin wa ʿalā āli Muḥammad, kamā ṣallayta ʿalā Ibrāhīma wa ʿalā āli Ibrāhīm, innaka Ḥamīdun Majīd. Allāhumma bārik ʿalā Muḥammadin wa ʿalā āli Muḥammad, kamā bārakta ʿalā Ibrāhīma wa ʿalā āli Ibrāhīm, innaka Ḥamīdun Majīd.",
+    "meaning": "O Allah, bless Muhammad and the family of Muhammad as You blessed Ibrahim and his family; You are Praiseworthy, Glorious. O Allah, grant blessing to Muhammad and his family as You granted blessing to Ibrahim and his family.",
+    "ar_size": 49,
+    "ar_min": 37,
+    "ar_height": 450,
+    "source": "Sahih al-Bukhari 3370."
+  },
+  {
+    "n": 43,
+    "title": "FINAL DUʿA BEFORE SALAM",
+    "tag": "FINAL SITTING",
+    "color": "green",
+    "arabic": "اللَّهُمَّ إِنِّي ظَلَمْتُ نَفْسِي ظُلْمًا كَثِيرًا، وَلَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ، فَاغْفِرْ لِي مَغْفِرَةً مِنْ عِنْدِكَ، وَارْحَمْنِي، إِنَّكَ أَنْتَ الْغَفُورُ الرَّحِيمُ",
+    "translit": "Allāhumma innī ẓalamtu nafsī ẓulman kathīran, wa lā yaghfiru dh-dhunūba illā Anta, fa-ghfir lī maghfiratan min ʿindika, warḥamnī, innaka Anta l-Ghafūru r-Raḥīm.",
+    "meaning": "O Allah, I have greatly wronged myself, and none forgives sins except You. Grant me forgiveness from You and have mercy on me. You are the All-Forgiving, Most Merciful.",
+    "ar_size": 56,
+    "ar_min": 41,
+    "source": "Sahih al-Bukhari 834."
+  },
+  {
+    "n": 44,
+    "title": "END PRAYER: TASLIM",
+    "tag": "HANAFI • SALAH",
+    "color": "green",
+    "arabic": "السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ",
+    "translit": "As-salāmu ʿalaykum wa raḥmatullāh.",
+    "meaning": "Peace and the mercy of Allah be upon you.",
+    "bullets": [
+      [
+        "1",
+        "Turn the head to the right and say the taslim."
+      ],
+      [
+        "2",
+        "Turn the head to the left and repeat it."
+      ]
+    ],
+    "source": "Established prayer practice; Hanafi fiqh."
+  },
+  {
+    "n": 45,
+    "title": "FOLLOWING AN IMAM",
+    "tag": "HANAFI • CONGREGATION",
+    "color": "red",
+    "bullets": [
+      [
+        "1",
+        "Say the opening takbir and Thana quietly."
+      ],
+      [
+        "2",
+        "Do not recite Qur'an behind the imam in any rakʿah, whether the imam recites aloud or silently."
+      ],
+      [
+        "3",
+        "Say Āmīn quietly after the imam finishes al-Fātiḥah."
+      ],
+      [
+        "4",
+        "Say the movement takbirs, ruku/sujud tasbihs, tashahhud, salawat, duʿā, and salams quietly."
+      ],
+      [
+        "5",
+        "After ruku, the follower says Rabbanā laka l-ḥamd."
+      ]
+    ],
+    "source": "Hanafi fiqh: follower recitation behind the imam."
+  },
+  {
+    "n": 46,
+    "title": "LATECOMER (MASBUQ)",
+    "tag": "HANAFI • CONGREGATION",
+    "color": "blue",
+    "bullets": [
+      [
+        "1",
+        "Join the imam immediately in whatever posture he is in."
+      ],
+      [
+        "2",
+        "A rakʿah is caught if you join the imam in ruku before he rises from it."
+      ],
+      [
+        "3",
+        "When the imam gives the final salam, stand to complete what you missed."
+      ],
+      [
+        "4",
+        "While making up missed rakʿahs, you are treated as praying alone and recite accordingly."
+      ],
+      [
+        "5",
+        "Make up the missed rakʿahs in their proper order."
+      ]
+    ],
+    "source": "Hanafi fiqh: rulings of the masbuq."
+  },
+  {
+    "n": 47,
+    "title": "LOUD + QUIET RECITATION",
+    "tag": "HANAFI • RECITATION",
+    "color": "blue",
+    "bullets": [
+      [
+        "•",
+        "Fajr: both rakʿahs are recited aloud by the imam; a man praying alone may recite aloud or quietly within Hanafi limits."
+      ],
+      [
+        "•",
+        "Maghrib and Isha: first two rakʿahs aloud by the imam; remaining fard rakʿahs quiet."
+      ],
+      [
+        "•",
+        "Dhuhr and Asr: fard recitation is quiet."
+      ],
+      [
+        "•",
+        "A follower does not recite Qur'an behind the imam in Hanafi fiqh."
+      ]
+    ],
+    "source": "Hanafi fiqh of jahr and sirr."
+  },
+  {
+    "n": 48,
+    "title": "WHAT INVALIDATES SALAH",
+    "tag": "HANAFI • WARNING",
+    "color": "red",
+    "bullets": [
+      [
+        "•",
+        "Deliberate ordinary speech, eating, or drinking."
+      ],
+      [
+        "•",
+        "A major amount of unrelated movement such that an observer would think you were not praying."
+      ],
+      [
+        "•",
+        "Turning the chest away from the qiblah without excuse."
+      ],
+      [
+        "•",
+        "Losing wudu."
+      ],
+      [
+        "•",
+        "Exposing the required ʿawrah beyond the excused amount/time."
+      ],
+      [
+        "•",
+        "Deliberately abandoning a fard integral of the prayer."
+      ]
+    ],
+    "alert": "WHEN UNSURE WHETHER A SPECIFIC EVENT INVALIDATED YOUR PRAYER, ASK A QUALIFIED HANAFI SCHOLAR.",
+    "source": "Hanafi fiqh: invalidators of prayer."
+  },
+  {
+    "n": 49,
+    "title": "DISLIKED ACTIONS IN SALAH",
+    "tag": "HANAFI • AVOID",
+    "color": "red",
+    "bullets": [
+      [
+        "•",
+        "Unnecessary fidgeting, playing with clothes/body, or looking around."
+      ],
+      [
+        "•",
+        "Cracking fingers or deliberately distracting yourself."
+      ],
+      [
+        "•",
+        "Praying while urgently needing the toilet or when food is present and strongly distracting."
+      ],
+      [
+        "•",
+        "Closing the eyes without a reason if it is merely habitual."
+      ],
+      [
+        "•",
+        "Anything that damages humility and attentiveness without a genuine need."
+      ]
+    ],
+    "source": "Hanafi fiqh; individual details can vary in degree."
+  },
+  {
+    "n": 50,
+    "title": "SAJDAT AL-SAHW: WHEN",
+    "tag": "HANAFI • WAJIB REPAIR",
+    "color": "red",
+    "bullets": [
+      [
+        "•",
+        "Used when a wajib act of prayer is accidentally omitted, delayed, or displaced in a way that calls for the prostrations of forgetfulness."
+      ],
+      [
+        "•",
+        "It does not repair deliberate abandonment of a fard integral."
+      ],
+      [
+        "•",
+        "It also does not make deliberate disregard of wajib acts harmless."
+      ]
+    ],
+    "source": "Hanafi fiqh: Sajdat al-Sahw."
+  }
+]

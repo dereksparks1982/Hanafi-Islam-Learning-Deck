@@ -1,6 +1,13 @@
-Hanafi Learning Deck — Version 1.0 QA
-Cards: 145
-Sheets: 37
-Header size: fixed 48 pt; long titles wrap instead of shrinking
-Accent bar: y=42 to y=1358, ending at rounded-border tangent points
-Structural QA: PASS
+Hanafi Learning Deck v1.4 R1 checkpoint
+
+PASS: main deck replaced with Cards 1-146.
+PASS: old food cards 119/120 removed from old positions.
+PASS: Qunut Parts 1-2 are Cards 64-65.
+PASS: Istikhara Parts 1-2 are Cards 72-73.
+PASS: Ayat al-Kursi Parts 1-2 are Cards 99-100.
+PASS: food cards are 144 Before Eating, 145 While Eating, 146 After Eating.
+PASS: approved continuous colored border applied to main deck.
+PASS: 37 printable sheets rebuilt.
+PASS: source JSON renumbered to 1-146.
+PASS: build_deck.py frame/header updated for v1.4.
+NOTE: Sacred Places and 99 Names expansions are intentionally unchanged at R1 and will be renumbered in later v1.4 revisions.
