@@ -78,18 +78,6 @@ Multipart study sequences are kept consecutive. In the current v1.4 main deck:
 - **Cards 99–100:** Ayat al-Kursi, Parts 1–2
 - **Cards 144–146:** Before Eating, While Eating, After Eating
 
-## Expansion Numbering Rule - v1.4 Forward
-
-Beginning with v1.4, **each expansion has its own independent numbering starting at Card 1**.
-
-This prevents additions to one expansion from forcing the main deck or unrelated expansions to be renumbered.
-
-Examples:
-
-- Main Deck: Cards **1–146**
-- Sacred Places Expansion: Cards **1–19**
-- 99 Names of Allah Expansion: will be renumbered independently beginning at **Card 1**
-- future expansions will also begin at **Card 1**
 
 ## Sacred Places Expansion - Version 1.4 R2
 
