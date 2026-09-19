@@ -20,7 +20,7 @@ A few representative cards from the deck are shown here so visitors can immediat
 </tr>
 <tr>
 <td align="center"><strong>Surah Al-Fatiha</strong><br><img src="cards/card_034.png" width="220" alt="Surah Al-Fatiha card preview"></td>
-<td align="center"><strong>After Eating</strong><br><img src="cards/card_146.png" width="220" alt="After Eating card preview"></td>
+<td align="center"><strong>Before Eating</strong><br><img src="cards/card_144.png" width="220" alt="Before Eating card preview"></td>
 <td align="center"><strong>Optional Card Back</strong><br><img src="card_back.svg" width="220" alt="Optional Islamic card back preview"></td>
 </tr>
 </table>
