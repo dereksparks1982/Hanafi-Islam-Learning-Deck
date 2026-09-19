@@ -1,0 +1,77 @@
+name: Publish accepted Arabic Alphabet Expansion v1.5
+
+on:
+  push:
+    paths:
+      - '.github/workflows/publish-arabic-alphabet-v15.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install accepted v1.5 expansion
+        env:
+          ZIP_URL: 'https://sdmntprnorthcentralus.oaiusercontent.com/files/00000000-5e10-822f-b012-15842509b92c/raw?se=2026-09-19T08%3A45%3A42Z&sp=r&sv=2026-02-06&sr=b&scid=5a2723db-0510-5590-94c1-d92b260e8b66&skoid=fae15675-a81a-44b5-9d8c-d8445a7c26a2&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-18T19%3A04%3A29Z&ske=2026-09-19T19%3A04%3A29Z&sks=b&skv=2026-02-06&sig=QnYt/Wl28HG7E20ojwsr9G7dEf1yQf19DanNz2GDF4A%3D'
+        run: |
+          set -euo pipefail
+          curl -fL "$ZIP_URL" -o /tmp/arabic-v15.zip
+          echo 'c19423242be9afac6ab64f2a1242eb54cbc0a789d397b7f91d8a0e10b0b331f8  /tmp/arabic-v15.zip' | sha256sum -c -
+          rm -rf /tmp/arabic-v15 Arabic-Alphabet-Expansion
+          mkdir -p /tmp/arabic-v15
+          unzip -q /tmp/arabic-v15.zip -d /tmp/arabic-v15
+          mv /tmp/arabic-v15/Hanafi-Arabic-Alphabet-Expansion-v1.5 Arabic-Alphabet-Expansion
+          cp /tmp/arabic-v15.zip Arabic-Alphabet-Expansion-v1.5.zip
+          test "$(find Arabic-Alphabet-Expansion/cards -maxdepth 1 -type f -name 'card_*.png' | wc -l)" -eq 28
+          test "$(find Arabic-Alphabet-Expansion/sheets -maxdepth 1 -type f -name 'sheet_*.png' | wc -l)" -eq 7
+
+      - name: Update repository documentation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          readme = Path('README.md')
+          text = readme.read_text(encoding='utf-8')
+          text = text.replace(
+              '> **Development checkpoint:** **v1.4 R3**. Current repository: Main Deck Cards 1–146, Sacred Places Cards 1–19, and 99 Names of Allah Cards 1–12.',
+              '> **Development checkpoint:** **v1.5**. Current repository: Main Deck Cards 1–146, Sacred Places Cards 1–19, 99 Names of Allah Cards 1–12, and Arabic Alphabet Cards 1–28.'
+          )
+          text = text.replace(
+              '- **99 Names of Allah, Cards 1–12:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/99-Names-of-Allah-Expansion\n',
+              '- **99 Names of Allah, Cards 1–12:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/99-Names-of-Allah-Expansion\n- **Arabic Alphabet, Cards 1–28:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Arabic-Alphabet-Expansion\n- **Arabic Alphabet v1.5 ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/Arabic-Alphabet-Expansion-v1.5.zip\n'
+          )
+          marker = '\n\n## Expansion Roadmap\n'
+          section = '''\n\n## Arabic Alphabet Expansion - Version 1.5\n\nThe Arabic Alphabet Expansion is a separate **28-card expansion numbered 1–28**.\n\nIt is stored separately in:\n\n`Arabic-Alphabet-Expansion/`\n\nEach card teaches one Arabic letter using the approved low-ink printable format, including:\n\n- the Arabic letter and transliteration\n- a plain-language pronunciation guide\n- mouth and articulation guidance\n- source, voice, and weight notes\n- a clear **AVOID** warning for common pronunciation mistakes\n- isolated, beginning, middle, and ending forms where applicable\n- an Arabic example word with transliteration and English meaning\n- concise notes on joining behavior and distinguishing features\n\nThe expansion includes **28 individual cards**, **7 four-card printable sheets**, a contact sheet, source notes, QA report, manifest with hashes, and editable source/build files. The approved visual standard uses the same inset gold and dark-green double border, spacious header, white background, and restrained ink usage as the current deck.\n'''
+          if '## Arabic Alphabet Expansion - Version 1.5' not in text:
+              if marker not in text:
+                  raise SystemExit('README expansion-roadmap marker not found')
+              text = text.replace(marker, section + marker, 1)
+          readme.write_text(text, encoding='utf-8')
+
+          roadmap = Path('EXPANSION_ROADMAP.md')
+          r = roadmap.read_text(encoding='utf-8')
+          current = '- 99 Names of Allah Expansion: v1.4 R3 complete, independent Cards 1–12.\n'
+          addition = current + '- Arabic Alphabet Expansion: v1.5 complete, independent Cards 1–28.\n'
+          if '- Arabic Alphabet Expansion: v1.5 complete, independent Cards 1–28.' not in r:
+              if current not in r:
+                  raise SystemExit('Roadmap current-section marker not found')
+              r = r.replace(current, addition, 1)
+          roadmap.write_text(r, encoding='utf-8')
+          PY
+
+      - name: Commit accepted expansion and remove temporary publisher
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/publish-arabic-alphabet-v15.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A Arabic-Alphabet-Expansion Arabic-Alphabet-Expansion-v1.5.zip README.md EXPANSION_ROADMAP.md .github/workflows/publish-arabic-alphabet-v15.yml
+          git commit -m "Publish v1.5 Arabic Alphabet Expansion"
+          git push
