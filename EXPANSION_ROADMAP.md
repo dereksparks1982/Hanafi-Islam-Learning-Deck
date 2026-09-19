@@ -12,7 +12,7 @@
 - **The Hanafi School: Origins, Method & Legacy** — high-detail origins in Kufa, Imam Abu Hanifa, teachers and students, legal method, major texts and jurists, historical spread, and current standing.
 - **The Prophets of Islam** — Qur’anic prophets, their peoples, events, lessons, chronology where supportable, and sourced supporting material.
 - **The Life of Prophet Muhammad ﷺ** — detailed chronological sīrah; Prophet Muhammad ﷺ is not depicted.
-- **Important Places of the Muslim World** — historically, intellectually, culturally, or architecturally important Muslim sites, explicitly separate from Sacred Places so importance is not presented as religious sanctity. Candidate examples for later research include Lal Masjid in Pakistan, Chinguetti in Mauritania, and important Afghan mosques and learning centers.
+- **Important Places of the Muslim World** — historically, intellectually, culturally, or architecturally important Muslim sites, explicitly separate from Sacred Places so importance is not presented as religious sanctity. Candidate examples for later research include Lal Masjid in Pakistan, Chinguetti in Mauritania, and important Afghan mosques and learning centers. **[Visual preview with images](IMPORTANT-PLACES-PREVIEW.md)**
 
 ## Numbering rule
 
