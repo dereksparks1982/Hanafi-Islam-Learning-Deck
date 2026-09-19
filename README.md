@@ -40,7 +40,7 @@ If you downloaded or printed an earlier edition, please check this repository pe
 - **Sacred Places, Cards 1–19:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion
 - **99 Names of Allah, Cards 1–12:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/99-Names-of-Allah-Expansion
 - **Arabic Alphabet, Cards 1–28:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Arabic-Alphabet-Expansion
-- **Arabic Alphabet v1.5 ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/Arabic-Alphabet-Expansion-v1.5.zip
+- **Arabic Alphabet v1.5:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/Arabic-Alphabet-Expansion-v1.5.zip
 - **Printable sheets:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/sheets
 - **Optional card back:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/card-back/CardBack.png
 
