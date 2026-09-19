@@ -1,0 +1,90 @@
+name: One-time mobile pinch zoom links
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/one-time-mobile-zoom.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Make mobile cards tap-to-open for pinch zoom
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          base = 'https://raw.githubusercontent.com/dereksparks1982/Hanafi-Islam-Learning-Deck/main/'
+          mobile = Path('mobile-view')
+
+          for page in [
+              mobile / 'Main-Deck.md',
+              mobile / 'Sacred-Places.md',
+              mobile / '99-Names-of-Allah.md',
+              mobile / 'Arabic-Alphabet.md',
+          ]:
+              text = page.read_text(encoding='utf-8')
+
+              # Add a short instruction once near the top.
+              marker = '[Back to mobile-view index](README.md)\n'
+              tip = '\n**Zoom:** Tap any card to open the full-resolution PNG, then use the normal two-finger pinch gesture to zoom.\n'
+              if tip.strip() not in text and marker in text:
+                  text = text.replace(marker, marker + tip, 1)
+
+              # Make the displayed card itself tappable and point to the raw full-resolution PNG.
+              pat = re.compile(r'<p align="center"><img src="(\.\./[^"]+\.png)" width="88%" alt="([^"]*)"></p>')
+
+              def repl(m):
+                  rel = m.group(1)
+                  alt = m.group(2)
+                  repo_path = rel[3:]
+                  raw = base + repo_path
+                  return f'<p align="center"><a href="{raw}"><img src="{rel}" width="88%" alt="{alt}"></a></p>'
+
+              text = pat.sub(repl, text)
+
+              # Point the text link to the same raw image and label it clearly.
+              pat2 = re.compile(r'<p align="center"><a href="(\.\./[^"]+\.png)">Open printable original</a></p>')
+
+              def repl2(m):
+                  rel = m.group(1)
+                  raw = base + rel[3:]
+                  return f'<p align="center"><a href="{raw}">Open full-size card / pinch to zoom</a></p>'
+
+              text = pat2.sub(repl2, text)
+              page.write_text(text, encoding='utf-8')
+
+          index = mobile / 'README.md'
+          text = index.read_text(encoding='utf-8')
+          zoom_note = '\n### Zooming on iPhone\n\nTap any card in a mobile gallery to open its full-resolution PNG. Then use the normal two-finger pinch gesture to zoom in and out. The printable source PNG is not modified.\n'
+          if '### Zooming on iPhone' not in text:
+              insert_before = '\n### Why this exists\n'
+              if insert_before in text:
+                  text = text.replace(insert_before, zoom_note + insert_before, 1)
+              else:
+                  text += zoom_note
+              index.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit mobile zoom support
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add mobile-view
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+          else
+            git commit -m "Make mobile card galleries tap-to-zoom friendly"
+            git push
+          fi
