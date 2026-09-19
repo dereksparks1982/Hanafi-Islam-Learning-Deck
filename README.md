@@ -6,7 +6,7 @@ The deck is designed so that a learner can pick up a card, understand what it is
 
 > **Status:** Hanafi study aid, pending imam review.
 
-> **Development checkpoint:** v1.4 R1 replaces the obsolete 145-card main deck. Expansion renumbering is still in progress.
+> **Development checkpoint:** **v1.4 R2**. The obsolete 145-card main deck has been replaced by the 146-card v1.4 main deck, and the Sacred Places Expansion has been converted to independent Cards 1–19. The 99 Names expansion renumbering is still in progress.
 
 ## Card Preview
 
@@ -27,6 +27,14 @@ These are the **actual card files from this repository**, shown here so visitors
 
 The decorative card back is **optional**. The learning cards can be printed single-sided to conserve ink, printed back-to-back in other arrangements, or paired with the decorative back for a finished physical deck.
 
+## Check for Updates
+
+This deck is an **evolving educational project**. Cards, wording, sources, numbering, visual standards, and expansion sets may be corrected or improved in later releases.
+
+If you downloaded or printed an earlier edition, please check this repository periodically to make sure you have the latest edition.
+
+Historical release ZIPs remain available for reference, but current repository numbering may differ from older releases.
+
 ## Introduction
 
 The Hanafi school is one of the four major Sunni schools of Islamic law (*madhhabs*). It traces its legal tradition to **Imam Abu Hanifa** and was developed and transmitted through generations of Hanafi jurists, including his students **Abu Yusuf** and **Muhammad al-Shaybani**.
@@ -37,7 +45,7 @@ This project follows **Hanafi fiqh** so that a learner has one consistent framew
 
 ## Main Deck - Version 1.4 R1
 
-The Version 1.4 R1 main deck contains **146 study cards** covering:
+The v1.4 main deck contains **146 study cards** covering:
 
 - foundations and the meaning of the Hanafi school
 - wudu, ghusl, tayammum, and purity
@@ -57,15 +65,42 @@ The Version 1.4 R1 main deck contains **146 study cards** covering:
 
 The main deck remains in `cards/` and currently stops at **Card 146**.
 
-## Sacred Places Expansion - Version 1.2
+Multipart study sequences are kept consecutive. In the current v1.4 main deck:
 
-Version 1.2 adds a separate **Sacred Places Expansion** containing **19 cards, Cards 146-164**.
+- **Cards 64–65:** Duʿa al-Qunut, Parts 1–2
+- **Cards 72–73:** Istikhara Duʿa, Parts 1–2
+- **Cards 99–100:** Ayat al-Kursi, Parts 1–2
+- **Cards 144–146:** Before Eating, While Eating, After Eating
+
+## Expansion Numbering Rule - v1.4 Forward
+
+Beginning with v1.4, **each expansion has its own independent numbering starting at Card 1**.
+
+This prevents additions to one expansion from forcing the main deck or unrelated expansions to be renumbered.
+
+Examples:
+
+- Main Deck: Cards **1–146**
+- Sacred Places Expansion: Cards **1–19**
+- 99 Names of Allah Expansion: will be renumbered independently beginning at **Card 1**
+- future expansions will also begin at **Card 1**
+
+Older v1.2 and v1.3 release ZIPs retain their historical numbering. Those older numbers are part of the release history and should not be confused with current v1.4 numbering.
+
+## Sacred Places Expansion - Version 1.4 R2
+
+The Sacred Places Expansion is a separate **19-card expansion numbered 1–19**.
 
 It is stored separately in:
 
 `Sacred-Places-Expansion/`
 
-The expansion begins with **Card 146**, a color-key card, followed by cards covering major sacred, Hajj, Madinah, Al-Aqsa, and Seerah-related locations, including:
+The expansion begins with:
+
+- **Card 1:** Sacred Places color key
+- **Cards 2–19:** major sacred, Hajj, Madinah, Al-Aqsa, and Seerah-related locations
+
+The locations include:
 
 - Masjid al-Haram
 - the Kaʿbah
@@ -86,15 +121,17 @@ The expansion begins with **Card 146**, a color-key card, followed by cards cove
 - Cave Thawr
 - Mount Uhud
 
+The v1.4 R2 cards use the approved large photographic artwork with the current v1.4 card-frame standard.
+
 The Sacred Places expansion is intentionally **not merged into the base `cards/` folder**. Expansion packs remain separate so learners can download, print, and add only the sets they want.
 
-### Sacred Places Download
+### Historical Sacred Places v1.2 Download
 
-The separate Version 1.2 release contains only the Sacred Places Expansion and its checksum:
+The historical Version 1.2 release remains available and uses the old deck-wide numbering **146–164**:
 
 https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/releases/tag/v1.2.0
 
-Expansion ZIP:
+Historical expansion ZIP:
 
 `Hanafi-Learning-Deck-v1.2-Sacred-Places-Expansion.zip`
 
@@ -102,9 +139,11 @@ SHA-256:
 
 `1623bcaf21527a84173f544de491683f40800e8be56ee7d68c7b7e2a43107807`
 
-## 99 Names of Allah Expansion - Version 1.3
+## 99 Names of Allah Expansion - Version 1.3 Historical Numbering
 
-Version 1.3 adds a separate **99 Names of Allah Expansion** containing **12 cards, Cards 165-176**.
+Version 1.3 added a separate **12-card 99 Names of Allah Expansion**.
+
+The published v1.3 release uses the historical numbers **165–176**. Under the new v1.4 numbering architecture, this expansion is scheduled to be renumbered independently beginning at **Card 1**.
 
 It is stored separately in:
 
@@ -112,8 +151,8 @@ It is stored separately in:
 
 The expansion contains:
 
-- **Card 165:** expansion guide and source note
-- **Cards 166-176:** the traditional enumeration of the 99 Names of Allah, arranged as **nine Names per card**
+- an expansion guide and source note
+- eleven cards containing the traditional enumeration of the 99 Names of Allah, arranged as **nine Names per card**
 - Arabic text
 - transliteration
 - concise English study meanings
@@ -123,13 +162,11 @@ The expansion follows the enumeration reported in **Jamiʿ at-Tirmidhi 3507**. T
 
 The expansion does **not** claim that Allah's Names are limited to ninety-nine.
 
-### 99 Names Download
-
-The separate Version 1.3 release contains the 99 Names expansion and its checksum:
+### Historical 99 Names v1.3 Download
 
 https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/releases/tag/v1.3.0
 
-Expansion ZIP:
+Historical expansion ZIP:
 
 `Hanafi-Learning-Deck-v1.3-99-Names-of-Allah-Expansion.zip`
 
@@ -139,7 +176,39 @@ SHA-256:
 
 ## Expansion Roadmap
 
-Future expansion packs will remain in their own folders and downloadable packages rather than being mixed into the base deck.
+Future expansion packs remain in their own folders and downloadable packages rather than being mixed into the main deck.
+
+### The Hanafi School: Origins, Method & Legacy
+
+A high-detail expansion devoted to the Hanafi school itself, including:
+
+- the scholarly environment of Kufa
+- Imam Abu Hanifa
+- his teachers and students
+- Abu Yusuf, Muhammad al-Shaybani, Zufar, and later transmitters
+- the development of Hanafi legal method
+- Qur'an, Sunnah, ijmaʿ, qiyas, istihsan, and other recognized legal principles
+- major Hanafi books and jurists
+- how authoritative positions developed within the school
+- historical spread through Muslim lands
+- Hanafi scholarship in Central Asia, the Ottoman world, South Asia, Afghanistan, and elsewhere
+- the present-day standing and continuing scholarly tradition of the Hanafi madhhab
+- common misconceptions about Hanafi fiqh
+- a study path from beginner material to advanced legal study
+
+The final number of cards will be determined by the source material rather than an arbitrary limit.
+
+### The Prophets of Islam
+
+A dedicated expansion covering the prophets named in the Qur'an, with careful sourcing for:
+
+- their peoples
+- major events
+- Qur'anic passages
+- lessons
+- relevant locations
+- chronology where the evidence supports it
+- distinctions between Qur'anic material, sound hadith, and later historical reports
 
 ### The Life of Prophet Muhammad ﷺ
 
@@ -181,6 +250,24 @@ Planned coverage includes:
 
 **Visual rule:** Prophet Muhammad ﷺ will not be depicted. No face, body, silhouette, shadow, outline, or stand-in figure will be used to represent him. Cards will instead use locations, landscapes, maps, architecture, objects, manuscripts, calligraphy, routes, battle maps, timelines, and environmental scenes.
 
+### Important Places of the Muslim World
+
+A separate expansion for Muslim places that are historically, intellectually, culturally, politically, or architecturally important **without claiming that they have special religious sanctity**.
+
+This is intentionally different from the Sacred Places Expansion.
+
+Candidate subjects for later research include:
+
+- Lal Masjid in Pakistan
+- Chinguetti in Mauritania
+- important Afghan mosques and centers of learning
+- historic madrasas
+- manuscript libraries
+- major centers of Islamic scholarship
+- significant Ottoman, Central Asian, African, South Asian, and other Muslim institutions and cities
+
+Individual sites will be researched before inclusion so that historical importance is not confused with sacred status.
+
 ## Design Approach
 
 The deck uses a consistent visual language:
@@ -193,7 +280,9 @@ The deck uses a consistent visual language:
 - **Purple:** voluntary salah and optional worship
 - additional colors are used only when they communicate a clear category
 
-Card titles use one large, consistent header style. Long titles wrap rather than shrinking into body-text size. Arabic, transliteration, translation, and instructional sections are spaced so the card remains easy to study rather than becoming a wall of text.
+Current v1.4 cards use a continuous rounded category-colored outer border with a thin inner accent line. Corner medallions are not used.
+
+Card titles use one large, consistent header style with breathing room above and below the title. Long titles wrap rather than shrinking into body-text size. Arabic, transliteration, translation, and instructional sections are spaced so the card remains easy to study rather than becoming a wall of text.
 
 Physical prayer movements are described in words instead of relying on stick figures or ambiguous drawings.
 
@@ -209,26 +298,40 @@ That lets us revise the deck cleanly instead of allowing conflicting copies to c
 
 Please do not assume that a card is beyond correction simply because it appears in a published version.
 
-## Release Notes
+## Release and Development Notes
+
+### Version 1.4 R2 - Sacred Places Renumbering Checkpoint
+
+- Sacred Places converted from historical deck-wide numbers 146–164 to independent Cards 1–19
+- retained the approved large photographic Sacred Places artwork
+- applied the v1.4 border standard
+- kept the expansion separate from the main deck
+- established the v1.4 independent-expansion numbering architecture in the working repository
+
+### Version 1.4 R1 - Main Deck Replacement Checkpoint
+
+- replaced the obsolete 145-card main deck
+- established the current 146-card main deck
+- grouped multipart cards into consecutive numbering
+- consolidated eating guidance into Cards 144–146
+- rebuilt printable sheets, manifests, source numbering, and QA material
 
 ### Version 1.3 - 99 Names of Allah Expansion
 
 - Added a separate 12-card 99 Names of Allah Expansion
-- Added Card 165 as the expansion guide and source note
-- Added Cards 166-176 containing all 99 Names, nine Names per card
+- Added the expansion guide and source note
+- Added all 99 Names, nine Names per study card
 - Included Arabic, transliteration, and concise English study meanings
 - Documented the hadith-source distinction for the traditional enumeration
-- Kept the Base Deck and Sacred Places Expansion unchanged
 - Published the expansion as its own downloadable ZIP
 
 ### Version 1.2 - Sacred Places Expansion
 
 - Added a separate 19-card Sacred Places Expansion
-- Added Card 146 as the Sacred Places color key
-- Added Cards 147-164 covering major sacred, Hajj, Madinah, Al-Aqsa, and Seerah-related locations
-- Kept the base deck unchanged at Cards 1-145
+- Added the Sacred Places color key
+- Added 18 cards covering major sacred, Hajj, Madinah, Al-Aqsa, and Seerah-related locations
+- Kept the then-current base deck unchanged
 - Published the expansion as its own downloadable ZIP
-- Established the rule that future expansion packs remain separate from the base deck
 
 ### Version 1.0 - Base Deck
 
@@ -251,15 +354,16 @@ This deck is a **learning aid**, not a fatwa service and not a substitute for a 
 
 ## Repository Contents
 
-- `cards/` - Version 1.4 R1 Main Deck, Cards 1-146
+- `cards/` - v1.4 Main Deck, Cards 1–146
 - `card-back/` - optional printable decorative card back
-- `Sacred-Places-Expansion/` - Version 1.2 Sacred Places Expansion, Cards 146-164
-- `99-Names-of-Allah-Expansion/` - Version 1.3 99 Names of Allah Expansion, Cards 165-176
-- `sheets/` - printable four-card sheets for the base deck
-- `CARD_MANIFEST.txt` - base-deck card index
+- `Sacred-Places-Expansion/` - v1.4 R2 Sacred Places Expansion, Cards 1–19
+- `99-Names-of-Allah-Expansion/` - v1.3 historical numbering pending v1.4 renumbering
+- `sheets/` - printable four-card sheets for the main deck
+- `CARD_MANIFEST.txt` - main-deck card index
 - `AUDIT_AND_SOURCES.md` - sourcing and audit notes
 - `IMAM_REVIEW_NOTES.md` - place to record corrections and review findings
 - `QA_REPORT.txt` - build-quality checks
+- `EXPANSION_ROADMAP.md` - current and planned expansion roadmap
 
 ## Contributing Corrections
 
@@ -275,7 +379,7 @@ That format makes corrections much easier to verify and apply accurately.
 
 ---
 
-**Hanafi Learning Deck - Base Version 1.0 + Sacred Places Expansion Version 1.2 + 99 Names of Allah Expansion Version 1.3**
+**Hanafi Learning Deck - v1.4 development series**
 
 ## Noncommercial License
 
