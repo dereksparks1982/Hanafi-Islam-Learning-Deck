@@ -21,7 +21,7 @@ These are the **actual card files from this repository**, shown here so visitors
 <tr>
 <td align="center"><strong>Surah Al-Fatiha</strong><br><img src="cards/card_034.png" width="220" alt="Surah Al-Fatiha card preview"></td>
 <td align="center"><strong>Before Eating</strong><br><img src="cards/card_144.png" width="220" alt="Before Eating card preview"></td>
-<td align="center"><strong>Optional Card Back</strong><br><img src="card_back.jpg" width="220" alt="Optional Islamic card back preview"></td>
+<td align="center"><strong>Optional Card Back</strong><br><img src="card-back/card-back.jpg" width="220" alt="Optional Islamic card back preview"></td>
 </tr>
 </table>
 
@@ -252,6 +252,7 @@ This deck is a **learning aid**, not a fatwa service and not a substitute for a 
 ## Repository Contents
 
 - `cards/` - Version 1.4 R1 Main Deck, Cards 1-146
+- `card-back/` - optional printable decorative card back
 - `Sacred-Places-Expansion/` - Version 1.2 Sacred Places Expansion, Cards 146-164
 - `99-Names-of-Allah-Expansion/` - Version 1.3 99 Names of Allah Expansion, Cards 165-176
 - `sheets/` - printable four-card sheets for the base deck
