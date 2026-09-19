@@ -1,4 +1,4 @@
-# Hanafi Learning Deck
+# Hanafi Learning Deck v1.5
 
 A practical, printable **Hanafi study deck** for learning salah, purification, duʿā, daily worship, travel rulings, illness accommodations, special prayers, spiritual protection, sacred places, the Names of Allah, and other common situations in Muslim life.
 
