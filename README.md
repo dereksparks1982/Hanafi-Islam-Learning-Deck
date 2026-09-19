@@ -254,3 +254,19 @@ That format makes corrections much easier to verify and apply accurately.
 ---
 
 **Hanafi Learning Deck - Base Version 1.0 + Sacred Places Expansion Version 1.2 + 99 Names of Allah Expansion Version 1.3**
+
+## Noncommercial License
+
+The Hanafi Learning Deck is licensed under **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**.
+
+You may **download, print, copy, share, teach from, and adapt** these materials for personal, educational, mosque, classroom, study-group, community, and other **noncommercial** purposes.
+
+**You may not sell these cards, charge for access to them, include them in a product or bundle for sale, or otherwise use the deck or its adaptations commercially.**
+
+If you adapt the deck, credit the Hanafi Learning Deck project, indicate that changes were made, keep the adapted version noncommercial, and distribute it under the same **CC BY-NC-SA 4.0** license.
+
+The purpose of this project is Islamic education and benefit, **not commercial profit**.
+
+Full license details are in [`LICENSE`](LICENSE).
+
+Official license: https://creativecommons.org/licenses/by-nc-sa/4.0/
