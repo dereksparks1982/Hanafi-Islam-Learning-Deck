@@ -1,0 +1,101 @@
+name: Update correction policy
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/update-correction-policy.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update README correction policy
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+
+          p = Path('README.md')
+          text = p.read_text(encoding='utf-8')
+
+          old_review = '''## Corrections and Imam Review
+
+This project is meant to improve.
+
+If your imam or another qualified Hanafi scholar corrects a card, **please record the card number and the exact correction** and report it to this project.
+
+If possible, also include the source or explanation the scholar gave.
+
+That lets us revise the deck cleanly instead of allowing conflicting copies to circulate. If there is an error, we want to know about it so the card and the deck can be corrected for everyone who uses it.
+
+Please do not assume that a card is beyond correction simply because it appears in a published version.
+'''
+
+          new_review = '''## Corrections and Imam Review
+
+This project is meant to improve, but it is also intentionally **Hanafi-specific**.
+
+A ruling from the Maliki, Shafi‘i, or Hanbali school is not a correction to a Hanafi card simply because it is authentically sourced within that school. Legal corrections must be supported by recognized Hanafi scholarship and evaluated within Hanafi legal methodology. Where recognized differences exist within the Hanafi school, the deck should identify the difference rather than presenting one position as universally agreed upon.
+
+Every proposed correction must include a **specific, named source**. Depending on the subject, this may be a Qur’anic verse, an authenticated hadith reference, a recognized Hanafi legal text, or a named qualified Hanafi scholar. A Qur’an or hadith citation alone does not automatically establish a Hanafi legal ruling, because the issue may depend on how Hanafi jurists understood and applied that evidence.
+
+Corrections without a specific source will not be accepted or acted on. This includes secondhand claims, personal opinion, and general disagreement without citation.
+
+This project is currently maintained and reviewed by one person. There is no editorial board. Corrections are evaluated against the sourcing and Hanafi-specific standards above before any card is changed.
+
+Please do not assume that a card is beyond correction simply because it appears in a published version.
+'''
+
+          old_contrib = '''## Contributing Corrections
+
+When reporting a correction, please include:
+
+1. the **card number**
+2. the **exact wording that should change**
+3. the **replacement wording**
+4. the **reason or source**, when available
+5. whether the correction came from an imam or qualified Hanafi scholar
+
+That format makes corrections much easier to verify and apply accurately.
+'''
+
+          new_contrib = '''## Contributing Corrections
+
+When reporting a correction, please include:
+
+1. the **card number**
+2. the **exact wording that should change**
+3. the **replacement wording**
+4. a **specific, named source** — required, not optional
+5. confirmation that the source reflects **Hanafi fiqh specifically**, when that is not already obvious from the citation
+
+Corrections missing a specific source will be declined without further review. A correctly sourced Maliki, Shafi‘i, or Hanbali ruling is not, by itself, a correction to a Hanafi card.
+
+That format makes corrections much easier to verify and apply accurately while keeping the deck within one consistent legal framework.
+'''
+
+          if text.count(old_review) != 1:
+              raise SystemExit('Corrections and Imam Review block did not match exactly once')
+          if text.count(old_contrib) != 1:
+              raise SystemExit('Contributing Corrections block did not match exactly once')
+
+          text = text.replace(old_review, new_review)
+          text = text.replace(old_contrib, new_contrib)
+          p.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit README update and remove temporary workflow
+        run: |
+          git config user.name "Abdullāh ibn al-Malik al-Jazzār"
+          git config user.email "dereksparks1982@gmail.com"
+          git rm .github/workflows/update-correction-policy.yml
+          git add README.md
+          git commit -m "docs: clarify Hanafi correction policy"
+          git push origin HEAD:main
