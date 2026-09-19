@@ -33,7 +33,7 @@ This deck is an **evolving educational project**. Cards, wording, sources, numbe
 
 If you downloaded or printed an earlier edition, please check this repository periodically to make sure you have the latest edition.
 
-Historical release ZIPs remain available for reference, but current repository numbering may differ from older releases.
+Only the current working edition is offered for download. Obsolete release packages are removed when superseded.
 
 ## Current Downloads
 
@@ -97,7 +97,7 @@ Examples:
 - 99 Names of Allah Expansion: will be renumbered independently beginning at **Card 1**
 - future expansions will also begin at **Card 1**
 
-Older v1.2 and v1.3 release ZIPs retain their historical numbering. Those older numbers are part of the release history and should not be confused with current v1.4 numbering.
+Older numbering may appear in project history, but obsolete release packages are not offered for download.
 
 ## Sacred Places Expansion - Version 1.4 R2
 
@@ -147,56 +147,13 @@ For a single download containing the current repository state, use:
 
 https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
 
-### Historical Sacred Places v1.2 Download
 
-The historical Version 1.2 release remains available and uses the old deck-wide numbering **146–164**:
+## 99 Names of Allah Expansion
 
-https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/releases/tag/v1.2.0
+The previous old-numbered edition has been removed from the current downloadable repository. A new **v1.4 edition numbered independently from Card 1** is being prepared.
 
-Historical expansion ZIP:
+Until that rebuild is complete, there is **no 99 Names download**. This prevents obsolete card numbering from continuing to circulate.
 
-`Hanafi-Learning-Deck-v1.2-Sacred-Places-Expansion.zip`
-
-SHA-256:
-
-`1623bcaf21527a84173f544de491683f40800e8be56ee7d68c7b7e2a43107807`
-
-## 99 Names of Allah Expansion - Version 1.3 Historical Numbering
-
-Version 1.3 added a separate **12-card 99 Names of Allah Expansion**.
-
-The published v1.3 release uses the historical numbers **165–176**. Under the new v1.4 numbering architecture, this expansion is scheduled to be renumbered independently beginning at **Card 1**.
-
-It is stored separately in:
-
-`99-Names-of-Allah-Expansion/`
-
-The expansion contains:
-
-- an expansion guide and source note
-- eleven cards containing the traditional enumeration of the 99 Names of Allah, arranged as **nine Names per card**
-- Arabic text
-- transliteration
-- concise English study meanings
-- source notes explaining the distinction between the authentic hadith concerning ninety-nine Names and the traditional enumerated list
-
-The expansion follows the enumeration reported in **Jamiʿ at-Tirmidhi 3507**. The guide card also notes that the basic hadith concerning ninety-nine Names is authentic in **Sahih al-Bukhari 2736** and **Sahih Muslim 2677**, while the explicit enumerated list is transmitted with a weaker chain.
-
-The expansion does **not** claim that Allah's Names are limited to ninety-nine.
-
-### Historical 99 Names v1.3 Download
-
-This is the **old-numbered v1.3 package (Cards 165–176)** and is retained for release history. It will be superseded by the v1.4 independently numbered expansion.
-
-https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/releases/tag/v1.3.0
-
-Historical expansion ZIP:
-
-`Hanafi-Learning-Deck-v1.3-99-Names-of-Allah-Expansion.zip`
-
-SHA-256:
-
-`25bcd753edea8b8fcdd956b7aa9a07f0a3eba0645d0b54802f01e18364b46f5a`
 
 ## Expansion Roadmap
 
@@ -381,7 +338,7 @@ This deck is a **learning aid**, not a fatwa service and not a substitute for a 
 - `cards/` - v1.4 Main Deck, Cards 1–146
 - `card-back/` - optional printable decorative card back
 - `Sacred-Places-Expansion/` - v1.4 R2 Sacred Places Expansion, Cards 1–19
-- `99-Names-of-Allah-Expansion/` - v1.3 historical numbering pending v1.4 renumbering
+- 99 Names of Allah Expansion - v1.4 rebuild pending; obsolete edition removed
 - `sheets/` - printable four-card sheets for the main deck
 - `CARD_MANIFEST.txt` - main-deck card index
 - `AUDIT_AND_SOURCES.md` - sourcing and audit notes
