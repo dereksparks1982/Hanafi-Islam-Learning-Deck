@@ -1,0 +1,19 @@
+99 Names of Allah Expansion — v1.4 R3
+Cards 1-12
+1000 x 1400 px, 5:7 playing-card format
+Solid green title banners removed to reduce printing ink
+Titles use consistent 36 pt size across Cards 1-12
+Header separator line restored below the title area
+
+card_001_99_names_expansion_guide.png  130938 bytes  SHA-256 75e8e6c1d59b5315e7409aa3f573bd9436f236ddd88e1892465df2b66c70e4b8
+card_002_names_01_09.png  110254 bytes  SHA-256 a1a5deed2635fe5135e8aab5eed23e0f7c97eea734b5bb0c818188855111bb17
+card_003_names_10_18.png  114419 bytes  SHA-256 c920547d099e8032ae4ff46ffda1d386f91a19c6485e4e962522211684bdd6e3
+card_004_names_19_27.png  111304 bytes  SHA-256 0858a9e6eb40c92f08ec4a7b2f4b8f572504a374ed237146e6efee1c04ed793f
+card_005_names_28_36.png  110966 bytes  SHA-256 0f98499c1fc5f8bd5237cc4d38bb2341dd14c9287539a4a6c328d6c1c8a07533
+card_006_names_37_45.png  108120 bytes  SHA-256 e1da994171d5f66eaf8a521704dd37efea41ec69daf4371b070a33382ba0eade
+card_007_names_46_54.png  109964 bytes  SHA-256 460833ab74670643621da4c74924df6205f91de2eaca23ba9a3e4ca4c0bb4bd9
+card_008_names_55_63.png  110317 bytes  SHA-256 6a6a40c20de7e6c6b522edd42a09324aabdeeb39f5a40b54061c9593db8a7d98
+card_009_names_64_72.png  114347 bytes  SHA-256 8284e74d8bce8cb0428e212381423790dcc6c6238dc5645814051476a47b244c
+card_010_names_73_81.png  107976 bytes  SHA-256 03ebbb697476d88e97ba2d23222804f8b786623a5cfcd05adbda9f90d3aa6b96
+card_011_names_82_90.png  118740 bytes  SHA-256 6a842aaf4dbfb1410086062008b70269ed4a58bca37cb7a55aef0dfd59dfc478
+card_012_names_91_99.png  113752 bytes  SHA-256 aec26379e254d2282cf317efe32b06d9d9a6f252e234e3189fb9661c6d9fe5b3

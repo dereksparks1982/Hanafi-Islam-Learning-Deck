@@ -1,0 +1,16 @@
+Hanafi Learning Deck — v1.4 R3 99 Names Expansion QA
+
+PASS: sealed approved v1.3 source hashes verified 12/12.
+PASS: exactly 12 cards produced.
+PASS: numbering is continuous Card 1 through Card 12.
+PASS: all cards remain 1000x1400 pixels.
+PASS: accepted R3 card pixels match the approved local candidate 12/12.
+PASS: Arabic, transliteration, English meanings, border, colors, and body layout preserved.
+PASS: guide now references Cards 2–12.
+PASS: solid green title banners removed from Cards 1–12 to reduce ink usage.
+PASS: title text is dark green on the cream card background.
+PASS: gold subtitle text retained.
+PASS: all title text uses the same 36 pt size.
+PASS: header separator line restored on Cards 1–12.
+PASS: 3 printable four-card sheets rebuilt.
+PASS: v1.4 R3 approved for GitHub publication.

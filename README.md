@@ -6,7 +6,7 @@ The deck is designed so that a learner can pick up a card, understand what it is
 
 > **Status:** Hanafi study aid, pending imam review.
 
-> **Development checkpoint:** **v1.4 R2**. The obsolete 145-card main deck has been replaced by the 146-card v1.4 main deck, and the Sacred Places Expansion has been converted to independent Cards 1–19. The 99 Names expansion renumbering is still in progress.
+> **Development checkpoint:** **v1.4 R3**. Current repository: Main Deck Cards 1–146, Sacred Places Cards 1–19, and 99 Names of Allah Cards 1–12.
 
 ## Card Preview
 
@@ -35,9 +35,10 @@ If you downloaded or printed an earlier edition, please check this repository pe
 
 ## Downloads
 
-- **Complete current v1.4 R2 ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
+- **Complete current v1.4 R3 ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
 - **Main Deck, Cards 1–146:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/cards
 - **Sacred Places, Cards 1–19:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion
+- **99 Names of Allah, Cards 1–12:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/99-Names-of-Allah-Expansion
 - **Printable sheets:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/sheets
 - **Optional card back:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/card-back/CardBack.png
 
@@ -117,11 +118,16 @@ The v1.4 R2 cards use the approved large photographic artwork with the current v
 
 The Sacred Places expansion is intentionally **not merged into the base `cards/` folder**. Expansion packs remain separate so learners can print and add only the sets they want.
 
-## 99 Names of Allah Expansion
+## 99 Names of Allah Expansion - Version 1.4 R3
 
-A **v1.4 edition numbered independently from Card 1** is being prepared.
+The 99 Names of Allah Expansion is a separate **12-card expansion numbered 1–12**.
 
-It will be added when the v1.4 rebuild is complete.
+- **Card 1:** expansion guide and source note
+- **Cards 2–12:** all 99 Names arranged nine Names per card
+- Arabic text, transliteration, and concise English study meanings
+- traditional enumeration from Jamiʿ at-Tirmidhi 3507, with the source-strength distinction explained in the expansion notes
+
+The v1.4 R3 design removes the solid green title banner to reduce printing ink, keeps a consistent 36 pt title size, and restores the header separator line.
 
 
 ## Expansion Roadmap
@@ -250,6 +256,15 @@ Please do not assume that a card is beyond correction simply because it appears 
 
 ## Release and Development Notes
 
+### Version 1.4 R3 - 99 Names of Allah Checkpoint
+
+- published the 99 Names of Allah Expansion as independent Cards 1–12
+- retained all 99 Names, nine Names per study card
+- preserved Arabic, transliteration, concise English meanings, and source notes
+- removed the solid green title banner to reduce printing ink
+- standardized title size and restored the header separator line
+- rebuilt three printable four-card sheets and QA material
+
 ### Version 1.4 R2 - Sacred Places Renumbering Checkpoint
 
 - Sacred Places converted from historical deck-wide numbers 146–164 to independent Cards 1–19
@@ -305,7 +320,7 @@ This deck is a **learning aid**, not a fatwa service and not a substitute for a 
 - `cards/` - v1.4 Main Deck, Cards 1–146
 - `card-back/` - optional printable decorative card back
 - `Sacred-Places-Expansion/` - v1.4 R2 Sacred Places Expansion, Cards 1–19
-- 99 Names of Allah Expansion - v1.4 rebuild pending
+- `99-Names-of-Allah-Expansion/` - v1.4 R3, Cards 1–12
 - `sheets/` - printable four-card sheets for the main deck
 - `CARD_MANIFEST.txt` - main-deck card index
 - `AUDIT_AND_SOURCES.md` - sourcing and audit notes

@@ -4,7 +4,7 @@
 
 - Main Deck v1.4: Cards 1–146.
 - Sacred Places Expansion: independent Cards 1–19.
-- 99 Names of Allah Expansion: next renumbering target, independent Cards 1–12.
+- 99 Names of Allah Expansion: v1.4 R3 complete, independent Cards 1–12.
 
 ## Future planned expansions
 

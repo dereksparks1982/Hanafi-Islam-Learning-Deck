@@ -1,0 +1,12 @@
+old 165 -> new 001  card_165_99_names_expansion_guide.png -> card_001_99_names_expansion_guide.png
+old 166 -> new 002  card_166_names_01_09.png -> card_002_names_01_09.png
+old 167 -> new 003  card_167_names_10_18.png -> card_003_names_10_18.png
+old 168 -> new 004  card_168_names_19_27.png -> card_004_names_19_27.png
+old 169 -> new 005  card_169_names_28_36.png -> card_005_names_28_36.png
+old 170 -> new 006  card_170_names_37_45.png -> card_006_names_37_45.png
+old 171 -> new 007  card_171_names_46_54.png -> card_007_names_46_54.png
+old 172 -> new 008  card_172_names_55_63.png -> card_008_names_55_63.png
+old 173 -> new 009  card_173_names_64_72.png -> card_009_names_64_72.png
+old 174 -> new 010  card_174_names_73_81.png -> card_010_names_73_81.png
+old 175 -> new 011  card_175_names_82_90.png -> card_011_names_82_90.png
+old 176 -> new 012  card_176_names_91_99.png -> card_012_names_91_99.png
