@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="1000" viewBox="0 0 700 1000">
+  <rect width="700" height="1000" rx="28" fill="#f4ecd9"/>
+  <rect x="18" y="18" width="664" height="964" rx="24" fill="none" stroke="#1f5a4d" stroke-width="18"/>
+  <rect x="42" y="42" width="616" height="916" rx="18" fill="none" stroke="#c9a23a" stroke-width="5"/>
+  <rect x="57" y="57" width="586" height="886" rx="14" fill="none" stroke="#1f5a4d" stroke-width="4"/>
+
+  <g fill="#c9a23a" stroke="#1f5a4d" stroke-width="3">
+    <path d="M350 92 l18 18 -18 18 -18-18z"/>
+    <path d="M350 872 l18 18 -18 18 -18-18z"/>
+    <path d="M94 500 l18 18 -18 18 -18-18z"/>
+    <path d="M606 500 l18 18 -18 18 -18-18z"/>
+  </g>
+
+  <g fill="#1f5a4d" font-family="serif" font-size="34" text-anchor="middle">
+    <text x="108" y="205">الله</text>
+    <text x="108" y="325">الله</text>
+    <text x="108" y="445">الله</text>
+    <text x="108" y="565">الله</text>
+    <text x="108" y="685">الله</text>
+    <text x="108" y="805">الله</text>
+    <text x="592" y="205">الله</text>
+    <text x="592" y="325">الله</text>
+    <text x="592" y="445">الله</text>
+    <text x="592" y="565">الله</text>
+    <text x="592" y="685">الله</text>
+    <text x="592" y="805">الله</text>
+  </g>
+
+  <g transform="translate(350 500)">
+    <circle r="180" fill="none" stroke="#c9a23a" stroke-width="4"/>
+    <circle r="150" fill="none" stroke="#1f5a4d" stroke-width="5"/>
+    <path d="M0,-150 L42,-101 L106,-106 L101,-42 L150,0 L101,42 L106,106 L42,101 L0,150 L-42,101 L-106,106 L-101,42 L-150,0 L-101,-42 L-106,-106 L-42,-101 Z" fill="#1f5a4d" stroke="#c9a23a" stroke-width="5"/>
+    <path d="M0,-115 L32,-77 L81,-81 L77,-32 L115,0 L77,32 L81,81 L32,77 L0,115 L-32,77 L-81,81 L-77,32 L-115,0 L-77,-32 L-81,-81 L-32,-77 Z" fill="#f4ecd9" stroke="#c9a23a" stroke-width="4"/>
+    <path d="M0,-82 L23,-55 L58,-58 L55,-23 L82,0 L55,23 L58,58 L23,55 L0,82 L-23,55 L-58,58 L-55,23 L-82,0 L-55,-23 L-58,-58 L-23,-55 Z" fill="#c9a23a" stroke="#1f5a4d" stroke-width="4"/>
+    <circle r="24" fill="#1f5a4d"/>
+  </g>
+
+  <g fill="#c9a23a">
+    <circle cx="190" cy="150" r="7"/><circle cx="510" cy="150" r="7"/>
+    <circle cx="190" cy="850" r="7"/><circle cx="510" cy="850" r="7"/>
+    <circle cx="165" cy="175" r="4"/><circle cx="535" cy="175" r="4"/>
+    <circle cx="165" cy="825" r="4"/><circle cx="535" cy="825" r="4"/>
+  </g>
+</svg>
