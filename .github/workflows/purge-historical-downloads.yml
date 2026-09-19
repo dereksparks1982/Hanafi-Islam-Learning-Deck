@@ -1,0 +1,128 @@
+name: Purge historical downloads
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/purge-historical-downloads.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Purge every existing GitHub Release
+        shell: bash
+        run: |
+          set -euo pipefail
+          ids="$(gh api "repos/${GITHUB_REPOSITORY}/releases?per_page=100" --jq '.[].id')"
+          if [ -n "$ids" ]; then
+            while read -r id; do
+              [ -n "$id" ] || continue
+              echo "Deleting release id $id"
+              gh api -X DELETE "repos/${GITHUB_REPOSITORY}/releases/$id"
+            done <<< "$ids"
+          fi
+
+      - name: Delete historical tags
+        shell: bash
+        run: |
+          set -euo pipefail
+          for tag in v1.0.0 v1.2.0 v1.3.0; do
+            if gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/$tag" >/dev/null 2>&1; then
+              echo "Deleting tag $tag"
+              gh api -X DELETE "repos/${GITHUB_REPOSITORY}/git/refs/tags/$tag"
+            else
+              echo "Tag $tag already absent"
+            fi
+          done
+
+      - name: Remove obsolete old-numbered 99 Names expansion
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm -r --ignore-unmatch 99-Names-of-Allah-Expansion
+
+      - name: Remove historical download references from README
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          p = Path('README.md')
+          s = p.read_text(encoding='utf-8')
+
+          # Remove the historical Sacred Places download subsection entirely.
+          s = re.sub(
+              r'\n### Historical Sacred Places v1\.2 Download\n.*?(?=\n## 99 Names of Allah Expansion)',
+              '\n', s, flags=re.S
+          )
+
+          # Replace the 99 Names section with a concise v1.4 status note, because
+          # the obsolete old-numbered cards are intentionally unavailable.
+          s = re.sub(
+              r'\n## 99 Names of Allah Expansion - Version 1\.3 Historical Numbering\n.*?(?=\n## Expansion Roadmap)',
+              '''\n## 99 Names of Allah Expansion\n\nThe previous old-numbered edition has been removed from the current downloadable repository. A new **v1.4 edition numbered independently from Card 1** is being prepared.\n\nUntil that rebuild is complete, there is **no 99 Names download**. This prevents obsolete card numbering from continuing to circulate.\n\n''',
+              s, flags=re.S
+          )
+
+          # Remove generic language advertising historical release ZIPs.
+          s = s.replace(
+              'Historical release ZIPs remain available for reference, but current repository numbering may differ from older releases.\n',
+              'Only the current working edition is offered for download. Obsolete release packages are removed when superseded.\n'
+          )
+
+          # Repository contents line for the removed expansion.
+          s = re.sub(
+              r'- `99-Names-of-Allah-Expansion/`[^\n]*\n',
+              '- 99 Names of Allah Expansion - v1.4 rebuild pending; obsolete edition removed\n',
+              s
+          )
+
+          # Avoid wording that implies historical download availability.
+          s = s.replace('Older v1.2 and v1.3 release ZIPs retain their historical numbering. Those older numbers are part of the release history and should not be confused with current v1.4 numbering.\n',
+                        'Older numbering may appear in project history, but obsolete release packages are not offered for download.\n')
+
+          p.write_text(s, encoding='utf-8')
+
+      - name: Commit repository cleanup
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No repository cleanup changes to commit"
+          else
+            git commit -m "chore: remove obsolete historical downloads"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+
+      - name: Verify no releases remain
+        shell: bash
+        run: |
+          set -euo pipefail
+          count="$(gh api "repos/${GITHUB_REPOSITORY}/releases?per_page=100" --jq 'length')"
+          echo "Release count: $count"
+          test "$count" = "0"
+
+      - name: Self-remove temporary purge workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git pull --rebase origin main
+          rm -f .github/workflows/purge-historical-downloads.yml
+          git add -A
+          git commit -m "chore: remove temporary historical-download purge workflow"
+          git push origin HEAD:main
