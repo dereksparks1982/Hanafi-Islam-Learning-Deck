@@ -1,0 +1,94 @@
+name: Consolidate README downloads
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/consolidate-readme-downloads.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Keep one compact Downloads section only
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('README.md')
+          s = p.read_text(encoding='utf-8')
+
+          downloads = '''## Downloads
+
+- **Complete current v1.4 R2 ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
+- **Main Deck, Cards 1–146:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/cards
+- **Sacred Places, Cards 1–19:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion
+- **Printable sheets:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/sheets
+- **Optional card back:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/card-back/card-back.jpg
+
+'''
+
+          s = re.sub(
+              r'## Current Downloads\n.*?(?=## Introduction\n)',
+              downloads,
+              s,
+              flags=re.S,
+          )
+
+          s = re.sub(
+              r'### Current Sacred Places v1\.4 R2 Files\n.*?(?=## 99 Names of Allah Expansion\n)',
+              '',
+              s,
+              flags=re.S,
+          )
+
+          s = s.replace(
+              'Expansion packs remain separate so learners can download, print, and add only the sets they want.',
+              'Expansion packs remain separate so learners can print and add only the sets they want.'
+          )
+          s = s.replace(
+              'The download will be added when the v1.4 rebuild is complete.',
+              'It will be added when the v1.4 rebuild is complete.'
+          )
+          s = s.replace('- Published the expansion as its own downloadable ZIP\n', '')
+
+          # Guardrail: no GitHub card/package links should exist outside the one Downloads section.
+          before, rest = s.split('## Downloads\n', 1)
+          dl_body, after = rest.split('## Introduction\n', 1)
+          banned = [
+              'archive/refs/heads/main.zip',
+              '/tree/main/cards',
+              '/tree/main/Sacred-Places-Expansion',
+              '/tree/main/sheets',
+              '/blob/main/card-back/card-back.jpg',
+          ]
+          for token in banned:
+              assert token not in before, f'duplicate download link before Downloads: {token}'
+              assert token not in after, f'duplicate download link after Downloads: {token}'
+
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit README cleanup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "docs: consolidate README downloads" || true
+          git push
+
+      - name: Self-remove workflow
+        run: |
+          git pull --rebase
+          rm -f .github/workflows/consolidate-readme-downloads.yml
+          git add -A
+          git commit -m "chore: remove temporary README download cleanup workflow" || true
+          git push
