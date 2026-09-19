@@ -35,6 +35,18 @@ If you downloaded or printed an earlier edition, please check this repository pe
 
 Historical release ZIPs remain available for reference, but current repository numbering may differ from older releases.
 
+## Current Downloads
+
+These links point to the **current working v1.4 R2 repository state**.
+
+- **Download the complete current repository as a ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
+- **Current Main Deck, Cards 1–146:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/cards
+- **Current Sacred Places Expansion, Cards 1–19:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion
+- **Current printable main-deck sheets:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/sheets
+- **Optional printable card back:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/card-back/card-back.jpg
+
+The **99 Names of Allah Expansion has not yet been converted to the v1.4 independent numbering system**. Until that work is completed, its v1.3 release below remains a historical download rather than a current v1.4 package.
+
 ## Introduction
 
 The Hanafi school is one of the four major Sunni schools of Islamic law (*madhhabs*). It traces its legal tradition to **Imam Abu Hanifa** and was developed and transmitted through generations of Hanafi jurists, including his students **Abu Yusuf** and **Muhammad al-Shaybani**.
@@ -125,6 +137,16 @@ The v1.4 R2 cards use the approved large photographic artwork with the current v
 
 The Sacred Places expansion is intentionally **not merged into the base `cards/` folder**. Expansion packs remain separate so learners can download, print, and add only the sets they want.
 
+### Current Sacred Places v1.4 R2 Files
+
+Current Cards 1–19:
+
+https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion
+
+For a single download containing the current repository state, use:
+
+https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
+
 ### Historical Sacred Places v1.2 Download
 
 The historical Version 1.2 release remains available and uses the old deck-wide numbering **146–164**:
@@ -163,6 +185,8 @@ The expansion follows the enumeration reported in **Jamiʿ at-Tirmidhi 3507**. T
 The expansion does **not** claim that Allah's Names are limited to ninety-nine.
 
 ### Historical 99 Names v1.3 Download
+
+This is the **old-numbered v1.3 package (Cards 165–176)** and is retained for release history. It will be superseded by the v1.4 independently numbered expansion.
 
 https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/releases/tag/v1.3.0
 
