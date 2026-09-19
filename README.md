@@ -43,6 +43,7 @@ If you downloaded or printed an earlier edition, please check this repository pe
 - **Arabic Alphabet v1.5:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/Arabic-Alphabet-Expansion-v1.5.zip
 - **Printable sheets:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/sheets
 - **Optional card back:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/card-back/CardBack.png
+- **Arabic alphabet pronunciation video — Language Simp:** https://www.youtube.com/watch?v=TLnr17rEFrQ&t=164s
 
 ## Introduction
 
