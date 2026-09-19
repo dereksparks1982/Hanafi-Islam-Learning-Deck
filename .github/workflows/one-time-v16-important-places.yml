@@ -1,0 +1,108 @@
+name: One-time v1.6 Important Places preview
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/one-time-v16-important-places.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Promote Important Places preview to v1.6
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          readme = Path('README.md')
+          text = readme.read_text(encoding='utf-8')
+
+          text = text.replace('# Hanafi Learning Deck v1.5', '# Hanafi Learning Deck v1.6', 1)
+          text = text.replace(
+              '> **Development checkpoint:** **v1.5**. Current repository: Main Deck Cards 1–146, Sacred Places Cards 1–19, 99 Names of Allah Cards 1–12, and Arabic Alphabet Cards 1–28.',
+              '> **Development checkpoint:** **v1.6**. Current repository: Main Deck Cards 1–146, Sacred Places Cards 1–19, 99 Names of Allah Cards 1–12, Arabic Alphabet Cards 1–28, and the Important Places of the Muslim World visual preview.',
+              1,
+          )
+          text = text.replace('**Complete current v1.5 ZIP:**', '**Complete current v1.6 ZIP:**', 1)
+
+          marker = 'This is intentionally different from the Sacred Places Expansion.\n'
+          preview = r'''
+
+#### Version 1.6 Visual Preview
+
+The **v1.6 checkpoint introduces the visual preview for this planned expansion**. These are candidate subjects for research and card development, not yet a final approved card list. The photographs below are reference previews only.
+
+<p align="center"><strong>Lal Masjid — Islamabad, Pakistan</strong><br>
+<a href="https://commons.wikimedia.org/wiki/File:Red_Mosque_Islamabad_1.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Red_Mosque_Islamabad_1.jpg" width="520" alt="Lal Masjid in Islamabad, Pakistan"></a><br>
+<sub>Photo: KhhHan432, CC BY-SA 4.0, via Wikimedia Commons.</sub></p>
+
+<p align="center"><strong>Chinguetti Mosque — Chinguetti, Mauritania</strong><br>
+<a href="https://commons.wikimedia.org/wiki/File:Chinguetti_Mosque_2007.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Chinguetti_Mosque_2007.jpg" width="520" alt="Chinguetti Mosque in Mauritania"></a><br>
+<sub>Photo: Radosław Botev / Fundacja Nomos, CC BY 3.0 PL, via Wikimedia Commons.</sub></p>
+
+<p align="center"><strong>Friday Mosque of Herat — Herat, Afghanistan</strong><br>
+<a href="https://commons.wikimedia.org/wiki/File:HeratFridayMosque.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/HeratFridayMosque.jpg" width="520" alt="Friday Mosque of Herat, Afghanistan"></a><br>
+<sub>Photo: Artacoana, public domain, via Wikimedia Commons.</sub></p>
+
+<p align="center"><strong>Sankore Mosque — Timbuktu, Mali</strong><br>
+<a href="https://commons.wikimedia.org/wiki/File:Sankore_Mosque_in_Timbuktu.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Sankore_Mosque_in_Timbuktu.jpg" width="520" alt="Sankore Mosque in Timbuktu, Mali"></a><br>
+<sub>Photo: upyernoz, CC BY 2.0, via Wikimedia Commons.</sub></p>
+
+<p align="center"><strong>Al-Qarawiyyin Mosque — Fez, Morocco</strong><br>
+<a href="https://commons.wikimedia.org/wiki/File:The_minaret_of_Al-Qarawiyyin_Mosque_in_Fez.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/8/86/The_minaret_of_Al-Qarawiyyin_Mosque_in_Fez.jpg" width="520" alt="Minaret of Al-Qarawiyyin Mosque in Fez, Morocco"></a><br>
+<sub>Photo: RACHID BAYA, CC BY-SA 4.0, via Wikimedia Commons.</sub></p>
+
+**[Open the dedicated Important Places visual preview](IMPORTANT-PLACES-PREVIEW.md)**
+'''
+
+          if '#### Version 1.6 Visual Preview' not in text:
+              if marker not in text:
+                  raise SystemExit('Important Places marker not found in README')
+              text = text.replace(marker, marker + preview, 1)
+
+          release_marker = '## Release and Development Notes\n'
+          release = '''\n### Version 1.6 - Important Places Visual Preview Checkpoint\n\n- promoted the project checkpoint to v1.6\n- added a visible image preview for the planned Important Places of the Muslim World expansion\n- included candidate preview subjects from Pakistan, Mauritania, Afghanistan, Mali, and Morocco\n- kept the expansion clearly separate from Sacred Places so historical or cultural importance is not confused with religious sanctity\n- retained the dedicated `IMPORTANT-PLACES-PREVIEW.md` reference page for the larger visual preview\n\n'''
+          if '### Version 1.6 - Important Places Visual Preview Checkpoint' not in text:
+              if release_marker not in text:
+                  raise SystemExit('Release notes marker not found')
+              text = text.replace(release_marker, release_marker + release, 1)
+
+          text = text.replace('**Hanafi Learning Deck - v1.4 development series**', '**Hanafi Learning Deck - v1.6 development checkpoint**', 1)
+
+          repo_marker = '- `EXPANSION_ROADMAP.md` - current and planned expansion roadmap\n'
+          repo_add = '- `IMPORTANT-PLACES-PREVIEW.md` - v1.6 visual preview for the planned Important Places expansion\n- `mobile-view/` - phone-friendly scrollable card galleries with tap-to-open zoom support\n'
+          if repo_add.strip() not in text and repo_marker in text:
+              text = text.replace(repo_marker, repo_marker + repo_add, 1)
+
+          readme.write_text(text, encoding='utf-8')
+
+          roadmap = Path('EXPANSION_ROADMAP.md')
+          r = roadmap.read_text(encoding='utf-8')
+          current_marker = '- Arabic Alphabet Expansion: v1.5 complete, independent Cards 1–28.\n'
+          current_add = '- Important Places of the Muslim World: v1.6 visual preview checkpoint added; final card list remains under research.\n'
+          if current_add not in r and current_marker in r:
+              r = r.replace(current_marker, current_marker + current_add, 1)
+          roadmap.write_text(r, encoding='utf-8')
+          PY
+
+      - name: Commit v1.6 preview checkpoint
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md EXPANSION_ROADMAP.md
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+          else
+            git commit -m "Promote Important Places visual preview to v1.6"
+            git push
+          fi
