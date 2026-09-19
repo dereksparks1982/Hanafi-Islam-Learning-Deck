@@ -21,7 +21,7 @@ These are the **actual card files from this repository**, shown here so visitors
 <tr>
 <td align="center"><strong>Surah Al-Fatiha</strong><br><img src="cards/card_034.png" width="220" alt="Surah Al-Fatiha card preview"></td>
 <td align="center"><strong>Before Eating</strong><br><img src="cards/card_144.png" width="220" alt="Before Eating card preview"></td>
-<td align="center"><strong>Optional Card Back</strong><br><img src="card-back/card-back.jpg" width="220" alt="Optional Islamic card back preview"></td>
+<td align="center"><strong>Optional Card Back</strong><br><img src="card-back/CardBack.png" width="220" alt="Optional Islamic card back preview"></td>
 </tr>
 </table>
 
@@ -39,7 +39,7 @@ If you downloaded or printed an earlier edition, please check this repository pe
 - **Main Deck, Cards 1–146:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/cards
 - **Sacred Places, Cards 1–19:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion
 - **Printable sheets:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/sheets
-- **Optional card back:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/card-back/card-back.jpg
+- **Optional card back:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/card-back/CardBack.png
 
 ## Introduction
 
