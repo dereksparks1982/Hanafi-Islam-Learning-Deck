@@ -10,7 +10,7 @@ The deck is designed so that a learner can pick up a card, understand what it is
 
 ## Card Preview
 
-A few representative cards from the deck are shown here so visitors can immediately see the project before downloading anything.
+These are the **actual card files from this repository**, shown here so visitors immediately see the real deck before downloading anything.
 
 <table>
 <tr>
@@ -21,7 +21,7 @@ A few representative cards from the deck are shown here so visitors can immediat
 <tr>
 <td align="center"><strong>Surah Al-Fatiha</strong><br><img src="cards/card_034.png" width="220" alt="Surah Al-Fatiha card preview"></td>
 <td align="center"><strong>Before Eating</strong><br><img src="cards/card_144.png" width="220" alt="Before Eating card preview"></td>
-<td align="center"><strong>Optional Card Back</strong><br><img src="card_back.svg" width="220" alt="Optional Islamic card back preview"></td>
+<td align="center"><strong>Optional Card Back</strong><br><img src="card_back.jpg" width="220" alt="Optional Islamic card back preview"></td>
 </tr>
 </table>
 
