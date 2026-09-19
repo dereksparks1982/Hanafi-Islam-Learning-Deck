@@ -244,13 +244,15 @@ Physical prayer movements are described in words instead of relying on stick fig
 
 ## Corrections and Imam Review
 
-This project is meant to improve.
+This project is meant to improve, but it is also intentionally **Hanafi-specific**.
 
-If your imam or another qualified Hanafi scholar corrects a card, **please record the card number and the exact correction** and report it to this project.
+A ruling from the Maliki, Shafi‘i, or Hanbali school is not a correction to a Hanafi card simply because it is authentically sourced within that school. Legal corrections must be supported by recognized Hanafi scholarship and evaluated within Hanafi legal methodology. Where recognized differences exist within the Hanafi school, the deck should identify the difference rather than presenting one position as universally agreed upon.
 
-If possible, also include the source or explanation the scholar gave.
+Every proposed correction must include a **specific, named source**. Depending on the subject, this may be a Qur’anic verse, an authenticated hadith reference, a recognized Hanafi legal text, or a named qualified Hanafi scholar. A Qur’an or hadith citation alone does not automatically establish a Hanafi legal ruling, because the issue may depend on how Hanafi jurists understood and applied that evidence.
 
-That lets us revise the deck cleanly instead of allowing conflicting copies to circulate. If there is an error, we want to know about it so the card and the deck can be corrected for everyone who uses it.
+Corrections without a specific source will not be accepted or acted on. This includes secondhand claims, personal opinion, and general disagreement without citation.
+
+This project is currently maintained and reviewed by one person. There is no editorial board. Corrections are evaluated against the sourcing and Hanafi-specific standards above before any card is changed.
 
 Please do not assume that a card is beyond correction simply because it appears in a published version.
 
@@ -335,10 +337,12 @@ When reporting a correction, please include:
 1. the **card number**
 2. the **exact wording that should change**
 3. the **replacement wording**
-4. the **reason or source**, when available
-5. whether the correction came from an imam or qualified Hanafi scholar
+4. a **specific, named source** — required, not optional
+5. confirmation that the source reflects **Hanafi fiqh specifically**, when that is not already obvious from the citation
 
-That format makes corrections much easier to verify and apply accurately.
+Corrections missing a specific source will be declined without further review. A correctly sourced Maliki, Shafi‘i, or Hanbali ruling is not, by itself, a correction to a Hanafi card.
+
+That format makes corrections much easier to verify and apply accurately while keeping the deck within one consistent legal framework.
 
 ---
 
