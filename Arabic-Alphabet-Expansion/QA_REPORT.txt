@@ -1,0 +1,13 @@
+Hanafi Learning Deck v1.5 — Arabic Alphabet Expansion QA
+
+Cards: 28
+Numbering: 1–28 continuous
+Canvas: 1000 x 1400 px
+Sheets: 7 four-card sheets
+Border: inset double border, gold outer / dark-green inner
+Header: approved Arabic Alphabet layout
+Background: low-ink cream-white
+Arabic font: Noto Naskh Arabic
+Joining rule check: non-joining letters ا د ذ ر ز و marked without initial/medial joining forms
+Alif note: distinguishes long-ā carrier function from hamza
+Status: generated successfully

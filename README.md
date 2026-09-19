@@ -6,7 +6,7 @@ The deck is designed so that a learner can pick up a card, understand what it is
 
 > **Status:** Hanafi study aid, pending imam review.
 
-> **Development checkpoint:** **v1.4 R3**. Current repository: Main Deck Cards 1–146, Sacred Places Cards 1–19, and 99 Names of Allah Cards 1–12.
+> **Development checkpoint:** **v1.5**. Current repository: Main Deck Cards 1–146, Sacred Places Cards 1–19, 99 Names of Allah Cards 1–12, and Arabic Alphabet Cards 1–28.
 
 ## Card Preview
 
@@ -39,6 +39,8 @@ If you downloaded or printed an earlier edition, please check this repository pe
 - **Main Deck, Cards 1–146:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/cards
 - **Sacred Places, Cards 1–19:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion
 - **99 Names of Allah, Cards 1–12:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/99-Names-of-Allah-Expansion
+- **Arabic Alphabet, Cards 1–28:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Arabic-Alphabet-Expansion
+- **Arabic Alphabet v1.5 ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/Arabic-Alphabet-Expansion-v1.5.zip
 - **Printable sheets:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/sheets
 - **Optional card back:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/card-back/CardBack.png
 
@@ -128,6 +130,28 @@ The 99 Names of Allah Expansion is a separate **12-card expansion numbered 1–1
 - traditional enumeration from Jamiʿ at-Tirmidhi 3507, with the source-strength distinction explained in the expansion notes
 
 The v1.4 R3 design removes the solid green title banner to reduce printing ink, keeps a consistent 36 pt title size, and restores the header separator line.
+
+
+## Arabic Alphabet Expansion - Version 1.5
+
+The Arabic Alphabet Expansion is a separate **28-card expansion numbered 1–28**.
+
+It is stored separately in:
+
+`Arabic-Alphabet-Expansion/`
+
+Each card teaches one Arabic letter using the approved low-ink printable format, including:
+
+- the Arabic letter and transliteration
+- a plain-language pronunciation guide
+- mouth and articulation guidance
+- source, voice, and weight notes
+- a clear **AVOID** warning for common pronunciation mistakes
+- isolated, beginning, middle, and ending forms where applicable
+- an Arabic example word with transliteration and English meaning
+- concise notes on joining behavior and distinguishing features
+
+The expansion includes **28 individual cards**, **7 four-card printable sheets**, a contact sheet, source notes, QA report, manifest with hashes, and editable source/build files. The approved visual standard uses the same inset gold and dark-green double border, spacious header, white background, and restrained ink usage as the current deck.
 
 
 ## Expansion Roadmap

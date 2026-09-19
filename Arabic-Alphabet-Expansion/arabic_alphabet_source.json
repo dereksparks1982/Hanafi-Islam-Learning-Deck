@@ -1,0 +1,814 @@
+[
+  {
+    "n": 1,
+    "name": "ALIF",
+    "letter": "ا",
+    "translit": "ā / a",
+    "say_it": "ā — a long open “aa” sound, as in father.",
+    "mouth": "Mouth open and relaxed. The vowel is carried on the breath; no special tongue contact.",
+    "source": "For long ā, the sound flows through the open mouth after a fatḥah.",
+    "voice": "Voiced.",
+    "weight": "Neutral; its quality follows the surrounding consonants.",
+    "avoid": "Do not treat bare Alif as an English “uh.” A written hamza (أ / إ) is a separate glottal-stop sound.",
+    "forms": [
+      "ﺍ",
+      "—",
+      "—",
+      "ﺎ"
+    ],
+    "example": [
+      "بَاب",
+      "Bāb",
+      "Door"
+    ],
+    "notes": [
+      "Bare Alif commonly lengthens fatḥah to long ā.",
+      "Alif does not connect to a following letter on its left.",
+      "When hamza appears on or under Alif, pronounce the hamza as a glottal stop.",
+      "Example: بَاب has a long ā between the two b sounds."
+    ]
+  },
+  {
+    "n": 2,
+    "name": "BĀʾ",
+    "letter": "ب",
+    "translit": "b",
+    "say_it": "b — like the b in boy.",
+    "mouth": "Close both lips, build a little pressure, then release.",
+    "source": "Both lips.",
+    "voice": "Voiced.",
+    "weight": "Light.",
+    "avoid": "Do not turn it into p; Arabic ب is voiced.",
+    "forms": [
+      "ﺏ",
+      "ﺑ",
+      "ﺒ",
+      "ﺐ"
+    ],
+    "example": [
+      "بَيْت",
+      "Bayt",
+      "House"
+    ],
+    "notes": [
+      "One dot below distinguishes ب from ت and ث.",
+      "Bāʾ connects on both sides when neighboring letters allow it.",
+      "Its basic sound is b in every position.",
+      "Example: بَيْت begins with Bāʾ."
+    ]
+  },
+  {
+    "n": 3,
+    "name": "TĀʾ",
+    "letter": "ت",
+    "translit": "t",
+    "say_it": "t — like a clean t in top, with less puff of air than strong English t.",
+    "mouth": "Touch the tongue tip near the upper front teeth/gum ridge, then release.",
+    "source": "Tongue tip with the upper front teeth/alveolar area.",
+    "voice": "Voiceless.",
+    "weight": "Light.",
+    "avoid": "Do not pronounce it as English th or as emphatic ṭ.",
+    "forms": [
+      "ﺕ",
+      "ﺗ",
+      "ﺘ",
+      "ﺖ"
+    ],
+    "example": [
+      "تَمْر",
+      "Tamr",
+      "Dates"
+    ],
+    "notes": [
+      "Two dots above distinguish ت from ب and ث.",
+      "Tāʾ connects on both sides.",
+      "Keep it light; ط is the heavy counterpart.",
+      "Example: تَمْر begins with Tāʾ."
+    ]
+  },
+  {
+    "n": 4,
+    "name": "THĀʾ",
+    "letter": "ث",
+    "translit": "th",
+    "say_it": "th — like the th in think.",
+    "mouth": "Let the tongue tip touch or slightly pass between the front teeth while air flows.",
+    "source": "Tongue tip and upper front teeth.",
+    "voice": "Voiceless.",
+    "weight": "Light.",
+    "avoid": "Do not replace it with s, t, or the voiced th of this.",
+    "forms": [
+      "ﺙ",
+      "ﺛ",
+      "ﺜ",
+      "ﺚ"
+    ],
+    "example": [
+      "ثَوْب",
+      "Thawb",
+      "Garment"
+    ],
+    "notes": [
+      "Three dots above identify ث.",
+      "Thāʾ connects on both sides.",
+      "The English word think gives a useful approximation.",
+      "Example: ثَوْب begins with Thāʾ."
+    ]
+  },
+  {
+    "n": 5,
+    "name": "JĪM",
+    "letter": "ج",
+    "translit": "j",
+    "say_it": "j — like the j in jam in standard/Qurʾanic pronunciation.",
+    "mouth": "Raise the middle of the tongue toward the hard palate and release the voiced sound.",
+    "source": "Middle of the tongue with the hard palate.",
+    "voice": "Voiced.",
+    "weight": "Light.",
+    "avoid": "Do not reduce it to English y or French-style zh.",
+    "forms": [
+      "ﺝ",
+      "ﺟ",
+      "ﺠ",
+      "ﺞ"
+    ],
+    "example": [
+      "جَمَل",
+      "Jamal",
+      "Camel"
+    ],
+    "notes": [
+      "One dot below distinguishes ج from ح and خ.",
+      "Jīm connects on both sides.",
+      "In standard Arabic it is taught as the j sound in jam.",
+      "Example: جَمَل begins with Jīm."
+    ]
+  },
+  {
+    "n": 6,
+    "name": "ḤĀʾ",
+    "letter": "ح",
+    "translit": "ḥ",
+    "say_it": "ḥ — no exact English equivalent; a strong, clear breathy h from the middle throat.",
+    "mouth": "Keep the mouth open and let air pass through a gently narrowed middle throat.",
+    "source": "Middle throat (pharyngeal area).",
+    "voice": "Voiceless.",
+    "weight": "Light.",
+    "avoid": "Do not pronounce it as ordinary ه h, and do not scrape it like خ kh.",
+    "forms": [
+      "ﺡ",
+      "ﺣ",
+      "ﺤ",
+      "ﺢ"
+    ],
+    "example": [
+      "حَقّ",
+      "Ḥaqq",
+      "Truth / right"
+    ],
+    "notes": [
+      "Ḥāʾ has no dot.",
+      "It shares its basic shape with ج and خ.",
+      "The sound is deeper than ه but smoother than خ.",
+      "Example: حَقّ begins with Ḥāʾ."
+    ]
+  },
+  {
+    "n": 7,
+    "name": "KHĀʾ",
+    "letter": "خ",
+    "translit": "kh",
+    "say_it": "kh — like the ch in Scottish loch or German Bach.",
+    "mouth": "Raise the back of the tongue near the soft palate and let air rub through the narrow space.",
+    "source": "Upper throat/back of the mouth.",
+    "voice": "Voiceless.",
+    "weight": "Heavy.",
+    "avoid": "Do not pronounce it as k, h, or an English “ch.”",
+    "forms": [
+      "ﺥ",
+      "ﺧ",
+      "ﺨ",
+      "ﺦ"
+    ],
+    "example": [
+      "خُبْز",
+      "Khubz",
+      "Bread"
+    ],
+    "notes": [
+      "One dot above distinguishes خ from ح and ج.",
+      "Khāʾ connects on both sides.",
+      "It is one of the heavy letters in Qurʾanic recitation.",
+      "Example: خُبْز begins with Khāʾ."
+    ]
+  },
+  {
+    "n": 8,
+    "name": "DĀL",
+    "letter": "د",
+    "translit": "d",
+    "say_it": "d — like the d in day.",
+    "mouth": "Touch the tongue tip near the upper front teeth/gum ridge and release with voice.",
+    "source": "Tongue tip with the upper front teeth/alveolar area.",
+    "voice": "Voiced.",
+    "weight": "Light.",
+    "avoid": "Do not turn it into dh; ذ is a different letter.",
+    "forms": [
+      "ﺩ",
+      "—",
+      "—",
+      "ﺪ"
+    ],
+    "example": [
+      "دِين",
+      "Dīn",
+      "Religion"
+    ],
+    "notes": [
+      "Dāl has no dot.",
+      "It connects to a preceding letter on its right, but not to a following letter on its left.",
+      "Its sound stays d in all positions.",
+      "Example: دِين begins with Dāl."
+    ]
+  },
+  {
+    "n": 9,
+    "name": "DHĀL",
+    "letter": "ذ",
+    "translit": "dh",
+    "say_it": "dh — like the th in this.",
+    "mouth": "Place the tongue tip at or slightly between the front teeth and use voice.",
+    "source": "Tongue tip and upper front teeth.",
+    "voice": "Voiced.",
+    "weight": "Light.",
+    "avoid": "Do not replace it with z, d, or the voiceless th of think.",
+    "forms": [
+      "ﺫ",
+      "—",
+      "—",
+      "ﺬ"
+    ],
+    "example": [
+      "ذِكْر",
+      "Dhikr",
+      "Remembrance"
+    ],
+    "notes": [
+      "One dot above distinguishes ذ from د.",
+      "Dhāl does not connect to a following letter on its left.",
+      "The sound matches the voiced th in this.",
+      "Example: ذِكْر begins with Dhāl."
+    ]
+  },
+  {
+    "n": 10,
+    "name": "RĀʾ",
+    "letter": "ر",
+    "translit": "r",
+    "say_it": "r — a quick tongue tap or light roll, not the English r.",
+    "mouth": "Tap the tongue tip against the ridge just behind the upper front teeth.",
+    "source": "Tongue tip and alveolar ridge.",
+    "voice": "Voiced.",
+    "weight": "Context-dependent in recitation: sometimes light, sometimes heavy.",
+    "avoid": "Do not use the English back-of-the-mouth r.",
+    "forms": [
+      "ﺭ",
+      "—",
+      "—",
+      "ﺮ"
+    ],
+    "example": [
+      "رَحْمَة",
+      "Raḥmah",
+      "Mercy"
+    ],
+    "notes": [
+      "Rāʾ has no dot.",
+      "It does not connect to a following letter on its left.",
+      "In Qurʾanic recitation its heaviness depends on context.",
+      "Example: رَحْمَة begins with Rāʾ."
+    ]
+  },
+  {
+    "n": 11,
+    "name": "ZĀY",
+    "letter": "ز",
+    "translit": "z",
+    "say_it": "z — like the z in zoo.",
+    "mouth": "Bring the tongue close to the front gum ridge and let voiced air pass through.",
+    "source": "Front of tongue near the alveolar ridge.",
+    "voice": "Voiced.",
+    "weight": "Light.",
+    "avoid": "Do not pronounce it as s.",
+    "forms": [
+      "ﺯ",
+      "—",
+      "—",
+      "ﺰ"
+    ],
+    "example": [
+      "زَكَاة",
+      "Zakāh",
+      "Obligatory alms"
+    ],
+    "notes": [
+      "One dot above distinguishes ز from ر.",
+      "Zāy does not connect to a following letter on its left.",
+      "Its basic sound is z.",
+      "Example: زَكَاة begins with Zāy."
+    ]
+  },
+  {
+    "n": 12,
+    "name": "SĪN",
+    "letter": "س",
+    "translit": "s",
+    "say_it": "s — like the s in sun.",
+    "mouth": "Keep the tongue close to the front teeth/gum ridge and let air hiss through.",
+    "source": "Front of tongue near the lower incisors and alveolar area.",
+    "voice": "Voiceless.",
+    "weight": "Light.",
+    "avoid": "Do not voice it as z, and do not make it heavy like ص.",
+    "forms": [
+      "ﺱ",
+      "ﺳ",
+      "ﺴ",
+      "ﺲ"
+    ],
+    "example": [
+      "سَلَام",
+      "Salām",
+      "Peace"
+    ],
+    "notes": [
+      "Sīn has no dots and has three “teeth” in its common shape.",
+      "It connects on both sides.",
+      "Keep the sound light and clear.",
+      "Example: سَلَام begins with Sīn."
+    ]
+  },
+  {
+    "n": 13,
+    "name": "SHĪN",
+    "letter": "ش",
+    "translit": "sh",
+    "say_it": "sh — like the sh in ship.",
+    "mouth": "Raise the middle/front of the tongue toward the palate while air passes through.",
+    "source": "Middle of the tongue toward the hard palate.",
+    "voice": "Voiceless.",
+    "weight": "Light.",
+    "avoid": "Do not pronounce it as s or ch.",
+    "forms": [
+      "ﺵ",
+      "ﺷ",
+      "ﺸ",
+      "ﺶ"
+    ],
+    "example": [
+      "شَمْس",
+      "Shams",
+      "Sun"
+    ],
+    "notes": [
+      "Three dots above distinguish ش from س.",
+      "Shīn connects on both sides.",
+      "Its sound is close to English sh.",
+      "Example: شَمْس begins with Shīn."
+    ]
+  },
+  {
+    "n": 14,
+    "name": "ṢĀD",
+    "letter": "ص",
+    "translit": "ṣ",
+    "say_it": "ṣ — a heavy/emphatic s; no exact English equivalent.",
+    "mouth": "Make an s while raising the back of the tongue, giving the sound a fuller, darker quality.",
+    "source": "Front tongue for s, with the back of the tongue raised.",
+    "voice": "Voiceless.",
+    "weight": "Heavy.",
+    "avoid": "Do not flatten it into plain س s.",
+    "forms": [
+      "ﺹ",
+      "ﺻ",
+      "ﺼ",
+      "ﺺ"
+    ],
+    "example": [
+      "صَبْر",
+      "Ṣabr",
+      "Patience"
+    ],
+    "notes": [
+      "Ṣād has no dot.",
+      "It connects on both sides.",
+      "It is one of the heavy letters in Qurʾanic recitation.",
+      "Example: صَبْر begins with Ṣād."
+    ]
+  },
+  {
+    "n": 15,
+    "name": "ḌĀD",
+    "letter": "ض",
+    "translit": "ḍ",
+    "say_it": "ḍ — a heavy Arabic d sound; no exact English equivalent.",
+    "mouth": "Press one side of the tongue toward the upper molars while keeping the back of the tongue raised.",
+    "source": "Side of the tongue with the upper molars.",
+    "voice": "Voiced.",
+    "weight": "Heavy.",
+    "avoid": "Do not reduce it to plain د d or ظ ẓ.",
+    "forms": [
+      "ﺽ",
+      "ﺿ",
+      "ﻀ",
+      "ﺾ"
+    ],
+    "example": [
+      "ضَوْء",
+      "Ḍawʾ",
+      "Light"
+    ],
+    "notes": [
+      "One dot above distinguishes ض from ص.",
+      "Ḍād connects on both sides.",
+      "Its classical articulation uses the side of the tongue against the upper molars.",
+      "Example: ضَوْء begins with Ḍād."
+    ]
+  },
+  {
+    "n": 16,
+    "name": "ṬĀʾ",
+    "letter": "ط",
+    "translit": "ṭ",
+    "say_it": "ṭ — a heavy/emphatic t; no exact English equivalent.",
+    "mouth": "Make a t with the tongue tip at the upper gum ridge while raising the back of the tongue.",
+    "source": "Tongue tip plus a raised back of tongue.",
+    "voice": "Voiceless.",
+    "weight": "Heavy.",
+    "avoid": "Do not pronounce it as plain ت t.",
+    "forms": [
+      "ﻁ",
+      "ﻃ",
+      "ﻄ",
+      "ﻂ"
+    ],
+    "example": [
+      "طَيِّب",
+      "Ṭayyib",
+      "Good / wholesome"
+    ],
+    "notes": [
+      "Ṭāʾ has no dot.",
+      "It connects on both sides.",
+      "It is one of the heavy letters in Qurʾanic recitation.",
+      "Example: طَيِّب begins with Ṭāʾ."
+    ]
+  },
+  {
+    "n": 17,
+    "name": "ẒĀʾ",
+    "letter": "ظ",
+    "translit": "ẓ",
+    "say_it": "ẓ — a heavy voiced th, made like ذ but with the back of the tongue raised.",
+    "mouth": "Put the tongue tip at the upper front teeth and add emphatic depth by raising the back of the tongue.",
+    "source": "Tongue tip and upper teeth, with raised back of tongue.",
+    "voice": "Voiced.",
+    "weight": "Heavy.",
+    "avoid": "Do not replace it with plain ذ dh, ز z, or ض ḍ.",
+    "forms": [
+      "ﻅ",
+      "ﻇ",
+      "ﻈ",
+      "ﻆ"
+    ],
+    "example": [
+      "ظِلّ",
+      "Ẓill",
+      "Shade"
+    ],
+    "notes": [
+      "One dot above distinguishes ظ from ط.",
+      "Ẓāʾ connects on both sides.",
+      "It is one of the heavy letters in Qurʾanic recitation.",
+      "Example: ظِلّ begins with Ẓāʾ."
+    ]
+  },
+  {
+    "n": 18,
+    "name": "ʿAYN",
+    "letter": "ع",
+    "translit": "ʿ",
+    "say_it": "ʿ — no English equivalent; a voiced constricted sound from the middle throat.",
+    "mouth": "Gently narrow the middle throat and let the voice pass through without closing it completely.",
+    "source": "Middle throat (pharynx).",
+    "voice": "Voiced.",
+    "weight": "Light.",
+    "avoid": "Do not omit it, turn it into a vowel, or replace it with hamza.",
+    "forms": [
+      "ﻉ",
+      "ﻋ",
+      "ﻌ",
+      "ﻊ"
+    ],
+    "example": [
+      "عِلْم",
+      "ʿIlm",
+      "Knowledge"
+    ],
+    "notes": [
+      "ʿAyn has no dot.",
+      "It connects on both sides.",
+      "The symbol ʿ in transliteration represents this throat sound.",
+      "Example: عِلْم begins with ʿAyn."
+    ]
+  },
+  {
+    "n": 19,
+    "name": "GHAYN",
+    "letter": "غ",
+    "translit": "gh",
+    "say_it": "gh — a voiced friction sound high in the throat/back of the mouth; no exact English equivalent.",
+    "mouth": "Raise the back of the tongue near the soft palate/uvula and let voiced air rub through.",
+    "source": "Upper throat/back of the mouth.",
+    "voice": "Voiced.",
+    "weight": "Heavy.",
+    "avoid": "Do not pronounce it as hard English g.",
+    "forms": [
+      "ﻍ",
+      "ﻏ",
+      "ﻐ",
+      "ﻎ"
+    ],
+    "example": [
+      "غُرْفَة",
+      "Ghurfah",
+      "Room"
+    ],
+    "notes": [
+      "One dot above distinguishes غ from ع.",
+      "Ghayn connects on both sides.",
+      "It is one of the heavy letters in Qurʾanic recitation.",
+      "Example: غُرْفَة begins with Ghayn."
+    ]
+  },
+  {
+    "n": 20,
+    "name": "FĀʾ",
+    "letter": "ف",
+    "translit": "f",
+    "say_it": "f — like the f in fine.",
+    "mouth": "Touch the inner lower lip lightly to the upper front teeth and let air pass.",
+    "source": "Lower lip with upper incisors.",
+    "voice": "Voiceless.",
+    "weight": "Light.",
+    "avoid": "Do not voice it as v.",
+    "forms": [
+      "ﻑ",
+      "ﻓ",
+      "ﻔ",
+      "ﻒ"
+    ],
+    "example": [
+      "فَجْر",
+      "Fajr",
+      "Dawn"
+    ],
+    "notes": [
+      "One dot above identifies ف in standard Arabic script.",
+      "Fāʾ connects on both sides.",
+      "Its sound is close to English f.",
+      "Example: فَجْر begins with Fāʾ."
+    ]
+  },
+  {
+    "n": 21,
+    "name": "QĀF",
+    "letter": "ق",
+    "translit": "q",
+    "say_it": "q — a deep stop made farther back than k; no exact English equivalent.",
+    "mouth": "Raise the back of the tongue to the uvular/very back palate area, stop the air, then release.",
+    "source": "Back of the tongue with the uvular/soft-palate area.",
+    "voice": "Voiceless.",
+    "weight": "Heavy.",
+    "avoid": "Do not replace it with ك k or English g.",
+    "forms": [
+      "ﻕ",
+      "ﻗ",
+      "ﻘ",
+      "ﻖ"
+    ],
+    "example": [
+      "قَلْب",
+      "Qalb",
+      "Heart"
+    ],
+    "notes": [
+      "Two dots above distinguish ق from ف.",
+      "Qāf connects on both sides.",
+      "It is one of the heavy letters in Qurʾanic recitation.",
+      "Example: قَلْب begins with Qāf."
+    ]
+  },
+  {
+    "n": 22,
+    "name": "KĀF",
+    "letter": "ك",
+    "translit": "k",
+    "say_it": "k — like the k in skin.",
+    "mouth": "Raise the back of the tongue to the soft palate, briefly stop the air, then release.",
+    "source": "Back of the tongue with the soft palate.",
+    "voice": "Voiceless.",
+    "weight": "Light.",
+    "avoid": "Do not make it as deep or heavy as ق q.",
+    "forms": [
+      "ﻙ",
+      "ﻛ",
+      "ﻜ",
+      "ﻚ"
+    ],
+    "example": [
+      "كِتَاب",
+      "Kitāb",
+      "Book"
+    ],
+    "notes": [
+      "Kāf connects on both sides.",
+      "Its sound is the ordinary Arabic k.",
+      "Compare it with the deeper Qāf ق.",
+      "Example: كِتَاب begins with Kāf."
+    ]
+  },
+  {
+    "n": 23,
+    "name": "LĀM",
+    "letter": "ل",
+    "translit": "l",
+    "say_it": "l — like a clear/light l.",
+    "mouth": "Touch the tongue tip/front edge to the gum ridge behind the upper front teeth.",
+    "source": "Tongue tip/front with the upper alveolar ridge.",
+    "voice": "Voiced.",
+    "weight": "Usually light; the l in the name Allāh can be heavy in specific contexts.",
+    "avoid": "Do not use an overly dark English final-l sound.",
+    "forms": [
+      "ﻝ",
+      "ﻟ",
+      "ﻠ",
+      "ﻞ"
+    ],
+    "example": [
+      "لَيْل",
+      "Layl",
+      "Night"
+    ],
+    "notes": [
+      "Lām connects on both sides.",
+      "It is normally pronounced light.",
+      "In Allāh, its heaviness depends on the preceding vowel in recitation.",
+      "Example: لَيْل begins with Lām."
+    ]
+  },
+  {
+    "n": 24,
+    "name": "MĪM",
+    "letter": "م",
+    "translit": "m",
+    "say_it": "m — like the m in moon.",
+    "mouth": "Close both lips and let the voiced sound resonate through the nose.",
+    "source": "Both lips, with nasal resonance.",
+    "voice": "Voiced.",
+    "weight": "Light.",
+    "avoid": "Do not leave the lips open; full lip closure is part of m.",
+    "forms": [
+      "ﻡ",
+      "ﻣ",
+      "ﻤ",
+      "ﻢ"
+    ],
+    "example": [
+      "مَاء",
+      "Māʾ",
+      "Water"
+    ],
+    "notes": [
+      "Mīm connects on both sides.",
+      "It is a nasal consonant.",
+      "In tajwīd, some contexts lengthen or conceal its nasal resonance.",
+      "Example: مَاء begins with Mīm."
+    ]
+  },
+  {
+    "n": 25,
+    "name": "NŪN",
+    "letter": "ن",
+    "translit": "n",
+    "say_it": "n — like the n in noon.",
+    "mouth": "Touch the tongue tip near the upper gum ridge while voice resonates through the nose.",
+    "source": "Tongue tip with alveolar ridge, plus nasal resonance.",
+    "voice": "Voiced.",
+    "weight": "Light.",
+    "avoid": "Do not turn it into English ng.",
+    "forms": [
+      "ﻥ",
+      "ﻧ",
+      "ﻨ",
+      "ﻦ"
+    ],
+    "example": [
+      "نُور",
+      "Nūr",
+      "Light"
+    ],
+    "notes": [
+      "One dot above identifies ن.",
+      "Nūn connects on both sides.",
+      "It carries nasal resonance (ghunnah), especially noticeable in tajwīd rules.",
+      "Example: نُور begins with Nūn."
+    ]
+  },
+  {
+    "n": 26,
+    "name": "HĀʾ",
+    "letter": "ه",
+    "translit": "h",
+    "say_it": "h — like a clear h in hat.",
+    "mouth": "Keep the throat open and let breath pass gently without the stronger constriction of ح.",
+    "source": "Deep throat/open glottal area.",
+    "voice": "Voiceless.",
+    "weight": "Light.",
+    "avoid": "Do not make it as deep as ح ḥ or rough like خ kh.",
+    "forms": [
+      "ﻩ",
+      "ﻫ",
+      "ﻬ",
+      "ﻪ"
+    ],
+    "example": [
+      "هُدَى",
+      "Hudā",
+      "Guidance"
+    ],
+    "notes": [
+      "Hāʾ connects on both sides.",
+      "Its h is lighter than ح.",
+      "Its connected forms can look quite different from the isolated form.",
+      "Example: هُدَى begins with Hāʾ."
+    ]
+  },
+  {
+    "n": 27,
+    "name": "WĀW",
+    "letter": "و",
+    "translit": "w / ū",
+    "say_it": "w — like w in water; it can also carry the long vowel ū.",
+    "mouth": "Round the lips for w. For long ū, hold the rounded vowel smoothly.",
+    "source": "Both lips.",
+    "voice": "Voiced.",
+    "weight": "Light.",
+    "avoid": "Do not pronounce consonantal و as v.",
+    "forms": [
+      "ﻭ",
+      "—",
+      "—",
+      "ﻮ"
+    ],
+    "example": [
+      "وَرْد",
+      "Ward",
+      "Rose"
+    ],
+    "notes": [
+      "Wāw does not connect to a following letter on its left.",
+      "As a consonant it sounds w.",
+      "After ḍammah, a vowelless و can represent long ū.",
+      "Example: وَرْد begins with consonantal Wāw."
+    ]
+  },
+  {
+    "n": 28,
+    "name": "YĀʾ",
+    "letter": "ي",
+    "translit": "y / ī",
+    "say_it": "y — like y in yes; it can also carry the long vowel ī.",
+    "mouth": "Raise the middle of the tongue toward the hard palate without fully blocking the air.",
+    "source": "Middle of tongue toward the hard palate.",
+    "voice": "Voiced.",
+    "weight": "Light.",
+    "avoid": "Do not pronounce consonantal ي as the English long-i sound in my.",
+    "forms": [
+      "ﻱ",
+      "ﻳ",
+      "ﻴ",
+      "ﻲ"
+    ],
+    "example": [
+      "يَد",
+      "Yad",
+      "Hand"
+    ],
+    "notes": [
+      "Two dots below identify ي in most positions.",
+      "Yāʾ connects on both sides.",
+      "After kasrah, a vowelless ي can represent long ī.",
+      "Example: يَد begins with consonantal Yāʾ."
+    ]
+  }
+]
