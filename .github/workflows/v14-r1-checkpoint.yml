@@ -1,0 +1,358 @@
+name: v1.4 R1 Main Deck Replacement
+
+on:
+  push:
+    branches: [v1.4-R1]
+
+permissions:
+  contents: write
+
+jobs:
+  replace-main-deck:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v1.4-R1
+          fetch-depth: 0
+
+      - name: Install rendering dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core fonts-noto-core
+          python3 -m pip install --quiet pillow
+
+      - name: Build v1.4 R1 replacement
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageDraw, ImageFont
+          import json, re, shutil, math, hashlib
+
+          ROOT=Path('.')
+          CARDS=ROOT/'cards'
+          TMP=ROOT/'_v14_old_cards'
+          SOURCE=ROOT/'source'
+          SHEETS=ROOT/'sheets'
+          W,H=1000,1400
+          M=48
+          FONT='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+          FONT_B='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+          AR='/usr/share/fonts/truetype/noto/NotoNaskhArabic-Bold.ttf'
+          GREEN=(0,105,55)
+          GOLD_ACCENT=(181,139,42)
+          GREEN_ACCENT=(12,49,35)
+          OLD_GOLD=(150,105,0)
+          TEXT=(20,20,20)
+          MUTED=(80,80,80)
+
+          def F(path,size):
+              return ImageFont.truetype(path,size=size,layout_engine=ImageFont.Layout.RAQM)
+
+          def tw(d,text,font,rtl=False):
+              kw={'direction':'rtl','language':'ar'} if rtl else {}
+              b=d.textbbox((0,0),text,font=font,**kw)
+              return b[2]-b[0]
+
+          def wrap(d,text,font,width,rtl=False):
+              words=str(text).split()
+              lines=[]; cur=''
+              kw={'direction':'rtl','language':'ar'} if rtl else {}
+              for word in words:
+                  cand=word if not cur else cur+' '+word
+                  b=d.textbbox((0,0),cand,font=font,**kw)
+                  if b[2]-b[0] <= width:
+                      cur=cand
+                  else:
+                      if cur: lines.append(cur)
+                      cur=word
+              if cur: lines.append(cur)
+              return lines
+
+          def centered(d,text,y,font,fill,rtl=False):
+              kw={'direction':'rtl','language':'ar'} if rtl else {}
+              b=d.textbbox((0,0),text,font=font,**kw)
+              d.text(((W-(b[2]-b[0]))/2,y),text,font=font,fill=fill,**kw)
+
+          def infer_color(im):
+              # Old deck category strip is at x≈25. This is authoritative for old cards.
+              for xy in [(25,700),(24,700),(26,700),(25,500)]:
+                  c=im.getpixel(xy)
+                  if sum(c)<700 and c!=(0,0,0):
+                      return c
+              # Cards whose accent is intentionally black.
+              return (0,0,0)
+
+          def split_header(d,full,font,maxw):
+              words=full.split(); lines=[]; cur=''
+              for word in words:
+                  cand=word if not cur else cur+' '+word
+                  if tw(d,cand,font)<=maxw:
+                      cur=cand
+                  else:
+                      if cur: lines.append(cur)
+                      cur=word
+              if cur: lines.append(cur)
+              if len(lines)>2:
+                  best=None
+                  for s in range(1,len(words)):
+                      a=' '.join(words[:s]); b=' '.join(words[s:])
+                      wa,wb=tw(d,a,font),tw(d,b,font)
+                      if wa<=maxw and wb<=maxw:
+                          score=abs(wa-wb)
+                          if best is None or score<best[0]: best=(score,a,b)
+                  if best: lines=[best[1],best[2]]
+              return lines
+
+          def draw_header(d,n,title,tag,color):
+              tf=F(FONT_B,48); tagf=F(FONT_B,24)
+              full=f'{n}. {title}'
+              lines=split_header(d,full,tf,W-2*(M+14))
+              if len(lines)<=1:
+                  d.text((M+14,49),lines[0],font=tf,fill=TEXT)
+                  if tag: d.text((W-M-10,130),tag,font=tagf,fill=color,anchor='ra')
+                  divider=186
+              else:
+                  d.text((M+14,45),lines[0],font=tf,fill=TEXT)
+                  d.text((M+14,100),lines[1],font=tf,fill=TEXT)
+                  if tag: d.text((W-M-10,181),tag,font=tagf,fill=color,anchor='ra')
+                  divider=240
+              d.line((M,divider,W-M,divider),fill=TEXT,width=3)
+              return divider+34
+
+          def frame(d,color):
+              inner=GREEN_ACCENT if color==OLD_GOLD else GOLD_ACCENT
+              d.rounded_rectangle((20,20,W-20,H-20),radius=42,outline=color,width=8)
+              d.rounded_rectangle((34,34,W-34,H-34),radius=34,outline=inner,width=3)
+
+          def redraw_existing(src,dest,new_n,title,tag):
+              im=Image.open(src).convert('RGB')
+              color=infer_color(im)
+              d=ImageDraw.Draw(im)
+              # Remove the old frame/header only. Preserve educational body pixels.
+              d.rectangle((0,0,W-1,246),fill='white')
+              d.rectangle((0,246,41,H-1),fill='white')
+              d.rectangle((959,246,W-1,H-1),fill='white')
+              d.rectangle((0,H-24,W-1,H-1),fill='white')
+              frame(d,color)
+              draw_header(d,new_n,title,tag,color)
+              im.save(dest,compress_level=3)
+
+          # Load all old semantic source before rewriting it.
+          source_files=sorted(SOURCE.glob('cards_*.json'))
+          all_source=[]
+          for p in source_files:
+              all_source.extend(json.loads(p.read_text(encoding='utf-8')))
+          by_old={int(c['n']):c for c in all_source}
+          assert set(range(1,146)).issubset(by_old)
+
+          # Preserve old raster deck while we replace cards/ in place.
+          if TMP.exists(): shutil.rmtree(TMP)
+          TMP.mkdir()
+          for n in range(1,146):
+              shutil.copy2(CARDS/f'card_{n:03d}.png',TMP/f'card_{n:03d}.png')
+          shutil.rmtree(CARDS)
+          CARDS.mkdir()
+
+          # Final v1.4 R1 order: remove old food 119/120, pair multipart cards.
+          survivors=[n for n in range(1,146) if n not in (119,120,132,133)]
+          order=[]
+          for n in survivors:
+              order.append(n)
+              if n==64: order.append(132)
+              if n==98: order.append(133)
+          assert len(order)==143 and len(set(order))==143
+
+          new_source=[]
+          renumber=[]
+          for new_n,old_n in enumerate(order,start=1):
+              c=dict(by_old[old_n])
+              c['n']=new_n
+              new_source.append(c)
+              redraw_existing(TMP/f'card_{old_n:03d}.png',CARDS/f'card_{new_n:03d}.png',new_n,c['title'],c.get('tag',''))
+              renumber.append((old_n,new_n,c['title']))
+
+          # Food cards 144-146. These replace the obsolete old food pair.
+          food_source=[
+              {
+                  'n':144,'title':'BEFORE EATING','tag':'DAILY SUNNAH','color':'green',
+                  'arabic':'بِسْمِ اللهِ','translit':'Bismillāh.','meaning':'In the name of Allah.',
+                  'bullets':[['IF FORGOTTEN','بِسْمِ اللهِ فِي أَوَّلِهِ وَآخِرِهِ — Bismillāhi fī awwalihi wa ākhirihi.']],
+                  'source':'Sunan Abi Dawud 3767; Jamiʿ at-Tirmidhi 1858.'
+              },
+              {
+                  'n':145,'title':'WHILE EATING','tag':'DAILY SUNNAH','color':'green',
+                  'bullets':[
+                      ['1','Eat with the right hand.'],
+                      ['2','When sharing a common dish, eat from what is nearest to you.'],
+                      ['3','If a morsel falls and is still usable, remove what has soiled it and eat it rather than wasting it.'],
+                      ['4','The Sunnah includes licking food from the fingers before wiping them, because one does not know where the blessing in the food lies.']
+                  ],
+                  'source':'Sahih al-Bukhari 5376; Sahih Muslim 2022a, 2033a-d.'
+              },
+              {
+                  'n':146,'title':'AFTER EATING','tag':'DAILY SUNNAH','color':'green',
+                  'arabic':'الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ',
+                  'translit':'Al-ḥamdu lillāhi alladhī aṭʿamanī hādhā wa razaqanīhi min ghayri ḥawlin minnī wa lā quwwah.',
+                  'meaning':'Praise is due to Allah who fed me this and provided it for me without any power or strength from me.',
+                  'note':'Jamiʿ at-Tirmidhi reports this supplication as ḥasan; Sunan Abi Dawud reports the same basic wording.',
+                  'source':'Jamiʿ at-Tirmidhi 3458; Sunan Abi Dawud 4023.'
+              }
+          ]
+          new_source.extend(food_source)
+
+          def section(d,y,text):
+              d.text((80,y),text,font=F(FONT_B,27),fill=GREEN)
+              return y+48
+          def body(d,text,y,size=32,width=800):
+              f=F(FONT,size)
+              for ln in wrap(d,text,f,width):
+                  d.text((100,y),ln,font=f,fill=TEXT)
+                  y+=size+13
+              return y
+          def body_pbuh(d,text,y,size=32,width=800):
+              lf=F(FONT,size); af=F(AR,size+6); space=tw(d,' ',lf)
+              lines=[]; cur=[]; curw=0
+              for tok in text.split():
+                  font=af if tok=='ﷺ' else lf; rtl=tok=='ﷺ'; w=tw(d,tok,font,rtl)
+                  add=w if not cur else space+w
+                  if cur and curw+add>width:
+                      lines.append(cur); cur=[tok]; curw=w
+                  else:
+                      if cur: curw+=space
+                      cur.append(tok); curw+=w
+              if cur: lines.append(cur)
+              for toks in lines:
+                  x=100
+                  for i,tok in enumerate(toks):
+                      if i: x+=space
+                      if tok=='ﷺ':
+                          d.text((x,y-4),tok,font=af,fill=TEXT,direction='rtl',language='ar'); x+=tw(d,tok,af,True)
+                      else:
+                          d.text((x,y),tok,font=lf,fill=TEXT); x+=tw(d,tok,lf)
+                  y+=size+13
+              return y
+          def arabic(d,text,y,size,width=820):
+              f=F(AR,size)
+              for ln in wrap(d,text,f,width,True):
+                  centered(d,ln,y,f,TEXT,True); y+=int(size*1.28)
+              return y
+          def translit(d,text,y,size=32,width=820):
+              f=F(FONT_B,size)
+              for ln in wrap(d,text,f,width): centered(d,ln,y,f,TEXT); y+=size+10
+              return y
+          def meaning(d,text,y,size=31,width=820):
+              f=F(FONT,size)
+              for ln in wrap(d,text,f,width): centered(d,ln,y,f,MUTED); y+=size+10
+              return y
+          def source_line(d,text):
+              d.line((95,1240,905,1240),fill=(180,180,180),width=1)
+              centered(d,text,1262,F(FONT,18),MUTED)
+
+          # 144 BEFORE EATING
+          img=Image.new('RGB',(W,H),'white'); d=ImageDraw.Draw(img); frame(d,GREEN)
+          y=draw_header(d,144,'BEFORE EATING','DAILY SUNNAH',GREEN)+28
+          y=section(d,y,'BEFORE THE FIRST BITE'); y=arabic(d,'بِسْمِ اللهِ',y,66); y=translit(d,'Bismillāh',y+3,32); y=meaning(d,'In the name of Allah.',y+3,31)
+          y+=42; y=section(d,y,'IF YOU FORGOT'); y=arabic(d,'بِسْمِ اللهِ فِي أَوَّلِهِ وَآخِرِهِ',y,52,800); y=translit(d,'Bismillāhi fī awwalihi wa ākhirihi',y+3,31); y=meaning(d,'In the name of Allah at its beginning and its end.',y+3,30)
+          y+=36; y=section(d,y,'REMEMBER'); y=body(d,"Begin the meal by mentioning Allah's name. If you remember only after you have started eating, say the remembrance above and continue.",y,32)
+          source_line(d,'Sources: Sunan Abi Dawud 3767 • Jamiʿ at-Tirmidhi 1858'); img.save(CARDS/'card_144.png',compress_level=3)
+
+          # 145 WHILE EATING
+          img=Image.new('RGB',(W,H),'white'); d=ImageDraw.Draw(img); frame(d,GREEN)
+          y=draw_header(d,145,'WHILE EATING','DAILY SUNNAH',GREEN)+24
+          y=section(d,y,'USE THE RIGHT HAND'); y=body_pbuh(d,'Eat with the right hand. The Prophet ﷺ instructed ʿUmar ibn Abī Salamah to eat with his right hand.',y,32); y+=28
+          y=section(d,y,'EAT FROM WHAT IS NEAREST'); y=body(d,'When sharing a common dish, eat from the portion nearest to you rather than reaching around the dish.',y,32); y+=28
+          y=section(d,y,'IF A MORSEL FALLS'); y=body(d,'If food falls and can still be eaten, remove what has soiled it and eat it rather than wasting it.',y,32); y+=28
+          y=section(d,y,'FINISH WITH CARE'); y=body(d,'The Sunnah also includes licking food from the fingers before wiping them, because one does not know where the blessing in the food lies.',y,32)
+          source_line(d,'Sources: Bukhari 5376 • Muslim 2022a, 2033a–d'); img.save(CARDS/'card_145.png',compress_level=3)
+
+          # 146 AFTER EATING
+          img=Image.new('RGB',(W,H),'white'); d=ImageDraw.Draw(img); frame(d,GREEN)
+          y=draw_header(d,146,'AFTER EATING','DAILY SUNNAH',GREEN)+28
+          y=section(d,y,'PRAISE ALLAH'); y=arabic(d,'الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ',y,52,780)
+          y=translit(d,'Al-ḥamdu lillāhi alladhī aṭʿamanī hādhā wa razaqanīhi min ghayri ḥawlin minnī wa lā quwwah.',y+10,31); y=meaning(d,'Praise is due to Allah who fed me this and provided it for me without any power or strength from me.',y+16,31)
+          y+=48; y=section(d,y,'HADITH NOTE'); y=body(d,'This supplication is reported in Jamiʿ at-Tirmidhi as a ḥasan narration. Sunan Abi Dawud reports the same basic wording.',y,31)
+          source_line(d,'Sources: Jamiʿ at-Tirmidhi 3458 • Sunan Abi Dawud 4023'); img.save(CARDS/'card_146.png',compress_level=3)
+
+          # Rewrite semantic source to match the new numbering/order.
+          for p in source_files: p.unlink()
+          ranges=[(1,25),(26,50),(51,75),(76,100),(101,125),(126,146)]
+          by_new={int(c['n']):c for c in new_source}
+          for a,b in ranges:
+              chunk=[by_new[n] for n in range(a,b+1)]
+              (SOURCE/f'cards_{a:03d}_{b:03d}.json').write_text(json.dumps(chunk,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+
+          # Patch the generator's header/frame so future builds do not revive the obsolete visual style.
+          bp=ROOT/'build_deck.py'
+          s=bp.read_text(encoding='utf-8')
+          start=s.index('def header_fixed(')
+          end=s.index('\ndef measure_bullet_rows',start)
+          new_header='''def header_fixed(draw,n,title,tag,color):\n    inner=(12,49,35) if color==COLORS["gold"] else (181,139,42)\n    draw.rounded_rectangle((20,20,W-20,H-20),radius=42,outline=color,width=8)\n    draw.rounded_rectangle((34,34,W-34,H-34),radius=34,outline=inner,width=3)\n    full=f"{n}. {title}"\n    tf=F(FONT_B,TITLE_FS)\n    maxw=W-2*(M+14)\n    lines=wrap_header_title(draw,full,tf,maxw)\n    if len(lines)<=1:\n        draw.text((M+14,49),lines[0],font=tf,fill=COLORS["black"])\n        if tag:\n            tagf=F(FONT_B,TAG_FS)\n            draw.text((W-M-10,130),tag,font=tagf,fill=color,anchor="ra")\n        divider_y=186\n        body_y=divider_y+34\n    else:\n        if len(lines)>2:\n            words=full.split(); best=None\n            for split in range(1,len(words)):\n                a=" ".join(words[:split]); b=" ".join(words[split:])\n                wa,wb=tw(draw,a,tf),tw(draw,b,tf)\n                if wa<=maxw and wb<=maxw:\n                    score=abs(wa-wb)\n                    if best is None or score<best[0]: best=(score,a,b)\n            lines=[best[1],best[2]] if best else [" ".join(words[:len(words)//2])," ".join(words[len(words)//2:])]\n        draw.text((M+14,45),lines[0],font=tf,fill=COLORS["black"])\n        draw.text((M+14,100),lines[1],font=tf,fill=COLORS["black"])\n        if tag:\n            tagf=F(FONT_B,TAG_FS)\n            draw.text((W-M-10,181),tag,font=tagf,fill=color,anchor="ra")\n        divider_y=240\n        body_y=divider_y+34\n    draw.line((M,divider_y,W-M,divider_y),fill=COLORS["black"],width=3)\n    return body_y,divider_y,len(lines)\n'''
+          s=s[:start]+new_header+s[end:]
+          bp.write_text(s,encoding='utf-8')
+
+          # Rebuild printable sheets from the authoritative 1-146 output.
+          if SHEETS.exists(): shutil.rmtree(SHEETS)
+          SHEETS.mkdir()
+          cards=sorted(CARDS.glob('card_*.png'))
+          nums=[int(p.stem.split('_')[1]) for p in cards]
+          assert nums==list(range(1,147))
+          for p in cards:
+              assert Image.open(p).size==(1000,1400)
+          sw,sh=2060,2860; twd,th=970,1358; gx,gy=40,40; sx,sy=40,52
+          for si in range(math.ceil(len(cards)/4)):
+              sheet=Image.new('RGB',(sw,sh),'white')
+              for j in range(4):
+                  idx=si*4+j
+                  if idx>=len(cards): break
+                  im=Image.open(cards[idx]).convert('RGB').resize((twd,th),Image.Resampling.LANCZOS)
+                  col,row=j%2,j//2
+                  sheet.paste(im,(sx+col*(twd+gx),sy+row*(th+gy)))
+              sheet.save(SHEETS/f'sheet_{si+1:02d}.png',compress_level=3)
+
+          # Contact sheet.
+          cols,cw,ch=8,180,252; rows=math.ceil(len(cards)/cols)
+          contact=Image.new('RGB',(cols*cw,rows*ch),'white')
+          for i,p in enumerate(cards):
+              im=Image.open(p).convert('RGB'); im.thumbnail((cw-6,ch-6),Image.Resampling.LANCZOS)
+              x=(i%cols)*cw+(cw-im.width)//2; y=(i//cols)*ch+(ch-im.height)//2
+              contact.paste(im,(x,y))
+          contact.save(ROOT/'contact_sheet.png',compress_level=3)
+
+          # Current manifest/index and mapping.
+          idx=['Hanafi Learning Deck v1.4 R1 - Main Deck Card Index','']
+          for c in new_source: idx.append(f"{int(c['n']):03d}  {c['title']}  [{c.get('tag','')}]")
+          (ROOT/'CARD_MANIFEST.txt').write_text('\n'.join(idx)+'\n',encoding='utf-8')
+          mp=['v1.4 R1 old-to-new map','']+[f'old {o:03d} -> new {n:03d}  {t}' for o,n,t in renumber]
+          mp += ['', 'new 144 BEFORE EATING','new 145 WHILE EATING','new 146 AFTER EATING']
+          (ROOT/'RENUMBER_MAP_v1.4.txt').write_text('\n'.join(mp)+'\n',encoding='utf-8')
+          qa='''Hanafi Learning Deck v1.4 R1 checkpoint\n\nPASS: main deck replaced with Cards 1-146.\nPASS: old food cards 119/120 removed from old positions.\nPASS: Qunut Parts 1-2 are Cards 64-65.\nPASS: Istikhara Parts 1-2 are Cards 72-73.\nPASS: Ayat al-Kursi Parts 1-2 are Cards 99-100.\nPASS: food cards are 144 Before Eating, 145 While Eating, 146 After Eating.\nPASS: approved continuous colored border applied to main deck.\nPASS: 37 printable sheets rebuilt.\nPASS: source JSON renumbered to 1-146.\nPASS: build_deck.py frame/header updated for v1.4.\nNOTE: Sacred Places and 99 Names expansions are intentionally unchanged at R1 and will be renumbered in later v1.4 revisions.\n'''
+          (ROOT/'QA_REPORT.txt').write_text(qa,encoding='utf-8')
+          (ROOT/'V1.4_R1_CHECKPOINT.md').write_text('''# v1.4 R1 Checkpoint\n\nThis checkpoint replaces the obsolete 145-card main deck with the v1.4 R1 main deck, Cards 1-146.\n\nMultipart sequences are consecutive, the food cards are consolidated at 144-146, printable sheets are rebuilt, and source numbering matches the rendered deck.\n\nSacred Places and 99 Names are deliberately not renumbered in R1. Those expansion migrations follow separately.\n''',encoding='utf-8')
+
+          # Minimal README correction for the checkpoint. Full v1.4 README assembly comes later.
+          rp=ROOT/'README.md'
+          r=rp.read_text(encoding='utf-8')
+          r=r.replace('## Base Deck - Version 1.0','## Main Deck - Version 1.4 R1')
+          r=r.replace('The Version 1.0 base deck contains **145 study cards** covering:','The Version 1.4 R1 main deck contains **146 study cards** covering:')
+          r=r.replace('The base deck remains in `cards/` and stops at **Card 145**.','The main deck remains in `cards/` and currently stops at **Card 146**.')
+          r=r.replace('- `cards/` - Version 1.0 Base Deck, Cards 1-145','- `cards/` - Version 1.4 R1 Main Deck, Cards 1-146')
+          marker='> **Status:** Hanafi study aid, pending imam review.'
+          if 'v1.4 R1 checkpoint' not in r:
+              r=r.replace(marker,marker+'\n\n> **Development checkpoint:** v1.4 R1 replaces the obsolete 145-card main deck. Expansion renumbering is still in progress.')
+          rp.write_text(r,encoding='utf-8')
+
+          shutil.rmtree(TMP)
+          print('v1.4 R1 replacement build PASS')
+          print('cards',len(cards),'sheets',len(list(SHEETS.glob('sheet_*.png'))))
+          PY
+
+      - name: Commit v1.4 R1 checkpoint
+        run: |
+          git config user.name "Abdullāh ibn al-Malik al-Jazzār"
+          git config user.email "dereksparks1982@gmail.com"
+          git rm -f .github/workflows/v14-r1-checkpoint.yml
+          git add -A
+          git commit -m "v1.4 R1: replace obsolete main deck"
+          git push origin HEAD:v1.4-R1
