@@ -1,0 +1,206 @@
+name: Publish v1.4 R3 99 Names
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/publish-v14-r3-99-names.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install rendering dependency
+        run: |
+          python3 -m pip install --quiet 'Pillow==12.3.0'
+
+      - name: Build accepted v1.4 R3 expansion
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/r3src /tmp/r3out
+          mkdir -p /tmp/r3src /tmp/r3out
+          git archive c10f78c2ee479a912162e46ee49fa3564c25e4b9 99-Names-of-Allah-Expansion | tar -x -C /tmp/r3src
+          python3 <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageDraw, ImageFont
+          import hashlib, re, shutil
+
+          SRC = Path('/tmp/r3src/99-Names-of-Allah-Expansion')
+          OUT = Path('/tmp/r3out/99-Names-of-Allah-Expansion')
+          SHEETS = OUT / 'sheets'
+          OUT.mkdir(parents=True)
+          SHEETS.mkdir()
+
+          BG=(248,246,236)
+          DARK_GREEN=(12,49,35)
+          GOLD=(214,177,89)
+          BODY_TEXT=(24,27,24)
+          FONT_B='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+          FONT='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+          title_font=ImageFont.truetype(FONT_B,36)
+          subtitle_font=ImageFont.truetype(FONT_B,24)
+          body_font=ImageFont.truetype(FONT,23)
+
+          source_hashes={
+          'card_165_99_names_expansion_guide.png':'03352dedd488b3f46f3ea016be1795006337ffd36ab500b69d84d8412197c7fc',
+          'card_166_names_01_09.png':'161767f02dcfcc1611c3c7d375b804ac704ec6992026ca4ccbd319f2b82087a9',
+          'card_167_names_10_18.png':'c6c7ce475bc22f6f7ea151de05b18eeb1f57ce3ce307c6468af458119cd85041',
+          'card_168_names_19_27.png':'e23b6c054a8d98e6ffc14406be606bdbe2f27b58c51537574bf4a247465b35e4',
+          'card_169_names_28_36.png':'58c7df79ac27eff210cc1bd7ed16204ceb59eacee5c3e76309e98b0d9a51c9e7',
+          'card_170_names_37_45.png':'974bea63bc3d373a74902e9c35e57e1a663a244d2cf189f974696bd21c4e4a09',
+          'card_171_names_46_54.png':'481f926fc62c2023c61449d3783407673c4edbc5f010b4c1658ee3476496bdcd',
+          'card_172_names_55_63.png':'3878beb92473788a95d2b4b0c70c626a333460b20ccf3cc7d66c13fb1a34c2a4',
+          'card_173_names_64_72.png':'ba28a311cb337be04546d296f715423e2304dd3e3ca3a4704e2cfd6b91bf26e9',
+          'card_174_names_73_81.png':'d8ff5464877f0ceac40c2700a77e11cea68beefed2af844fb637c2c903477239',
+          'card_175_names_82_90.png':'29b0e18bd42929c595edcb2017d805af3f81421544d089d10d6221f905c7efce',
+          'card_176_names_91_99.png':'3b16744e74b4365ed33c1d569cac8d7efbc8b66a2a709a68df6c2dfd19ee5a53'}
+          expected_pixels={
+          'card_001_99_names_expansion_guide.png':'30edd4dc4d663225fb8b8fb7b7e4670dfb110e08fa7e92e2e9cd087f79e1742d',
+          'card_002_names_01_09.png':'ae1b09206d5a4c0656d27db5b399b62505379936c4523d4c74bf984c97268121',
+          'card_003_names_10_18.png':'ea4ccfcc4692058675867ca2f7450aceedbdcd740bc31c049ae4a3d83c2672e1',
+          'card_004_names_19_27.png':'a1d973ab0bde1e87cf6414b88ffa58e8a912029f6c2c3b9d08d3f4c24e989cb8',
+          'card_005_names_28_36.png':'73dcc326c8a5b25280e7bd4efadaff4006f00b02d57e5704930e1489c98f0261',
+          'card_006_names_37_45.png':'16c85975ccaf180c83005b7ba83fc0836db1f4ac0927b83abe8cd660f8340dc5',
+          'card_007_names_46_54.png':'43dd9cb6b0d84d6398e7b02cf9cfadb6a8b7f7a9014cfe5f62b709428965291f',
+          'card_008_names_55_63.png':'76029368f590edfa7f67003f358a3e29d644a881767fd93e63cdf740abe768a0',
+          'card_009_names_64_72.png':'aec93eca65221f1ea1b182fd52b255428d6e72dc8fcd67d62ec45ac9f63ccb14',
+          'card_010_names_73_81.png':'13b652c0a60b4d94dd2ad805492b96d0c7735bfff3bc48ca4a3a727b4901191b',
+          'card_011_names_82_90.png':'d594b5498eb8628dd8716b38bc4bd8dcf7f5b6c66aed4e8294c83354e055b758',
+          'card_012_names_91_99.png':'1b6e0b6718810ab6e602bf78eb61be9dfc858af8b87bc97d1c0f7cf1e8d61ee3'}
+
+          def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+          for name,h in source_hashes.items():
+              p=SRC/name
+              assert p.exists() and sha(p)==h, f'source verification failed: {name}'
+
+          subtitles={1:'AL-ASMĀ’ AL-ḤUSNĀ • EXPANSION GUIDE',2:'NAMES 1–9',3:'NAMES 10–18',4:'NAMES 19–27',5:'NAMES 28–36',6:'NAMES 37–45',7:'NAMES 46–54',8:'NAMES 55–63',9:'NAMES 64–72',10:'NAMES 73–81',11:'NAMES 82–90',12:'NAMES 91–99'}
+
+          cards=[]
+          for old in range(165,177):
+              num=old-164
+              src=next(SRC.glob(f'card_{old}_*.png'))
+              im=Image.open(src).convert('RGB')
+              assert im.size==(1000,1400)
+              d=ImageDraw.Draw(im)
+              d.rectangle((45,45,955,193 if num==1 else 175), fill=BG)
+              title=f'{num}. THE 99 NAMES OF ALLAH'
+              tw=d.textbbox((0,0),title,font=title_font)[2]
+              d.text(((1000-tw)//2,66),title,font=title_font,fill=DARK_GREEN)
+              sub=subtitles[num]
+              sw=d.textbbox((0,0),sub,font=subtitle_font)[2]
+              d.text(((1000-sw)//2,132 if num==1 else 118),sub,font=subtitle_font,fill=GOLD)
+              if num==1:
+                  d.rectangle((90,620,930,665), fill=BG)
+                  d.text((98,626),'Cards 2–12 follow the enumeration reported in Jamiʿ at-Tirmidhi',font=body_font,fill=BODY_TEXT)
+              d.line((82,178,918,178),fill=DARK_GREEN,width=3)
+              slug=src.name.split('_',2)[2]
+              dst=OUT/f'card_{num:03d}_{slug}'
+              im.save(dst,dpi=(400,400),compress_level=3)
+              raw=hashlib.sha256(Image.open(dst).convert('RGB').tobytes()).hexdigest()
+              assert raw==expected_pixels[dst.name], f'pixel verification failed: {dst.name}'
+              cards.append(dst)
+
+          for si in range(3):
+              sheet=Image.new('RGB',(2060,2860),'white')
+              for j in range(4):
+                  c=Image.open(cards[si*4+j]).convert('RGB').resize((970,1358),Image.Resampling.LANCZOS)
+                  col,row=j%2,j//2
+                  sheet.paste(c,(40+col*1010,52+row*1398))
+              sheet.save(SHEETS/f'sheet_{si+1:02d}.png',compress_level=3)
+
+          contact=Image.new('RGB',(1000,1050),'white')
+          for i,p in enumerate(cards):
+              c=Image.open(p).convert('RGB')
+              c.thumbnail((238,338),Image.Resampling.LANCZOS)
+              col,row=i%4,i//4
+              contact.paste(c,(col*250+(250-c.width)//2,row*350+(350-c.height)//2))
+          contact.save(OUT/'contact_sheet.png',compress_level=3)
+
+          (OUT/'SOURCE_NOTES.md').write_text('''# 99 Names of Allah Expansion — Source Notes\n\n## Scope\nCards 1–12 only. This expansion is separate from the Main Deck and all other expansions.\n\n## Source rule used for this expansion\n- Qur\'an 7:180: Allah has the Most Beautiful Names and believers are instructed to call upon Him by them.\n- Sahih al-Bukhari 2736 and Sahih Muslim 2677: authentic hadith establishing ninety-nine Names and the virtue of enumerating them.\n- Jami\' at-Tirmidhi 3507: used for the traditional 99-name sequence in Cards 2–12.\n\n## Important hadith note\nThe basic hadith concerning ninety-nine Names is authentic. The explicit enumeration attached in Jami\' at-Tirmidhi 3507 is not at the same level of authenticity; it is graded weak in the Darussalam grading displayed by Sunnah.com, and al-Tirmidhi himself comments on the chain and other versions.\n\nFor that reason:\n- this expansion labels the list as the traditional enumeration;\n- it does not claim this is the only valid list;\n- it does not claim Allah\'s Names are limited to ninety-nine.\n\n## Translation note\nEnglish meanings are deliberately short study glosses. Divine Names can carry richer meanings than a one-line English translation can express.\n\n## Numbering\n1 — Expansion Guide\n2–12 — eleven cards, nine Names each, total 99 Names\n''',encoding='utf-8')
+
+          (OUT/'RENUMBER_MAP.txt').write_text('\n'.join(f'old {old:03d} -> new {old-164:03d}  {next(SRC.glob(f"card_{old}_*.png")).name} -> {cards[old-165].name}' for old in range(165,177))+'\n',encoding='utf-8')
+
+          manifest=['99 Names of Allah Expansion — v1.4 R3','Cards 1-12','1000 x 1400 px, 5:7 playing-card format','Solid green title banners removed to reduce printing ink','Titles use consistent 36 pt size across Cards 1-12','Header separator line restored below the title area','']
+          for p in cards:
+              manifest.append(f'{p.name}  {p.stat().st_size} bytes  SHA-256 {sha(p)}')
+          (OUT/'MANIFEST.txt').write_text('\n'.join(manifest)+'\n',encoding='utf-8')
+
+          (OUT/'QA_REPORT.txt').write_text('''Hanafi Learning Deck — v1.4 R3 99 Names Expansion QA\n\nPASS: sealed approved v1.3 source hashes verified 12/12.\nPASS: exactly 12 cards produced.\nPASS: numbering is continuous Card 1 through Card 12.\nPASS: all cards remain 1000x1400 pixels.\nPASS: accepted R3 card pixels match the approved local candidate 12/12.\nPASS: Arabic, transliteration, English meanings, border, colors, and body layout preserved.\nPASS: guide now references Cards 2–12.\nPASS: solid green title banners removed from Cards 1–12 to reduce ink usage.\nPASS: title text is dark green on the cream card background.\nPASS: gold subtitle text retained.\nPASS: all title text uses the same 36 pt size.\nPASS: header separator line restored on Cards 1–12.\nPASS: 3 printable four-card sheets rebuilt.\nPASS: v1.4 R3 approved for GitHub publication.\n''',encoding='utf-8')
+
+          (OUT/'README.md').write_text('''# 99 Names of Allah Expansion — v1.4 R3\n\nA 12-card expansion for studying the traditional enumeration of the 99 Names of Allah.\n\n- **Card 1:** expansion guide and source note\n- **Cards 2–12:** nine Names per card, for all 99 Names\n- Arabic, transliteration, and concise English study meanings\n- low-ink v1.4 header treatment with consistent titles and separator line\n\nThe authentic core hadith concerning ninety-nine Names is distinguished from the traditional explicit enumeration used for this study set. See `SOURCE_NOTES.md` for the sourcing note.\n''',encoding='utf-8')
+          PY
+
+      - name: Refresh current main and publish R3
+        run: |
+          set -euo pipefail
+          git pull --rebase
+          test ! -e 99-Names-of-Allah-Expansion
+          cp -a /tmp/r3out/99-Names-of-Allah-Expansion ./
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+
+          p=Path('README.md')
+          s=p.read_text(encoding='utf-8')
+          s=re.sub(r'> \*\*Development checkpoint:\*\*.*?\n', '> **Development checkpoint:** **v1.4 R3**. Current repository: Main Deck Cards 1–146, Sacred Places Cards 1–19, and 99 Names of Allah Cards 1–12.\n', s, count=1)
+          s=s.replace('**Complete current v1.4 R2 ZIP:**','**Complete current v1.4 R3 ZIP:**')
+          sacred='- **Sacred Places, Cards 1–19:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion\n'
+          names='- **99 Names of Allah, Cards 1–12:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/99-Names-of-Allah-Expansion\n'
+          if names not in s:
+              s=s.replace(sacred, sacred+names)
+          old='''## 99 Names of Allah Expansion\n\nA **v1.4 edition numbered independently from Card 1** is being prepared.\n\nIt will be added when the v1.4 rebuild is complete.\n'''
+          new='''## 99 Names of Allah Expansion - Version 1.4 R3\n\nThe 99 Names of Allah Expansion is a separate **12-card expansion numbered 1–12**.\n\n- **Card 1:** expansion guide and source note\n- **Cards 2–12:** all 99 Names arranged nine Names per card\n- Arabic text, transliteration, and concise English study meanings\n- traditional enumeration from Jamiʿ at-Tirmidhi 3507, with the source-strength distinction explained in the expansion notes\n\nThe v1.4 R3 design removes the solid green title banner to reduce printing ink, keeps a consistent 36 pt title size, and restores the header separator line.\n'''
+          assert old in s, 'expected 99 Names placeholder section not found'
+          s=s.replace(old,new)
+          marker='## Release and Development Notes\n\n'
+          r3='''### Version 1.4 R3 - 99 Names of Allah Checkpoint\n\n- published the 99 Names of Allah Expansion as independent Cards 1–12\n- retained all 99 Names, nine Names per study card\n- preserved Arabic, transliteration, concise English meanings, and source notes\n- removed the solid green title banner to reduce printing ink\n- standardized title size and restored the header separator line\n- rebuilt three printable four-card sheets and QA material\n\n'''
+          assert marker in s
+          if '### Version 1.4 R3 - 99 Names of Allah Checkpoint' not in s:
+              s=s.replace(marker,marker+r3,1)
+          s=s.replace('- 99 Names of Allah Expansion - v1.4 rebuild pending','- `99-Names-of-Allah-Expansion/` - v1.4 R3, Cards 1–12')
+          p.write_text(s,encoding='utf-8')
+
+          r=Path('EXPANSION_ROADMAP.md')
+          t=r.read_text(encoding='utf-8')
+          t=t.replace('- 99 Names of Allah Expansion: next renumbering target, independent Cards 1–12.','- 99 Names of Allah Expansion: v1.4 R3 complete, independent Cards 1–12.')
+          r.write_text(t,encoding='utf-8')
+          PY
+
+          git config user.name 'Abdullāh ibn al-Malik al-Jazzār'
+          git config user.email 'dereksparks1982@gmail.com'
+          git add 99-Names-of-Allah-Expansion README.md EXPANSION_ROADMAP.md
+          git commit -m 'v1.4 R3: publish 99 Names expansion'
+          git push
+
+      - name: Verify published R3
+        run: |
+          set -euo pipefail
+          test "$(find 99-Names-of-Allah-Expansion -maxdepth 1 -name 'card_*.png' | wc -l)" -eq 12
+          test "$(find 99-Names-of-Allah-Expansion/sheets -name 'sheet_*.png' | wc -l)" -eq 3
+          grep -q 'v1.4 R3' README.md
+          grep -q '99 Names of Allah, Cards 1–12' README.md
+          grep -q 'v1.4 R3 complete' EXPANSION_ROADMAP.md
+
+      - name: Remove temporary publisher and safety branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git pull --rebase
+          rm -f .github/workflows/publish-v14-r3-99-names.yml
+          git add -A
+          git commit -m 'chore: remove temporary v1.4 R3 publisher'
+          git push
+          curl -fsSL -X DELETE \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'Accept: application/vnd.github+json' \
+            -H 'X-GitHub-Api-Version: 2022-11-28' \
+            https://api.github.com/repos/dereksparks1982/Hanafi-Islam-Learning-Deck/git/refs/heads/r3-publish-safety || true
