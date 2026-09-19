@@ -1,6 +1,6 @@
 # Hanafi Learning Deck
 
-A practical, printable **Hanafi study deck** for learning salah, purification, duʿā, daily worship, travel rulings, illness accommodations, special prayers, spiritual protection, sacred places, and other common situations in Muslim life.
+A practical, printable **Hanafi study deck** for learning salah, purification, duʿā, daily worship, travel rulings, illness accommodations, special prayers, spiritual protection, sacred places, the Names of Allah, and other common situations in Muslim life.
 
 The deck is designed so that a learner can pick up a card, understand what it is teaching, and then go deeper through the notes and sources at the bottom. It is intentionally structured more like a study reference than a bare flash-card set.
 
@@ -81,6 +81,41 @@ SHA-256:
 
 `1623bcaf21527a84173f544de491683f40800e8be56ee7d68c7b7e2a43107807`
 
+## 99 Names of Allah Expansion - Version 1.3
+
+Version 1.3 adds a separate **99 Names of Allah Expansion** containing **12 cards, Cards 165-176**.
+
+It is stored separately in:
+
+`99-Names-of-Allah-Expansion/`
+
+The expansion contains:
+
+- **Card 165:** expansion guide and source note
+- **Cards 166-176:** the traditional enumeration of the 99 Names of Allah, arranged as **nine Names per card**
+- Arabic text
+- transliteration
+- concise English study meanings
+- source notes explaining the distinction between the authentic hadith concerning ninety-nine Names and the traditional enumerated list
+
+The expansion follows the enumeration reported in **Jamiʿ at-Tirmidhi 3507**. The guide card also notes that the basic hadith concerning ninety-nine Names is authentic in **Sahih al-Bukhari 2736** and **Sahih Muslim 2677**, while the explicit enumerated list is transmitted with a weaker chain.
+
+The expansion does **not** claim that Allah's Names are limited to ninety-nine.
+
+### 99 Names Download
+
+The separate Version 1.3 release contains the 99 Names expansion and its checksum:
+
+https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/releases/tag/v1.3.0
+
+Expansion ZIP:
+
+`Hanafi-Learning-Deck-v1.3-99-Names-of-Allah-Expansion.zip`
+
+SHA-256:
+
+`25bcd753edea8b8fcdd956b7aa9a07f0a3eba0645d0b54802f01e18364b46f5a`
+
 ## Expansion Roadmap
 
 Future expansion packs will remain in their own folders and downloadable packages rather than being mixed into the base deck.
@@ -125,10 +160,6 @@ Planned coverage includes:
 
 **Visual rule:** Prophet Muhammad ﷺ will not be depicted. No face, body, silhouette, shadow, outline, or stand-in figure will be used to represent him. Cards will instead use locations, landscapes, maps, architecture, objects, manuscripts, calligraphy, routes, battle maps, timelines, and environmental scenes.
 
-### Other Planned Expansion
-
-A future expansion for the **99 Names of Allah** is also planned. It will remain separate from both the base deck and the Sacred Places Expansion.
-
 ## Design Approach
 
 The deck uses a consistent visual language:
@@ -158,6 +189,16 @@ That lets us revise the deck cleanly instead of allowing conflicting copies to c
 Please do not assume that a card is beyond correction simply because it appears in a published version.
 
 ## Release Notes
+
+### Version 1.3 - 99 Names of Allah Expansion
+
+- Added a separate 12-card 99 Names of Allah Expansion
+- Added Card 165 as the expansion guide and source note
+- Added Cards 166-176 containing all 99 Names, nine Names per card
+- Included Arabic, transliteration, and concise English study meanings
+- Documented the hadith-source distinction for the traditional enumeration
+- Kept the Base Deck and Sacred Places Expansion unchanged
+- Published the expansion as its own downloadable ZIP
 
 ### Version 1.2 - Sacred Places Expansion
 
@@ -189,8 +230,9 @@ This deck is a **learning aid**, not a fatwa service and not a substitute for a 
 
 ## Repository Contents
 
-- `cards/` - Version 1.0 base deck, Cards 1-145
+- `cards/` - Version 1.0 Base Deck, Cards 1-145
 - `Sacred-Places-Expansion/` - Version 1.2 Sacred Places Expansion, Cards 146-164
+- `99-Names-of-Allah-Expansion/` - Version 1.3 99 Names of Allah Expansion, Cards 165-176
 - `sheets/` - printable four-card sheets for the base deck
 - `CARD_MANIFEST.txt` - base-deck card index
 - `AUDIT_AND_SOURCES.md` - sourcing and audit notes
@@ -211,4 +253,4 @@ That format makes corrections much easier to verify and apply accurately.
 
 ---
 
-**Hanafi Learning Deck - Base Version 1.0 + Sacred Places Expansion Version 1.2**
+**Hanafi Learning Deck - Base Version 1.0 + Sacred Places Expansion Version 1.2 + 99 Names of Allah Expansion Version 1.3**
