@@ -35,7 +35,8 @@ If you downloaded or printed an earlier edition, please check this repository pe
 
 ## Downloads
 
-- **Complete current v1.4 R3 ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
+- **Complete current v1.5 ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
+- **Mobile-friendly card view:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/mobile-view
 - **Main Deck, Cards 1–146:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/cards
 - **Sacred Places, Cards 1–19:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion
 - **99 Names of Allah, Cards 1–12:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/99-Names-of-Allah-Expansion
@@ -156,7 +157,7 @@ The expansion includes **28 individual cards**, **7 four-card printable sheets**
 
 ## Expansion Roadmap
 
-Future expansion packs remain in their own folders and downloadable packages rather than being mixed into the main deck.
+Future expansion packs remain in their own folders rather than being mixed into the main deck.
 
 ### The Hanafi School: Origins, Method & Legacy
 
