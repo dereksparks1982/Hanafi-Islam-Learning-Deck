@@ -9,6 +9,10 @@ These pages are for reading the deck inside the GitHub mobile app without the ap
 - **[99 Names of Allah](99-Names-of-Allah.md)** — 12 cards
 - **[Arabic Alphabet](Arabic-Alphabet.md)** — 28 cards
 
+### Zooming on iPhone
+
+Tap any card in a mobile gallery to open its full-resolution PNG. Then use the normal two-finger pinch gesture to zoom in and out. The printable source PNG is not modified.
+
 ### Why this exists
 
 When an individual PNG is opened directly in the GitHub iPhone app, GitHub places a floating navigation bar over the bottom of the image. On cards with source text near the bottom, that can hide part of the card.
