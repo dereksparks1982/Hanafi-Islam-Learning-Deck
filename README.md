@@ -8,6 +8,25 @@ The deck is designed so that a learner can pick up a card, understand what it is
 
 > **Development checkpoint:** v1.4 R1 replaces the obsolete 145-card main deck. Expansion renumbering is still in progress.
 
+## Card Preview
+
+A few representative cards from the deck are shown here so visitors can immediately see the project before downloading anything.
+
+<table>
+<tr>
+<td align="center"><strong>Allah</strong><br><img src="cards/card_001.png" width="220" alt="Allah card preview"></td>
+<td align="center"><strong>Shahada</strong><br><img src="cards/card_004.png" width="220" alt="Shahada card preview"></td>
+<td align="center"><strong>What Is the Hanafi School?</strong><br><img src="cards/card_003.png" width="220" alt="Hanafi School card preview"></td>
+</tr>
+<tr>
+<td align="center"><strong>Surah Al-Fatiha</strong><br><img src="cards/card_034.png" width="220" alt="Surah Al-Fatiha card preview"></td>
+<td align="center"><strong>After Eating</strong><br><img src="cards/card_146.png" width="220" alt="After Eating card preview"></td>
+<td align="center"><strong>Optional Card Back</strong><br><img src="card_back.svg" width="220" alt="Optional Islamic card back preview"></td>
+</tr>
+</table>
+
+The decorative card back is **optional**. The learning cards can be printed single-sided to conserve ink, printed back-to-back in other arrangements, or paired with the decorative back for a finished physical deck.
+
 ## Introduction
 
 The Hanafi school is one of the four major Sunni schools of Islamic law (*madhhabs*). It traces its legal tradition to **Imam Abu Hanifa** and was developed and transmitted through generations of Hanafi jurists, including his students **Abu Yusuf** and **Muhammad al-Shaybani**.
