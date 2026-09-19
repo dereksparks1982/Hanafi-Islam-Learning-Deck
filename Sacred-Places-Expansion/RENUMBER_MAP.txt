@@ -1,0 +1,19 @@
+old 146 -> new 001  SACRED PLACES EXPANSION
+old 147 -> new 002  MASJID AL-HARAM
+old 148 -> new 003  THE KAʿBAH: VISUAL GUIDE
+old 149 -> new 004  MAQAM IBRAHIM
+old 150 -> new 005  ZAMZAM
+old 151 -> new 006  SAFA AND MARWAH
+old 152 -> new 007  MINA
+old 153 -> new 008  ʿARAFAT
+old 154 -> new 009  MUZDALIFAH
+old 155 -> new 010  MASJID AN-NABAWI
+old 156 -> new 011  THE RAWDAH
+old 157 -> new 012  JANNAT AL-BAQIʿ
+old 158 -> new 013  MASJID QUBA
+old 159 -> new 014  MASJID AL-QIBLATAYN
+old 160 -> new 015  AL-MASJID AL-AQSA
+old 161 -> new 016  DOME OF THE ROCK
+old 162 -> new 017  JABAL AL-NUR & CAVE HIRA
+old 163 -> new 018  CAVE THAWR
+old 164 -> new 019  MOUNT UHUD

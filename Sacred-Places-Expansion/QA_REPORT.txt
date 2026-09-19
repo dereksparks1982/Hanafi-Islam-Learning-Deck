@@ -1,0 +1,11 @@
+Hanafi Learning Deck v1.4 R2 - Sacred Places QA
+
+PASS: 19/19 source cards match the approved GitHub blob SHAs.
+PASS: approved large-photo versions are used.
+PASS: protected photograph/body content is pixel-identical.
+PASS: old 146-164 numbering is replaced by independent 1-19 numbering.
+PASS: approved v1.4 continuous category-colored rounded border is applied.
+PASS: approved v1.4 inner accent line is applied.
+PASS: titles use the lowered v1.4 header geometry.
+PASS: no corner medallions or circles.
+PASS: five printable four-card sheets rebuilt.
