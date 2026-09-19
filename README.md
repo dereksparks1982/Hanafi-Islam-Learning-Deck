@@ -33,17 +33,13 @@ This deck is an **evolving educational project**. Cards, wording, sources, numbe
 
 If you downloaded or printed an earlier edition, please check this repository periodically to make sure you have the latest edition.
 
-## Current Downloads
+## Downloads
 
-These links point to the **current working v1.4 R2 repository state**.
-
-- **Download the complete current repository as a ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
-- **Current Main Deck, Cards 1–146:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/cards
-- **Current Sacred Places Expansion, Cards 1–19:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion
-- **Current printable main-deck sheets:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/sheets
-- **Optional printable card back:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/card-back/card-back.jpg
-
-The **99 Names of Allah Expansion** is being rebuilt for v1.4 and will be added to the current downloads when complete.
+- **Complete current v1.4 R2 ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
+- **Main Deck, Cards 1–146:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/cards
+- **Sacred Places, Cards 1–19:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion
+- **Printable sheets:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/sheets
+- **Optional card back:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/card-back/card-back.jpg
 
 ## Introduction
 
@@ -131,24 +127,13 @@ The locations include:
 
 The v1.4 R2 cards use the approved large photographic artwork with the current v1.4 card-frame standard.
 
-The Sacred Places expansion is intentionally **not merged into the base `cards/` folder**. Expansion packs remain separate so learners can download, print, and add only the sets they want.
-
-### Current Sacred Places v1.4 R2 Files
-
-Current Cards 1–19:
-
-https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion
-
-For a single download containing the current repository state, use:
-
-https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
-
+The Sacred Places expansion is intentionally **not merged into the base `cards/` folder**. Expansion packs remain separate so learners can print and add only the sets they want.
 
 ## 99 Names of Allah Expansion
 
 A **v1.4 edition numbered independently from Card 1** is being prepared.
 
-The download will be added when the v1.4 rebuild is complete.
+It will be added when the v1.4 rebuild is complete.
 
 
 ## Expansion Roadmap
@@ -300,7 +285,6 @@ Please do not assume that a card is beyond correction simply because it appears 
 - Added all 99 Names, nine Names per study card
 - Included Arabic, transliteration, and concise English study meanings
 - Documented the hadith-source distinction for the traditional enumeration
-- Published the expansion as its own downloadable ZIP
 
 ### Version 1.2 - Sacred Places Expansion
 
@@ -308,7 +292,6 @@ Please do not assume that a card is beyond correction simply because it appears 
 - Added the Sacred Places color key
 - Added 18 cards covering major sacred, Hajj, Madinah, Al-Aqsa, and Seerah-related locations
 - Kept the then-current base deck unchanged
-- Published the expansion as its own downloadable ZIP
 
 ### Version 1.0 - Base Deck
 
