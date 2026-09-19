@@ -1,0 +1,41 @@
+name: Build Arabic Alphabet Expansion v1.5
+
+on:
+  push:
+    paths:
+      - 'Arabic-Alphabet-Expansion/build_arabic_alphabet_v15.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Python dependencies and Arabic font
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-core
+          python -m pip install --upgrade pip
+          python -m pip install pillow
+
+      - name: Build v1.5 Arabic Alphabet Expansion
+        run: python Arabic-Alphabet-Expansion/build_arabic_alphabet_v15.py
+
+      - name: Commit generated expansion
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Arabic-Alphabet-Expansion Arabic-Alphabet-Expansion-v1.5.zip
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+          else
+            git commit -m "Build v1.5 Arabic Alphabet Expansion"
+            git push
+          fi
