@@ -48,11 +48,11 @@ A madhhab is not a separate religion or sect. It is a legal tradition and method
 
 ## Current library
 
-At the v1.6.3 checkpoint, the repository contains **207 numbered cards across five independent sets**:
+At the v1.6.3 checkpoint, the repository contains **208 numbered cards across five independent sets**:
 
 | Set | Status | Cards |
 | --- | --- | ---: |
-| Main Deck | established | 146 |
+| Main Deck | established | 147 |
 | Sacred Places Expansion | complete current set | 19 |
 | 99 Names of Allah Expansion | complete current set | 12 |
 | Arabic Alphabet Expansion | complete current set | 28 |
@@ -88,7 +88,7 @@ The mobile layer is only a viewing aid. The printable PNG files remain authorita
 ## Downloads and collections
 
 - **Complete current v1.6.3 repository ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
-- **Main Deck, Cards 1–146:** [`cards/`](cards/)
+- **Main Deck, Cards 00–146:** [`cards/`](cards/)
 - **Sacred Places Expansion, Cards 1–19:** [`Sacred-Places-Expansion/`](Sacred-Places-Expansion/)
 - **99 Names of Allah, Cards 1–12:** [`99-Names-of-Allah-Expansion/`](99-Names-of-Allah-Expansion/)
 - **Arabic Alphabet, Cards 1–28:** [`Arabic-Alphabet-Expansion/`](Arabic-Alphabet-Expansion/)
@@ -107,7 +107,7 @@ These external resources complement the deck and remain on their original creato
 
 ## The five current sets
 
-### Main Deck — Cards 1–146
+### Main Deck — Cards 00–146
 
 The main deck covers the practical backbone of everyday worship and Hanafi fiqh, including:
 

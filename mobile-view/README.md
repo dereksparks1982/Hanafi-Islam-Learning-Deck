@@ -4,7 +4,7 @@ These pages are for reading the deck inside the GitHub mobile app without the ap
 
 **The printable card files are unchanged.** These pages simply display the existing cards slightly narrower, higher on the page, with extra breathing room below each card.
 
-- **[Main Deck](Main-Deck.md)** — 146 cards
+- **[Main Deck](Main-Deck.md)** — 147 cards
 - **[Sacred Places](Sacred-Places.md)** — 19 cards
 - **[99 Names of Allah](99-Names-of-Allah.md)** — 12 cards
 - **[Arabic Alphabet](Arabic-Alphabet.md)** — 28 cards

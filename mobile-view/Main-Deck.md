@@ -1,10 +1,20 @@
 # Main Deck — Mobile View
 
-146 cards. This is a viewing page only; the original printable PNG files remain authoritative.
+147 cards. This is a viewing page only; the original printable PNG files remain authoritative.
 
 [Back to mobile-view index](README.md)
 
 **Zoom:** Tap any card to open the full-resolution PNG, then use the normal two-finger pinch gesture to zoom.
+
+## Card 00
+
+<p align="center"><a href="https://raw.githubusercontent.com/dereksparks1982/Hanafi-Islam-Learning-Deck/main/cards/card_000.png"><img src="../cards/card_000.png" width="88%" alt="card 00"></a></p>
+
+<p align="center"><a href="https://raw.githubusercontent.com/dereksparks1982/Hanafi-Islam-Learning-Deck/main/cards/card_000.png">Open full-size card / pinch to zoom</a></p>
+
+<br><br><br><br>
+
+---
 
 ## Card 001
 
