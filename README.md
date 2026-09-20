@@ -104,9 +104,9 @@ These external resources complement the deck and remain on their original creato
 - **Hanafi salah / prayer tutorial playlist — Man prayer (Hanafi):** https://www.youtube.com/playlist?list=PLgfsDRXXIm95Ef1zHj3ui3iqSJHhTwrdc
 - **Arabic Alphabet Explained by an American — Language Simp:** https://www.youtube.com/watch?v=TLnr17rEFrQ&t=164s
 - **Arabic learning video — Language Simp (starts at 5:37):** https://www.youtube.com/watch?v=xBG1eVwH_wg&t=337s
-- **Kaʿbah / Masjid al-Haram live — Makkah Live:** https://makkahlive.net/makkahlive.aspx
-- **Darul Iftaa US — Hanafi rulings and guidance:** https://daruliftaa.us/
-- **Darul Iftaa Leicester — Institute of Islamic Jurisprudence:** https://daruliftaa.com/
+- **Kaʿbah / Masjid al-Haram live — official Haramain live broadcast:** https://makkahlive.net/makkahlive.aspx
+- **Darul Ifta — Darul Uloom Deoband:** https://www.darulifta-deoband.com/
+- **Darul Iftaa Leicester — Institute of Islamic Jurisprudence:** https://daruliftaa.us/
 - **Darul Ifta Birmingham — Institute of Islamic Jurisprudence:** https://daruliftabirmingham.co.uk/
 - **SeekersGuidance — structured Hanafi study and courses:** https://seekersguidance.org/
 - **Qur'an reference — Quran.com:** https://quran.com/
