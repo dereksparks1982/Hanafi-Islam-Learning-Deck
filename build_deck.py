@@ -213,9 +213,17 @@ def render_card(c):
     color=COLORS[c.get("color","black")]
     body_y,_,_=header_fixed(d,c["n"],c["title"],c.get("tag",""),color)
     if c.get("special_allah"):
-        af=F(FONT_AR,270); cy=(body_y+(H-60))//2
-        d.text((W//2,cy),"اللّٰه",font=af,fill=COLORS["gold"],anchor="mm",direction="rtl")
-        return img
+        has_explainer = any(c.get(k) for k in ("intro","bullets","note","source","meaning","translit","arabic"))
+        if not has_explainer:
+            af=F(FONT_AR,270); cy=(body_y+(H-60))//2
+            d.text((W//2,cy),"اللّٰه",font=af,fill=COLORS["gold"],anchor="mm",direction="rtl")
+            return img
+        c=dict(c)
+        c.setdefault("arabic","اللّٰه")
+        c.setdefault("ar_size",190)
+        c.setdefault("ar_min",170)
+        c.setdefault("ar_max_lines",1)
+        c["arabic_color"]=COLORS["gold"]
     source_reserve=95 if c.get("source") else 35
     note_reserve=118 if c.get("note") else 0
     content_bottom=H-source_reserve-note_reserve-24

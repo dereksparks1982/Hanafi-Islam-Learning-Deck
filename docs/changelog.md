@@ -2,7 +2,7 @@
 
 ## v1.6.3 — Language reinforcement, access, and Sacred Places repair
 
-- Closed the v1.6.3 checkpoint at **207 numbered cards across five independent sets**.
+- Closed the v1.6.3 checkpoint at **208 numbered cards across five independent sets**.
 - Added the approved **Important Places Card 2: Chinguetti Mosque — Chinguetti, Mauritania**.
 - Expanded title bars across the card library to reinforce **English + Latin transliteration + Arabic** through repeated exposure while studying.
 - Repaired header collisions on Sacred Places Cards **1, 2, 4, 6, 10, 14, and 16** without changing their photographs, body text, borders, numbering, or category colors.
@@ -13,6 +13,8 @@
 - Added the project web-viewer port as another way to study the deck beyond the raw repository/card files.
 - Documented the successful **checkpointed repair workflow** in `docs/build-notes.md`: verify current main, isolate scope, repair locally, visually inspect, publish narrowly, verify, clean up, then continue.
 - Added a dedicated acknowledgment of Allah at the beginning of the project README using the basmalah, praise of Allah, and salawat upon the Messenger of Allah ﷺ.
+- Added **Card 00** as an unnumbered-on-artwork frontispiece displaying the Beautiful Names of Allah before the numbered lessons begin.
+- Expanded **Main Deck Card 1 — ALLAH** so the large gold name remains central while the card now explains why Muslims call God Allah, distinguishes *ilāh* from Allah, connects the name to the God worshipped by the prophets, and anchors the explanation in Qur’an 20:14 and Surah al-Ikhlāṣ.
 - **v1.6.4 is reserved for the next Important Places card.**
 
 ## v1.6 — Important Places begins

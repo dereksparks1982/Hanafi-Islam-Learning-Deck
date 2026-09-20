@@ -4,7 +4,28 @@
     "title": "ALLAH",
     "tag": "FOUNDATION",
     "color": "gold",
-    "special_allah": true
+    "special_allah": true,
+    "intro": "WHY DO MUSLIMS CALL GOD “ALLAH”?",
+    "bullet_fs": 27,
+    "bullets": [
+      [
+        "NAME",
+        "Allah (الله) is the Arabic name for the one true God: the Creator worshipped by Ibrahim (Abraham), Ishaq (Isaac), Musa (Moses), Isa (Jesus), and Muhammad ﷺ."
+      ],
+      [
+        "ARABIC",
+        "The Arabic word ilāh (إله) means a god or deity. Allah refers to God, the One worthy of worship. Arabic-speaking Christians also use Allah when speaking of God."
+      ],
+      [
+        "QUR'AN",
+        "Allah says: “Indeed, I am Allah. There is no deity except Me, so worship Me.” (Qur’an 20:14)"
+      ],
+      [
+        "ONE",
+        "Surah al-Ikhlāṣ begins: “Say: He is Allah, One. Allah, the Eternal Refuge.” (Qur’an 112:1–2)"
+      ]
+    ],
+    "source": "Qur’an 20:14; 112:1–4. Arabic usage and standard Arabic lexicography."
   },
   {
     "n": 2,
