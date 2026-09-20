@@ -2,24 +2,62 @@
 
 Technical notes for repository maintenance live here so solved problems stay solved.
 
-## Binary image upload: preferred method for an already-final image
+## Binary image upload: approved final images
 
-When the final PNG/JPG already exists locally and **must not be redesigned**, prefer a direct Git blob upload instead of rebuilding the image in GitHub Actions.
+When the final PNG/JPG already exists and **must not be redesigned**, the goal is to transfer its existing bytes to GitHub, not recreate the artwork.
 
-1. Verify the final local image before upload: dimensions, file type, and SHA-256.
-2. Base64-encode the existing bytes without modifying the artwork.
-3. Create the Git blob with the GitHub Git Data API using `encoding: base64`.
-4. Fetch the current `main` head and tree immediately before the repository write.
-5. Create a new tree based on the current tree, pointing the desired repository path at the new image blob.
+### Method A — direct Git blob
+
+When the GitHub tool can accept the complete file bytes as base64, use the Git Data API directly:
+
+1. Verify the local image first: dimensions, file type, byte size, and SHA-256.
+2. Base64-encode the **existing bytes** without opening/resaving the image.
+3. Create the Git blob using `encoding: base64`.
+4. Fetch the current `main` head and tree immediately before the write.
+5. Create a new tree based on the current tree, pointing the target repository path at the new blob.
 6. Create a commit whose parent is the current `main` head.
 7. Fast-forward `main` to the new commit with force disabled.
-8. Fetch the repository file/tree afterward and verify the path, blob SHA, size, and commit.
+8. Fetch the repository tree and verify path, blob SHA, size, and commit.
 
-This is the preferred route for an approved final card because the upload does not redraw or reinterpret the image.
+### Method B — exact-file bridge + one-time workflow
+
+Use this when the approved local binary is too large or awkward to pass directly through a text-oriented GitHub connector. This is the method that successfully uploaded **Important Places Card 1 — Lal Masjid** byte-for-byte.
+
+1. Verify the approved local file and record its byte size and SHA-256.
+2. Upload the existing file bytes **without conversion** to temporary connector storage.
+3. Fetch that raw connector file as a streamed file reference to obtain its short-lived signed download URL.
+4. Create a temporary GitHub Actions workflow that:
+   - checks out `main`;
+   - downloads that signed URL directly to the final repository path;
+   - checks the exact expected byte size;
+   - checks the exact expected SHA-256;
+   - refuses to commit if either check fails;
+   - commits only the approved image.
+5. Wait for the workflow to complete successfully.
+6. Fetch the Git tree and verify the image path, Git blob SHA, and size.
+7. For an additional byte-for-byte check, calculate the local Git blob SHA as `SHA1("blob <size>\0" + file_bytes)` and confirm it matches GitHub's blob SHA.
+8. Delete the temporary GitHub Actions workflow.
+9. Delete the temporary connector-storage copy.
+
+### Lal Masjid Card 1 proof
+
+Approved source file:
+
+- byte size: `2503124`
+- SHA-256: `5a0f1919f835b67cce146503159af32073a32c860246f9706e71b9b16b8cc347`
+- Git blob SHA calculated from the exact local bytes: `867f1c5d80d9725d75f08a2acc482e92782131c2`
+
+GitHub verification after upload returned the same:
+
+- `Important-Places-Expansion/card_001_lal_masjid.png`
+- size `2503124`
+- blob `867f1c5d80d9725d75f08a2acc482e92782131c2`
+
+That matching Git blob SHA proves the repository file is the same binary file that was approved, not a re-render, recompressed PNG, alternate photograph, or regenerated card.
 
 ### Important Places asset rule
 
-For `Important-Places-Expansion/`, an approved card image is uploaded **as supplied**. No alternate photograph, crop, border, typography, generated replacement, or other visual substitution is allowed unless the maintainer explicitly requests it.
+For `Important-Places-Expansion/`, an approved card image is uploaded **as supplied**. No alternate photograph, crop, border, typography, generated replacement, compression/re-save, or other visual substitution is allowed unless the maintainer explicitly requests it.
 
 The workflow is one card at a time:
 
@@ -27,7 +65,7 @@ The workflow is one card at a time:
 
 ## Fallback: one-time GitHub Actions image operation
 
-Use a temporary GitHub Actions workflow only when an image already in the repository needs a controlled transformation that normal text-file tools cannot perform.
+Use a temporary GitHub Actions workflow to **modify** an existing repository image only when a controlled transformation is actually requested and normal text-file tools cannot perform it.
 
 The successful card-back repair followed this pattern:
 
@@ -69,7 +107,9 @@ When the maintainer says an image is approved or says that nothing else should c
 - do not restyle;
 - do not resize;
 - do not recolor;
+- do not crop;
 - do not swap photographs;
+- do not recompress or re-save the file if an exact binary upload is requested;
 - do not reinterpret the request.
 
-Verify first, upload the approved binary, verify again.
+Verify first, transfer the approved binary, verify again.
