@@ -56,7 +56,7 @@ At the v1.6.3 checkpoint, the repository contains **208 numbered cards across fi
 | Sacred Places Expansion | complete current set | 19 |
 | 99 Names of Allah Expansion | complete current set | 12 |
 | Arabic Alphabet Expansion | complete current set | 28 |
-| Important Places of the Muslim World | **in progress** | **2 approved** |
+| Important Places of the Muslim World | **in progress** | **2** |
 
 Each expansion starts at Card 1 and keeps its own numbering.
 
