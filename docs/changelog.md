@@ -5,6 +5,10 @@
 - Opened the **Important Places of the Muslim World** expansion as an active set.
 - Approved **Card 1: Lal Masjid — Islamabad, Pakistan**.
 - Established a strict one-card-at-a-time workflow for technically detailed photographic cards: preview, maintainer screening, explicit approval, exact-image upload, verification, then the next card.
+- Added Arabic title labels at the far right of the main-deck headers on **145 of 146 cards**; Card 2 remains intentionally English-only.
+- Preserved the existing card bodies pixel-for-pixel below the header while making the bilingual-header update.
+- Added `source/main_deck_arabic_headers.json` so the Arabic header wording can be reviewed directly and corrected without hunting through image files.
+- Rebuilt the 37 printable main-deck sheets and contact sheet from the updated cards.
 - Added a `docs/` hub for the Company Bible, roadmap, changelog, and build/image-upload notes.
 - Consolidated the solved binary-image workflow into `docs/build-notes.md`.
 - Refreshed the main README around the project's current mission, present state, learning path, and future expansions.
