@@ -1,390 +1,214 @@
-# Hanafi Learning Deck v1.5
+# Hanafi Learning Deck v1.6
 
-A practical, printable **Hanafi study deck** for learning salah, purification, duʿā, daily worship, travel rulings, illness accommodations, special prayers, spiritual protection, sacred places, the Names of Allah, and other common situations in Muslim life.
+A growing, printable and mobile-friendly library for learning **Islam through a consistent Hanafi framework**: belief, salah, purification, duʿā, daily worship, Qur'an, Arabic literacy, sacred places, the Names of Allah, Islamic history, and the wider Muslim world.
 
-The deck is designed so that a learner can pick up a card, understand what it is teaching, and then go deeper through the notes and sources at the bottom. It is intentionally structured more like a study reference than a bare flash-card set.
+This project began with a simple problem: a learner can find thousands of isolated answers online and still struggle to find a clear path through them. The Hanafi Learning Deck tries to turn that maze into something you can actually hold, study, review, print, carry on your phone, and return to every day.
 
-> **Status:** Hanafi study aid, pending imam review.
+> **Current checkpoint:** **v1.6**
+>
+> **Status:** educational study aid, still undergoing full manual audit and pending qualified imam/scholar review.
 
-> **Development checkpoint:** **v1.5**. Current repository: Main Deck Cards 1–146, Sacred Places Cards 1–19, 99 Names of Allah Cards 1–12, and Arabic Alphabet Cards 1–28.
+## If you are not Muslim and found this by accident
 
-## Card Preview
+You are welcome here.
 
-These are the **actual card files from this repository**, shown here so visitors immediately see the real deck before downloading anything.
+You do not need to know Arabic, Islamic law, or mosque etiquette to begin. Islam starts with the most basic questions: **Who is Allah? What does it mean to worship Him alone? What did Prophet Muhammad ﷺ teach? Why do Muslims pray the way they do?**
+
+A good first path through the project is:
+
+1. **Card 1 — Allah**
+2. **Card 4 — The Shahada**
+3. **Card 3 — What Is the Hanafi School?**
+4. **Card 34 — Surah al-Fatiha**
+
+From there, the deck opens outward into prayer, purification, remembrance, fasting, travel, illness, sacred places, Arabic, the Names of Allah, and the history and geography of the Muslim world.
+
+The goal is not to overwhelm a newcomer with jargon. It is to make each subject understandable enough that curiosity can become real study.
+
+## What is the Hanafi school?
+
+The Hanafi madhhab is one of the four major Sunni schools of Islamic law. It traces its legal tradition to **Imam Abu Hanifa** and generations of jurists who developed disciplined methods for understanding and applying the Qur'an, Sunnah, scholarly consensus, analogy, and other recognized legal principles.
+
+A madhhab is not a separate religion or sect. It is a legal tradition and method. This project follows Hanafi fiqh so a learner can build one coherent foundation instead of unknowingly mixing rulings from different schools.
+
+## Current library
+
+At the v1.6 checkpoint, the repository contains **206 numbered cards across five independent sets**:
+
+| Set | Status | Cards |
+| --- | --- | ---: |
+| Main Deck | established | 146 |
+| Sacred Places Expansion | complete current set | 19 |
+| 99 Names of Allah Expansion | complete current set | 12 |
+| Arabic Alphabet Expansion | complete current set | 28 |
+| Important Places of the Muslim World | **in progress** | **1 approved** |
+
+Each expansion starts at Card 1 and keeps its own numbering.
+
+## Card preview
+
+These are actual cards from the repository.
 
 <table>
 <tr>
 <td align="center"><strong>Allah</strong><br><img src="cards/card_001.png" width="220" alt="Allah card preview"></td>
 <td align="center"><strong>Shahada</strong><br><img src="cards/card_004.png" width="220" alt="Shahada card preview"></td>
-<td align="center"><strong>What Is the Hanafi School?</strong><br><img src="cards/card_003.png" width="220" alt="Hanafi School card preview"></td>
+<td align="center"><strong>Surah al-Fatiha</strong><br><img src="cards/card_034.png" width="220" alt="Surah al-Fatiha card preview"></td>
 </tr>
 <tr>
-<td align="center"><strong>Surah Al-Fatiha</strong><br><img src="cards/card_034.png" width="220" alt="Surah Al-Fatiha card preview"></td>
-<td align="center"><strong>Before Eating</strong><br><img src="cards/card_144.png" width="220" alt="Before Eating card preview"></td>
-<td align="center"><strong>Optional Card Back</strong><br><img src="card-back/CardBack.png" width="220" alt="Optional Islamic card back preview"></td>
+<td align="center"><strong>Masjid al-Haram</strong><br><img src="Sacred-Places-Expansion/card_002_masjid_al-haram.png" width="220" alt="Masjid al-Haram card preview"></td>
+<td align="center"><strong>Arabic: Alif</strong><br><img src="Arabic-Alphabet-Expansion/cards/card_001_alif.png" width="220" alt="Arabic Alif card preview"></td>
+<td align="center"><strong>Important Places: Lal Masjid</strong><br><img src="Important-Places-Expansion/card_001_lal_masjid.png" width="220" alt="Lal Masjid card preview"></td>
 </tr>
 </table>
 
-The decorative card back is **optional**. The learning cards can be printed single-sided to conserve ink, printed back-to-back in other arrangements, or paired with the decorative back for a finished physical deck.
+The optional decorative card back is available in [`card-back/`](card-back/). The learning cards can also be printed single-sided.
 
-## Check for Updates
+## Study on a phone
 
-This deck is an **evolving educational project**. Cards, wording, sources, numbering, visual standards, and expansion sets may be corrected or improved in later releases.
+The [`mobile-view/`](mobile-view/) folder provides scrollable galleries designed for phone use. On supported mobile browsers/apps, tap a displayed card to open the full-resolution PNG and use the normal pinch gesture for close reading.
 
-If you downloaded or printed an earlier edition, please check this repository periodically to make sure you have the latest edition.
+The mobile layer is only a viewing aid. The printable PNG files remain authoritative.
 
-## Downloads
+## Downloads and collections
 
-- **Complete current v1.5 ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
-- **Mobile-friendly card view:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/mobile-view
-- **Main Deck, Cards 1–146:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/cards
-- **Sacred Places, Cards 1–19:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Sacred-Places-Expansion
-- **99 Names of Allah, Cards 1–12:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/99-Names-of-Allah-Expansion
-- **Arabic Alphabet, Cards 1–28:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/Arabic-Alphabet-Expansion
-- **Printable sheets:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/tree/main/sheets
-- **Optional card back:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/blob/main/card-back/CardBack.png
+- **Complete current v1.6 repository ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
+- **Main Deck, Cards 1–146:** [`cards/`](cards/)
+- **Sacred Places Expansion, Cards 1–19:** [`Sacred-Places-Expansion/`](Sacred-Places-Expansion/)
+- **99 Names of Allah, Cards 1–12:** [`99-Names-of-Allah-Expansion/`](99-Names-of-Allah-Expansion/)
+- **Arabic Alphabet, Cards 1–28:** [`Arabic-Alphabet-Expansion/`](Arabic-Alphabet-Expansion/)
+- **Important Places of the Muslim World:** [`Important-Places-Expansion/`](Important-Places-Expansion/)
+- **Printable main-deck sheets:** [`sheets/`](sheets/)
+- **Mobile-friendly view:** [`mobile-view/`](mobile-view/)
+- **Optional card back:** [`card-back/CardBack.png`](card-back/CardBack.png)
 - **Arabic alphabet pronunciation video — Language Simp:** https://www.youtube.com/watch?v=TLnr17rEFrQ&t=164s
 
-## Introduction
+## The five current sets
 
-The Hanafi school is one of the four major Sunni schools of Islamic law (*madhhabs*). It traces its legal tradition to **Imam Abu Hanifa** and was developed and transmitted through generations of Hanafi jurists, including his students **Abu Yusuf** and **Muhammad al-Shaybani**.
+### Main Deck — Cards 1–146
 
-A madhhab is not a separate religion or sect. It is a disciplined legal method for understanding and applying the Qur'an, Sunnah, scholarly consensus, analogy, and other recognized principles of Islamic law.
+The main deck covers the practical backbone of everyday worship and Hanafi fiqh, including:
 
-This project follows **Hanafi fiqh** so that a learner has one consistent framework instead of mixing unrelated rulings from different schools without realizing it. Where an important difference exists within the Hanafi school, or where a difference from another school is especially relevant, the deck should say so.
-
-## Main Deck - Version 1.4 R1
-
-The v1.4 main deck contains **146 study cards** covering:
-
-- foundations and the meaning of the Hanafi school
+- foundations and the Hanafi school
 - wudu, ghusl, tayammum, and purity
 - the structure and movements of salah
-- the five daily prayers and prayer times
+- daily prayer times and rakʿah structure
 - Witr and Qunut
 - imam, follower, and latecomer situations
 - Sajdat al-Sahw and Sajdat al-Tilawah
-- Tahajjud, Duha, Awwabin, Tawbah, Istikhara, Salat al-Hajah, and other voluntary worship
+- voluntary prayers
 - Jumuʿah, Ramadan, Tarawih, Laylat al-Qadr, and Eid
-- Janazah and end-of-life guidance
-- eclipse prayer and Istisqa
-- travel, Qasr, illness, chair prayer, lying-down prayer, and danger
+- janazah and end-of-life guidance
+- travel and Qasr
+- illness accommodations and chair/lying-down prayer
 - Qur'anic and Prophetic protection duʿās
-- daily-life duʿās and remembrance
-- selected reflection material on cards that genuinely have room for it
+- daily remembrance and everyday duʿās
 
-The main deck remains in `cards/` and currently stops at **Card 146**.
+### Sacred Places Expansion — Cards 1–19
 
-Multipart study sequences are kept consecutive. In the current v1.4 main deck:
+A photographic expansion covering major sacred, Hajj, Madinah, Al-Aqsa, and Seerah-related places, including Masjid al-Haram, the Kaʿbah, Maqam Ibrahim, Zamzam, Safa and Marwah, Mina, ʿArafat, Muzdalifah, Masjid an-Nabawi, the Rawdah, Jannat al-Baqiʿ, Quba, Qiblatayn, Al-Masjid al-Aqsa, the Dome of the Rock, Cave Hira, Cave Thawr, and Mount Uhud.
 
-- **Cards 64–65:** Duʿa al-Qunut, Parts 1–2
-- **Cards 72–73:** Istikhara Duʿa, Parts 1–2
-- **Cards 99–100:** Ayat al-Kursi, Parts 1–2
-- **Cards 144–146:** Before Eating, While Eating, After Eating
+### 99 Names of Allah Expansion — Cards 1–12
 
+A compact study set containing all 99 traditional Names in groups of nine per card, with Arabic, transliteration, concise English study meanings, and source notes.
 
-## Sacred Places Expansion - Version 1.4 R2
+### Arabic Alphabet Expansion — Cards 1–28
 
-The Sacred Places Expansion is a separate **19-card expansion numbered 1–19**.
+One letter per card, built for a learner who wants more than a chart. Cards include pronunciation, mouth/articulation guidance, letter forms, joining behavior, example words, and warnings about common mistakes.
 
-It is stored separately in:
+Arabic literacy belongs here because it is a doorway into the Qur'an, hadith, fiqh, classical books, manuscripts, and Islamic scholarship in the language in which much of that tradition was written.
 
-`Sacred-Places-Expansion/`
+### Important Places of the Muslim World — v1.6, in progress
 
-The expansion begins with:
+This new expansion covers places that matter to Muslim history, scholarship, culture, politics, or architecture **without automatically labeling those places sacred**.
 
-- **Card 1:** Sacred Places color key
-- **Cards 2–19:** major sacred, Hajj, Madinah, Al-Aqsa, and Seerah-related locations
+**Card 1 is Lal Masjid — Islamabad, Pakistan.**
 
-The locations include:
+These cards are being built differently from the earlier sets. Because they depend heavily on photography, historical wording, Arabic, sourcing, and layout, **each card is reviewed individually before it is published**. There will be no unscreened bulk batch.
 
-- Masjid al-Haram
-- the Kaʿbah
-- Maqam Ibrahim
-- Zamzam
-- Safa and Marwah
-- Mina
-- ʿArafat
-- Muzdalifah
-- Masjid an-Nabawi
-- the Rawdah
-- Jannat al-Baqiʿ
-- Masjid Quba
-- Masjid al-Qiblatayn
-- Al-Masjid al-Aqsa
-- the Dome of the Rock
-- Jabal al-Nur and Cave Hira
-- Cave Thawr
-- Mount Uhud
+The next place is not considered approved merely because it appears on a candidate list. Each subject has to earn its card through research and review.
 
-The v1.4 R2 cards use the approved large photographic artwork with the current v1.4 card-frame standard.
+## Where the project goes next
 
-The Sacred Places expansion is intentionally **not merged into the base `cards/` folder**. Expansion packs remain separate so learners can print and add only the sets they want.
+The project is expanding carefully rather than simply chasing a card count.
 
-## 99 Names of Allah Expansion - Version 1.4 R3
+### 1. Finish the manual audit
 
-The 99 Names of Allah Expansion is a separate **12-card expansion numbered 1–12**.
+Every word, every card, every source. The current library is being reviewed for:
 
-- **Card 1:** expansion guide and source note
-- **Cards 2–12:** all 99 Names arranged nine Names per card
-- Arabic text, transliteration, and concise English study meanings
-- traditional enumeration from Jamiʿ at-Tirmidhi 3507, with the source-strength distinction explained in the expansion notes
+- Hanafi legal accuracy
+- Qur'an and hadith citations
+- Arabic and transliteration
+- English wording
+- source quality
+- legitimate differences within Hanafi fiqh
+- layout and legibility
 
-The v1.4 R3 design removes the solid green title banner to reduce printing ink, keeps a consistent 36 pt title size, and restores the header separator line.
+Corrections will be discussed and sourced rather than silently rewritten.
 
+### 2. Continue Important Places one card at a time
 
-## Arabic Alphabet Expansion - Version 1.5
+Candidate directions include Chinguetti and its manuscript tradition, important Afghan mosques and centers of learning, historic madrasas and libraries, and major centers of Islamic scholarship across Africa, Central Asia, South Asia, the Ottoman world, North Africa, and elsewhere.
 
-The Arabic Alphabet Expansion is a separate **28-card expansion numbered 1–28**.
+### 3. The Hanafi School: Origins, Method & Legacy
 
-It is stored separately in:
+A future high-detail expansion will explore Kufa, Imam Abu Hanifa, his teachers and students, Abu Yusuf, Muhammad al-Shaybani, Zufar, the legal method of the school, major Hanafi books and jurists, and the historical spread of the madhhab.
 
-`Arabic-Alphabet-Expansion/`
+### 4. The Prophets of Islam
 
-Each card teaches one Arabic letter using the approved low-ink printable format, including:
+A sourced expansion on the prophets named in the Qur'an, carefully distinguishing Qur'anic material, sound hadith, and later historical reports.
 
-- the Arabic letter and transliteration
-- a plain-language pronunciation guide
-- mouth and articulation guidance
-- source, voice, and weight notes
-- a clear **AVOID** warning for common pronunciation mistakes
-- isolated, beginning, middle, and ending forms where applicable
-- an Arabic example word with transliteration and English meaning
-- concise notes on joining behavior and distinguishing features
+### 5. The Life of Prophet Muhammad ﷺ
 
-The expansion includes **28 individual cards**, **7 four-card printable sheets**, a contact sheet, source notes, QA report, manifest with hashes, and editable source/build files. The approved visual standard uses the same inset gold and dark-green double border, spacious header, white background, and restrained ink usage as the current deck.
+A substantial chronological sīrah expansion rather than a tiny summary. Important events will receive their own cards when the evidence supports them.
 
+**Prophet Muhammad ﷺ will not be depicted.** No face, body, silhouette, shadow, outline, or stand-in figure will be used to represent him. The cards will use places, landscapes, maps, architecture, objects, manuscripts, routes, timelines, and environmental scenes.
 
-## Expansion Roadmap
+See the full [`docs/roadmap.md`](docs/roadmap.md) for the working roadmap.
 
-Future expansion packs remain in their own folders rather than being mixed into the main deck.
+## Sourcing and corrections
 
-### The Hanafi School: Origins, Method & Legacy
+This project is intentionally Hanafi-specific where fiqh is involved.
 
-A high-detail expansion devoted to the Hanafi school itself, including:
-
-- the scholarly environment of Kufa
-- Imam Abu Hanifa
-- his teachers and students
-- Abu Yusuf, Muhammad al-Shaybani, Zufar, and later transmitters
-- the development of Hanafi legal method
-- Qur'an, Sunnah, ijmaʿ, qiyas, istihsan, and other recognized legal principles
-- major Hanafi books and jurists
-- how authoritative positions developed within the school
-- historical spread through Muslim lands
-- Hanafi scholarship in Central Asia, the Ottoman world, South Asia, Afghanistan, and elsewhere
-- the present-day standing and continuing scholarly tradition of the Hanafi madhhab
-- common misconceptions about Hanafi fiqh
-- a study path from beginner material to advanced legal study
-
-The final number of cards will be determined by the source material rather than an arbitrary limit.
-
-### The Prophets of Islam
-
-A dedicated expansion covering the prophets named in the Qur'an, with careful sourcing for:
-
-- their peoples
-- major events
-- Qur'anic passages
-- lessons
-- relevant locations
-- chronology where the evidence supports it
-- distinctions between Qur'anic material, sound hadith, and later historical reports
-
-### The Life of Prophet Muhammad ﷺ
-
-A major planned expansion will cover **the life of Prophet Muhammad ﷺ from birth to death in chronological order**, using as many well-attested events as can reasonably be documented from reliable Islamic sources.
-
-The goal is not to compress the Seerah into a tiny summary set. Important individual events should receive their own cards when the sources support doing so.
-
-Planned coverage includes:
-
-- ancestry, birth, childhood, and guardianship
-- youth, trade, al-Amin, Hilf al-Fudul, and marriage to Khadijah رضي الله عنها
-- rebuilding of the Kaʿbah and the Black Stone arbitration
-- Cave Hira and the first revelation
-- the earliest Muslims and Dar al-Arqam
-- public preaching and Makkan persecution
-- the migrations to Abyssinia
-- Hamzah and ʿUmar accepting Islam
-- the boycott of Banu Hashim
-- the Year of Sorrow and journey to Taʾif
-- Israʾ and Miʿraj
-- the pledges of ʿAqabah
-- the Hijrah, Cave Thawr, Quba, and arrival in Madinah
-- establishment of the Madinan Muslim community
-- Badr
-- Uhud
-- expeditions and major events between Uhud and the Trench
-- the Battle of the Trench
-- Hudaybiyyah
-- letters and envoys to rulers
-- Khaybar
-- Muʾtah
-- the Conquest of Makkah
-- Hunayn and Taʾif
-- Tabuk
-- delegations and the spread of Islam across Arabia
-- the Farewell Hajj
-- the final illness, death, and burial
-- a final source-audit pass for smaller journeys, treaties, family events, revelations tied to specific incidents, miracles, delegations, and other well-attested events worth preserving as individual cards
-
-**Visual rule:** Prophet Muhammad ﷺ will not be depicted. No face, body, silhouette, shadow, outline, or stand-in figure will be used to represent him. Cards will instead use locations, landscapes, maps, architecture, objects, manuscripts, calligraphy, routes, battle maps, timelines, and environmental scenes.
-
-### Important Places of the Muslim World
-
-A separate expansion for Muslim places that are historically, intellectually, culturally, politically, or architecturally important **without claiming that they have special religious sanctity**.
-
-This is intentionally different from the Sacred Places Expansion.
-
-Candidate subjects for later research include:
-
-- Lal Masjid in Pakistan
-- Chinguetti in Mauritania
-- important Afghan mosques and centers of learning
-- historic madrasas
-- manuscript libraries
-- major centers of Islamic scholarship
-- significant Ottoman, Central Asian, African, South Asian, and other Muslim institutions and cities
-
-Individual sites will be researched before inclusion so that historical importance is not confused with sacred status.
-
-## Design Approach
-
-The deck uses a consistent visual language:
-
-- **Black:** normal instruction and explanation
-- **Red:** obligations, serious warnings, prohibitions, and critical cautions
-- **Green:** Sunnah, recommended acts, duʿā, and positive practice
-- **Gold:** Allah, Qur'an, and sacred emphasis
-- **Blue:** timing, rakʿah counts, sequence, and prayer windows
-- **Purple:** voluntary salah and optional worship
-- additional colors are used only when they communicate a clear category
-
-Current v1.4 cards use a continuous rounded category-colored outer border with a thin inner accent line. Corner medallions are not used.
-
-Card titles use one large, consistent header style with breathing room above and below the title. Long titles wrap rather than shrinking into body-text size. Arabic, transliteration, translation, and instructional sections are spaced so the card remains easy to study rather than becoming a wall of text.
-
-Physical prayer movements are described in words instead of relying on stick figures or ambiguous drawings.
-
-## Corrections and Imam Review
-
-This project is meant to improve, but it is also intentionally **Hanafi-specific**.
-
-A ruling from the Maliki, Shafi‘i, or Hanbali school is not a correction to a Hanafi card simply because it is authentically sourced within that school. Legal corrections must be supported by recognized Hanafi scholarship and evaluated within Hanafi legal methodology. Where recognized differences exist within the Hanafi school, the deck should identify the difference rather than presenting one position as universally agreed upon.
-
-Every proposed correction must include a **specific, named source**. Depending on the subject, this may be a Qur’anic verse, an authenticated hadith reference, a recognized Hanafi legal text, or a named qualified Hanafi scholar. A Qur’an or hadith citation alone does not automatically establish a Hanafi legal ruling, because the issue may depend on how Hanafi jurists understood and applied that evidence.
-
-Corrections without a specific source will not be accepted or acted on. This includes secondhand claims, personal opinion, and general disagreement without citation.
-
-This project is currently maintained and reviewed by one person. There is no editorial board. Corrections are evaluated against the sourcing and Hanafi-specific standards above before any card is changed.
-
-Please do not assume that a card is beyond correction simply because it appears in a published version.
-
-## Release and Development Notes
-
-### Version 1.4 R3 - 99 Names of Allah Checkpoint
-
-- published the 99 Names of Allah Expansion as independent Cards 1–12
-- retained all 99 Names, nine Names per study card
-- preserved Arabic, transliteration, concise English meanings, and source notes
-- removed the solid green title banner to reduce printing ink
-- standardized title size and restored the header separator line
-- rebuilt three printable four-card sheets and QA material
-
-### Version 1.4 R2 - Sacred Places Renumbering Checkpoint
-
-- Sacred Places converted from historical deck-wide numbers 146–164 to independent Cards 1–19
-- retained the approved large photographic Sacred Places artwork
-- applied the v1.4 border standard
-- kept the expansion separate from the main deck
-- established the v1.4 independent-expansion numbering architecture in the working repository
-
-### Version 1.4 R1 - Main Deck Replacement Checkpoint
-
-- replaced the obsolete 145-card main deck
-- established the current 146-card main deck
-- grouped multipart cards into consecutive numbering
-- consolidated eating guidance into Cards 144–146
-- rebuilt printable sheets, manifests, source numbering, and QA material
-
-### Version 1.3 - 99 Names of Allah Expansion
-
-- Added a separate 12-card 99 Names of Allah Expansion
-- Added the expansion guide and source note
-- Added all 99 Names, nine Names per study card
-- Included Arabic, transliteration, and concise English study meanings
-- Documented the hadith-source distinction for the traditional enumeration
-
-### Version 1.2 - Sacred Places Expansion
-
-- Added a separate 19-card Sacred Places Expansion
-- Added the Sacred Places color key
-- Added 18 cards covering major sacred, Hajj, Madinah, Al-Aqsa, and Seerah-related locations
-- Kept the then-current base deck unchanged
-
-### Version 1.0 - Base Deck
-
-- First public baseline of the Hanafi Learning Deck
-- 145 cards
-- Added an introductory card explaining what the Hanafi school is
-- Added source lines and study-reference notes throughout the deck
-- Added selected reflections only where enough space exists naturally
-- Standardized large card headers
-- Fixed label-column collisions on timing, prayer-map, travel, and similar cards
-- Fixed unsupported special-character rendering
-- Reworked vertical spacing so sparse cards use their space without increasing body-text size
-- Rounded-border accent bars stop cleanly where the border curve begins
-- Removed stick figures and described prayer movements in words
-- Added a correction workflow for future imam/scholar review
-
-## Important Note
-
-This deck is a **learning aid**, not a fatwa service and not a substitute for a qualified teacher. Hanafi fiqh contains detail, nuance, and in some cases legitimate differences of transmitted opinion. Personal or unusual cases should be taken to a qualified Hanafi scholar.
-
-## Repository Contents
-
-- `cards/` - v1.4 Main Deck, Cards 1–146
-- `card-back/` - optional printable decorative card back
-- `Sacred-Places-Expansion/` - v1.4 R2 Sacred Places Expansion, Cards 1–19
-- `99-Names-of-Allah-Expansion/` - v1.4 R3, Cards 1–12
-- `sheets/` - printable four-card sheets for the main deck
-- `CARD_MANIFEST.txt` - main-deck card index
-- `AUDIT_AND_SOURCES.md` - sourcing and audit notes
-- `IMAM_REVIEW_NOTES.md` - place to record corrections and review findings
-- `QA_REPORT.txt` - build-quality checks
-- `EXPANSION_ROADMAP.md` - current and planned expansion roadmap
-
-## Contributing Corrections
+A Maliki, Shafiʿi, or Hanbali ruling is not automatically a correction to a Hanafi card merely because it is authentically sourced in that school.
 
 When reporting a correction, please include:
 
-1. the **card number**
-2. the **exact wording that should change**
-3. the **replacement wording**
-4. a **specific, named source** — required, not optional
-5. confirmation that the source reflects **Hanafi fiqh specifically**, when that is not already obvious from the citation
+1. the card number;
+2. the exact wording at issue;
+3. the proposed replacement wording;
+4. a **specific named source**;
+5. confirmation that the source reflects Hanafi fiqh when the issue is a Hanafi legal ruling.
 
-Corrections missing a specific source will be declined without further review. A correctly sourced Maliki, Shafi‘i, or Hanbali ruling is not, by itself, a correction to a Hanafi card.
+A Qur'an or hadith citation alone does not always establish the Hanafi legal ruling on an issue, because juristic interpretation and application matter.
 
-That format makes corrections much easier to verify and apply accurately while keeping the deck within one consistent legal framework.
+The deck is a **learning aid, not a fatwa service**. Personal or unusual cases should be taken to a qualified Hanafi scholar.
 
----
+## Project documentation
 
-**Hanafi Learning Deck - v1.4 development series**
+Development and operating notes now live together in [`docs/`](docs/):
 
-## Noncommercial License
+- [`docs/COMPANY_BIBLE.md`](docs/COMPANY_BIBLE.md) — project rules and approval gates
+- [`docs/roadmap.md`](docs/roadmap.md) — current and future direction
+- [`docs/changelog.md`](docs/changelog.md) — checkpoint history
+- [`docs/build-notes.md`](docs/build-notes.md) — technical notes, including the solved binary-image upload workflow
+
+Scholarly/source material remains separate in [`AUDIT_AND_SOURCES.md`](AUDIT_AND_SOURCES.md), [`IMAM_REVIEW_NOTES.md`](IMAM_REVIEW_NOTES.md), and the source notes inside individual expansions.
+
+## Noncommercial license
 
 The Hanafi Learning Deck is licensed under **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**.
 
-You may **download, print, copy, share, teach from, and adapt** these materials for personal, educational, mosque, classroom, study-group, community, and other **noncommercial** purposes.
+You may download, print, copy, share, teach from, and adapt these materials for personal, educational, mosque, classroom, study-group, community, and other **noncommercial** purposes.
 
-**You may not sell these cards, charge for access to them, include them in a product or bundle for sale, or otherwise use the deck or its adaptations commercially.**
+You may not sell the cards, charge for access to them, or include the deck or its adaptations in a commercial product or bundle.
 
-If you adapt the deck, credit the Hanafi Learning Deck project, indicate that changes were made, keep the adapted version noncommercial, and distribute it under the same **CC BY-NC-SA 4.0** license.
+If you adapt the deck, credit the Hanafi Learning Deck project, indicate that changes were made, keep the adapted version noncommercial, and distribute it under the same license.
 
-The purpose of this project is Islamic education and benefit, **not commercial profit**.
+The purpose of this project is Islamic education and benefit, not commercial profit.
 
-Full license details are in [`LICENSE`](LICENSE).
+Full license: [`LICENSE`](LICENSE)
 
-Official license: https://creativecommons.org/licenses/by-nc-sa/4.0/
+---
+
+**Hanafi Learning Deck — v1.6 development checkpoint**
