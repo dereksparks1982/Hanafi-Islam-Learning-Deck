@@ -1,0 +1,46 @@
+name: One-time exact Lal Masjid card upload
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/one-time-upload-lal-masjid.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact approved Card 1
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p Important-Places-Expansion
+          URL='https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-05f0-8210-b659-b09710158b15/raw?se=2026-09-20T16%3A18%3A59Z&sp=r&sv=2026-02-06&sr=b&scid=92a62620-32c0-57b2-86d2-a45b9fe84784&skoid=7b771594-2b4f-4e93-93be-fdeeeb59aaf9&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-20T06%3A19%3A56Z&ske=2026-09-21T06%3A19%3A56Z&sks=b&skv=2026-02-06&sig=FCAwZZZ1eO6TB3CeNBv5X8L8QJAsz/IZcEogO8K3%2BpM%3D'
+          curl --fail --location --retry 3 "$URL" -o Important-Places-Expansion/card_001_lal_masjid.png
+
+      - name: Verify exact bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          FILE='Important-Places-Expansion/card_001_lal_masjid.png'
+          test "$(stat -c%s "$FILE")" = '2503124'
+          echo '5a0f1919f835b67cce146503159af32073a32c860246f9706e71b9b16b8cc347  Important-Places-Expansion/card_001_lal_masjid.png' | sha256sum -c -
+
+      - name: Commit exact approved card
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Important-Places-Expansion/card_001_lal_masjid.png
+          if git diff --cached --quiet; then
+            echo 'No image change needed'
+          else
+            git commit -m 'Add Important Places Card 1 Lal Masjid'
+            git push
+          fi
