@@ -89,8 +89,18 @@ def load_cards():
     return cards
 
 
-def update_card(card):
-    arabic = card.get("header_arabic")
+def load_arabic_headers():
+    path = Path("source/main_deck_arabic_headers.json")
+    data = json.loads(path.read_text(encoding="utf-8"))
+    headers = {int(number): title for number, title in data.items()}
+    if len(headers) != 145:
+        raise SystemExit(f"Expected 145 Arabic header entries, found {len(headers)}")
+    if 2 in headers:
+        raise SystemExit("Card 2 is intentionally English-only and must not be in the Arabic header map")
+    return headers
+
+
+def update_card(card, arabic):
     if not arabic:
         return False
 
@@ -206,9 +216,10 @@ def main():
             raise SystemExit(f"Required font missing: {required}")
 
     cards = load_cards()
+    headers = load_arabic_headers()
     updated = 0
     for card in cards:
-        if update_card(card):
+        if update_card(card, headers.get(int(card["n"]))):
             updated += 1
 
     if updated != 145:
