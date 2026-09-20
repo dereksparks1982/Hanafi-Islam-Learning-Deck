@@ -63,6 +63,24 @@ The workflow is one card at a time:
 
 **candidate preview → maintainer review → explicit approval → exact-image upload → verification → next card**
 
+## Checkpointed repair workflow
+
+The v1.6.3 Sacred Places header repair showed a faster and more reliable way to handle a multi-file visual fix without timing out or accidentally broadening scope.
+
+Instead of attempting discovery, transformation, upload, documentation, and cleanup as one long operation, break the job into independently verifiable checkpoints:
+
+1. **Fetch current `main` first.** Never work from a remembered commit when the repository may have moved.
+2. **Identify the exact affected files.** Make a closed list before touching anything. For the v1.6.3 repair this was Sacred Places Cards 1, 2, 4, 6, 10, 14, and 16.
+3. **Verify the local source against GitHub.** Confirm the local files correspond to the current repository versions before modifying them.
+4. **Perform one narrow transformation locally.** Preserve all unrelated pixels/content and change only the requested property.
+5. **Visually inspect the repaired set before publishing.** A contact sheet or side-by-side review is faster and safer than discovering layout mistakes after upload.
+6. **Publish the smallest coherent group.** Upload only the repaired cards and the derived sheets/contact sheet that actually depend on them.
+7. **Verify the repository after the write.** Confirm the commit, changed paths, current `main`, and any expected binary sizes/blobs.
+8. **Remove temporary workflow machinery immediately.** One-time GitHub Actions files are tools, not permanent project files.
+9. **Only then move to documentation or the next task.** Report each completed checkpoint before starting another substantial operation.
+
+This method is preferred for future multi-file repairs because it reduces timeout risk, makes failures easy to locate, prevents duplicate work, and gives the maintainer a clear progress trail.
+
 ## Fallback: one-time GitHub Actions image operation
 
 Use a temporary GitHub Actions workflow to **modify** an existing repository image only when a controlled transformation is actually requested and normal text-file tools cannot perform it.
