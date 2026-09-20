@@ -99,11 +99,19 @@ The mobile layer is only a viewing aid. The printable PNG files remain authorita
 
 ## Recommended learning links
 
-These external resources complement the deck and remain on their original creators' channels:
+These external resources complement the deck and remain on their original creators' or organizations' sites:
 
 - **Hanafi salah / prayer tutorial playlist — Man prayer (Hanafi):** https://www.youtube.com/playlist?list=PLgfsDRXXIm95Ef1zHj3ui3iqSJHhTwrdc
 - **Arabic Alphabet Explained by an American — Language Simp:** https://www.youtube.com/watch?v=TLnr17rEFrQ&t=164s
 - **Arabic learning video — Language Simp (starts at 5:37):** https://www.youtube.com/watch?v=xBG1eVwH_wg&t=337s
+- **Kaʿbah / Masjid al-Haram live — official Haramain live broadcast:** https://haramain.prh.gov.sa/ar/live
+- **Darul Ifta — Darul Uloom Deoband:** https://www.darulifta-deoband.com/
+- **Darul Iftaa Leicester — Institute of Islamic Jurisprudence:** https://daruliftaa.com/
+- **Darul Ifta Birmingham — Institute of Islamic Jurisprudence:** https://daruliftabirmingham.co.uk/
+- **SeekersGuidance — structured Hanafi study and courses:** https://seekersguidance.org/
+- **Qur'an reference — Quran.com:** https://quran.com/
+- **Hadith reference — Sunnah.com:** https://sunnah.com/
+- **Islamic Society of Wichita:** https://myisw.org/
 
 ## The five current sets
 
