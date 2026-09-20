@@ -1,18 +1,20 @@
 # Hanafi Learning Deck — Roadmap
 
-## Current checkpoint: v1.6
+## Current checkpoint: v1.6.3
 
-The project currently contains **206 numbered cards across five independent sets**, counting the first approved Important Places card:
+The project currently contains **207 numbered cards across five independent sets**:
 
 - **Main Deck:** Cards 1–146
 - **Sacred Places Expansion:** Cards 1–19
 - **99 Names of Allah Expansion:** Cards 1–12
 - **Arabic Alphabet Expansion:** Cards 1–28
-- **Important Places of the Muslim World:** Card 1 approved, expansion now in progress
+- **Important Places of the Muslim World:** Cards 1–2 approved, expansion in progress
 
 The project remains a **Hanafi study aid pending imam/scholar review**. A full manual word-by-word audit is also underway.
 
-## v1.6 — Important Places of the Muslim World
+The project now supports multiple study surfaces: printable cards, mobile-friendly galleries, and a web-viewer port. These are viewing/study layers; the authoritative card PNGs and source material remain in the repository.
+
+## v1.6.x — Important Places of the Muslim World
 
 This expansion is for Muslim places that are historically, intellectually, culturally, politically, or architecturally important **without automatically claiming special religious sanctity**.
 
@@ -28,16 +30,21 @@ Because the cards are visually and historically detailed, they are built **one c
 6. only an explicitly approved card is uploaded;
 7. then work begins on the next card.
 
-### Approved Card 1
+### Approved cards
 
-- **Lal Masjid — Islamabad, Pakistan**
-- The maintainer-supplied approved PNG is authoritative and must be uploaded unchanged.
+- **Card 1: Lal Masjid — Islamabad, Pakistan**
+- **Card 2: Chinguetti Mosque — Chinguetti, Mauritania**
+
+Approved final images are authoritative and must be uploaded unchanged unless the maintainer explicitly requests a revision.
+
+### Next checkpoint: v1.6.4
+
+**v1.6.4 is reserved for Important Places Card 3.** The subject is not considered approved until its individual candidate card has been researched, built, screened, and explicitly accepted.
 
 ### Candidate directions for later cards
 
 Future subjects will be researched individually rather than treated as a locked list. Areas of interest include:
 
-- Chinguetti and its manuscript/scholarly heritage
 - important Afghan mosques and centers of learning
 - historic madrasas and manuscript libraries
 - major centers of Islamic scholarship
@@ -102,9 +109,18 @@ The Arabic Alphabet Expansion exists because learning to read Arabic opens the d
 
 Future Arabic-learning material may be considered when it directly supports that study mission. The present approved Arabic set remains the 28-card alphabet expansion.
 
-## Mobile learning
+## Mobile and web learning
 
-The repository includes phone-friendly scrolling galleries for the existing completed sets. The mobile layer is a viewing aid only; the printable PNG files remain authoritative.
+The repository includes phone-friendly scrolling galleries for the existing completed sets and a web-viewer port for browser-based study. These layers should make the same authoritative card material easier to study without creating competing versions of the content.
+
+Future viewer features should favor learning value over novelty, especially:
+
+- source visibility;
+- review-status visibility;
+- Arabic pronunciation support;
+- self-testing and spaced review;
+- accessibility;
+- offline use where practical.
 
 ## Numbering rule
 
