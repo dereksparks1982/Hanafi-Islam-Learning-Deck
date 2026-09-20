@@ -17,3 +17,10 @@ PASS: Arabic header labels added to 145 of 146 cards; Card 2 remains intentional
 PASS: existing pixels below each card header were preserved exactly during the header operation.
 PASS: 37 printable sheets and contact sheet rebuilt from the updated card PNGs.
 NOTE: Arabic header translations remain subject to qualified Islamic/Arabic review.
+
+V1.6.2 THREE-LANGUAGE TITLE UPDATE
+PASS: relevant title bars now present English, Latin transliteration, and Arabic across the main deck and current expansions.
+PASS: title-bar operation preserves existing pixels below the detected header divider.
+PASS: printable sheets and contact sheets were rebuilt from the updated cards.
+PASS: Important Places Card 2, Chinguetti Mosque, was added from the exact approved/tested PNG bytes.
+NOTE: Arabic and transliteration labels remain subject to qualified Islamic/Arabic review.
