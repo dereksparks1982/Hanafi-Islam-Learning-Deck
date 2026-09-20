@@ -50,6 +50,39 @@ Future subjects will be researched individually rather than treated as a locked 
 - major centers of Islamic scholarship
 - significant Ottoman, Central Asian, African, South Asian, North African, and other Muslim institutions and cities
 
+## Planned Main Deck continuation — Everyday Islamic Speech
+
+The Main Deck will eventually continue beyond Card 146 with a sequence teaching the short Arabic expressions Muslims use throughout everyday life and **when to say them**.
+
+The current concept runs from **Cards 147–170** and includes:
+
+- Bismillah
+- Alhamdulillah
+- In shāʾ Allāh
+- Mā shāʾ Allāh
+- Subḥānallāh
+- Allāhu Akbar
+- Astaghfirullāh
+- Lā ilāha illa Allāh
+- Lā ḥawla wa lā quwwata illā billāh
+- Ḥasbunallāhu wa niʿma al-Wakīl
+- Innā lillāhi wa innā ilayhi rājiʿūn
+- Jazakallāhu khayran
+- Bārakallāhu fīk
+- the salām and its reply
+- the Sunnah sneezing exchange
+- Āmīn
+- ṣalawāt on Prophet Muhammad ﷺ
+- common Companion and scholar honorifics
+- **Yalla versus Yā Allāh**
+- Allāhu aʿlam
+- the seriousness of Wallāhi and other oaths
+- Aʿūdhu billāh
+
+The detailed concept and review requirements live in [`main-deck-continuation.md`](main-deck-continuation.md).
+
+These cards are not yet part of the published 146-card Main Deck. Arabic, transliteration, Qur'an/hadith sourcing, and any Hanafi legal detail must be checked before publication.
+
 ## Audit and scholarly review
 
 The repository is being manually reviewed card by card, every word and every source.
@@ -111,17 +144,29 @@ Future Arabic-learning material may be considered when it directly supports that
 
 ## Mobile and web learning
 
-The repository includes phone-friendly scrolling galleries for the existing completed sets and a web-viewer port for browser-based study. These layers should make the same authoritative card material easier to study without creating competing versions of the content.
+The digital direction is now approved as a major part of the project. The physical cards remain first-class for schools, madrasas, mosques, classrooms, institutions, and learners who prefer paper, while an individual learner should eventually be able to carry the complete deck on a phone without carrying hundreds of printed cards.
 
-Future viewer features should favor learning value over novelty, especially:
+The detailed plan lives in [`digital-learning-roadmap.md`](digital-learning-roadmap.md).
 
-- source visibility;
-- review-status visibility;
-- Arabic pronunciation support;
-- self-testing and spaced review;
-- accessibility;
-- offline use where practical.
+Approved directions include:
+
+- an installable offline PWA / web viewer;
+- search, filters, per-card deep links, bookmarks, and guided study paths;
+- Arabic-only / transliteration / English display controls;
+- memorization and local spaced repetition;
+- optional approved human pronunciation/recitation audio;
+- Scholar Mode with source drawers and review metadata;
+- a transparent review-status dashboard;
+- an imam/scholar review interface;
+- an Imam Review Pack generator;
+- QR/deep-link bridges from printed cards to their digital pages;
+- classroom presentation and institution tools;
+- printable lesson and study packs built from approved material;
+- human-readable card revision/correction history;
+- offline/local-first progress with no required account, advertising, or behavioral tracking.
+
+These are approved as the project's direction, but they should be implemented in controlled phases rather than as one uncontrolled bulk build.
 
 ## Numbering rule
 
-Each expansion begins at **Card 1** and keeps independent numbering. New cards append to that expansion after approval.
+Each expansion begins at **Card 1** and keeps independent numbering. New cards append to that expansion after approval. The Main Deck is the exception because it is a single continuing sequence: future Main Deck cards continue after Card 146.
