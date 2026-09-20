@@ -1,10 +1,25 @@
 # Hanafi Learning Deck v1.6.3
 
+<div align="center">
+
+## بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+
+**Bismillāhir-Raḥmānir-Raḥīm**  
+*In the name of Allah, the Most Compassionate, the Most Merciful.*
+
+**الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَىٰ رَسُولِ اللَّهِ**  
+**Al-ḥamdu lillāhi Rabbil-ʿālamīn, waṣ-ṣalātu was-salāmu ʿalā Rasūlillāh.**  
+*All praise belongs to Allah, Lord of the worlds, and peace and blessings be upon the Messenger of Allah ﷺ.*
+
+This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement.
+
+</div>
+
 A growing, printable and mobile-friendly library for learning **Islam through a consistent Hanafi framework**: belief, salah, purification, duʿā, daily worship, Qur'an, Arabic literacy, sacred places, the Names of Allah, Islamic history, and the wider Muslim world.
 
 This project began with a simple problem: a learner can find thousands of isolated answers online and still struggle to find a clear path through them. The Hanafi Learning Deck tries to turn that maze into something you can actually hold, study, review, print, carry on your phone, and return to every day.
 
-> **Current checkpoint:** **v1.6**
+> **Current checkpoint:** **v1.6.3**
 >
 > **Status:** educational study aid, still undergoing full manual audit and pending qualified imam/scholar review.
 
@@ -33,7 +48,7 @@ A madhhab is not a separate religion or sect. It is a legal tradition and method
 
 ## Current library
 
-At the v1.6 checkpoint, the repository contains **206 numbered cards across five independent sets**:
+At the v1.6.3 checkpoint, the repository contains **207 numbered cards across five independent sets**:
 
 | Set | Status | Cards |
 | --- | --- | ---: |
@@ -41,7 +56,7 @@ At the v1.6 checkpoint, the repository contains **206 numbered cards across five
 | Sacred Places Expansion | complete current set | 19 |
 | 99 Names of Allah Expansion | complete current set | 12 |
 | Arabic Alphabet Expansion | complete current set | 28 |
-| Important Places of the Muslim World | **in progress** | **1 approved** |
+| Important Places of the Muslim World | **in progress** | **2 approved** |
 
 Each expansion starts at Card 1 and keeps its own numbering.
 
@@ -72,7 +87,7 @@ The mobile layer is only a viewing aid. The printable PNG files remain authorita
 
 ## Downloads and collections
 
-- **Complete current v1.6 repository ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
+- **Complete current v1.6.3 repository ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
 - **Main Deck, Cards 1–146:** [`cards/`](cards/)
 - **Sacred Places Expansion, Cards 1–19:** [`Sacred-Places-Expansion/`](Sacred-Places-Expansion/)
 - **99 Names of Allah, Cards 1–12:** [`99-Names-of-Allah-Expansion/`](99-Names-of-Allah-Expansion/)
@@ -89,7 +104,6 @@ These external resources complement the deck and remain on their original creato
 - **Hanafi salah / prayer tutorial playlist — Man prayer (Hanafi):** https://www.youtube.com/playlist?list=PLgfsDRXXIm95Ef1zHj3ui3iqSJHhTwrdc
 - **Arabic Alphabet Explained by an American — Language Simp:** https://www.youtube.com/watch?v=TLnr17rEFrQ&t=164s
 - **Arabic learning video — Language Simp (starts at 5:37):** https://www.youtube.com/watch?v=xBG1eVwH_wg&t=337s
-
 
 ## The five current sets
 
@@ -126,11 +140,12 @@ One letter per card, built for a learner who wants more than a chart. Cards incl
 
 Arabic literacy belongs here because it is a doorway into the Qur'an, hadith, fiqh, classical books, manuscripts, and Islamic scholarship in the language in which much of that tradition was written.
 
-### Important Places of the Muslim World — v1.6, in progress
+### Important Places of the Muslim World — v1.6.x, in progress
 
-This new expansion covers places that matter to Muslim history, scholarship, culture, politics, or architecture **without automatically labeling those places sacred**.
+This expansion covers places that matter to Muslim history, scholarship, culture, politics, or architecture **without automatically labeling those places sacred**.
 
-**Card 1 is Lal Masjid — Islamabad, Pakistan.**
+**Card 1: Lal Masjid — Islamabad, Pakistan**  
+**Card 2: Chinguetti Mosque — Chinguetti, Mauritania**
 
 These cards are being built differently from the earlier sets. Because they depend heavily on photography, historical wording, Arabic, sourcing, and layout, **each card is reviewed individually before it is published**. There will be no unscreened bulk batch.
 
@@ -156,7 +171,7 @@ Corrections will be discussed and sourced rather than silently rewritten.
 
 ### 2. Continue Important Places one card at a time
 
-Candidate directions include Chinguetti and its manuscript tradition, important Afghan mosques and centers of learning, historic madrasas and libraries, and major centers of Islamic scholarship across Africa, Central Asia, South Asia, the Ottoman world, North Africa, and elsewhere.
+**v1.6.4 is reserved for Important Places Card 3.** Candidate directions include important Afghan mosques and centers of learning, historic madrasas and libraries, and major centers of Islamic scholarship across Africa, Central Asia, South Asia, the Ottoman world, North Africa, and elsewhere.
 
 ### 3. The Hanafi School: Origins, Method & Legacy
 
@@ -199,7 +214,7 @@ Development and operating notes now live together in [`docs/`](docs/):
 - [`docs/COMPANY_BIBLE.md`](docs/COMPANY_BIBLE.md) — project rules and approval gates
 - [`docs/roadmap.md`](docs/roadmap.md) — current and future direction
 - [`docs/changelog.md`](docs/changelog.md) — checkpoint history
-- [`docs/build-notes.md`](docs/build-notes.md) — technical notes, including the solved binary-image upload workflow
+- [`docs/build-notes.md`](docs/build-notes.md) — technical notes, including the solved binary-image upload and checkpointed repair workflows
 
 Scholarly/source material remains separate in [`AUDIT_AND_SOURCES.md`](AUDIT_AND_SOURCES.md), [`IMAM_REVIEW_NOTES.md`](IMAM_REVIEW_NOTES.md), and the source notes inside individual expansions.
 
@@ -219,4 +234,4 @@ Full license: [`LICENSE`](LICENSE)
 
 ---
 
-**Hanafi Learning Deck — v1.6 development checkpoint**
+**Hanafi Learning Deck — v1.6.3 checkpoint**
