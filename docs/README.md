@@ -8,6 +8,8 @@ This folder is the home for the Hanafi Learning Deck's development and operating
 - [`roadmap.md`](roadmap.md) — current checkpoint, next approved direction, and longer-term expansion plans.
 - [`changelog.md`](changelog.md) — release/checkpoint history, including the v1.6.3 closeout.
 - [`build-notes.md`](build-notes.md) — technical notes, including the exact binary-image upload workflow and the checkpointed multi-file repair workflow.
+- [`main-deck-continuation.md`](main-deck-continuation.md) — concept plan for Main Deck Cards 147–170, focused on everyday Islamic expressions and when to use them.
+- [`digital-learning-roadmap.md`](digital-learning-roadmap.md) — approved direction for the offline web app, Scholar Mode, review tools, Arabic learning, spaced repetition, QR/deep links, classroom use, and other digital study features.
 
 ## Content and scholarly review
 
@@ -17,7 +19,7 @@ Content sourcing and scholarly review remain separate from development notes:
 - [`../IMAM_REVIEW_NOTES.md`](../IMAM_REVIEW_NOTES.md) — corrections and imam/scholar review notes.
 - Expansion-specific source notes stay inside their own expansion folders.
 
-The separation is intentional: `docs/` records **how the project is managed, built, released, and maintained**; the audit/source files record **what the cards teach and why the claims are supported**.
+The separation is intentional: `docs/` records **how the project is managed, built, released, maintained, and planned**; the audit/source files record **what the cards teach and why the claims are supported**.
 
 ## Current documentation checkpoint
 
@@ -27,6 +29,8 @@ As of **v1.6.3**:
 - release history belongs in the changelog rather than scattered root notes;
 - future direction and reserved version numbers belong in the roadmap;
 - project governance belongs in the Company Bible;
+- new card sequences should be conceptualized and sourced before publication;
+- approved digital features should be implemented in controlled phases rather than one uncontrolled bulk build;
 - scholarly corrections remain traceable separately from development mechanics.
 
 The next reserved project checkpoint is **v1.6.4**, for the next individually approved Important Places card.
