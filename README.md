@@ -81,7 +81,15 @@ The mobile layer is only a viewing aid. The printable PNG files remain authorita
 - **Printable main-deck sheets:** [`sheets/`](sheets/)
 - **Mobile-friendly view:** [`mobile-view/`](mobile-view/)
 - **Optional card back:** [`card-back/CardBack.png`](card-back/CardBack.png)
-- **Arabic alphabet pronunciation video — Language Simp:** https://www.youtube.com/watch?v=TLnr17rEFrQ&t=164s
+
+## Recommended learning links
+
+These external resources complement the deck and remain on their original creators' channels:
+
+- **Hanafi salah / prayer tutorial playlist — Man prayer (Hanafi):** https://www.youtube.com/playlist?list=PLgfsDRXXIm95Ef1zHj3ui3iqSJHhTwrdc
+- **Arabic Alphabet Explained by an American — Language Simp:** https://www.youtube.com/watch?v=TLnr17rEFrQ&t=164s
+- **Arabic learning video — Language Simp (starts at 5:37):** https://www.youtube.com/watch?v=xBG1eVwH_wg&t=337s
+
 
 ## The five current sets
 

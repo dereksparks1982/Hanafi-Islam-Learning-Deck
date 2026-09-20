@@ -103,16 +103,30 @@ def sacred_files():
         if m: files.append((int(m.group(1)),p))
     return sorted(files)
 
-def apply_sacred():
+def apply_sacred(only=None):
     changed=[]
+    wanted=None if only is None else set(only)
     for n,p in sacred_files():
+        if wanted is not None and n not in wanted: continue
         before=Image.open(p).convert('RGB'); im=before.copy(); d=ImageDraw.Draw(im); div=detect_dark_divider(im,120,240)
         bg=avg_bg(im,(400,45,600,min(div-10,130))); d.rectangle((47,40,953,div-4),fill=bg)
-        lab=LABELS['sacred_places'][str(n)]; eng=f"{n}. {lab['english']}"; ef,elines=fit_lines(d,eng,FONT_B,46,27,570,2)
-        for i,line in enumerate(elines): d.text((63,48+i*(ef.size+3)),line,font=ef,fill=BLACK)
+        lab=LABELS['sacred_places'][str(n)]; eng=f"{n}. {lab['english']}"; latin_y=div-37
+        ef=elines=None
+        for s in range(46,21,-1):
+            cand=F(FONT_B,s); lines=wrap(d,eng,cand,570)
+            if not lines or len(lines)>2: continue
+            y=48; bottom=48
+            for line in lines:
+                b=d.textbbox((63,y),line,font=cand); bottom=max(bottom,b[3]); y += s+2
+            if bottom <= latin_y-10:
+                ef,elines=cand,lines; break
+        if ef is None: raise RuntimeError(f'Could not fit Sacred Places title {n}')
+        y=48
+        for line in elines:
+            d.text((63,y),line,font=ef,fill=BLACK); y += ef.size+2
         af=fit_single(d,lab['arabic'],FONT_AR,42,24,300,'rtl'); d.text((940,46),lab['arabic'],font=af,fill=DARK_GREEN,anchor='ra',direction='rtl')
-        lf=fit_single(d,lab['latin'],FONT_I,22,14,520); d.text((63,div-47),lab['latin'],font=lf,fill=DARK_GREEN)
-        tag,col=SACRED_TAGS[n]; tf=fit_single(d,tag,FONT_B,18,12,360); d.text((940,div-47),tag,font=tf,fill=COLORS[col],anchor='ra')
+        lf=fit_single(d,lab['latin'],FONT_I,20,13,430); d.text((63,latin_y),lab['latin'],font=lf,fill=DARK_GREEN)
+        tag,col=SACRED_TAGS[n]; tf=fit_single(d,tag,FONT_B,16,11,350); d.text((940,latin_y),tag,font=tf,fill=COLORS[col],anchor='ra')
         d.line((48,div,952,div),fill=BLACK,width=3)
         preserve_below(before,im,div+2,f'sacred {n}'); im.save(p,'PNG',optimize=True); changed.append(p)
     return changed
