@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b3d2e">
+  <meta name="description" content="Offline study viewer for the Hanafi Learning Deck.">
+  <title>Hanafi Learning Deck</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Hanafi Learning Deck</p>
+      <h1>Carry the deck with you.</h1>
+      <p class="intro">Browse the approved card library online, or download all 208 current cards for offline study.</p>
+    </div>
+    <div class="actions" aria-label="App actions">
+      <button id="installButton" class="secondary" hidden>Install App</button>
+      <button id="offlineButton" class="primary">Download for Offline Use</button>
+    </div>
+    <p id="status" class="status" role="status" aria-live="polite">Checking offline library…</p>
+  </header>
+
+  <main>
+    <nav id="setNav" class="set-nav" aria-label="Card sets"></nav>
+    <section id="library" class="library" aria-live="polite"></section>
+  </main>
+
+  <footer>
+    <p>No account. No advertising. No behavioral tracking. Approved repository card images remain authoritative.</p>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
