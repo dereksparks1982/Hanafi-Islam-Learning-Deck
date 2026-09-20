@@ -11,3 +11,9 @@ PASS: 37 printable sheets rebuilt.
 PASS: source JSON renumbered to 1-146.
 PASS: build_deck.py frame/header updated for v1.4.
 NOTE: Sacred Places and 99 Names expansions are intentionally unchanged at R1 and will be renumbered in later v1.4 revisions.
+
+V1.6 MAIN-DECK ARABIC HEADER UPDATE
+PASS: Arabic header labels added to 145 of 146 cards; Card 2 remains intentionally English-only.
+PASS: existing pixels below each card header were preserved exactly during the header operation.
+PASS: 37 printable sheets and contact sheet rebuilt from the updated card PNGs.
+NOTE: Arabic header translations remain subject to qualified Islamic/Arabic review.
