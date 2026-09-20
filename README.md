@@ -1,4 +1,4 @@
-# Hanafi Learning Deck v1.6.4
+# Hanafi Learning Deck v1.6.3
 
 A growing, printable and mobile-friendly library for learning **Islam through a consistent Hanafi framework**: belief, salah, purification, duʿā, daily worship, Qur'an, Arabic literacy, sacred places, the Names of Allah, Islamic history, and the wider Muslim world.
 
