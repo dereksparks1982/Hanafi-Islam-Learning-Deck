@@ -1,0 +1,62 @@
+name: TEMP Expand Recommended Links
+
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-expand-recommended-links.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Expand recommended learning links
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('README.md')
+          text = p.read_text(encoding='utf-8')
+          old = '''- **Hanafi salah / prayer tutorial playlist — Man prayer (Hanafi):** https://www.youtube.com/playlist?list=PLgfsDRXXIm95Ef1zHj3ui3iqSJHhTwrdc
+- **Arabic Alphabet Explained by an American — Language Simp:** https://www.youtube.com/watch?v=TLnr17rEFrQ&t=164s
+- **Arabic learning video — Language Simp (starts at 5:37):** https://www.youtube.com/watch?v=xBG1eVwH_wg&t=337s
+'''
+          new = '''- **Hanafi salah / prayer tutorial playlist — Man prayer (Hanafi):** https://www.youtube.com/playlist?list=PLgfsDRXXIm95Ef1zHj3ui3iqSJHhTwrdc
+- **Arabic Alphabet Explained by an American — Language Simp:** https://www.youtube.com/watch?v=TLnr17rEFrQ&t=164s
+- **Arabic learning video — Language Simp (starts at 5:37):** https://www.youtube.com/watch?v=xBG1eVwH_wg&t=337s
+- **Kaʿbah / Masjid al-Haram live — official Haramain live broadcast:** https://haramain.prh.gov.sa/ar/live
+- **Darul Ifta — Darul Uloom Deoband:** https://www.darulifta-deoband.com/
+- **Darul Iftaa Leicester — Institute of Islamic Jurisprudence:** https://daruliftaa.com/
+- **Darul Ifta Birmingham — Institute of Islamic Jurisprudence:** https://daruliftabirmingham.co.uk/
+- **SeekersGuidance — structured Hanafi study and courses:** https://seekersguidance.org/
+- **Qur'an reference — Quran.com:** https://quran.com/
+- **Hadith reference — Sunnah.com:** https://sunnah.com/
+- **Islamic Society of Wichita:** https://myisw.org/
+'''
+          if old not in text:
+              raise SystemExit('Recommended links source block not found; README left unchanged')
+          text = text.replace(old, new, 1)
+          p.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Verify scope
+        run: |
+          set -euo pipefail
+          grep -F 'https://haramain.prh.gov.sa/ar/live' README.md
+          grep -F 'https://myisw.org/' README.md
+          test "$(git diff --name-only | wc -l)" -eq 1
+          test "$(git diff --name-only)" = 'README.md'
+
+      - name: Commit README links
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git commit -m 'Expand recommended Islamic learning links'
+          git push origin main
