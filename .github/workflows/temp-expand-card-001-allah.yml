@@ -1,0 +1,157 @@
+name: TEMP Expand Card 1 Allah
+
+on:
+  push:
+    paths:
+      - '.github/workflows/temp-expand-card-001-allah.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild-card-001:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install rendering dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-core
+          python -m pip install --quiet pillow numpy
+
+      - name: Update Card 1 source and special Allah renderer
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          source = Path('source/cards_001_025.json')
+          cards = json.loads(source.read_text(encoding='utf-8'))
+          if cards[0].get('n') != 1 or cards[0].get('title') != 'ALLAH':
+              raise SystemExit('Card 1 source gate failed')
+
+          cards[0] = {
+              'n': 1,
+              'title': 'ALLAH',
+              'tag': 'FOUNDATION',
+              'color': 'gold',
+              'special_allah': True,
+              'intro': 'WHY DO MUSLIMS CALL GOD “ALLAH”?',
+              'bullet_fs': 27,
+              'bullets': [
+                  ['NAME', 'Allah (الله) is the Arabic name for the one true God: the Creator worshipped by Ibrahim (Abraham), Ishaq (Isaac), Musa (Moses), Isa (Jesus), and Muhammad ﷺ.'],
+                  ['ARABIC', 'The Arabic word ilāh (إله) means a god or deity. Allah refers to God, the One worthy of worship. Arabic-speaking Christians also use Allah when speaking of God.'],
+                  ["QUR'AN", 'Allah says: “Indeed, I am Allah. There is no deity except Me, so worship Me.” (Qur’an 20:14)'],
+                  ['ONE', 'Surah al-Ikhlāṣ begins: “Say: He is Allah, One. Allah, the Eternal Refuge.” (Qur’an 112:1–2)'],
+              ],
+              'source': 'Qur’an 20:14; 112:1–4. Arabic usage and standard Arabic lexicography.'
+          }
+          source.write_text(json.dumps(cards, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          renderer = Path('build_deck.py')
+          text = renderer.read_text(encoding='utf-8')
+          old = '''    if c.get("special_allah"):\n        af=F(FONT_AR,270); cy=(body_y+(H-60))//2\n        d.text((W//2,cy),"اللّٰه",font=af,fill=COLORS["gold"],anchor="mm",direction="rtl")\n        return img\n'''
+          new = '''    if c.get("special_allah"):\n        has_explainer = any(c.get(k) for k in ("intro","bullets","note","source","meaning","translit","arabic"))\n        if not has_explainer:\n            af=F(FONT_AR,270); cy=(body_y+(H-60))//2\n            d.text((W//2,cy),"اللّٰه",font=af,fill=COLORS["gold"],anchor="mm",direction="rtl")\n            return img\n        c=dict(c)\n        c.setdefault("arabic","اللّٰه")\n        c.setdefault("ar_size",190)\n        c.setdefault("ar_min",170)\n        c.setdefault("ar_max_lines",1)\n        c["arabic_color"]=COLORS["gold"]\n'''
+          if old not in text:
+              raise SystemExit('Renderer source gate failed: special_allah block not found')
+          renderer.write_text(text.replace(old, new, 1), encoding='utf-8')
+          PY
+
+      - name: Render Card 1 and restore current Arabic header treatment
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          import build_deck
+          from tools.apply_main_deck_arabic_headers import update_card
+
+          card = json.loads(Path('source/cards_001_025.json').read_text(encoding='utf-8'))[0]
+          build_deck.render_card(card).save('cards/card_001.png', 'PNG', optimize=True)
+          if not update_card(card, 'الله'):
+              raise SystemExit('Arabic header update failed')
+          PY
+
+      - name: Rebuild affected printable sheet and contact sheet
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          import math
+
+          card_paths = sorted(Path('cards').glob('card_*.png'))
+          if len(card_paths) != 147 or card_paths[0].name != 'card_000.png' or card_paths[-1].name != 'card_146.png':
+              raise SystemExit('Expected Card 00 through Card 146 before rebuilding derived assets')
+
+          sheet_w, sheet_h = 2060, 2860
+          slot_w, slot_h = 970, 1358
+          gap_x, gap_y = 40, 40
+          start_x, start_y = 40, 52
+          sheet = Image.new('RGB', (sheet_w, sheet_h), 'white')
+          for j, p in enumerate(card_paths[:4]):
+              with Image.open(p) as src:
+                  im = src.convert('RGB')
+                  scale = min(slot_w / im.width, slot_h / im.height)
+                  nw = max(1, round(im.width * scale))
+                  nh = max(1, round(im.height * scale))
+                  im = im.resize((nw, nh), Image.Resampling.LANCZOS)
+              col, row = j % 2, j // 2
+              slot_x = start_x + col * (slot_w + gap_x)
+              slot_y = start_y + row * (slot_h + gap_y)
+              sheet.paste(im, (slot_x + (slot_w - nw)//2, slot_y + (slot_h - nh)//2))
+          sheet.save('sheets/sheet_01.png', 'PNG', optimize=True)
+
+          cols, cw, ch = 8, 180, 252
+          rows = math.ceil(len(card_paths) / cols)
+          contact = Image.new('RGB', (cols*cw, rows*ch), 'white')
+          for i, p in enumerate(card_paths):
+              with Image.open(p) as src:
+                  im = src.convert('RGB')
+                  im.thumbnail((cw-6, ch-6), Image.Resampling.LANCZOS)
+              x = (i % cols)*cw + (cw-im.width)//2
+              y = (i // cols)*ch + (ch-im.height)//2
+              contact.paste(im, (x,y))
+          contact.save('contact_sheet.png', 'PNG', optimize=True)
+          PY
+
+      - name: Refresh v1.6.3 changelog notes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('docs/changelog.md')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace('Closed the v1.6.3 checkpoint at **207 numbered cards across five independent sets**.', 'Closed the v1.6.3 checkpoint at **208 numbered cards across five independent sets**.', 1)
+          anchor = '- Added a dedicated acknowledgment of Allah at the beginning of the project README using the basmalah, praise of Allah, and salawat upon the Messenger of Allah ﷺ.\n'
+          additions = ('- Added **Card 00** as an unnumbered-on-artwork frontispiece displaying the Beautiful Names of Allah before the numbered lessons begin.\n'
+                       '- Expanded **Main Deck Card 1 — ALLAH** so the large gold name remains central while the card now explains why Muslims call God Allah, distinguishes *ilāh* from Allah, connects the name to the God worshipped by the prophets, and anchors the explanation in Qur’an 20:14 and Surah al-Ikhlāṣ.\n')
+          if 'Expanded **Main Deck Card 1 — ALLAH**' not in text:
+              if anchor not in text:
+                  raise SystemExit('Changelog anchor not found')
+              text = text.replace(anchor, anchor + additions, 1)
+          p.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Verify scope and protected Card 00
+        run: |
+          set -euo pipefail
+          echo '6e4f9965413a53912553a49fda1f09a3fa49691a1a6760e7759fe2072c55ec88  cards/card_000.png' | sha256sum -c -
+          python - <<'PY'
+          from PIL import Image
+          im = Image.open('cards/card_001.png')
+          assert im.size == (1000, 1400), im.size
+          sheet = Image.open('sheets/sheet_01.png')
+          assert sheet.size == (2060, 2860), sheet.size
+          print('PASS: Card 1 and sheet dimensions verified; Card 00 unchanged')
+          PY
+
+      - name: Commit Card 1 expansion
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add source/cards_001_025.json build_deck.py cards/card_001.png sheets/sheet_01.png contact_sheet.png docs/changelog.md
+          git commit -m 'Expand Card 1 Allah foundation explanation'
+          git push origin main
