@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.6.3 — Language reinforcement, access, and Sacred Places repair
+
+- Closed the v1.6.3 checkpoint at **207 numbered cards across five independent sets**.
+- Added the approved **Important Places Card 2: Chinguetti Mosque — Chinguetti, Mauritania**.
+- Expanded title bars across the card library to reinforce **English + Latin transliteration + Arabic** through repeated exposure while studying.
+- Repaired header collisions on Sacred Places Cards **1, 2, 4, 6, 10, 14, and 16** without changing their photographs, body text, borders, numbering, or category colors.
+- Rebuilt only the Sacred Places printable sheets affected by those repairs and refreshed the Sacred Places contact sheet.
+- Updated the title-building tool so future Sacred Places rebuilds reserve enough space between multi-line English titles and transliteration.
+- Added a dedicated **Recommended learning links** section to the main README.
+- Added the verified Hanafi salah/prayer tutorial playlist and retained both credited Language Simp Arabic-learning links on their original creator channels.
+- Added the project web-viewer port as another way to study the deck beyond the raw repository/card files.
+- Documented the successful **checkpointed repair workflow** in `docs/build-notes.md`: verify current main, isolate scope, repair locally, visually inspect, publish narrowly, verify, clean up, then continue.
+- Added a dedicated acknowledgment of Allah at the beginning of the project README using the basmalah, praise of Allah, and salawat upon the Messenger of Allah ﷺ.
+- **v1.6.4 is reserved for the next Important Places card.**
+
 ## v1.6 — Important Places begins
 
 - Opened the **Important Places of the Muslim World** expansion as an active set.
