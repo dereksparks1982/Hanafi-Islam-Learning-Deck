@@ -1,4 +1,4 @@
-# Hanafi Learning Deck v1.7
+# Hanafi Learning Deck v1.8 Development
 
 <div align="center">
 
@@ -19,6 +19,8 @@ A growing, printable, offline-capable, and mobile-friendly library for learning 
 
 This project began with a simple problem: a learner can find thousands of isolated answers online and still struggle to find a clear path through them. The Hanafi Learning Deck tries to turn that maze into something a person can actually study, review, print, carry on a phone, verify against sources, and return to every day.
 
+> **Current development cycle:** **v1.8**
+>
 > **Current published checkpoint:** **v1.7**
 >
 > **Published library:** **209 cards across five independent sets**
@@ -199,7 +201,7 @@ The next place is not considered approved merely because it appears on a candida
 
 ## Where the project goes next
 
-Active feature development is currently paused while the expanded scope is documented on `feature/quran-reader`. When implementation resumes, the intended order is:
+**v1.8 is the current development cycle** on `feature/quran-reader`. The intended implementation order is:
 
 1. verify and document the Qur'an source stack and transliteration rules;
 2. build **Page 1 / Surah al-Fatihah** as the Qur'an Reader prototype;
@@ -236,7 +238,6 @@ Development, legal, and operating notes live in [`docs/`](docs/):
 - [`docs/COMPANY_BIBLE.md`](docs/COMPANY_BIBLE.md) — project rules and approval gates
 - [`docs/roadmap.md`](docs/roadmap.md) — current and future direction
 - [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md) — Qur'an/source/copyright policy and the documented Shariah disagreement over intellectual property
-- [`docs/CURRENT_HANDOFF.md`](docs/CURRENT_HANDOFF.md) — current branch state and exact resume point
 - [`docs/changelog.md`](docs/changelog.md) — checkpoint history
 - [`docs/build-notes.md`](docs/build-notes.md) — technical notes
 
@@ -255,38 +256,92 @@ Scholarly/source material remains separate in [`AUDIT_AND_SOURCES.md`](AUDIT_AND
 
 </div>
 
-### Project-created material
+### 1. Scope of this statement
 
-Original material created for the Hanafi Learning Deck is released under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license (CC BY-NC-SA 4.0)** unless a file or section states otherwise.
+This section records the project's **religious, scholarly, licensing, and source-handling framework**. It distinguishes between questions of Shariah, questions of authorship and provenance, and questions arising under the civil law of a particular jurisdiction. Those are related questions, but they are not identical questions.
 
-You may download, print, copy, share, teach from, and adapt that original material for personal, educational, mosque, classroom, study-group, community, and other **noncommercial** purposes. Adaptations must provide attribution, identify changes, remain noncommercial, and use the same license.
+For questions of **Islamic permissibility and obligation**, this project looks to the Qur'an, Sunnah, and the juristic tradition, with particular attention to Hanafi fiqh. Civil copyright statutes are not treated as sources of halal and haram. Questions of civil enforceability, however, are separate matters and may be governed by the law applicable to a particular person, place, service, or dispute.
 
-The purpose of the license is to keep the project's original educational work available for study and teaching rather than to create a commercial product around access to it.
+Nothing in this section purports to issue a fatwa or to provide jurisdiction-specific legal advice. Its purpose is to state the project's methodology openly so that its sources and decisions can be examined rather than guessed.
 
-### The Qur'an itself
+### 2. Project-created material
 
-The project **does not claim ownership of the Qur'an**. The Arabic Qur'an is treated as revelation from Allah, not as project-authored material. Its text is handled as sacred source text and is not to be silently altered.
+Original material created specifically for the Hanafi Learning Deck is released under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license (CC BY-NC-SA 4.0)** unless a particular file or section states otherwise.
 
-Human work surrounding the Qur'an is distinguished from the revelation itself. That includes translations, transliterations, annotations, typography, databases, page metadata, photographs, recordings, and software.
+Subject to that license, the project's original material may be downloaded, printed, copied, shared, taught from, and adapted for personal, educational, mosque, classroom, study-group, community, and other **noncommercial** purposes. Adaptations must provide appropriate attribution, identify changes, remain noncommercial, and use the same license.
 
-### Human translations and third-party sources
+The license applies only to material the project has the right to license. It does not convert third-party works into project property.
 
-A translation is a human rendering of meaning. When the project uses one, the translator and source edition should be identified as clearly as possible. The same principle applies to photographs, datasets, historical documents, audio, and other third-party material.
+### 3. The Qur'an and the distinction between revelation and human work
 
-Third-party material does **not** become CC BY-NC-SA merely because it appears in this repository, and the project does not claim authorship of work created by others.
+The project **does not claim authorship or ownership of the Qur'an**. The Arabic Qur'an is treated as revelation from Allah and as the controlling sacred source text. It is not project-authored material, and verified Qur'anic Arabic is not to be silently rewritten, paraphrased, or altered in order to avoid a licensing dispute.
 
-### Shariah and intellectual-property disagreement
+The project distinguishes the revealed text from human work surrounding it. Human work may include a translation, transliteration, commentary, typesetting, digital encoding, database structure, page metadata, photograph, audio recording, software implementation, or editorial apparatus. Those layers may carry separate authorship, attribution, contractual, or legal questions even though the Qur'an itself is not the work of a modern human author.
 
-The project also documents an important juristic disagreement rather than concealing it. Contemporary Muslim scholars have differed over whether modern intellectual-property rights constitute protected property under Shariah.
+### 4. Translations, transliterations, and provenance
 
-One documented position argues that classical ownership concerned tangible property, that the foundational texts and classical juristic literature do not establish private ownership of intangible knowledge in the modern sense, and that beneficial knowledge cannot simply be treated as an individual's monopolizable possession. Other contemporary scholars, including major fiqh bodies, recognize copyrights and related intellectual-property interests as rights protected by Shariah.
+An English translation is a **human rendering of the meaning of the Qur'an**, not the Arabic Qur'an itself. When a translation, transliteration, dataset, photograph, recording, historical document, or other externally produced source is used, the project will identify the creator, translator, edition, source, or provenance as clearly as reasonably possible.
 
-The existence of both positions is part of the project's legal and scholarly record. Attribution and provenance are preserved regardless of which position is being discussed.
+Attribution is treated as a matter of scholarly integrity. Giving attribution does not erase a source's legal terms, and recording a source's legal terms does not require the project to describe the underlying Qur'anic revelation as privately authored property.
 
-The complete policy, sources for the fiqh discussion, treatment of restrictive source terms, and dispute procedure are maintained in [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md).
+Third-party material does **not** become CC BY-NC-SA merely because it is present in this repository. The project does not claim authorship of material created by others.
 
-Full project license text: [`LICENSE`](LICENSE)
+### 5. The Shariah disagreement concerning intellectual property
+
+The project does not present modern intellectual property as an issue on which Muslim jurists have always spoken with one voice.
+
+Mufti Muhammad Taqi Usmani, in his discussion **"Copyright According to Shariah,"** expressly records a contemporary scholarly position that does not accept intellectual property as a form of private ownership. He summarizes that position as reasoning that classical ownership concerned tangible objects, that no clear precedent in the Qur'an, Sunnah, or classical juristic writings establishes private ownership of intangible knowledge in the modern sense, and that knowledge cannot simply be monopolized as the private possession of an individual.
+
+He also records the opposing position and ultimately adopts it: that Shariah can recognize valuable intangible rights and that copyright may be protected. His discussion further treats compliance with applicable copyright law as an independent obligation in circumstances where the law does not compel what Shariah forbids or forbid what Shariah requires.
+
+Reference: https://islamqa.org/hanafi/albalagh/22252/copyright-according-to-shariah/
+
+The **International Islamic Fiqh Academy** adopted Resolution No. 43 (5/5) in 1988. That resolution recognizes literary production, inventions, copyright, and patent rights as rights protected by Shariah and states that such rights are not to be violated.
+
+Reference: https://iifa-aifi.org/en/54157.html
+
+The project therefore records both the existence of a real juristic disagreement and the fact that significant contemporary authorities recognize intellectual-property rights under Shariah. It will not erase either side of the record to make the legal discussion appear simpler than it is.
+
+### 6. Shariah analysis and civil-law analysis are distinct
+
+A disagreement about the Shariah characterization of intellectual property does not, by itself, answer every question of civil liability or enforceability. Conversely, the existence of a civil copyright rule does not, by itself, settle the separate religious question of how an asserted right is characterized under Islamic jurisprudence.
+
+Accordingly, if a dispute arises, the project may distinguish between:
+
+1. **the Shariah question**, including whether the asserted interest is recognized, limited, or disputed within Islamic jurisprudence;
+2. **the civil-law question**, including what rights or restrictions are enforceable in the relevant jurisdiction; and
+3. **the scholarly question**, including whether the source has been accurately identified, quoted, translated, attributed, and preserved.
+
+This distinction is not intended as a declaration that one legal system simply disappears in the presence of the other. It is a statement that they arise from different sources of authority and must be analyzed with intellectual honesty rather than collapsed into a single argument.
+
+### 7. Access to Islamic knowledge
+
+The project is organized around free study and teaching. The Qur'an Reader and core Islamic study material are intended to remain free of advertising, subscriptions, behavioral tracking, and commercial paywalls.
+
+Where more than one source can satisfy the same scholarly need, the project prefers a public-domain, permissively licensed, openly redistributable, or project-created source. Where the strongest available scholarly reference carries restrictive terms, those terms should be documented rather than hidden, and the project should consider whether the same educational purpose can be achieved through permission, a different source, or independently prepared material.
+
+The project's preference for free access is a project principle. It does not require false attribution, concealment of provenance, or alteration of Qur'anic Arabic.
+
+### 8. Source complaints and dispute procedure
+
+A source or rights complaint should identify, as specifically as possible:
+
+- the file, page, passage, image, recording, or dataset at issue;
+- the person or entity asserting the right;
+- the source or edition involved;
+- the right, restriction, or term said to apply; and
+- the action being requested.
+
+The project will evaluate the complaint against the source record, the applicable license or terms, the relevant civil-law question where necessary, and the documented Shariah analysis. Depending on the circumstances, an appropriate response may include correcting attribution, obtaining permission, substituting another source, independently preparing replacement material, revising a file, or removing disputed human-authored material.
+
+The objective is not to obscure authorship or evade scrutiny. The objective is to keep the project **free, traceable, reviewable, accurately sourced, and faithful to the Qur'an and Sunnah**.
+
+### 9. Governing project documents
+
+The complete source-handling policy and supporting notes are maintained in [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md). The repository license is maintained separately in [`LICENSE`](LICENSE).
+
+Where a third-party work carries its own valid terms, those terms should be recorded with that work rather than silently replaced by the repository's general license.
 
 ---
 
-**Hanafi Learning Deck — v1.7 published checkpoint**
+**Hanafi Learning Deck · v1.8 development · v1.7 published checkpoint**
