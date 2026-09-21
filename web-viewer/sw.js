@@ -2,6 +2,7 @@ const RELEASE = "v1.8";
 const CACHE_PREFIX = "hanafi-deck-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}`;
 const CARD_CACHE = `${CACHE_PREFIX}cards-${RELEASE}`;
+const ADHAN_LIBRARY_URL = "https://unpkg.com/adhan@4.4.6/lib/bundles/adhan.umd.min.js";
 const SHELL = [
   "./",
   `./index.html?release=${RELEASE}`,
@@ -134,6 +135,22 @@ async function offlineNavigationFallback(url) {
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
+
+  if (url.href === ADHAN_LIBRARY_URL) {
+    event.respondWith((async () => {
+      const cache = await caches.open(SHELL_CACHE);
+      const cached = await cache.match(event.request);
+      try {
+        const response = await fetch(event.request, { cache:"no-cache" });
+        if (response.ok) await cache.put(event.request, response.clone());
+        return response;
+      } catch {
+        return cached || Response.error();
+      }
+    })());
+    return;
+  }
+
   if (url.origin !== self.location.origin) return;
 
   if (event.request.mode === "navigate") {
