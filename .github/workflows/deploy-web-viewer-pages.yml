@@ -34,6 +34,7 @@ jobs:
           node --check web-viewer/app.js
           node --check web-viewer/sw.js
           node --check web-viewer/quran/app.js
+          node --check web-viewer/makkah/app.js
           python3 -m json.tool web-viewer/manifest.webmanifest >/dev/null
           python3 -m json.tool web-viewer/quran/data/page-001.json >/dev/null
           python3 - <<'PY'
@@ -63,6 +64,17 @@ jobs:
           assert all(ayah["transliteration"].strip() for ayah in data["ayahs"])
           assert all(ayah["english"].strip() for ayah in data["ayahs"])
           print("PASS: Qur'an Reader Page 1 prototype data")
+
+          for required in (
+              Path("web-viewer/makkah/index.html"),
+              Path("web-viewer/makkah/styles.css"),
+              Path("web-viewer/makkah/app.js"),
+          ):
+              assert required.is_file(), f"missing Makkah clock asset: {required}"
+          makkah_js = Path("web-viewer/makkah/app.js").read_text(encoding="utf-8")
+          assert "Asia/Riyadh" in makkah_js
+          assert "CalculationMethod.UmmAlQura" in makkah_js
+          print("PASS: Makkah prayer clock prototype assets")
           PY
 
       - name: Stage publishing tree
