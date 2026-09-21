@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.6.4 — Abu Hanifa Mosque
+
+- Added the approved **Important Places Card 3: Abu Hanifa Mosque — Baghdad, Iraq**.
+- Published the card only after maintainer preview approval using the established Important Places one-card-at-a-time workflow.
+- Used a real 2024 photograph of Abu Hanifa Mosque by **Ali.tinbo** from Wikimedia Commons under **CC BY-SA 4.0**, with attribution retained in the expansion documentation.
+- Preserved the approved Important Places visual language: cream card, mosque-category red outer border, gold inner border, English/location left, Arabic and transliteration right, large real photograph, historical sections, and source line.
+- Replaced **Lal Masjid** with **Abu Hanifa Mosque** in the root README showcase while keeping Lal Masjid in the Important Places expansion.
+- Updated the visible project checkpoint to **v1.6.4** and the current library to **209 cards across five sets**, counting the Main Deck Card 00 frontispiece plus numbered Cards 1–146.
+- Removed the temporary publishing workflow after Card 3 was rendered, verified at **1024×1536**, committed, and confirmed in the repository.
+
 ## v1.6.3 — Language reinforcement, access, and Sacred Places repair
 
 - Closed the v1.6.3 checkpoint at **208 numbered cards across five independent sets**.
