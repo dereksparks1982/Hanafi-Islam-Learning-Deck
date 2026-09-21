@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The Hanafi Learning Deck began as a small personal study aid and has grown into a broader noncommercial Islamic learning project. The repository now includes or plans to include printable study cards, an installable Web Viewer, a Qur'an reader, Islamic history and ruins material, and other educational tools.
+The Hanafi Learning Deck began as a small personal study aid and has grown into a broader noncommercial Islamic learning project. The repository now includes or plans to include printable study cards, an installable Web App, a Qur'an reader, Islamic history and ruins material, prayer-time tools, and other educational resources.
 
 The project's purpose is the spread of beneficial Islamic knowledge. It is not built around advertising, subscriptions, paywalls, behavioral tracking, or the commercial sale of access to religious material.
 
@@ -10,7 +10,7 @@ The project's purpose is the spread of beneficial Islamic knowledge. It is not b
 
 The project does **not** claim ownership of the Qur'an itself. The Arabic Qur'an is treated as revelation from Allah and as sacred source text that must not be silently altered.
 
-Human work surrounding the Qur'an is tracked separately. This includes translations, transliterations, annotations, typography, software, databases, page metadata, and other editorial or technical work.
+Human work surrounding the Qur'an is tracked separately. This includes translations, transliterations, annotations, typography, software, databases, page metadata, recordings, photographs, and other editorial or technical work.
 
 Whenever the project uses a human translation or another externally produced source, the source and translator should be identified as clearly as possible. Attribution is part of the project's scholarly record even where the project disputes the idea that access to religious knowledge should be monopolized.
 
@@ -20,7 +20,7 @@ Contemporary Muslim scholars have disagreed over whether modern intellectual-pro
 
 Mufti Muhammad Taqi Usmani records one contemporary scholarly position that rejects intellectual property as a form of private ownership. He summarizes its reasoning as follows: classical ownership concerned tangible property; the Qur'an, Sunnah, and classical juristic literature do not provide a clear precedent for privately owning intangible knowledge; and knowledge in Islam is not the property of an individual who may prevent others from acquiring it. He also records the opposing contemporary position and ultimately accepts intellectual-property rights.
 
-Source: https://islamqa.org/hanafi/qibla-hanafi/36910/copyright-according-to-shariah-2/
+Source: https://islamqa.org/hanafi/albalagh/22252/copyright-according-to-shariah/
 
 The International Islamic Fiqh Academy adopted the other position in Resolution No. 43 (5/5), issued in 1988, recognizing literary production, copyrights, and patent rights as rights protected by Shariah.
 
@@ -44,7 +44,7 @@ For Qur'an-related material, the project will therefore:
 - document restrictive terms when the strongest available scholarly source carries them rather than pretending those terms do not exist;
 - review any source dispute on its merits and, where necessary, replace disputed human wording with an independently prepared rendering rather than compromise the integrity or free availability of the project.
 
-This policy records the project's religious and scholarly position. It is not a statement that secular copyright law ceases to exist, and it is not a claim that every third-party work in the repository is covered by the project's own license.
+This policy records the project's religious and scholarly position. It is not a statement that civil copyright law ceases to exist, and it is not a claim that every third-party work in the repository is covered by the project's own license.
 
 ## Project-created material and third-party material
 
@@ -67,3 +67,13 @@ Scholarly corrections should be supported with a named source. Legal or source c
 The project should answer such disputes transparently: identify what source was used, why it was selected, what attribution was provided, and whether the material should remain, be replaced, or be independently recreated.
 
 The goal is not to obscure provenance. The goal is to keep Islamic learning material free, traceable, reviewable, and as accurate as the project can make it.
+
+## Contact for legal, licensing, and source matters
+
+For rights claims, licensing questions, attribution disputes, source complaints, or other legal correspondence concerning the Hanafi Learning Deck, contact:
+
+**hanaficards@proton.me**
+
+A claim should identify the material at issue, the person or entity asserting the claim, the source or edition involved, the right or restriction being asserted, any supporting documentation, and the action or remedy requested. This allows the matter to be evaluated against the project's source record, attribution history, applicable license terms, relevant civil-law questions where necessary, and the documented Shariah analysis.
+
+A standalone contact page is also maintained at [`../CONTACT.md`](../CONTACT.md).
