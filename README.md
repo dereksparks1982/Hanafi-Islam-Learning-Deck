@@ -1,4 +1,4 @@
-# Hanafi Learning Deck v1.6.3
+# Hanafi Learning Deck v1.6.4
 
 <div align="center">
 
@@ -19,7 +19,7 @@ A growing, printable and mobile-friendly library for learning **Islam through a 
 
 This project began with a simple problem: a learner can find thousands of isolated answers online and still struggle to find a clear path through them. The Hanafi Learning Deck tries to turn that maze into something you can actually hold, study, review, print, carry on your phone, and return to every day.
 
-> **Current checkpoint:** **v1.6.3**
+> **Current checkpoint:** **v1.6.4**
 >
 > **Status:** educational study aid, still undergoing full manual audit and pending qualified imam/scholar review.
 
@@ -48,7 +48,7 @@ A madhhab is not a separate religion or sect. It is a legal tradition and method
 
 ## Current library
 
-At the v1.6.3 checkpoint, the repository contains **208 numbered cards across five independent sets**:
+At the v1.6.4 checkpoint, the repository contains **209 cards across five independent sets**:
 
 | Set | Status | Cards |
 | --- | --- | ---: |
@@ -56,9 +56,9 @@ At the v1.6.3 checkpoint, the repository contains **208 numbered cards across fi
 | Sacred Places Expansion | complete current set | 19 |
 | 99 Names of Allah Expansion | complete current set | 12 |
 | Arabic Alphabet Expansion | complete current set | 28 |
-| Important Places of the Muslim World | **in progress** | **2** |
+| Important Places of the Muslim World | **in progress** | **3** |
 
-Each expansion starts at Card 1 and keeps its own numbering.
+The Main Deck count includes the unnumbered-on-artwork Card 00 frontispiece followed by numbered Cards 1–146. Each expansion starts at Card 1 and keeps its own numbering.
 
 ## Card preview
 
@@ -73,7 +73,7 @@ These are actual cards from the repository.
 <tr>
 <td align="center"><strong>Masjid al-Haram</strong><br><img src="Sacred-Places-Expansion/card_002_masjid_al-haram.png" width="220" alt="Masjid al-Haram card preview"></td>
 <td align="center"><strong>Arabic: Alif</strong><br><img src="Arabic-Alphabet-Expansion/cards/card_001_alif.png" width="220" alt="Arabic Alif card preview"></td>
-<td align="center"><strong>Important Places: Lal Masjid</strong><br><img src="Important-Places-Expansion/card_001_lal_masjid.png" width="220" alt="Lal Masjid card preview"></td>
+<td align="center"><strong>Important Places: Abu Hanifa Mosque</strong><br><img src="Important-Places-Expansion/card_003_abu_hanifa_mosque.png" width="220" alt="Abu Hanifa Mosque card preview"></td>
 </tr>
 </table>
 
@@ -87,7 +87,7 @@ The mobile layer is only a viewing aid. The printable PNG files remain authorita
 
 ## Downloads and collections
 
-- **Complete current v1.6.3 repository ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
+- **Complete current v1.6.4 repository ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
 - **Main Deck, Cards 00–146:** [`cards/`](cards/)
 - **Sacred Places Expansion, Cards 1–19:** [`Sacred-Places-Expansion/`](Sacred-Places-Expansion/)
 - **99 Names of Allah, Cards 1–12:** [`99-Names-of-Allah-Expansion/`](99-Names-of-Allah-Expansion/)
@@ -153,7 +153,8 @@ Arabic literacy belongs here because it is a doorway into the Qur'an, hadith, fi
 This expansion covers places that matter to Muslim history, scholarship, culture, politics, or architecture **without automatically labeling those places sacred**.
 
 **Card 1: Lal Masjid — Islamabad, Pakistan**  
-**Card 2: Chinguetti Mosque — Chinguetti, Mauritania**
+**Card 2: Chinguetti Mosque — Chinguetti, Mauritania**  
+**Card 3: Abu Hanifa Mosque — Baghdad, Iraq**
 
 These cards are being built differently from the earlier sets. Because they depend heavily on photography, historical wording, Arabic, sourcing, and layout, **each card is reviewed individually before it is published**. There will be no unscreened bulk batch.
 
@@ -179,7 +180,7 @@ Corrections will be discussed and sourced rather than silently rewritten.
 
 ### 2. Continue Important Places one card at a time
 
-**v1.6.4 is reserved for Important Places Card 3.** Candidate directions include important Afghan mosques and centers of learning, historic madrasas and libraries, and major centers of Islamic scholarship across Africa, Central Asia, South Asia, the Ottoman world, North Africa, and elsewhere.
+**v1.6.4 adds Important Places Card 3 — Abu Hanifa Mosque, Baghdad, Iraq.** Future Important Places cards will continue through the same one-card-at-a-time research, preview, maintainer approval, and exact-publication workflow.
 
 ### 3. The Hanafi School: Origins, Method & Legacy
 
@@ -242,4 +243,4 @@ Full license: [`LICENSE`](LICENSE)
 
 ---
 
-**Hanafi Learning Deck — v1.6.3 checkpoint**
+**Hanafi Learning Deck — v1.6.4 checkpoint**
