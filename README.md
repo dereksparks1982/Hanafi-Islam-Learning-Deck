@@ -66,14 +66,14 @@ These are actual cards from the repository.
 
 <table width="100%">
 <tr>
-<td width="33%" align="center" valign="top"><strong>Allah</strong><br><img src="cards/card_001.png" width="180" alt="Allah card preview"></td>
-<td width="33%" align="center" valign="top"><strong>Shahada</strong><br><img src="cards/card_004.png" width="180" alt="Shahada card preview"></td>
-<td width="33%" align="center" valign="top"><strong>Surah al-Fatiha</strong><br><img src="cards/card_034.png" width="180" alt="Surah al-Fatiha card preview"></td>
+<td width="33%" align="center" valign="top"><strong>Allah</strong><br><img src="cards/card_001.png" height="250" alt="Allah card preview"></td>
+<td width="33%" align="center" valign="top"><strong>Shahada</strong><br><img src="cards/card_004.png" height="250" alt="Shahada card preview"></td>
+<td width="33%" align="center" valign="top"><strong>Surah al-Fatiha</strong><br><img src="cards/card_034.png" height="250" alt="Surah al-Fatiha card preview"></td>
 </tr>
 <tr>
-<td width="33%" align="center" valign="top"><strong>Masjid al-Haram</strong><br><img src="Sacred-Places-Expansion/card_002_masjid_al-haram.png" width="180" alt="Masjid al-Haram card preview"></td>
-<td width="33%" align="center" valign="top"><strong>Arabic: Alif</strong><br><img src="Arabic-Alphabet-Expansion/cards/card_001_alif.png" width="180" alt="Arabic Alif card preview"></td>
-<td width="33%" align="center" valign="top"><strong>Important Places: Abu Hanifa Mosque</strong><br><img src="Important-Places-Expansion/card_003_abu_hanifa_mosque.png" width="180" alt="Abu Hanifa Mosque card preview"></td>
+<td width="33%" align="center" valign="top"><strong>Masjid al-Haram</strong><br><img src="Sacred-Places-Expansion/card_002_masjid_al-haram.png" height="250" alt="Masjid al-Haram card preview"></td>
+<td width="33%" align="center" valign="top"><strong>Arabic: Alif</strong><br><img src="Arabic-Alphabet-Expansion/cards/card_001_alif.png" height="250" alt="Arabic Alif card preview"></td>
+<td width="33%" align="center" valign="top"><strong>Important Places: Abu Hanifa Mosque</strong><br><img src="Important-Places-Expansion/card_003_abu_hanifa_mosque.png" height="250" alt="Abu Hanifa Mosque card preview"></td>
 </tr>
 </table>
 
