@@ -7,13 +7,14 @@
 - Added install metadata and Home Screen support so the Web Viewer can open like an app on supported devices without requiring an App Store listing.
 - Added explicit iPhone instructions for the Safari path: **••• → Share → Add to Home Screen → Open as Web App → Add**.
 - Standardized public-facing documentation on the plain-language name **Web Viewer** rather than technical PWA terminology.
+- Renamed the implementation directory from `pwa/` to `web-viewer/` and renamed the Pages deployment workflow to `.github/workflows/deploy-web-viewer-pages.yml` so repository naming matches the user-facing name.
 - Retained the dedicated `gh-pages` publishing branch solely for the live Web Viewer while keeping `main` as the authoritative project branch.
 - Added the **Tor Mirror** as an alternate access path while documenting that Tor Browser may restrict offline app storage.
 - Corrected Main Deck Card 1 so **Prophet Muhammad ﷺ** includes the honorific in source and artwork.
 - Added Arabic-font fallback rendering for **ﷺ** so the honorific displays correctly instead of appearing as a missing-glyph square.
 - Rebuilt the affected Card 1 artwork, printable Sheet 1, and main contact sheet after the correction.
 - Republished the Web Viewer after the Card 1 correction and verified the published Card 1 bytes matched the authoritative `main` copy.
-- Adjusted the root README card-preview table to use equal-width cells so GitHub's mobile app does not display some preview cards larger than others.
+- Standardized the displayed height of all six root README card previews so GitHub's mobile app presents the mixed card formats at a consistent visual size.
 - Kept the project status explicit: the deck remains an educational study aid undergoing continued manual audit and pending qualified imam/scholar review.
 
 ## v1.6.4 — Abu Hanifa Mosque
