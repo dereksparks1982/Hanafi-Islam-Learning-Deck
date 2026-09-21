@@ -6,20 +6,21 @@
   <meta name="theme-color" content="#0b3d2e">
   <meta name="description" content="Offline study viewer for the Hanafi Learning Deck.">
   <title>Hanafi Learning Deck</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.webmanifest?release=v1.7">
+  <link rel="icon" href="icon.svg?release=v1.7" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?release=v1.7">
 </head>
 <body>
   <header class="app-header">
     <div>
-      <p class="eyebrow">Hanafi Learning Deck</p>
+      <p class="eyebrow">Hanafi Learning Deck · v1.7</p>
       <h1>Carry the deck with you.</h1>
-      <p class="intro">Browse the approved card library online, or download all 209 current cards for offline study.</p>
+      <p class="intro">Browse the current card library online, or download all 209 current cards for offline study.</p>
     </div>
     <div class="actions" aria-label="App actions">
       <button id="installButton" class="secondary" hidden>Install App</button>
       <button id="offlineButton" class="primary">Download for Offline Use</button>
+      <button id="refreshButton" class="secondary" disabled>Update Deck</button>
     </div>
     <p id="status" class="status" role="status" aria-live="polite">Checking offline library…</p>
   </header>
@@ -30,9 +31,9 @@
   </main>
 
   <footer>
-    <p>No account. No advertising. No behavioral tracking. Approved repository card images remain authoritative.</p>
+    <p>No account. No advertising. No behavioral tracking. Repository card images remain authoritative.</p>
   </footer>
 
-  <script src="app.js" defer></script>
+  <script src="app.js?release=v1.7" defer></script>
 </body>
 </html>
