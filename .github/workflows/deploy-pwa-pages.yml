@@ -1,4 +1,4 @@
-name: Deploy offline PWA to GitHub Pages
+name: Build v1.7 offline PWA publishing branch
 
 on:
   push:
@@ -14,25 +14,20 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: hanafi-pwa-publish
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate PWA inventory
+      - name: Validate v1.7 PWA
         shell: bash
         run: |
           set -euo pipefail
@@ -53,10 +48,11 @@ jobs:
           print("PASS: 209 current card images")
           PY
 
-      - name: Stage PWA site
+      - name: Stage publishing tree
         shell: bash
         run: |
           set -euo pipefail
+          rm -rf _site
           mkdir -p _site
           cp -a pwa/. _site/
           cp -a cards _site/cards
@@ -67,16 +63,18 @@ jobs:
           cp -a Important-Places-Expansion _site/Important-Places-Expansion
           touch _site/.nojekyll
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Publish gh-pages branch
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          cd _site
+          git init -b gh-pages
+          git config user.name "Abdullāh ibn al-Malik al-Jazzār"
+          git config user.email "dereksparks1982@gmail.com"
+          git add .
+          git diff --cached --check
+          git commit -m "Publish Hanafi Learning Deck v1.7 PWA"
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push --force origin gh-pages
