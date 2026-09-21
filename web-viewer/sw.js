@@ -1,7 +1,8 @@
-const RELEASE = "v1.7";
+const RELEASE = "v1.8";
 const CACHE_PREFIX = "hanafi-deck-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}`;
 const CARD_CACHE = `${CACHE_PREFIX}cards-${RELEASE}`;
+const ADHAN_LIBRARY_URL = "https://unpkg.com/adhan@4.4.6/lib/bundles/adhan.umd.min.js";
 const SHELL = [
   "./",
   `./index.html?release=${RELEASE}`,
@@ -10,7 +11,14 @@ const SHELL = [
   `./manifest.webmanifest?release=${RELEASE}`,
   `./icon.svg?release=${RELEASE}`,
   `./icon-192.png?release=${RELEASE}`,
-  `./icon-512.png?release=${RELEASE}`
+  `./icon-512.png?release=${RELEASE}`,
+  `./quran/index.html?release=${RELEASE}`,
+  `./quran/styles.css?release=${RELEASE}`,
+  `./quran/app.js?release=${RELEASE}`,
+  `./quran/data/page-001.json?release=${RELEASE}`,
+  `./makkah/index.html?release=${RELEASE}`,
+  `./makkah/styles.css?release=${RELEASE}`,
+  `./makkah/app.js?release=${RELEASE}`
 ];
 
 self.addEventListener("install", event => {
@@ -117,9 +125,43 @@ self.addEventListener("message", event => {
   }
 });
 
+async function offlineNavigationFallback(url) {
+  const isQuran = url.pathname.endsWith("/quran/") || url.pathname.endsWith("/quran/index.html");
+  if (isQuran) {
+    return (await caches.match(`./quran/index.html?release=${RELEASE}`)) ||
+      (await caches.match(`./index.html?release=${RELEASE}`)) ||
+      (await caches.match("./"));
+  }
+
+  const isMakkah = url.pathname.endsWith("/makkah/") || url.pathname.endsWith("/makkah/index.html");
+  if (isMakkah) {
+    return (await caches.match(`./makkah/index.html?release=${RELEASE}`)) ||
+      (await caches.match(`./index.html?release=${RELEASE}`)) ||
+      (await caches.match("./"));
+  }
+
+  return (await caches.match(`./index.html?release=${RELEASE}`)) || (await caches.match("./"));
+}
+
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
+
+  if (url.href === ADHAN_LIBRARY_URL) {
+    event.respondWith((async () => {
+      const cache = await caches.open(SHELL_CACHE);
+      const cached = await cache.match(event.request);
+      try {
+        const response = await fetch(event.request, { cache:"no-cache" });
+        if (response.ok) await cache.put(event.request, response.clone());
+        return response;
+      } catch {
+        return cached || Response.error();
+      }
+    })());
+    return;
+  }
+
   if (url.origin !== self.location.origin) return;
 
   if (event.request.mode === "navigate") {
@@ -127,7 +169,7 @@ self.addEventListener("fetch", event => {
       try {
         return await fetch(event.request, { cache:"no-cache" });
       } catch {
-        return (await caches.match(`./index.html?release=${RELEASE}`)) || (await caches.match("./"));
+        return offlineNavigationFallback(url);
       }
     })());
     return;
@@ -152,7 +194,7 @@ self.addEventListener("fetch", event => {
     if (cached) return cached;
     try {
       const response = await fetch(event.request, { cache:"no-cache" });
-      if (response.ok && /\.(?:svg|css|js|webmanifest)$/i.test(url.pathname)) {
+      if (response.ok && /\.(?:svg|css|js|json|webmanifest)$/i.test(url.pathname)) {
         const cache = await caches.open(SHELL_CACHE);
         await cache.put(event.request, response.clone());
       }

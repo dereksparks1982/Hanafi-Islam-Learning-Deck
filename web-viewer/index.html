@@ -4,24 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#0b3d2e">
-  <meta name="description" content="Offline study viewer for the Hanafi Learning Deck.">
+  <meta name="description" content="Offline study Web App for the Hanafi Learning Deck.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Hanafi Deck">
   <title>Hanafi Learning Deck</title>
-  <link rel="manifest" href="manifest.webmanifest?release=v1.7">
-  <link rel="icon" href="icon.svg?release=v1.7" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon-192.png?release=v1.7">
-  <link rel="stylesheet" href="styles.css?release=v1.7">
+  <link rel="manifest" href="manifest.webmanifest?release=v1.8">
+  <link rel="icon" href="icon.svg?release=v1.8" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png?release=v1.8">
+  <link rel="stylesheet" href="styles.css?release=v1.8">
 </head>
 <body>
   <header class="app-header">
     <div>
-      <p class="eyebrow">Hanafi Learning Deck · v1.7</p>
-      <h1>Carry the deck with you.</h1>
-      <p class="intro">Browse the current card library online, or download all 209 current cards for offline study.</p>
+      <p class="eyebrow">Hanafi Learning Deck · v1.8</p>
+      <h1>Carry your deck with you.</h1>
+      <p class="intro">Browse the current card library online, open the new Qur'an Reader prototype, check local prayer times, or open the Makkah clock and live-feed access page.</p>
     </div>
-    <div class="actions" aria-label="Viewer actions">
+    <div class="actions" aria-label="Web App actions">
+      <a class="secondary action-link" href="quran/">Open Qur'an Reader</a>
+      <a class="secondary action-link" href="makkah/">Makkah Live & Prayer Clock</a>
       <button id="installButton" class="secondary" hidden>Install App</button>
       <button id="offlineButton" class="primary">Download for Offline Use</button>
       <button id="refreshButton" class="secondary" disabled>Update Deck</button>
@@ -30,20 +32,80 @@
     <aside id="iosInstallHint" hidden aria-label="iPhone installation instructions" style="margin-top:1rem;padding:1rem 1.1rem;border:1px solid rgba(216,181,96,.28);border-radius:16px;background:rgba(255,255,255,.04);color:#f7f1df;line-height:1.55;">
       <strong style="display:block;margin-bottom:.45rem;color:#d8b560;">Put the Hanafi Learning Deck on your iPhone</strong>
       <ol style="margin:.25rem 0 .6rem;padding-left:1.35rem;">
-        <li>Open this Web Viewer in <strong>Safari</strong>.</li>
+        <li>Open this Web App in <strong>Safari</strong>.</li>
         <li>Tap Safari’s <strong>•••</strong> menu.</li>
         <li>Tap <strong>Share</strong>.</li>
         <li>Scroll down and tap <strong>Add to Home Screen</strong>.</li>
         <li>Leave <strong>Open as Web App</strong> turned on.</li>
         <li>Tap <strong>Add</strong>.</li>
       </ol>
-      <span>The Hanafi Learning Deck icon will appear on your Home Screen and open like an app. No App Store is required.</span>
+      <span>The Hanafi Learning Deck icon will then appear on your Home Screen and open like an app. No App Store is required.</span>
     </aside>
 
     <p id="status" class="status" role="status" aria-live="polite">Checking offline library…</p>
   </header>
 
   <main>
+    <section class="prayer-panel" aria-labelledby="prayerHeading">
+      <div class="prayer-heading-row">
+        <div>
+          <p class="eyebrow">Local salah clock · v1.8 prototype</p>
+          <h2 id="prayerHeading">Next prayer</h2>
+          <p id="prayerLocation" class="prayer-location">Location not set yet.</p>
+        </div>
+        <button id="useLocationButton" class="primary" type="button">Use my location</button>
+      </div>
+
+      <div id="prayerClock" class="prayer-clock" hidden>
+        <div class="prayer-clock-cell">
+          <span class="prayer-label">Current period</span>
+          <strong id="currentPrayer">—</strong>
+        </div>
+        <div class="prayer-clock-cell prayer-countdown-cell">
+          <span class="prayer-label">Time until <span id="nextPrayerName">next prayer</span></span>
+          <strong id="prayerCountdown" class="prayer-countdown">--:--:--</strong>
+        </div>
+        <div class="prayer-clock-cell">
+          <span class="prayer-label">Next prayer time</span>
+          <strong id="nextPrayerTime">—</strong>
+        </div>
+      </div>
+
+      <div class="prayer-settings">
+        <label>
+          Calculation method
+          <select id="prayerMethod">
+            <option value="MuslimWorldLeague">Muslim World League</option>
+            <option value="MoonsightingCommittee">Moonsighting Committee</option>
+            <option value="NorthAmerica">ISNA / North America</option>
+            <option value="Karachi">University of Islamic Sciences, Karachi</option>
+            <option value="Egyptian">Egyptian General Authority of Survey</option>
+            <option value="UmmAlQura">Umm al-Qura, Makkah</option>
+            <option value="Turkey">Diyanet / Turkey</option>
+            <option value="Dubai">Dubai</option>
+            <option value="Kuwait">Kuwait</option>
+            <option value="Qatar">Qatar</option>
+            <option value="Singapore">Singapore</option>
+            <option value="Tehran">Tehran</option>
+          </select>
+        </label>
+        <span class="hanafi-asr-note">ʿAṣr method: <strong>Hanafi</strong></span>
+      </div>
+
+      <details class="manual-location">
+        <summary>Location permission unavailable? Enter coordinates manually</summary>
+        <div class="manual-location-grid">
+          <label>Latitude <input id="manualLatitude" type="number" inputmode="decimal" min="-90" max="90" step="any" placeholder="e.g. 39.0"></label>
+          <label>Longitude <input id="manualLongitude" type="number" inputmode="decimal" min="-180" max="180" step="any" placeholder="e.g. -95.0"></label>
+          <button id="manualLocationButton" class="secondary" type="button">Use coordinates</button>
+        </div>
+      </details>
+
+      <div id="prayerSchedule" class="prayer-schedule" aria-live="polite"></div>
+      <p id="prayerMessage" class="prayer-message">Choose <strong>Use my location</strong> to calculate prayer times on this device. Your coordinates are not sent to the prayer-time library.</p>
+      <p class="prayer-source">Prayer calculations use <strong>Adhan JS 4.4.6</strong> by Batoul Apps under the MIT License. Calculation conventions differ by region, so the method can be changed to match a trusted local timetable.</p>
+    </section>
+
     <nav id="setNav" class="set-nav" aria-label="Card sets"></nav>
     <section id="library" class="library" aria-live="polite"></section>
   </main>
@@ -60,6 +122,6 @@
       if (isiOS && !standalone) document.getElementById("iosInstallHint").hidden = false;
     })();
   </script>
-  <script src="app.js?release=v1.7" defer></script>
+  <script src="app.js?release=v1.8" defer></script>
 </body>
 </html>

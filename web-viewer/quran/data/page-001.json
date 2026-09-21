@@ -1,0 +1,93 @@
+{
+  "release": "v1.8",
+  "status": "prototype-under-review",
+  "page": 1,
+  "mushaf_page_system": "Madinah 604-page structure",
+  "surah": {
+    "number": 1,
+    "name_ar": "الفاتحة",
+    "name_en": "Al-Fatihah",
+    "meaning_en": "The Opening",
+    "revelation": "Makkah",
+    "ayah_count": 7
+  },
+  "sources": {
+    "arabic": {
+      "label": "KFGQPC-style Uthmani display cross-checked against Quran.com",
+      "url": "https://quran.com/al-fatihah",
+      "note": "Prototype text. Before full-edition approval, byte-level Arabic provenance and the project's permanent KFGQPC source snapshot must still be locked and independently verified."
+    },
+    "english": {
+      "label": "Marmaduke Pickthall, The Meaning of the Glorious Koran",
+      "url": "https://www.gutenberg.org/ebooks/16955",
+      "license_note": "Project Gutenberg identifies this edition as public domain in the United States. Used here as the redistribution-safe prototype English layer while the preferred long-term study rendering is still under source/rights review."
+    },
+    "transliteration": {
+      "label": "Hanafi Learning Deck project transliteration",
+      "url": "../../../../quran/transliteration-rules.md",
+      "note": "Project-created working transliteration, subject to page-by-page review."
+    }
+  },
+  "review": {
+    "date": "2026-09-21",
+    "arabic_crosscheck": {
+      "status": "passed-prototype-crosscheck",
+      "reference": "Quran.com Uthmani display / KFGQPC v1 view",
+      "note": "All seven stored Arabic ayah strings were cross-checked against the Uthmani display for Al-Fatihah with verse-number glyphs excluded. Final edition approval still requires permanent source snapshot/provenance and independent verification."
+    },
+    "transliteration_crosscheck": {
+      "status": "working-crosscheck-passed",
+      "reference": "Quranic Arabic Corpus word forms and Quran.com transliteration comparison",
+      "note": "The project transliteration remains independently authored and pronunciation-oriented. The comparison sources are verification aids, not the text being redistributed."
+    },
+    "english_crosscheck": {
+      "status": "source-wording-confirmed",
+      "reference": "Marmaduke Pickthall / Project Gutenberg, cross-checked against published Pickthall parallel text",
+      "note": "The Page 1 English lines match the identified Pickthall prototype rendering. This does not decide the final long-term English study layer."
+    }
+  },
+  "ayahs": [
+    {
+      "ref": "1:1",
+      "arabic": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
+      "transliteration": "Bismi llāhi r-Raḥmāni r-Raḥīm",
+      "english": "In the name of Allah, the Beneficent, the Merciful."
+    },
+    {
+      "ref": "1:2",
+      "arabic": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ",
+      "transliteration": "Al-ḥamdu lillāhi rabbi l-ʿālamīn",
+      "english": "Praise be to Allah, Lord of the Worlds,"
+    },
+    {
+      "ref": "1:3",
+      "arabic": "ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
+      "transliteration": "Ar-Raḥmāni r-Raḥīm",
+      "english": "The Beneficent, the Merciful."
+    },
+    {
+      "ref": "1:4",
+      "arabic": "مَـٰلِكِ يَوْمِ ٱلدِّينِ",
+      "transliteration": "Māliki yawmi d-dīn",
+      "english": "Master of the Day of Judgment,"
+    },
+    {
+      "ref": "1:5",
+      "arabic": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+      "transliteration": "Iyyāka naʿbudu wa-iyyāka nastaʿīn",
+      "english": "Thee (alone) we worship; Thee (alone) we ask for help."
+    },
+    {
+      "ref": "1:6",
+      "arabic": "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ",
+      "transliteration": "Ihdinā ṣ-ṣirāṭa l-mustaqīm",
+      "english": "Show us the straight path,"
+    },
+    {
+      "ref": "1:7",
+      "arabic": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
+      "transliteration": "Ṣirāṭa lladhīna anʿamta ʿalayhim ghayri l-maghḍūbi ʿalayhim wa-lā ḍ-ḍāllīn",
+      "english": "The path of those whom Thou hast favoured; Not the (path) of those who earn Thine anger nor of those who go astray."
+    }
+  ]
+}
