@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "purpose": "Authoritative registry for recorded human review states used by Scholar Mode. Publication in the deck does not by itself count as scholarly review.",
+  "status_values": [
+    "not_recorded",
+    "pending",
+    "reviewed",
+    "correction_needed",
+    "question"
+  ],
+  "review_scopes": [
+    "maintainer",
+    "arabic",
+    "hanafi_fiqh",
+    "hadith_sources",
+    "qualified_scholar"
+  ],
+  "record_format": {
+    "status": "reviewed",
+    "reviewer": "Name, when permission is given",
+    "role": "Imam / scholar / Arabic teacher / maintainer / other",
+    "organization": "Optional institution",
+    "date": "YYYY-MM-DD",
+    "reviewed_release": "Exact project release reviewed",
+    "notes": "Optional review note"
+  },
+  "cards": {}
+}
