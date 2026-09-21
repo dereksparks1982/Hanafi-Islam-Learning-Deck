@@ -12,20 +12,22 @@ The repository's approved card PNGs and reviewed source material remain authorit
 
 No digital feature should silently rewrite religious content.
 
-## 1. Offline installable web viewer
+## 1. Offline installable Web Viewer
 
-Turn the web viewer into an installable Progressive Web App (PWA):
+Continue developing the **Web Viewer** as the project's installable, local-first digital study surface:
 
-- install to a phone or tablet home screen;
+- place it on a phone or tablet Home Screen where the browser/platform supports that behavior;
 - cache the complete card library for offline use;
-- open without an Internet connection;
-- update only when the learner chooses or when a new approved release is installed;
+- open without an Internet connection after the offline library is downloaded;
+- update the deck when the learner chooses;
 - no advertising;
 - no tracking required;
 - no account required for basic study;
 - retain a compact travel mode so the complete text/card collection can live on a phone without carrying the printed deck.
 
-A visible **Download for Offline Use** control should make the offline state obvious rather than relying on browser magic the learner cannot see.
+A visible **Download for Offline Use** control should make the offline state obvious rather than relying on browser behavior the learner cannot see.
+
+On iPhone, the Web Viewer should clearly explain Apple's installation path: **Safari → ••• → Share → Add to Home Screen → Open as Web App → Add**.
 
 ## 2. Scholar Mode
 
@@ -59,7 +61,7 @@ The interface should never imply scholarly approval that has not actually occurr
 
 A project-level dashboard can summarize the current state, for example:
 
-`207 cards • 207 maintainer checked • 0 imam reviewed • 14 Arabic review pending`
+`209 cards • maintainer/review counts generated from real metadata`
 
 Counts must be generated from real metadata, never hand-written marketing numbers.
 
@@ -96,7 +98,7 @@ This can be used by an imam who prefers paper, PDF, or a simple document rather 
 
 Every physical card can eventually have a stable digital URL and optional QR code.
 
-Scanning a printed card should open that exact card in the viewer, not merely the project's front page.
+Scanning a printed card should open that exact card in the Web Viewer, not merely the project's front page.
 
 The digital page can then provide:
 
@@ -141,7 +143,7 @@ Audio must remain optional so the complete core deck still works silently and of
 
 ## 9. Memorization and spaced repetition
 
-The viewer should support active recall rather than only browsing images.
+The Web Viewer should support active recall rather than only browsing images.
 
 Possible exercise types:
 
@@ -227,7 +229,7 @@ A learner or reviewer should be able to answer:
 - Which source justified the correction?
 - Which version first contained the correction?
 
-The viewer can expose a human-readable revision history generated from maintained metadata rather than requiring the user to inspect Git commits.
+The Web Viewer can expose a human-readable revision history generated from maintained metadata rather than requiring the user to inspect Git commits.
 
 ## 15. Privacy and portability principles
 
@@ -248,7 +250,7 @@ Preferred defaults:
 Do not try to build all of this in one release.
 
 ### Phase A — Portable foundation
-1. installable/offline PWA;
+1. installable/offline Web Viewer;
 2. search and filters;
 3. stable per-card URLs;
 4. local bookmarks/progress;
