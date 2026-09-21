@@ -1,4 +1,4 @@
-const RELEASE = "v1.7";
+const RELEASE = "v1.8";
 
 const main = Array.from({length:147}, (_, i) => `cards/card_${String(i).padStart(3, "0")}.png`);
 const sacredSlugs = [
