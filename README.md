@@ -1,4 +1,4 @@
-# Hanafi Learning Deck v1.6.4
+# Hanafi Learning Deck v1.7
 
 <div align="center">
 
@@ -19,7 +19,7 @@ A growing, printable and mobile-friendly library for learning **Islam through a 
 
 This project began with a simple problem: a learner can find thousands of isolated answers online and still struggle to find a clear path through them. The Hanafi Learning Deck tries to turn that maze into something you can actually hold, study, review, print, carry on your phone, and return to every day.
 
-> **Current checkpoint:** **v1.6.4**
+> **Current checkpoint:** **v1.7**
 >
 > **Status:** educational study aid, still undergoing full manual audit and pending qualified imam/scholar review.
 
@@ -48,7 +48,7 @@ A madhhab is not a separate religion or sect. It is a legal tradition and method
 
 ## Current library
 
-At the v1.6.4 checkpoint, the repository contains **209 cards across five independent sets**:
+At the v1.7 checkpoint, the repository contains **209 cards across five independent sets**:
 
 | Set | Status | Cards |
 | --- | --- | ---: |
@@ -85,9 +85,21 @@ The [`mobile-view/`](mobile-view/) folder provides scrollable galleries designed
 
 The mobile layer is only a viewing aid. The printable PNG files remain authoritative.
 
+## Web App and Tor Mirror
+
+The deck is also available through two live web versions:
+
+- **Web App:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/  
+  The normal browser version of the Hanafi Learning Deck. On supported browsers it can be installed like an app and can download the current card library for offline study.
+
+- **Tor Mirror:** http://hanafiiix6xddzpmjxbpns5svgoujdnjwf3ky4a72rzai5mumxm4mzqd.onion/  
+  A Tor-accessible mirror of the Hanafi Learning Deck. Open this address in Tor Browser. Tor Browser may restrict offline app storage, so the Tor Mirror should be treated primarily as an alternate way to access and browse the deck rather than as the installable offline version.
+
+The project uses the short names **Web App** and **Tor Mirror** for these two versions throughout its documentation.
+
 ## Downloads and collections
 
-- **Complete current v1.6.4 repository ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
+- **Complete current repository ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
 - **Main Deck, Cards 00–146:** [`cards/`](cards/)
 - **Sacred Places Expansion, Cards 1–19:** [`Sacred-Places-Expansion/`](Sacred-Places-Expansion/)
 - **99 Names of Allah, Cards 1–12:** [`99-Names-of-Allah-Expansion/`](99-Names-of-Allah-Expansion/)
@@ -148,7 +160,7 @@ One letter per card, built for a learner who wants more than a chart. Cards incl
 
 Arabic literacy belongs here because it is a doorway into the Qur'an, hadith, fiqh, classical books, manuscripts, and Islamic scholarship in the language in which much of that tradition was written.
 
-### Important Places of the Muslim World — v1.6.x, in progress
+### Important Places of the Muslim World — in progress
 
 This expansion covers places that matter to Muslim history, scholarship, culture, politics, or architecture **without automatically labeling those places sacred**.
 
@@ -180,7 +192,7 @@ Corrections will be discussed and sourced rather than silently rewritten.
 
 ### 2. Continue Important Places one card at a time
 
-**v1.6.4 adds Important Places Card 3 — Abu Hanifa Mosque, Baghdad, Iraq.** Future Important Places cards will continue through the same one-card-at-a-time research, preview, maintainer approval, and exact-publication workflow.
+**v1.6.4 added Important Places Card 3 — Abu Hanifa Mosque, Baghdad, Iraq.** Future Important Places cards will continue through the same one-card-at-a-time research, preview, maintainer approval, and exact-publication workflow.
 
 ### 3. The Hanafi School: Origins, Method & Legacy
 
@@ -243,4 +255,4 @@ Full license: [`LICENSE`](LICENSE)
 
 ---
 
-**Hanafi Learning Deck — v1.6.4 checkpoint**
+**Hanafi Learning Deck — v1.7 checkpoint**
