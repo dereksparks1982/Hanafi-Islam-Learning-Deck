@@ -15,7 +15,10 @@ const SHELL = [
   `./quran/index.html?release=${RELEASE}`,
   `./quran/styles.css?release=${RELEASE}`,
   `./quran/app.js?release=${RELEASE}`,
-  `./quran/data/page-001.json?release=${RELEASE}`
+  `./quran/data/page-001.json?release=${RELEASE}`,
+  `./makkah/index.html?release=${RELEASE}`,
+  `./makkah/styles.css?release=${RELEASE}`,
+  `./makkah/app.js?release=${RELEASE}`
 ];
 
 self.addEventListener("install", event => {
@@ -129,6 +132,14 @@ async function offlineNavigationFallback(url) {
       (await caches.match(`./index.html?release=${RELEASE}`)) ||
       (await caches.match("./"));
   }
+
+  const isMakkah = url.pathname.endsWith("/makkah/") || url.pathname.endsWith("/makkah/index.html");
+  if (isMakkah) {
+    return (await caches.match(`./makkah/index.html?release=${RELEASE}`)) ||
+      (await caches.match(`./index.html?release=${RELEASE}`)) ||
+      (await caches.match("./"));
+  }
+
   return (await caches.match(`./index.html?release=${RELEASE}`)) || (await caches.match("./"));
 }
 
