@@ -1,7 +1,4 @@
-# مجموعة بطاقات التعلّم الحنفيّة — v1.8
-*Majmūʿat Biṭāqāt at-Taʿallum al-Ḥanafiyyah*
-
-# Hanafi Learning Deck v1.8
+# Hanafi Learning Deck v1.6.4
 
 <div align="center">
 
@@ -14,31 +11,17 @@
 **Al-ḥamdu lillāhi Rabbil-ʿālamīn, waṣ-ṣalātu was-salāmu ʿalā Rasūlillāh.**  
 *All praise belongs to Allah, Lord of the worlds, and peace and blessings be upon the Messenger of Allah ﷺ.*
 
-**يُنجَز هذا المشروع ابتغاء مرضاة الله ونشر العلم النافع. نسأل الله أن يتقبّل ما فيه من صواب ونفع، وأن يغفر ما فيه من خطأ، وأن يهدينا إلى تصحيحه وتحسينه باستمرار.**  
-*Yunjazu hādhā al-mashrūʿ ibtighāʾa marḍāti Allāh wa-nashri al-ʿilmi an-nāfiʿ. Nasʾalu Allāha an yataqabbala mā fīhi min ṣawābin wa-nafʿ, wa-an yaghfira mā fīhi min khaṭaʾ, wa-an yahdiyanā ilā taṣḥīḥihi wa-taḥsīnihi bi-istimrār.*  
 This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement.
 
 </div>
 
-**مكتبة متنامية قابلة للطباعة ومهيأة للهواتف لتعلّم الإسلام ضمن إطار حنفي متّسق: العقيدة، والصلاة، والطهارة، والدعاء، والعبادة اليومية، والقرآن، وتعلّم العربية، والأماكن المقدسة، وأسماء الله الحسنى، والتاريخ الإسلامي، والعالم الإسلامي الأوسع.**  
-*Mak­tabah mutanāmiyah qābilah li-ṭ-ṭibāʿah wa-muhayyaʾah li-l-hawātif li-taʿallumi al-Islāmi ḍimna iṭārin Ḥanafiyyin muttasiq: al-ʿaqīdah, wa-ṣ-ṣalāh, wa-ṭ-ṭahārah, wa-d-duʿāʾ, wa-l-ʿibādah al-yawmiyyah, wa-l-Qurʾān, wa-taʿallum al-ʿArabiyyah, wa-l-amākin al-muqaddasah, wa-Asmāʾ Allāh al-Ḥusnā, wa-t-tārīkh al-Islāmī, wa-l-ʿālam al-Islāmī al-awsaʿ.*  
 A growing, printable and mobile-friendly library for learning **Islam through a consistent Hanafi framework**: belief, salah, purification, duʿā, daily worship, Qur'an, Arabic literacy, sacred places, the Names of Allah, Islamic history, and the wider Muslim world.
 
-**بدأ هذا المشروع بمشكلة بسيطة: يمكن للمتعلّم أن يجد آلاف الإجابات المتفرقة على الإنترنت، ومع ذلك يظل يجد صعوبة في رؤية طريق واضح بينها. تحاول مجموعة بطاقات التعلّم الحنفيّة أن تحوّل ذلك التشتيت إلى شيء يمكنك حمله ودراسته ومراجعته وطباعته وأخذه معك على هاتفك والعودة إليه كل يوم.**  
-*Badaʾa hādhā al-mashrūʿ bi-mushkilatin basīṭah: yumkinu li-l-mutaʿallimi an yajida ālāfa al-ijābāti al-mutafarriqati ʿalā al-internet, wa-maʿa dhālika yaẓallu yajidu ṣuʿūbatan fī ruʾyati ṭarīqin wāḍiḥin baynahā. Tuḥāwilu Majmūʿatu Biṭāqāti at-Taʿallumi al-Ḥanafiyyah an tuḥawwila dhālika at-tashtīta ilā shayʾin yumkinuka ḥamluhu wa-dirāsatuhu wa-murājaʿatuhu wa-ṭibāʿatuhu wa-akhdhuhu maʿaka ʿalā hātifika wa-l-ʿawdatu ilayhi kulla yawm.*  
 This project began with a simple problem: a learner can find thousands of isolated answers online and still struggle to find a clear path through them. The Hanafi Learning Deck tries to turn that maze into something you can actually hold, study, review, print, carry on your phone, and return to every day.
 
-> **الإصدار الحالي قيد التطوير: v1.8**  
-> *Al-iṣdār al-ḥālī qayda at-taṭwīr: v1.8*  
-> **Current development checkpoint: v1.8**
+> **Current checkpoint:** **v1.6.4**
 >
-> **الحالة: أداة تعليمية للدراسة، مع تدقيق يدوي شامل جارٍ، ومراجعة الإمام أو العالِم المؤهل ما زالت معلّقة. وضع الباحث العلمي (Scholar Mode) قيد البناء في v1.8.**  
-> *Al-ḥālah: adāt taʿlīmiyyah li-d-dirāsah, maʿa tadqīqin yadawiyyin shāmilin jārin, wa-murājaʿati al-imām aw al-ʿālim al-muʾahhal mā zālat muʿallaqah. Waḍʿ al-bāḥith al-ʿilmī (Scholar Mode) qayda al-bināʾ fī v1.8.*  
-> **Status: educational study aid, still undergoing full manual audit and pending qualified imam/scholar review. Scholar Mode is being built for v1.8.**
->
-> **ملاحظة لغوية: العربية والنقل الصوتي في ملف README صُمِّما للتعلّم بالتكرار، وهما كذلك بانتظار مراجعة عربية مؤهلة.**  
-> *Mulāḥaẓah lughawiyyah: al-ʿArabiyyah wa-n-naql aṣ-ṣawtī fī malaf README ṣummimā li-t-taʿallum bi-t-tikrār, wa-humā kadhālika bi-intiẓāri murājaʿatin ʿArabiyyatin muʾahhalah.*  
-> **Language note: the README's Arabic and transliteration are designed for learning through repetition and are themselves pending qualified Arabic review.**
+> **Status:** educational study aid, still undergoing full manual audit and pending qualified imam/scholar review.
 
 ## If you are not Muslim and found this by accident
 
