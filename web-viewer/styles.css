@@ -21,7 +21,7 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-button, a { font: inherit; }
+button, a, input, select { font: inherit; }
 button { cursor: pointer; }
 
 .app-header,
@@ -47,6 +47,10 @@ h1 {
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(2.2rem, 8vw, 4.8rem);
   line-height: .95;
+}
+
+h2 {
+  font-family: Georgia, "Times New Roman", serif;
 }
 
 .intro {
@@ -86,6 +90,166 @@ button:disabled { opacity: .62; cursor: progress; }
   margin: .8rem 0 0;
   color: var(--muted);
   font-size: .92rem;
+}
+
+.prayer-panel {
+  margin: 1rem 0 2.5rem;
+  padding: 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(18,57,45,.96), rgba(13,43,34,.96));
+  box-shadow: var(--shadow);
+}
+
+.prayer-heading-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.prayer-heading-row h2 {
+  margin: 0;
+  font-size: clamp(1.65rem, 5vw, 2.6rem);
+}
+
+.prayer-location,
+.prayer-message,
+.prayer-source {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.prayer-location { margin: .4rem 0 0; }
+.prayer-message { margin: 1rem 0 .35rem; }
+.prayer-source {
+  margin: .25rem 0 0;
+  font-size: .82rem;
+}
+
+.prayer-clock {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .75rem;
+  margin-top: 1.1rem;
+}
+
+.prayer-clock-cell {
+  min-width: 0;
+  padding: .95rem;
+  border: 1px solid rgba(216,181,96,.2);
+  border-radius: 15px;
+  background: rgba(255,255,255,.035);
+}
+
+.prayer-clock-cell strong {
+  display: block;
+  margin-top: .3rem;
+  color: var(--text);
+  font-size: 1.15rem;
+}
+
+.prayer-countdown-cell {
+  border-color: rgba(216,181,96,.52);
+  background: rgba(216,181,96,.07);
+}
+
+.prayer-label {
+  display: block;
+  color: var(--muted);
+  font-size: .78rem;
+  font-weight: 750;
+  letter-spacing: .04em;
+}
+
+.prayer-countdown {
+  color: var(--gold) !important;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.55rem, 5vw, 2.4rem) !important;
+  letter-spacing: .04em;
+}
+
+.prayer-settings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: .85rem 1.2rem;
+  margin-top: 1rem;
+}
+
+.prayer-settings label,
+.manual-location-grid label {
+  display: grid;
+  gap: .35rem;
+  color: var(--muted);
+  font-size: .88rem;
+  font-weight: 750;
+}
+
+.prayer-settings select,
+.manual-location-grid input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: .65rem .7rem;
+  background: #092219;
+  color: var(--text);
+}
+
+.prayer-settings label { min-width: min(100%, 320px); }
+.hanafi-asr-note {
+  padding-bottom: .65rem;
+  color: var(--gold);
+  font-size: .9rem;
+}
+
+.manual-location {
+  margin-top: .9rem;
+  border-top: 1px solid rgba(216,181,96,.16);
+  padding-top: .8rem;
+}
+
+.manual-location summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.manual-location-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  gap: .7rem;
+  align-items: end;
+  margin-top: .8rem;
+}
+
+.prayer-schedule {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: .5rem;
+  margin-top: 1rem;
+}
+
+.prayer-schedule:empty { display: none; }
+
+.prayer-schedule-row {
+  display: grid;
+  gap: .25rem;
+  padding: .7rem .55rem;
+  border: 1px solid rgba(216,181,96,.15);
+  border-radius: 12px;
+  text-align: center;
+  background: rgba(255,255,255,.025);
+}
+
+.prayer-schedule-row span {
+  color: var(--muted);
+  font-size: .76rem;
+}
+
+.prayer-schedule-row strong {
+  font-size: .93rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .set-nav {
@@ -171,9 +335,20 @@ footer {
   font-size: .9rem;
 }
 
+@media (max-width: 760px) {
+  .prayer-heading-row { display: grid; }
+  .prayer-heading-row button { width: fit-content; }
+  .prayer-clock { grid-template-columns: 1fr; }
+  .manual-location-grid { grid-template-columns: 1fr; }
+  .manual-location-grid button { width: fit-content; }
+  .prayer-schedule { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 @media (max-width: 520px) {
   .app-header, main, footer { width: min(100% - 1rem, 1180px); }
   .app-header { padding-top: 1.8rem; }
+  .prayer-panel { padding: .9rem; border-radius: 14px; }
+  .prayer-schedule { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
   .card-link { padding: .4rem; border-radius: 12px; }
 }
