@@ -1,0 +1,80 @@
+name: Deploy offline PWA to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "pwa/**"
+      - "cards/**"
+      - "Sacred-Places-Expansion/**"
+      - "99-Names-of-Allah-Expansion/**"
+      - "Arabic-Alphabet-Expansion/cards/**"
+      - "Important-Places-Expansion/**"
+      - ".github/workflows/deploy-pwa-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate PWA inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check pwa/app.js
+          node --check pwa/sw.js
+          python3 -m json.tool pwa/manifest.webmanifest >/dev/null
+          python3 - <<'PY'
+          from pathlib import Path
+          main = [Path(f"cards/card_{i:03d}.png") for i in range(147)]
+          sacred = list(Path("Sacred-Places-Expansion").glob("card_*.png"))
+          names = list(Path("99-Names-of-Allah-Expansion").glob("card_*.png"))
+          arabic = list(Path("Arabic-Alphabet-Expansion/cards").glob("card_*.png"))
+          important = list(Path("Important-Places-Expansion").glob("card_*.png"))
+          assert all(p.is_file() for p in main), "main deck card missing"
+          counts = [len(main), len(sacred), len(names), len(arabic), len(important)]
+          assert counts == [147, 19, 12, 28, 2], counts
+          assert sum(counts) == 208
+          print("PASS: 208 current card images")
+          PY
+
+      - name: Stage PWA site
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          cp -a pwa/. _site/
+          cp -a cards _site/cards
+          cp -a Sacred-Places-Expansion _site/Sacred-Places-Expansion
+          cp -a 99-Names-of-Allah-Expansion _site/99-Names-of-Allah-Expansion
+          mkdir -p _site/Arabic-Alphabet-Expansion
+          cp -a Arabic-Alphabet-Expansion/cards _site/Arabic-Alphabet-Expansion/cards
+          cp -a Important-Places-Expansion _site/Important-Places-Expansion
+          touch _site/.nojekyll
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
