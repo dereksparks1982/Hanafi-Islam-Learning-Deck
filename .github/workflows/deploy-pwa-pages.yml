@@ -48,9 +48,9 @@ jobs:
           important = list(Path("Important-Places-Expansion").glob("card_*.png"))
           assert all(p.is_file() for p in main), "main deck card missing"
           counts = [len(main), len(sacred), len(names), len(arabic), len(important)]
-          assert counts == [147, 19, 12, 28, 2], counts
-          assert sum(counts) == 208
-          print("PASS: 208 current card images")
+          assert counts == [147, 19, 12, 28, 3], counts
+          assert sum(counts) == 209
+          print("PASS: 209 current card images")
           PY
 
       - name: Stage PWA site
