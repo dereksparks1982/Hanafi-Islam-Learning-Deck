@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.7 — Web Viewer, offline access, and closeout fixes
+
+- Closed the **v1.7** checkpoint at **209 cards across five independent sets**.
+- Published the live **Web Viewer** at `https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/` with the current card library, set navigation, offline download, and deck refresh controls.
+- Added install metadata and Home Screen support so the Web Viewer can open like an app on supported devices without requiring an App Store listing.
+- Added explicit iPhone instructions for the Safari path: **••• → Share → Add to Home Screen → Open as Web App → Add**.
+- Standardized public-facing documentation on the plain-language name **Web Viewer** rather than technical PWA terminology.
+- Retained the dedicated `gh-pages` publishing branch solely for the live Web Viewer while keeping `main` as the authoritative project branch.
+- Added the **Tor Mirror** as an alternate access path while documenting that Tor Browser may restrict offline app storage.
+- Corrected Main Deck Card 1 so **Prophet Muhammad ﷺ** includes the honorific in source and artwork.
+- Added Arabic-font fallback rendering for **ﷺ** so the honorific displays correctly instead of appearing as a missing-glyph square.
+- Rebuilt the affected Card 1 artwork, printable Sheet 1, and main contact sheet after the correction.
+- Republished the Web Viewer after the Card 1 correction and verified the published Card 1 bytes matched the authoritative `main` copy.
+- Adjusted the root README card-preview table to use equal-width cells so GitHub's mobile app does not display some preview cards larger than others.
+- Kept the project status explicit: the deck remains an educational study aid undergoing continued manual audit and pending qualified imam/scholar review.
+
 ## v1.6.4 — Abu Hanifa Mosque
 
 - Added the approved **Important Places Card 3: Abu Hanifa Mosque — Baghdad, Iraq**.
