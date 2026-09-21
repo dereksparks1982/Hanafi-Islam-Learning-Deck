@@ -64,16 +64,16 @@ The Main Deck count includes the unnumbered-on-artwork Card 00 frontispiece foll
 
 These are actual cards from the repository.
 
-<table>
+<table width="100%">
 <tr>
-<td align="center"><strong>Allah</strong><br><img src="cards/card_001.png" width="220" alt="Allah card preview"></td>
-<td align="center"><strong>Shahada</strong><br><img src="cards/card_004.png" width="220" alt="Shahada card preview"></td>
-<td align="center"><strong>Surah al-Fatiha</strong><br><img src="cards/card_034.png" width="220" alt="Surah al-Fatiha card preview"></td>
+<td width="33%" align="center" valign="top"><strong>Allah</strong><br><img src="cards/card_001.png" width="180" alt="Allah card preview"></td>
+<td width="33%" align="center" valign="top"><strong>Shahada</strong><br><img src="cards/card_004.png" width="180" alt="Shahada card preview"></td>
+<td width="33%" align="center" valign="top"><strong>Surah al-Fatiha</strong><br><img src="cards/card_034.png" width="180" alt="Surah al-Fatiha card preview"></td>
 </tr>
 <tr>
-<td align="center"><strong>Masjid al-Haram</strong><br><img src="Sacred-Places-Expansion/card_002_masjid_al-haram.png" width="220" alt="Masjid al-Haram card preview"></td>
-<td align="center"><strong>Arabic: Alif</strong><br><img src="Arabic-Alphabet-Expansion/cards/card_001_alif.png" width="220" alt="Arabic Alif card preview"></td>
-<td align="center"><strong>Important Places: Abu Hanifa Mosque</strong><br><img src="Important-Places-Expansion/card_003_abu_hanifa_mosque.png" width="220" alt="Abu Hanifa Mosque card preview"></td>
+<td width="33%" align="center" valign="top"><strong>Masjid al-Haram</strong><br><img src="Sacred-Places-Expansion/card_002_masjid_al-haram.png" width="180" alt="Masjid al-Haram card preview"></td>
+<td width="33%" align="center" valign="top"><strong>Arabic: Alif</strong><br><img src="Arabic-Alphabet-Expansion/cards/card_001_alif.png" width="180" alt="Arabic Alif card preview"></td>
+<td width="33%" align="center" valign="top"><strong>Important Places: Abu Hanifa Mosque</strong><br><img src="Important-Places-Expansion/card_003_abu_hanifa_mosque.png" width="180" alt="Abu Hanifa Mosque card preview"></td>
 </tr>
 </table>
 
@@ -85,17 +85,30 @@ The [`mobile-view/`](mobile-view/) folder provides scrollable galleries designed
 
 The mobile layer is only a viewing aid. The printable PNG files remain authoritative.
 
-## Web App and Tor Mirror
+## Web Viewer and Tor Mirror
 
 The deck is also available through two live web versions:
 
-- **Web App:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/  
-  The normal browser version of the Hanafi Learning Deck. On supported browsers it can be installed like an app and can download the current card library for offline study.
+- **Web Viewer:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/  
+  The normal browser viewer for the Hanafi Learning Deck. It can download the current card library for offline study and, on supported devices, can be placed on the Home Screen so it opens like an app.
+
+### Put the Web Viewer on an iPhone
+
+Apple places the install option inside Safari's Share menu instead of giving websites a normal install button. To add the Hanafi Learning Deck to an iPhone:
+
+1. Open the **Web Viewer** in **Safari**.
+2. Tap Safari's **•••** menu.
+3. Tap **Share**.
+4. Scroll down and tap **Add to Home Screen**.
+5. Leave **Open as Web App** turned on.
+6. Tap **Add**.
+
+The **Hanafi Learning Deck** icon will then appear on the iPhone Home Screen and open like an app. **No App Store is required.**
 
 - **Tor Mirror:** http://hanafiiix6xddzpmjxbpns5svgoujdnjwf3ky4a72rzai5mumxm4mzqd.onion/  
   A Tor-accessible mirror of the Hanafi Learning Deck. Open this address in Tor Browser. Tor Browser may restrict offline app storage, so the Tor Mirror should be treated primarily as an alternate way to access and browse the deck rather than as the installable offline version.
 
-The project uses the short names **Web App** and **Tor Mirror** for these two versions throughout its documentation.
+The project uses the short names **Web Viewer** and **Tor Mirror** for these two versions throughout its documentation.
 
 ## Downloads and collections
 
