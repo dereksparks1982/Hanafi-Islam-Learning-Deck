@@ -57,7 +57,8 @@ function formatMakkahTime(date, seconds = false) {
     timeZone:MAKKAH.timeZone,
     hour:"numeric",
     minute:"2-digit",
-    second:seconds ? "2-digit" : undefined
+    second:seconds ? "2-digit" : undefined,
+    hour12:true
   }).format(date);
 }
 
