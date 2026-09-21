@@ -1,0 +1,65 @@
+name: Temporary v1.7 mobile cache-link repair
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/temp-fix-mobile-v17-cache-links.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Version all mobile full-size card links
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          files = [
+              Path("mobile-view/Main-Deck.md"),
+              Path("mobile-view/Sacred-Places.md"),
+              Path("mobile-view/99-Names-of-Allah.md"),
+              Path("mobile-view/Arabic-Alphabet.md"),
+          ]
+          pattern = re.compile(r'(https://raw\.githubusercontent\.com/dereksparks1982/Hanafi-Islam-Learning-Deck/main/[^"\s]+?\.png)(?:\?release=[^"\s]+)?')
+          total = 0
+          for path in files:
+              text = path.read_text(encoding="utf-8")
+              updated, count = pattern.subn(r'\1?release=v1.7', text)
+              path.write_text(updated, encoding="utf-8")
+              print(f"{path}: {count} versioned raw card links")
+              total += count
+
+          if total != 412:
+              raise SystemExit(f"Expected 412 mobile full-size links, found {total}")
+
+          for path in files:
+              text = path.read_text(encoding="utf-8")
+              stale = re.findall(r'https://raw\.githubusercontent\.com/dereksparks1982/Hanafi-Islam-Learning-Deck/main/[^"\s]+?\.png(?!\?release=v1\.7)', text)
+              if stale:
+                  raise SystemExit(f"Unversioned raw PNG links remain in {path}: {len(stale)}")
+
+          print("PASS: all 412 existing mobile full-size links are release-bound to v1.7")
+          PY
+
+      - name: Commit repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Abdullāh ibn al-Malik al-Jazzār"
+          git config user.email "dereksparks1982@gmail.com"
+          git add mobile-view/Main-Deck.md mobile-view/Sacred-Places.md mobile-view/99-Names-of-Allah.md mobile-view/Arabic-Alphabet.md
+          git diff --cached --check
+          git commit -m "Bind mobile full-size card links to v1.7"
+          git push origin main
