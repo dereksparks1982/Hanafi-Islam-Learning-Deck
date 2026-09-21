@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b3d2e">
+  <meta name="description" content="Hanafi Learning Deck Qur'an Reader prototype.">
+  <title>Qur'an Reader · Hanafi Learning Deck</title>
+  <link rel="icon" href="../icon.svg?release=v1.8" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../icon-192.png?release=v1.8">
+  <link rel="stylesheet" href="styles.css?release=v1.8">
+</head>
+<body>
+  <header class="reader-header">
+    <div class="header-row">
+      <a class="back-link" href="../">← Cards</a>
+      <span class="release">v1.8 prototype</span>
+    </div>
+    <p class="eyebrow">Hanafi Learning Deck · Qur'an Reader</p>
+    <h1>Al-Fātiḥah</h1>
+    <p class="subtitle">الفاتحة · The Opening · Page 1</p>
+    <p class="prototype-note">Prototype under review. Arabic remains the controlling source text; transliteration and English are study layers.</p>
+  </header>
+
+  <main>
+    <section class="reader-toolbar" aria-label="Reader controls">
+      <div class="toggles" role="group" aria-label="Display layers">
+        <label><input id="showArabic" type="checkbox" checked> Arabic</label>
+        <label><input id="showTransliteration" type="checkbox" checked> Transliteration</label>
+        <label><input id="showEnglish" type="checkbox" checked> English</label>
+      </div>
+      <div class="page-controls">
+        <button type="button" disabled>← Previous</button>
+        <span>Page <strong>1</strong> of 604</span>
+        <button type="button" disabled title="Page 2 is intentionally not built yet">Next →</button>
+      </div>
+    </section>
+
+    <section id="ayahList" class="ayah-list" aria-live="polite">
+      <p class="loading">Loading Page 1…</p>
+    </section>
+
+    <section class="source-panel" aria-labelledby="sourceHeading">
+      <div class="source-heading-row">
+        <div>
+          <p class="eyebrow">Provenance</p>
+          <h2 id="sourceHeading">Sources for this prototype</h2>
+        </div>
+        <span id="reviewStatus" class="status-pill">Under review</span>
+      </div>
+      <div id="sourceList" class="source-list"></div>
+      <p class="source-warning">Page 2 will not be built until this page's Arabic, transliteration, English alignment, typography, and reader behavior have been reviewed.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>No account. No advertising. No behavioral tracking. The Qur'an Reader is part of the same installable Web App.</p>
+  </footer>
+
+  <script src="app.js?release=v1.8" defer></script>
+</body>
+</html>
