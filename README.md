@@ -247,24 +247,110 @@ Development and operating notes now live together in [`docs/`](docs/):
 
 - [`docs/COMPANY_BIBLE.md`](docs/COMPANY_BIBLE.md) — project rules and approval gates
 - [`docs/roadmap.md`](docs/roadmap.md) — current and future direction
+- [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md) — legal/source policy and documented Shariah disagreement over intellectual property
 - [`docs/changelog.md`](docs/changelog.md) — checkpoint history
 - [`docs/build-notes.md`](docs/build-notes.md) — technical notes, including the solved binary-image upload and checkpointed repair workflows
 
 Scholarly/source material remains separate in [`AUDIT_AND_SOURCES.md`](AUDIT_AND_SOURCES.md), [`IMAM_REVIEW_NOTES.md`](IMAM_REVIEW_NOTES.md), and the source notes inside individual expansions.
 
-## Noncommercial license
+## Legal, licensing, copyright, and source policy
 
-The Hanafi Learning Deck is licensed under **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**.
+<div align="center">
 
-You may download, print, copy, share, teach from, and adapt these materials for personal, educational, mosque, classroom, study-group, community, and other **noncommercial** purposes.
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img src="https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png" alt="Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license badge">
+</a>
 
-You may not sell the cards, charge for access to them, or include the deck or its adaptations in a commercial product or bundle.
+**Original Hanafi Learning Deck material © 2026 Derek Sparks**  
+**Licensed CC BY-NC-SA 4.0 where the project has the right to license the material.**
 
-If you adapt the deck, credit the Hanafi Learning Deck project, indicate that changes were made, keep the adapted version noncommercial, and distribute it under the same license.
+</div>
 
-The purpose of this project is Islamic education and benefit, not commercial profit.
+### 1. Scope and legal framework
 
-Full license: [`LICENSE`](LICENSE)
+This section states the project's **religious, scholarly, licensing, and source-handling framework**. It distinguishes among questions of Shariah, authorship and provenance, and civil-law enforceability. Those questions may overlap, but they are not identical.
+
+For questions of Islamic permissibility and obligation, the project looks to the **Qur'an, Sunnah, and the juristic tradition**, with particular attention to Hanafi fiqh. Civil copyright statutes are not treated as sources for determining halal and haram. At the same time, questions of civil enforceability are separate questions and may be governed by the law applicable to a particular person, service, place, or dispute.
+
+Nothing in this section is presented as a fatwa or jurisdiction-specific legal advice. It records the project's methodology so that its reasoning, sources, and provenance can be examined openly.
+
+### 2. Project-created material
+
+Original material created specifically for the Hanafi Learning Deck is released under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license (CC BY-NC-SA 4.0)** unless a particular file or section states otherwise.
+
+Subject to that license, original project material may be downloaded, printed, copied, shared, taught from, and adapted for personal, educational, mosque, classroom, study-group, community, and other **noncommercial** purposes. Adaptations must provide appropriate attribution, identify changes, remain noncommercial, and use the same license.
+
+The repository license applies only to material the project has the right to license. It does not convert third-party works into project property.
+
+### 3. The Qur'an and the distinction between revelation and human work
+
+The project **does not claim authorship or ownership of the Qur'an**. The Arabic Qur'an is treated as revelation from Allah and as the controlling sacred source text. It is not project-authored material, and verified Qur'anic Arabic is not to be silently rewritten, paraphrased, or altered in order to avoid a licensing dispute.
+
+The project distinguishes the revealed text from human work surrounding it. Human work may include translations, transliterations, commentary, typography, digital encoding, database structure, page metadata, photographs, recordings, software, or editorial apparatus. Those layers may involve separate questions of authorship, attribution, contract, licensing, and civil law even though the Qur'an itself is not the work of a modern human author.
+
+### 4. Translation, transliteration, attribution, and provenance
+
+An English translation is a **human rendering of the meaning of the Qur'an**, not the Arabic Qur'an itself. When the project uses a translation, transliteration, dataset, photograph, recording, historical document, or other externally produced source, the project should identify the creator, translator, edition, source, and provenance as clearly as reasonably possible.
+
+Attribution is treated as a matter of scholarly integrity. Giving attribution does not erase a source's legal terms, and recording a source's legal terms does not require the project to describe the underlying Qur'anic revelation as privately authored property.
+
+Third-party material does **not** become CC BY-NC-SA merely because it appears in this repository. The project does not claim authorship of work created by others.
+
+### 5. The Shariah disagreement concerning intellectual property
+
+The project does not present modern intellectual property as an issue on which Muslim jurists have always spoken with one voice.
+
+Mufti Muhammad Taqi Usmani, in his discussion **"Copyright According to Shariah,"** records a contemporary scholarly position that does not accept intellectual property as a form of private ownership. He summarizes that position as reasoning that classical ownership concerned tangible objects, that no clear precedent in the Qur'an, Sunnah, or classical juristic writings establishes private ownership of intangible knowledge in the modern sense, and that knowledge cannot simply be monopolized as the private possession of an individual.
+
+He also records the opposing position and ultimately adopts it: that Shariah can recognize valuable intangible rights and that copyright may be protected.
+
+Reference: https://islamqa.org/hanafi/albalagh/22252/copyright-according-to-shariah/
+
+The **International Islamic Fiqh Academy** adopted Resolution No. 43 (5/5) in 1988, recognizing literary production, inventions, copyright, and patent rights as rights protected by Shariah.
+
+Reference: https://iifa-aifi.org/en/54157.html
+
+The project therefore records both the existence of a genuine juristic disagreement and the fact that significant contemporary authorities recognize intellectual-property rights under Shariah. It will not erase either side of the scholarly record in order to make the issue appear simpler than it is.
+
+### 6. Shariah analysis and civil-law analysis are distinct
+
+A disagreement about the Shariah characterization of intellectual property does not, by itself, determine every question of civil liability or enforceability. Conversely, the existence of a civil copyright rule does not, by itself, settle the separate religious question of how an asserted right is characterized under Islamic jurisprudence.
+
+Accordingly, where a dispute arises, the project may distinguish among:
+
+1. **the Shariah question**, including whether the asserted interest is recognized, limited, or disputed within Islamic jurisprudence;
+2. **the civil-law question**, including what rights, remedies, or restrictions may be enforceable in the relevant jurisdiction; and
+3. **the scholarly question**, including whether the source has been accurately identified, quoted, translated, attributed, and preserved.
+
+This distinction is not a claim that one legal system simply disappears in the presence of the other. It is a statement that the two analyses arise from different sources of authority and should be examined separately and honestly.
+
+### 7. Access to Islamic knowledge
+
+The project is organized around free study and teaching. The Qur'an Reader and core Islamic study material are intended to remain free of advertising, subscriptions, behavioral tracking, and commercial paywalls.
+
+Where more than one source can satisfy the same scholarly need, the project prefers a public-domain, permissively licensed, openly redistributable, or project-created source. Where an important scholarly reference carries restrictive terms, those terms should be documented rather than hidden, and the project should consider whether the same educational purpose can be achieved through permission, another source, or independently prepared material.
+
+The project's preference for free access does not require false attribution, concealment of provenance, or alteration of Qur'anic Arabic.
+
+### 8. Source and rights complaints
+
+A source or rights complaint should identify, as specifically as possible:
+
+- the file, page, passage, image, recording, or dataset at issue;
+- the person or entity asserting the right;
+- the source or edition involved;
+- the right, restriction, or term said to apply; and
+- the action being requested.
+
+The project will evaluate the complaint against the source record, the applicable license or terms, the relevant civil-law question where necessary, and the documented Shariah analysis. Depending on the circumstances, an appropriate response may include correcting attribution, obtaining permission, substituting another source, independently preparing replacement material, revising a file, or removing disputed human-authored material.
+
+The objective is not to obscure authorship or evade scrutiny. The objective is to keep the project **free, traceable, reviewable, accurately sourced, and faithful to the Qur'an and Sunnah**.
+
+### 9. Governing documents
+
+The fuller legal and source-handling policy is maintained in [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md). The repository's Creative Commons license is maintained separately in [`LICENSE`](LICENSE).
+
+Where a third-party work carries its own valid terms, those terms should be recorded with that work rather than silently replaced by the repository's general license.
 
 ---
 
