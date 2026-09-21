@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b3d2e">
+  <meta name="description" content="Makkah live access and prayer countdown for the Hanafi Learning Deck Web App.">
+  <title>Makkah Live · Hanafi Learning Deck</title>
+  <link rel="icon" href="../icon.svg?release=v1.8" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../icon-192.png?release=v1.8">
+  <link rel="stylesheet" href="../styles.css?release=v1.8">
+  <link rel="stylesheet" href="styles.css?release=v1.8">
+</head>
+<body>
+  <header class="app-header makkah-header">
+    <div class="makkah-top-row">
+      <a class="secondary action-link" href="../">← Web App</a>
+      <span class="makkah-release">v1.8 prototype</span>
+    </div>
+    <p class="eyebrow">Makkah · Masjid al-Haram</p>
+    <h1>Makkah Live</h1>
+    <p class="intro">A dedicated Makkah prayer clock for the live-feed area. The countdown is part of this page, so it continues whether a live video is playing, paused, muted, or opened separately.</p>
+  </header>
+
+  <main>
+    <section class="prayer-panel makkah-clock-panel" aria-labelledby="makkahPrayerHeading">
+      <div class="prayer-heading-row">
+        <div>
+          <p class="eyebrow">Saudi local time · Asia/Riyadh</p>
+          <h2 id="makkahPrayerHeading">Next prayer in Makkah</h2>
+          <p class="prayer-location">Masjid al-Haram · 21.4225° N, 39.8262° E</p>
+        </div>
+        <div id="makkahLocalTime" class="makkah-local-time">--:--:--</div>
+      </div>
+
+      <div id="makkahPrayerClock" class="prayer-clock">
+        <div class="prayer-clock-cell">
+          <span class="prayer-label">Current period</span>
+          <strong id="makkahCurrentPrayer">—</strong>
+        </div>
+        <div class="prayer-clock-cell prayer-countdown-cell">
+          <span class="prayer-label">Time until <span id="makkahNextPrayerName">next prayer</span></span>
+          <strong id="makkahCountdown" class="prayer-countdown">--:--:--</strong>
+        </div>
+        <div class="prayer-clock-cell">
+          <span class="prayer-label">Next prayer time</span>
+          <strong id="makkahNextPrayerTime">—</strong>
+        </div>
+      </div>
+
+      <div id="makkahSchedule" class="prayer-schedule"></div>
+      <p id="makkahClockMessage" class="prayer-message">Loading Makkah prayer times…</p>
+      <p class="prayer-source">Makkah calculations use the <strong>Umm al-Qura</strong> method and Makkah's own timezone. This fixed Makkah clock is intentionally separate from the Web App's local Hanafi prayer clock.</p>
+    </section>
+
+    <section class="live-feed-panel" aria-labelledby="liveFeedHeading">
+      <p class="eyebrow">Live feed</p>
+      <h2 id="liveFeedHeading">Masjid al-Haram live access</h2>
+      <p>The project currently links to the existing Makkah live page rather than copying or re-hosting the broadcast. A direct in-app player can be added after an appropriate official or authorized embeddable source is locked.</p>
+      <a class="primary action-link live-feed-link" href="https://makkahlive.net/en/live/makkah" target="_blank" rel="noopener noreferrer">Open Makkah Live ↗</a>
+      <p class="live-feed-note">The prayer clock above belongs to this Web App and keeps running independently of the external video page.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>No account. No advertising. No behavioral tracking by the Hanafi Learning Deck. External live-stream providers have their own policies.</p>
+  </footer>
+
+  <script src="app.js?release=v1.8" defer></script>
+</body>
+</html>
