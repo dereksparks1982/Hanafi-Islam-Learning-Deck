@@ -64,15 +64,22 @@ h1 {
   margin-top: 1.5rem;
 }
 
-button {
+button,
+.action-link {
   border-radius: 999px;
   padding: .8rem 1.15rem;
   border: 1px solid var(--line);
   font-weight: 800;
 }
 button:disabled { opacity: .62; cursor: progress; }
+.action-link { display: inline-flex; align-items: center; text-decoration: none; }
 .primary { background: var(--gold); color: #172017; border-color: var(--gold); }
 .secondary { background: rgba(255,255,255,.04); color: var(--text); }
+.action-link:hover,
+.action-link:focus-visible {
+  border-color: var(--gold-deep);
+  outline: none;
+}
 
 .status {
   min-height: 1.5em;
