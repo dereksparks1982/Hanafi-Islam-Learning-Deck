@@ -67,3 +67,13 @@ Scholarly corrections should be supported with a named source. Legal or source c
 The project should answer such disputes transparently: identify what source was used, why it was selected, what attribution was provided, and whether the material should remain, be replaced, or be independently recreated.
 
 The goal is not to obscure provenance. The goal is to keep Islamic learning material free, traceable, reviewable, and as accurate as the project can make it.
+
+## Contact for legal, licensing, and source matters
+
+For rights claims, licensing questions, attribution disputes, source complaints, or other legal correspondence concerning the Hanafi Learning Deck, contact:
+
+**hanaficards@proton.me**
+
+A claim should identify the material at issue, the person or entity asserting the claim, the source or edition involved, the right or restriction being asserted, any supporting documentation, and the action or remedy requested. This allows the matter to be evaluated against the project's source record, attribution history, applicable license terms, relevant civil-law questions where necessary, and the documented Shariah analysis.
+
+A standalone contact page is also maintained at [`../CONTACT.md`](../CONTACT.md).
