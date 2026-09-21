@@ -1,14 +1,14 @@
 # Hanafi Learning Deck — Roadmap
 
-## Current checkpoint: v1.6.3
+## Current checkpoint: v1.6.4
 
-The project currently contains **207 numbered cards across five independent sets**:
+The project currently contains **209 cards across five independent sets**:
 
-- **Main Deck:** Cards 1–146
+- **Main Deck:** 147 cards total, consisting of the Card 00 frontispiece plus numbered Cards 1–146
 - **Sacred Places Expansion:** Cards 1–19
 - **99 Names of Allah Expansion:** Cards 1–12
 - **Arabic Alphabet Expansion:** Cards 1–28
-- **Important Places of the Muslim World:** Cards 1–2 approved, expansion in progress
+- **Important Places of the Muslim World:** Cards 1–3 approved, expansion in progress
 
 The project remains a **Hanafi study aid pending imam/scholar review**. A full manual word-by-word audit is also underway.
 
@@ -34,12 +34,15 @@ Because the cards are visually and historically detailed, they are built **one c
 
 - **Card 1: Lal Masjid — Islamabad, Pakistan**
 - **Card 2: Chinguetti Mosque — Chinguetti, Mauritania**
+- **Card 3: Abu Hanifa Mosque — Baghdad, Iraq**
 
 Approved final images are authoritative and must be uploaded unchanged unless the maintainer explicitly requests a revision.
 
-### Next checkpoint: v1.6.4
+### v1.6.4 completed
 
-**v1.6.4 is reserved for Important Places Card 3.** The subject is not considered approved until its individual candidate card has been researched, built, screened, and explicitly accepted.
+**v1.6.4 added Important Places Card 3 — Abu Hanifa Mosque, Baghdad, Iraq.** The root README showcase now uses Abu Hanifa Mosque in place of Lal Masjid while Lal Masjid remains part of the expansion.
+
+No later version number is assigned here until the maintainer explicitly chooses the next checkpoint and subject.
 
 ### Candidate directions for later cards
 
@@ -81,7 +84,7 @@ The current concept runs from **Cards 147–170** and includes:
 
 The detailed concept and review requirements live in [`main-deck-continuation.md`](main-deck-continuation.md).
 
-These cards are not yet part of the published 146-card Main Deck. Arabic, transliteration, Qur'an/hadith sourcing, and any Hanafi legal detail must be checked before publication.
+These cards are not yet part of the published Main Deck. Arabic, transliteration, Qur'an/hadith sourcing, any Hanafi legal detail, card layout, and derived print materials must be reviewed before publication.
 
 ## Audit and scholarly review
 
