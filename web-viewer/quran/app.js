@@ -49,6 +49,42 @@ function renderAyahs(data) {
   applyLayerVisibility();
 }
 
+function humanReviewStatus(status) {
+  const labels = {
+    "passed-prototype-crosscheck": "Prototype cross-check passed",
+    "working-crosscheck-passed": "Working cross-check passed",
+    "source-wording-confirmed": "Source wording confirmed"
+  };
+  return labels[status] || status || "Not recorded";
+}
+
+function renderReviewRecord(data) {
+  if (!data.review) return;
+
+  const card = document.createElement("article");
+  card.className = "source-card review-record";
+  card.appendChild(textNode("strong", "", `Page 1 review record · ${data.review.date || "date not recorded"}`));
+
+  const entries = [
+    ["Arabic", data.review.arabic_crosscheck],
+    ["Transliteration", data.review.transliteration_crosscheck],
+    ["English", data.review.english_crosscheck]
+  ];
+
+  entries.forEach(([label, review]) => {
+    if (!review) return;
+    const line = document.createElement("p");
+    const strong = document.createElement("strong");
+    strong.textContent = `${label}: ${humanReviewStatus(review.status)}.`;
+    line.appendChild(strong);
+    if (review.reference) line.append(` Reference: ${review.reference}.`);
+    if (review.note) line.append(` ${review.note}`);
+    card.appendChild(line);
+  });
+
+  sourceList.appendChild(card);
+}
+
 function renderSources(data) {
   sourceList.replaceChildren();
 
@@ -83,6 +119,7 @@ function renderSources(data) {
     sourceList.appendChild(card);
   });
 
+  renderReviewRecord(data);
   reviewStatus.textContent = data.status === "prototype-under-review" ? "Under review" : data.status;
 }
 
