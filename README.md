@@ -1,4 +1,4 @@
-# Hanafi Learning Deck v1.6.4
+# Hanafi Learning Deck v1.8
 
 <div align="center">
 
