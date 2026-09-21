@@ -27,6 +27,21 @@ This project began with a simple problem: a learner can find thousands of isolat
 >
 > **Status:** educational study aid, still undergoing full manual audit and pending qualified imam/scholar review.
 
+## Start here
+
+Everything currently being developed is kept on **`main`**. You should not need to hunt through development branches to find current project work.
+
+- **Open the Web App:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/
+- **Open the Qur'an Reader:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/quran/
+- **Open Makkah Live & Prayer Clock:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/makkah/
+- **Qur'an Reader source and review notes:** [`quran/README.md`](quran/README.md)
+- **Qur'an transliteration standard:** [`quran/transliteration-rules.md`](quran/transliteration-rules.md)
+- **Project roadmap:** [`docs/roadmap.md`](docs/roadmap.md)
+- **Legal and source policy:** [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md)
+- **Contact:** [`CONTACT.md`](CONTACT.md) or **hanaficards@proton.me**
+
+The live Web App is the easiest way to use the project. The repository itself remains the source of record.
+
 ## How a few cards became a larger project
 
 The project did not begin as an attempt to build an Islamic reference library. It began as a small personal set of cards for learning the basics of Islam.
@@ -143,7 +158,7 @@ These external resources complement the deck and remain on their original creato
 - **Hanafi salah / prayer tutorial playlist — Man prayer (Hanafi):** https://www.youtube.com/playlist?list=PLgfsDRXXIm95Ef1zHj3ui3iqSJHhTwrdc
 - **Arabic Alphabet Explained by an American — Language Simp:** https://www.youtube.com/watch?v=TLnr17rEFrQ&t=164s
 - **Arabic learning video — Language Simp (starts at 5:37):** https://www.youtube.com/watch?v=xBG1eVwH_wg&t=337s
-- **Kaʿbah / Masjid al-Haram live — official Haramain live broadcast:** https://makkahlive.net/makkahlive.aspx
+- **Kaʿbah / Masjid al-Haram live:** use the dedicated **Makkah Live & Prayer Clock** link in the Start here section above.
 - **Darul Ifta — Darul Uloom Deoband:** https://www.darulifta-deoband.com/
 - **Darul Iftaa Leicester — Institute of Islamic Jurisprudence:** https://daruliftaa.us/
 - **Darul Ifta Birmingham — Institute of Islamic Jurisprudence:** https://daruliftabirmingham.co.uk/
@@ -201,7 +216,7 @@ The next place is not considered approved merely because it appears on a candida
 
 ## Where the project goes next
 
-**v1.8 is the current development cycle** on `feature/quran-reader`. The intended implementation order is:
+**v1.8 is the current development cycle on `main`.** The intended implementation order is:
 
 1. verify and document the Qur'an source stack and transliteration rules;
 2. build **Page 1 / Surah al-Fatihah** as the Qur'an Reader prototype;
@@ -238,6 +253,7 @@ Development, legal, and operating notes live in [`docs/`](docs/):
 - [`docs/COMPANY_BIBLE.md`](docs/COMPANY_BIBLE.md) — project rules and approval gates
 - [`docs/roadmap.md`](docs/roadmap.md) — current and future direction
 - [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md) — Qur'an/source/copyright policy and the documented Shariah disagreement over intellectual property
+- [`CONTACT.md`](CONTACT.md) — project contact for scholarly, source, licensing, and legal correspondence
 - [`docs/changelog.md`](docs/changelog.md) — checkpoint history
 - [`docs/build-notes.md`](docs/build-notes.md) — technical notes
 
@@ -341,6 +357,14 @@ The objective is not to obscure authorship or evade scrutiny. The objective is t
 The complete source-handling policy and supporting notes are maintained in [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md). The repository license is maintained separately in [`LICENSE`](LICENSE).
 
 Where a third-party work carries its own valid terms, those terms should be recorded with that work rather than silently replaced by the repository's general license.
+
+### 10. Contact for legal, licensing, source, and scholarly matters
+
+For rights claims, licensing questions, attribution disputes, source complaints, scholarly corrections, or other project correspondence, contact:
+
+**hanaficards@proton.me**
+
+A legal or rights claim should identify the exact material at issue, the person or entity asserting the claim, the source or edition involved, the right or restriction being asserted, supporting documentation where available, and the action or remedy requested. The standalone contact page is maintained at [`CONTACT.md`](CONTACT.md).
 
 ---
 
