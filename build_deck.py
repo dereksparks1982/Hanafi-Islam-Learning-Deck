@@ -134,6 +134,22 @@ def measure_bullet_rows(draw,bullets,fs,label_gap=36):
         rows.append((str(lead),lines,h))
     return f,fb,x_lead,x_text,rows
 
+def draw_text_with_pbuh(draw, xy, text, font, fill):
+    x,y=xy
+    if "ﷺ" not in text:
+        draw.text((x,y),text,font=font,fill=fill)
+        return
+    parts=text.split("ﷺ")
+    honorific_font=F(FONT_AR,max(font.size+5,30))
+    cursor=x
+    for i,part in enumerate(parts):
+        if part:
+            draw.text((cursor,y),part,font=font,fill=fill)
+            cursor+=tw(draw,part,font)
+        if i<len(parts)-1:
+            draw.text((cursor,y-3),"ﷺ",font=honorific_font,fill=fill)
+            cursor+=tw(draw,"ﷺ",honorific_font)
+
 def draw_bullets_layout(draw,bullets,y,fs,accent,available_bottom,
                         mixed_content=False,reserve_reflection=False):
     f,fb,x_lead,x_text,rows=measure_bullet_rows(draw,bullets,fs)
@@ -157,7 +173,7 @@ def draw_bullets_layout(draw,bullets,y,fs,accent,available_bottom,
         draw.text((x_lead,y),lead,font=fb,fill=accent)
         ly=y
         for line in lines:
-            draw.text((x_text,ly),line,font=f,fill=COLORS["black"])
+            draw_text_with_pbuh(draw,(x_text,ly),line,f,COLORS["black"])
             b=draw.textbbox((0,0),line,font=f)
             ly+=(b[3]-b[1])+7
         y+=row_h
