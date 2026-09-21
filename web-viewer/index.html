@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#0b3d2e">
-  <meta name="description" content="Offline study viewer for the Hanafi Learning Deck.">
+  <meta name="description" content="Offline study Web App for the Hanafi Learning Deck.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Hanafi Deck">
@@ -19,9 +19,10 @@
     <div>
       <p class="eyebrow">Hanafi Learning Deck · v1.8</p>
       <h1>Carry your deck with you.</h1>
-      <p class="intro">Browse the current card library online, or download all 209 current cards for offline study.</p>
+      <p class="intro">Browse the current card library online, open the new Qur'an Reader prototype, or store the study library for offline use.</p>
     </div>
-    <div class="actions" aria-label="Viewer actions">
+    <div class="actions" aria-label="Web App actions">
+      <a class="secondary action-link" href="quran/">Open Qur'an Reader</a>
       <button id="installButton" class="secondary" hidden>Install App</button>
       <button id="offlineButton" class="primary">Download for Offline Use</button>
       <button id="refreshButton" class="secondary" disabled>Update Deck</button>
@@ -37,7 +38,7 @@
         <li>Leave <strong>Open as Web App</strong> turned on.</li>
         <li>Tap <strong>Add</strong>.</li>
       </ol>
-      <span>The Hanafi Learning Deck icon will appear on your Home Screen and open like an app. No App Store is required.</span>
+      <span>The Hanafi Learning Deck icon will then appear on your Home Screen and open like an app. No App Store is required.</span>
     </aside>
 
     <p id="status" class="status" role="status" aria-live="polite">Checking offline library…</p>
