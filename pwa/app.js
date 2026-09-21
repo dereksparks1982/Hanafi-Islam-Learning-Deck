@@ -15,7 +15,8 @@ const arabicSlugs = ["alif","ba","ta","tha","jim","ha","kha","dal","dhal","ra","
 const arabic = arabicSlugs.map((slug, i) => `Arabic-Alphabet-Expansion/cards/card_${String(i + 1).padStart(3, "0")}_${slug}.png`);
 const important = [
   "Important-Places-Expansion/card_001_lal_masjid.png",
-  "Important-Places-Expansion/card_002_chinguetti_mosque.png"
+  "Important-Places-Expansion/card_002_chinguetti_mosque.png",
+  "Important-Places-Expansion/card_003_abu_hanifa_mosque.png"
 ];
 
 const SETS = [
