@@ -45,6 +45,66 @@
   </header>
 
   <main>
+    <section class="prayer-panel" aria-labelledby="prayerHeading">
+      <div class="prayer-heading-row">
+        <div>
+          <p class="eyebrow">Local salah clock · v1.8 prototype</p>
+          <h2 id="prayerHeading">Next prayer</h2>
+          <p id="prayerLocation" class="prayer-location">Location not set yet.</p>
+        </div>
+        <button id="useLocationButton" class="primary" type="button">Use my location</button>
+      </div>
+
+      <div id="prayerClock" class="prayer-clock" hidden>
+        <div class="prayer-clock-cell">
+          <span class="prayer-label">Current period</span>
+          <strong id="currentPrayer">—</strong>
+        </div>
+        <div class="prayer-clock-cell prayer-countdown-cell">
+          <span class="prayer-label">Time until <span id="nextPrayerName">next prayer</span></span>
+          <strong id="prayerCountdown" class="prayer-countdown">--:--:--</strong>
+        </div>
+        <div class="prayer-clock-cell">
+          <span class="prayer-label">Next prayer time</span>
+          <strong id="nextPrayerTime">—</strong>
+        </div>
+      </div>
+
+      <div class="prayer-settings">
+        <label>
+          Calculation method
+          <select id="prayerMethod">
+            <option value="MuslimWorldLeague">Muslim World League</option>
+            <option value="MoonsightingCommittee">Moonsighting Committee</option>
+            <option value="NorthAmerica">ISNA / North America</option>
+            <option value="Karachi">University of Islamic Sciences, Karachi</option>
+            <option value="Egyptian">Egyptian General Authority of Survey</option>
+            <option value="UmmAlQura">Umm al-Qura, Makkah</option>
+            <option value="Turkey">Diyanet / Turkey</option>
+            <option value="Dubai">Dubai</option>
+            <option value="Kuwait">Kuwait</option>
+            <option value="Qatar">Qatar</option>
+            <option value="Singapore">Singapore</option>
+            <option value="Tehran">Tehran</option>
+          </select>
+        </label>
+        <span class="hanafi-asr-note">ʿAṣr method: <strong>Hanafi</strong></span>
+      </div>
+
+      <details class="manual-location">
+        <summary>Location permission unavailable? Enter coordinates manually</summary>
+        <div class="manual-location-grid">
+          <label>Latitude <input id="manualLatitude" type="number" inputmode="decimal" min="-90" max="90" step="any" placeholder="e.g. 39.0"></label>
+          <label>Longitude <input id="manualLongitude" type="number" inputmode="decimal" min="-180" max="180" step="any" placeholder="e.g. -95.0"></label>
+          <button id="manualLocationButton" class="secondary" type="button">Use coordinates</button>
+        </div>
+      </details>
+
+      <div id="prayerSchedule" class="prayer-schedule" aria-live="polite"></div>
+      <p id="prayerMessage" class="prayer-message">Choose <strong>Use my location</strong> to calculate prayer times on this device. Your coordinates are not sent to the prayer-time library.</p>
+      <p class="prayer-source">Prayer calculations use <strong>Adhan JS 4.4.6</strong> by Batoul Apps under the MIT License. Calculation conventions differ by region, so the method can be changed to match a trusted local timetable.</p>
+    </section>
+
     <nav id="setNav" class="set-nav" aria-label="Card sets"></nav>
     <section id="library" class="library" aria-live="polite"></section>
   </main>
