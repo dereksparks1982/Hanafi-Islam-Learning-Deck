@@ -15,13 +15,25 @@ This project is undertaken seeking the pleasure of Allah and the spread of benef
 
 </div>
 
-A growing, printable and mobile-friendly library for learning **Islam through a consistent Hanafi framework**: belief, salah, purification, duʿā, daily worship, Qur'an, Arabic literacy, sacred places, the Names of Allah, Islamic history, and the wider Muslim world.
+A growing, printable, offline-capable, and mobile-friendly library for learning **Islam through a consistent Hanafi framework**: belief, salah, purification, duʿā, daily worship, Qur'an, Arabic literacy, sacred places, Islamic history, jurisprudence, and the wider Muslim world.
 
-This project began with a simple problem: a learner can find thousands of isolated answers online and still struggle to find a clear path through them. The Hanafi Learning Deck tries to turn that maze into something you can actually hold, study, review, print, carry on your phone, and return to every day.
+This project began with a simple problem: a learner can find thousands of isolated answers online and still struggle to find a clear path through them. The Hanafi Learning Deck tries to turn that maze into something a person can actually study, review, print, carry on a phone, verify against sources, and return to every day.
 
-> **Current checkpoint:** **v1.7**
+> **Current published checkpoint:** **v1.7**
+>
+> **Published library:** **209 cards across five independent sets**
 >
 > **Status:** educational study aid, still undergoing full manual audit and pending qualified imam/scholar review.
+
+## How a few cards became a larger project
+
+The project did not begin as an attempt to build an Islamic reference library. It began as a small personal set of cards for learning the basics of Islam.
+
+The scope changed naturally as the study became more serious. Early questions led to the discovery that Sunni jurisprudence is preserved through multiple established legal schools. Rather than mix rulings without realizing it, the project adopted a consistent **Hanafi** framework. That decision led from simple answers into fiqh, source comparison, Arabic terminology, Qur'an and hadith references, legal reasoning, the history of the madhhab, and the need to distinguish a ruling from the evidence and method behind it.
+
+The result is now much more than a deck. The cards remain the project's foundation, but the wider direction includes an installable **Web App**, a Tor Mirror, a page-based Qur'an Reader, prayer-time tools, Islamic historical and ruins material, deeper jurisprudence study, and eventually small educational games built around original art and code.
+
+The aim is not to manufacture an appearance of authority. The aim is to make the work **traceable, reviewable, useful, and increasingly rigorous** as the project grows.
 
 ## If you are not Muslim and found this by accident
 
@@ -46,7 +58,7 @@ The Hanafi madhhab is one of the four major Sunni schools of Islamic law. It tra
 
 A madhhab is not a separate religion or sect. It is a legal tradition and method. This project follows Hanafi fiqh so a learner can build one coherent foundation instead of unknowingly mixing rulings from different schools.
 
-## Current library
+## Current published library
 
 At the v1.7 checkpoint, the repository contains **209 cards across five independent sets**:
 
@@ -85,18 +97,18 @@ The [`mobile-view/`](mobile-view/) folder provides scrollable galleries designed
 
 The mobile layer is only a viewing aid. The printable PNG files remain authoritative.
 
-## Web Viewer and Tor Mirror
+## Web App and Tor Mirror
 
-The deck is also available through two live web versions:
+The project is also available through two live web versions:
 
-- **Web Viewer:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/  
-  The normal browser viewer for the Hanafi Learning Deck. It can download the current card library for offline study and, on supported devices, can be placed on the Home Screen so it opens like an app.
+- **Web App:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/  
+  The normal browser version of the Hanafi Learning Deck. It can download the current card library for offline study and, on supported devices, can be installed to the Home Screen so it opens in a standalone app-style window.
 
-### Put the Web Viewer on an iPhone
+### Put the Web App on an iPhone
 
 Apple places the install option inside Safari's Share menu instead of giving websites a normal install button. To add the Hanafi Learning Deck to an iPhone:
 
-1. Open the **Web Viewer** in **Safari**.
+1. Open the **Web App** in **Safari**.
 2. Tap Safari's **•••** menu.
 3. Tap **Share**.
 4. Scroll down and tap **Add to Home Screen**.
@@ -106,9 +118,9 @@ Apple places the install option inside Safari's Share menu instead of giving web
 The **Hanafi Learning Deck** icon will then appear on the iPhone Home Screen and open like an app. **No App Store is required.**
 
 - **Tor Mirror:** http://hanafiiix6xddzpmjxbpns5svgoujdnjwf3ky4a72rzai5mumxm4mzqd.onion/  
-  A Tor-accessible mirror of the Hanafi Learning Deck. Open this address in Tor Browser. Tor Browser may restrict offline app storage, so the Tor Mirror should be treated primarily as an alternate way to access and browse the deck rather than as the installable offline version.
+  A Tor-accessible mirror of the Hanafi Learning Deck. Open this address in Tor Browser. Tor Browser may restrict offline app storage, so the Tor Mirror should be treated primarily as an alternate way to access and browse the project rather than as the installable offline version.
 
-The project uses the short names **Web Viewer** and **Tor Mirror** for these two versions throughout its documentation.
+The source implementation directory is currently named `web-viewer/`, but the user-facing product is the **Web App**.
 
 ## Downloads and collections
 
@@ -138,7 +150,7 @@ These external resources complement the deck and remain on their original creato
 - **Hadith reference — Sunnah.com:** https://sunnah.com/
 - **Islamic Society of Wichita:** https://myisw.org/
 
-## The five current sets
+## The five current card sets
 
 ### Main Deck — Cards 00–146
 
@@ -187,41 +199,17 @@ The next place is not considered approved merely because it appears on a candida
 
 ## Where the project goes next
 
-The project is expanding carefully rather than simply chasing a card count.
+Active feature development is currently paused while the expanded scope is documented on `feature/quran-reader`. When implementation resumes, the intended order is:
 
-### 1. Finish the manual audit
+1. verify and document the Qur'an source stack and transliteration rules;
+2. build **Page 1 / Surah al-Fatihah** as the Qur'an Reader prototype;
+3. integrate that reader into the installable Web App and confirm phone/offline behavior;
+4. add local prayer-time calculation and a persistent next-prayer countdown, plus a separate Makkah countdown on the live-feed page;
+5. begin **Islamic Ruins & Lost Cities**, starting with the Minaret of Jam / probable lost Ghurid Firuzkuh in Afghanistan;
+6. continue the card expansions and deeper Hanafi jurisprudence material under the normal review gates;
+7. eventually prototype **Caravan Crossing**, the first planned educational arcade game.
 
-Every word, every card, every source. The current library is being reviewed for:
-
-- Hanafi legal accuracy
-- Qur'an and hadith citations
-- Arabic and transliteration
-- English wording
-- source quality
-- legitimate differences within Hanafi fiqh
-- layout and legibility
-
-Corrections will be discussed and sourced rather than silently rewritten.
-
-### 2. Continue Important Places one card at a time
-
-**v1.6.4 added Important Places Card 3 — Abu Hanifa Mosque, Baghdad, Iraq.** Future Important Places cards will continue through the same one-card-at-a-time research, preview, maintainer approval, and exact-publication workflow.
-
-### 3. The Hanafi School: Origins, Method & Legacy
-
-A future high-detail expansion will explore Kufa, Imam Abu Hanifa, his teachers and students, Abu Yusuf, Muhammad al-Shaybani, Zufar, the legal method of the school, major Hanafi books and jurists, and the historical spread of the madhhab.
-
-### 4. The Prophets of Islam
-
-A sourced expansion on the prophets named in the Qur'an, carefully distinguishing Qur'anic material, sound hadith, and later historical reports.
-
-### 5. The Life of Prophet Muhammad ﷺ
-
-A substantial chronological sīrah expansion rather than a tiny summary. Important events will receive their own cards when the evidence supports them.
-
-**Prophet Muhammad ﷺ will not be depicted.** No face, body, silhouette, shadow, outline, or stand-in figure will be used to represent him. The cards will use places, landscapes, maps, architecture, objects, manuscripts, routes, timelines, and environmental scenes.
-
-See the full [`docs/roadmap.md`](docs/roadmap.md) for the working roadmap.
+The full working plan, including the other game concepts and technical requirements, is in [`docs/roadmap.md`](docs/roadmap.md).
 
 ## Sourcing and corrections
 
@@ -231,7 +219,7 @@ A Maliki, Shafiʿi, or Hanbali ruling is not automatically a correction to a Han
 
 When reporting a correction, please include:
 
-1. the card number;
+1. the card number or page/section;
 2. the exact wording at issue;
 3. the proposed replacement wording;
 4. a **specific named source**;
@@ -239,33 +227,66 @@ When reporting a correction, please include:
 
 A Qur'an or hadith citation alone does not always establish the Hanafi legal ruling on an issue, because juristic interpretation and application matter.
 
-The deck is a **learning aid, not a fatwa service**. Personal or unusual cases should be taken to a qualified Hanafi scholar.
+The project is a **learning aid, not a fatwa service**. Personal or unusual cases should be taken to a qualified Hanafi scholar.
 
 ## Project documentation
 
-Development and operating notes now live together in [`docs/`](docs/):
+Development, legal, and operating notes live in [`docs/`](docs/):
 
 - [`docs/COMPANY_BIBLE.md`](docs/COMPANY_BIBLE.md) — project rules and approval gates
 - [`docs/roadmap.md`](docs/roadmap.md) — current and future direction
+- [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md) — Qur'an/source/copyright policy and the documented Shariah disagreement over intellectual property
+- [`docs/CURRENT_HANDOFF.md`](docs/CURRENT_HANDOFF.md) — current branch state and exact resume point
 - [`docs/changelog.md`](docs/changelog.md) — checkpoint history
-- [`docs/build-notes.md`](docs/build-notes.md) — technical notes, including the solved binary-image upload and checkpointed repair workflows
+- [`docs/build-notes.md`](docs/build-notes.md) — technical notes
 
-Scholarly/source material remains separate in [`AUDIT_AND_SOURCES.md`](AUDIT_AND_SOURCES.md), [`IMAM_REVIEW_NOTES.md`](IMAM_REVIEW_NOTES.md), and the source notes inside individual expansions.
+Scholarly/source material remains separate in [`AUDIT_AND_SOURCES.md`](AUDIT_AND_SOURCES.md), [`IMAM_REVIEW_NOTES.md`](IMAM_REVIEW_NOTES.md), and source notes inside individual expansions.
 
-## Noncommercial license
+## Legal, licensing, copyright, and source policy
 
-The Hanafi Learning Deck is licensed under **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)**.
+<div align="center">
 
-You may download, print, copy, share, teach from, and adapt these materials for personal, educational, mosque, classroom, study-group, community, and other **noncommercial** purposes.
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img src="https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png" alt="Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license badge">
+</a>
 
-You may not sell the cards, charge for access to them, or include the deck or its adaptations in a commercial product or bundle.
+**Original Hanafi Learning Deck material © 2026 Derek Sparks**  
+**Licensed CC BY-NC-SA 4.0 where the project has the right to license the material.**
 
-If you adapt the deck, credit the Hanafi Learning Deck project, indicate that changes were made, keep the adapted version noncommercial, and distribute it under the same license.
+</div>
 
-The purpose of this project is Islamic education and benefit, not commercial profit.
+### Project-created material
 
-Full license: [`LICENSE`](LICENSE)
+Original material created for the Hanafi Learning Deck is released under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license (CC BY-NC-SA 4.0)** unless a file or section states otherwise.
+
+You may download, print, copy, share, teach from, and adapt that original material for personal, educational, mosque, classroom, study-group, community, and other **noncommercial** purposes. Adaptations must provide attribution, identify changes, remain noncommercial, and use the same license.
+
+The purpose of the license is to keep the project's original educational work available for study and teaching rather than to create a commercial product around access to it.
+
+### The Qur'an itself
+
+The project **does not claim ownership of the Qur'an**. The Arabic Qur'an is treated as revelation from Allah, not as project-authored material. Its text is handled as sacred source text and is not to be silently altered.
+
+Human work surrounding the Qur'an is distinguished from the revelation itself. That includes translations, transliterations, annotations, typography, databases, page metadata, photographs, recordings, and software.
+
+### Human translations and third-party sources
+
+A translation is a human rendering of meaning. When the project uses one, the translator and source edition should be identified as clearly as possible. The same principle applies to photographs, datasets, historical documents, audio, and other third-party material.
+
+Third-party material does **not** become CC BY-NC-SA merely because it appears in this repository, and the project does not claim authorship of work created by others.
+
+### Shariah and intellectual-property disagreement
+
+The project also documents an important juristic disagreement rather than concealing it. Contemporary Muslim scholars have differed over whether modern intellectual-property rights constitute protected property under Shariah.
+
+One documented position argues that classical ownership concerned tangible property, that the foundational texts and classical juristic literature do not establish private ownership of intangible knowledge in the modern sense, and that beneficial knowledge cannot simply be treated as an individual's monopolizable possession. Other contemporary scholars, including major fiqh bodies, recognize copyrights and related intellectual-property interests as rights protected by Shariah.
+
+The existence of both positions is part of the project's legal and scholarly record. Attribution and provenance are preserved regardless of which position is being discussed.
+
+The complete policy, sources for the fiqh discussion, treatment of restrictive source terms, and dispute procedure are maintained in [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md).
+
+Full project license text: [`LICENSE`](LICENSE)
 
 ---
 
-**Hanafi Learning Deck — v1.7 checkpoint**
+**Hanafi Learning Deck — v1.7 published checkpoint**
