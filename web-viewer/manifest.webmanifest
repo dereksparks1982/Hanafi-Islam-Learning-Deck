@@ -1,7 +1,7 @@
 {
   "name": "Hanafi Learning Deck",
   "short_name": "Hanafi Deck",
-  "description": "Offline study viewer for the Hanafi Learning Deck.",
+  "description": "Offline Hanafi study Web App with cards, Qur'an Reader, and prayer-time tools.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
