@@ -7,7 +7,7 @@ Current scope is intentionally narrow:
 - installable PWA shell;
 - browse the current five card sets;
 - explicit **Download for Offline Use** control;
-- cache the current 208 approved card images on request;
+- cache the current 209 approved card images on request;
 - no account, advertising, tracking, search, quizzes, audio, or Scholar Mode.
 
 The authoritative card PNGs remain in their existing repository directories. The PWA references those files without modifying them.
