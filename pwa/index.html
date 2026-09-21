@@ -23,11 +23,10 @@
     </div>
     <div class="actions" aria-label="App actions">
       <button id="installButton" class="secondary" hidden>Install App</button>
-      <button id="iosInstallButton" class="secondary" hidden>Install on iPhone</button>
       <button id="offlineButton" class="primary">Download for Offline Use</button>
       <button id="refreshButton" class="secondary" disabled>Update Deck</button>
     </div>
-    <p id="iosInstallInstructions" class="status" role="status" aria-live="polite" hidden></p>
+    <p id="iosInstallHint" class="status" hidden><strong>Install on iPhone:</strong> Safari ••• → Share → Add to Home Screen.</p>
     <p id="status" class="status" role="status" aria-live="polite">Checking offline library…</p>
   </header>
 
@@ -45,19 +44,7 @@
       const ua = navigator.userAgent || "";
       const isiOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
       const standalone = navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches;
-      if (!isiOS || standalone) return;
-
-      const button = document.getElementById("iosInstallButton");
-      const instructions = document.getElementById("iosInstallInstructions");
-      button.hidden = false;
-
-      button.addEventListener("click", () => {
-        const isSafari = /Safari/i.test(ua) && /Version\/\d+/i.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua);
-        instructions.textContent = isSafari
-          ? "To install: tap Safari’s Share button, choose Add to Home Screen, keep Open as Web App enabled, then tap Add."
-          : "This page is open inside another app. Open this same page in Safari first. Then tap Safari’s Share button, choose Add to Home Screen, keep Open as Web App enabled, and tap Add.";
-        instructions.hidden = false;
-      });
+      if (isiOS && !standalone) document.getElementById("iosInstallHint").hidden = false;
     })();
   </script>
   <script src="app.js?release=v1.7" defer></script>
