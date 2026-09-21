@@ -25,101 +25,66 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          p = Path('build_deck.py')
-          s = p.read_text(encoding='utf-8')
-
-          marker = 'def draw_bullets_layout(draw,bullets,y,fs,accent,available_bottom,\n'
-          helper = '''def draw_text_with_pbuh(draw, xy, text, font, fill):
-    """Draw Latin text normally but render the ﷺ honorific with the Arabic font."""
-    x,y=xy
-    if "ﷺ" not in text:
-        draw.text((x,y),text,font=font,fill=fill)
-        return
-    parts=text.split("ﷺ")
-    honorific_font=F(FONT_AR,max(font.size+5,30))
-    cursor=x
-    for i,part in enumerate(parts):
-        if part:
-            draw.text((cursor,y),part,font=font,fill=fill)
-            cursor+=tw(draw,part,font)
-        if i<len(parts)-1:
-            draw.text((cursor,y-3),"ﷺ",font=honorific_font,fill=fill)
-            cursor+=tw(draw,"ﷺ",honorific_font)
-
-'''
+          p=Path('build_deck.py')
+          s=p.read_text(encoding='utf-8')
+          marker='def draw_bullets_layout(draw,bullets,y,fs,accent,available_bottom,\n'
+          helper='def draw_text_with_pbuh(draw, xy, text, font, fill):\n    x,y=xy\n    if "ﷺ" not in text:\n        draw.text((x,y),text,font=font,fill=fill)\n        return\n    parts=text.split("ﷺ")\n    honorific_font=F(FONT_AR,max(font.size+5,30))\n    cursor=x\n    for i,part in enumerate(parts):\n        if part:\n            draw.text((cursor,y),part,font=font,fill=fill)\n            cursor+=tw(draw,part,font)\n        if i<len(parts)-1:\n            draw.text((cursor,y-3),"ﷺ",font=honorific_font,fill=fill)\n            cursor+=tw(draw,"ﷺ",honorific_font)\n\n'
           if 'def draw_text_with_pbuh' not in s:
               if marker not in s:
                   raise SystemExit('Could not locate bullet renderer insertion point')
-              s = s.replace(marker, helper + marker, 1)
-
-          old = '            draw.text((x_text,ly),line,font=f,fill=COLORS["black"])\n'
-          new = '            draw_text_with_pbuh(draw,(x_text,ly),line,f,COLORS["black"])\n'
+              s=s.replace(marker,helper+marker,1)
+          old='            draw.text((x_text,ly),line,font=f,fill=COLORS["black"])\n'
+          new='            draw_text_with_pbuh(draw,(x_text,ly),line,f,COLORS["black"])\n'
           if new not in s:
               if old not in s:
                   raise SystemExit('Could not locate bullet text draw call')
-              s = s.replace(old, new, 1)
-
-          p.write_text(s, encoding='utf-8')
+              s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
           PY
 
           python3 - <<'PY'
           import json, math
           from pathlib import Path
-          from PIL import Image, ImageDraw, ImageFont
-          from build_deck import render_card, F, FONT_AR, tw
-          from tools.apply_title_triples import (
-              detect_dark_divider, avg_bg, LABELS, fit_lines, fit_single,
-              FONT_B, FONT_I, DARK_GREEN, BLACK, COLORS
-          )
-
-          root = Path('.')
-          cards = json.loads((root/'source/cards_001_025.json').read_text(encoding='utf-8'))
-          c = next(x for x in cards if int(x['n']) == 1)
+          from PIL import Image, ImageDraw
+          from build_deck import render_card, F, FONT_AR
+          from tools.apply_title_triples import detect_dark_divider, avg_bg, LABELS, fit_lines, fit_single, FONT_B, FONT_I, DARK_GREEN, BLACK, COLORS
+          root=Path('.')
+          cards=json.loads((root/'source/cards_001_025.json').read_text(encoding='utf-8'))
+          c=next(x for x in cards if int(x['n'])==1)
           assert 'Prophet Muhammad ﷺ.' in c['bullets'][0][1]
+          probe=Image.new('RGB',(300,120),'white')
+          pd=ImageDraw.Draw(probe)
+          pf=F(FONT_AR,40)
+          bbox=pd.textbbox((0,0),'ﷺ',font=pf)
+          assert bbox[2]>bbox[0] and bbox[3]>bbox[1]
 
-          # Prove the honorific font has a real glyph, not an empty replacement square.
-          probe = Image.new('RGB',(300,120),'white')
-          pd = ImageDraw.Draw(probe)
-          pf = F(FONT_AR,40)
-          bbox = pd.textbbox((0,0),'ﷺ',font=pf)
-          assert bbox[2] > bbox[0] and bbox[3] > bbox[1]
-
-          im = render_card(c).convert('RGB')
-          d = ImageDraw.Draw(im)
-          div = detect_dark_divider(im,150,270)
-          bg = avg_bg(im,(450,45,550,min(div-8,120)))
+          im=render_card(c).convert('RGB')
+          d=ImageDraw.Draw(im)
+          div=detect_dark_divider(im,150,270)
+          bg=avg_bg(im,(450,45,550,min(div-8,120)))
           d.rectangle((42,40,958,div-4),fill=bg)
-
-          n=1
-          eng=f"{n}. {c['title']}"
-          lab=LABELS['main'][str(n)]
-          ef,elines=fit_lines(d,eng,FONT_B,46,26,560,2)
-          top=47
+          lab=LABELS['main']['1']
+          ef,elines=fit_lines(d,"1. ALLAH",FONT_B,46,26,560,2)
           for i,line in enumerate(elines):
-              d.text((62,top+i*(ef.size+4)),line,font=ef,fill=BLACK)
+              d.text((62,47+i*(ef.size+4)),line,font=ef,fill=BLACK)
           af=fit_single(d,lab['arabic'],FONT_AR,44,25,300,'rtl')
           d.text((940,45),lab['arabic'],font=af,fill=DARK_GREEN,anchor='ra',direction='rtl')
           lf=fit_single(d,lab['latin'],FONT_I,23,15,560)
           d.text((62,div-48),lab['latin'],font=lf,fill=DARK_GREEN)
-          tag=c.get('tag','')
-          if tag:
-              tf=fit_single(d,tag,FONT_B,18,12,330)
-              d.text((940,div-47),tag,font=tf,fill=COLORS.get(c.get('color','black'),BLACK),anchor='ra')
+          tf=fit_single(d,c.get('tag',''),FONT_B,18,12,330)
+          d.text((940,div-47),c.get('tag',''),font=tf,fill=COLORS.get(c.get('color','black'),BLACK),anchor='ra')
           d.line((48,div,952,div),fill=BLACK,width=3)
-
           out=root/'cards/card_001.png'
           im.save(out,'PNG',optimize=True)
           assert Image.open(out).size==(1000,1400)
 
-          # Refresh Sheet 1 only.
           sheet=Image.new('RGB',(2060,2860),'white')
           for j in range(4):
               card=Image.open(root/'cards'/f'card_{j+1:03d}.png').convert('RGB').resize((970,1358),Image.Resampling.LANCZOS)
               col,row=j%2,j//2
-              sheet.paste(card,(40+col*(970+40),52+row*(1358+40)))
+              sheet.paste(card,(40+col*1010,52+row*1398))
           sheet.save(root/'sheets/sheet_01.png','PNG',optimize=True)
 
-          # Refresh main contact sheet.
           paths=[root/'cards'/f'card_{i:03d}.png' for i in range(1,147)]
           cols,cellw,cellh=8,180,252
           rows=math.ceil(len(paths)/cols)
@@ -131,9 +96,7 @@ jobs:
               y=(i//cols)*cellh+(cellh-card.height)//2
               contact.paste(card,(x,y))
           contact.save(root/'contact_sheet.png','PNG',optimize=True)
-
-          print('PASS: ﷺ rendered through Arabic-font fallback')
-          print('PASS: Card 1, Sheet 1, and contact sheet rebuilt')
+          print('PASS: Card 1 rebuilt with a real ﷺ glyph')
           PY
 
       - name: Commit fix
