@@ -1,3 +1,5 @@
+const RELEASE = "v1.7";
+
 const main = Array.from({length:147}, (_, i) => `cards/card_${String(i).padStart(3, "0")}.png`);
 const sacredSlugs = [
   "sacred_places_expansion_color_key","masjid_al-haram","the_kabah_visual_guide","maqam_ibrahim","zamzam",
@@ -26,12 +28,18 @@ const SETS = [
   { id:"arabic-alphabet", title:"Arabic Alphabet Expansion", files:arabic },
   { id:"important-places", title:"Important Places of the Muslim World", files:important }
 ];
-const CARD_URLS = SETS.flatMap(set => set.files);
+
+function releaseUrl(path) {
+  return `${path}?release=${encodeURIComponent(RELEASE)}`;
+}
+
+const CARD_URLS = SETS.flatMap(set => set.files).map(releaseUrl);
 const TOTAL_CARDS = CARD_URLS.length;
 
 const library = document.getElementById("library");
 const setNav = document.getElementById("setNav");
 const offlineButton = document.getElementById("offlineButton");
+const refreshButton = document.getElementById("refreshButton");
 const installButton = document.getElementById("installButton");
 const status = document.getElementById("status");
 let installPrompt = null;
@@ -61,14 +69,15 @@ function render() {
     grid.className = "card-grid";
 
     set.files.forEach((path, index) => {
+      const versioned = releaseUrl(path);
       const link = document.createElement("a");
       link.className = "card-link";
-      link.href = path;
+      link.href = versioned;
       link.target = "_blank";
       link.rel = "noopener";
 
       const img = document.createElement("img");
-      img.src = path;
+      img.src = versioned;
       img.alt = label(set, index, path);
       img.loading = "lazy";
       img.decoding = "async";
@@ -85,33 +94,42 @@ function render() {
   }
 }
 
-function showOfflineState(cached) {
+function showOfflineState(cached, message = "") {
+  refreshButton.disabled = false;
   if (cached >= TOTAL_CARDS) {
     offlineButton.textContent = "Available Offline";
     offlineButton.disabled = true;
-    status.textContent = `All ${TOTAL_CARDS} cards are stored on this device for offline study.`;
+    status.textContent = message || `All ${TOTAL_CARDS} ${RELEASE} cards are stored on this device for offline study.`;
   } else {
     offlineButton.textContent = "Download for Offline Use";
     offlineButton.disabled = false;
-    status.textContent = cached ? `${cached} of ${TOTAL_CARDS} cards are already stored offline.` : "The app shell is ready. Card images are not yet fully stored offline.";
+    status.textContent = message || (cached ? `${cached} of ${TOTAL_CARDS} ${RELEASE} cards are stored offline.` : `The ${RELEASE} app shell is ready. Card images are not yet fully stored offline.`);
   }
+}
+
+async function getWorker() {
+  const registration = await navigator.serviceWorker?.ready;
+  return navigator.serviceWorker?.controller || registration?.active || null;
 }
 
 async function startOfflineSupport() {
   if (!("serviceWorker" in navigator)) {
     status.textContent = "This browser does not support offline app storage.";
     offlineButton.disabled = true;
+    refreshButton.disabled = true;
     return;
   }
   try {
-    const registration = await navigator.serviceWorker.register("sw.js", { scope:"./" });
+    const registration = await navigator.serviceWorker.register(`sw.js?release=${encodeURIComponent(RELEASE)}`, { scope:"./" });
     const ready = await navigator.serviceWorker.ready;
     const worker = navigator.serviceWorker.controller || registration.active || ready.active;
-    worker?.postMessage({ type:"CACHE_STATUS", urls:CARD_URLS });
+    refreshButton.disabled = false;
+    worker?.postMessage({ type:"CACHE_STATUS", urls:CARD_URLS, release:RELEASE });
   } catch (error) {
     console.error(error);
     status.textContent = "Offline setup could not start in this browser.";
     offlineButton.disabled = true;
+    refreshButton.disabled = true;
   }
 }
 
@@ -120,22 +138,44 @@ navigator.serviceWorker?.addEventListener("message", event => {
   if (data.type === "CACHE_STATUS") showOfflineState(data.cached || 0);
   if (data.type === "CACHE_PROGRESS") {
     offlineButton.disabled = true;
-    offlineButton.textContent = `Downloading ${data.done} / ${data.total}`;
-    status.textContent = data.failed ? `Stored ${data.done - data.failed} cards so far; ${data.failed} download(s) need retrying.` : `Storing card ${data.done} of ${data.total}…`;
+    refreshButton.disabled = true;
+    const verb = data.mode === "refresh" ? "Updating" : "Downloading";
+    if (data.mode === "refresh") refreshButton.textContent = `${verb} ${data.done} / ${data.total}`;
+    else offlineButton.textContent = `${verb} ${data.done} / ${data.total}`;
+    status.textContent = data.failed ? `${data.failed} card download(s) need retrying.` : `${verb} card ${data.done} of ${data.total}…`;
   }
-  if (data.type === "CACHE_COMPLETE") showOfflineState(data.cached || 0);
+  if (data.type === "CACHE_COMPLETE") {
+    refreshButton.textContent = "Update Deck";
+    const message = data.mode === "refresh"
+      ? (data.failed ? `Deck update finished with ${data.failed} card download(s) needing retry.` : `Offline deck refreshed to ${RELEASE}.`)
+      : "";
+    showOfflineState(data.cached || 0, message);
+  }
 });
 
 offlineButton.addEventListener("click", async () => {
-  const registration = await navigator.serviceWorker?.ready;
-  const worker = navigator.serviceWorker?.controller || registration?.active;
+  const worker = await getWorker();
   if (!worker) {
     status.textContent = "Offline storage is still starting. Try again in a moment.";
     return;
   }
   offlineButton.disabled = true;
+  refreshButton.disabled = true;
   offlineButton.textContent = "Starting download…";
-  worker.postMessage({ type:"CACHE_CARDS", urls:CARD_URLS });
+  worker.postMessage({ type:"CACHE_CARDS", urls:CARD_URLS, release:RELEASE });
+});
+
+refreshButton.addEventListener("click", async () => {
+  const worker = await getWorker();
+  if (!worker) {
+    status.textContent = "Deck updating is still starting. Try again in a moment.";
+    return;
+  }
+  offlineButton.disabled = true;
+  refreshButton.disabled = true;
+  refreshButton.textContent = "Starting update…";
+  status.textContent = `Checking all ${TOTAL_CARDS} cards for the current ${RELEASE} release…`;
+  worker.postMessage({ type:"REFRESH_CARDS", urls:CARD_URLS, release:RELEASE });
 });
 
 window.addEventListener("beforeinstallprompt", event => {
