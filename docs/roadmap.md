@@ -1,6 +1,6 @@
 # Hanafi Learning Deck — Roadmap
 
-## Current checkpoint: v1.6.4
+## Current checkpoint: v1.7
 
 The project currently contains **209 cards across five independent sets**:
 
@@ -12,7 +12,13 @@ The project currently contains **209 cards across five independent sets**:
 
 The project remains a **Hanafi study aid pending imam/scholar review**. A full manual word-by-word audit is also underway.
 
-The project now supports multiple study surfaces: printable cards, mobile-friendly galleries, and a web-viewer port. These are viewing/study layers; the authoritative card PNGs and source material remain in the repository.
+The project now supports multiple study surfaces: printable cards, mobile-friendly galleries, and the installable offline **Web Viewer**. These are viewing/study layers; the authoritative card PNGs and source material remain in the repository.
+
+## v1.7 — Web Viewer and closeout
+
+v1.7 established the current live **Web Viewer**, offline card download and refresh support, Home Screen installation support, explicit iPhone installation instructions, the Tor Mirror access path, and the final Card 1 ﷺ rendering correction.
+
+The implementation directory is `web-viewer/`. The live viewer is published through the dedicated `gh-pages` branch while `main` remains the authoritative project branch.
 
 ## v1.6.x — Important Places of the Muslim World
 
@@ -42,7 +48,7 @@ Approved final images are authoritative and must be uploaded unchanged unless th
 
 **v1.6.4 added Important Places Card 3 — Abu Hanifa Mosque, Baghdad, Iraq.** The root README showcase now uses Abu Hanifa Mosque in place of Lal Masjid while Lal Masjid remains part of the expansion.
 
-No later version number is assigned here until the maintainer explicitly chooses the next checkpoint and subject.
+No later Important Places card is assigned here until the maintainer explicitly chooses the next subject.
 
 ### Candidate directions for later cards
 
@@ -153,7 +159,7 @@ The detailed plan lives in [`digital-learning-roadmap.md`](digital-learning-road
 
 Approved directions include:
 
-- an installable offline PWA / web viewer;
+- an installable offline **Web Viewer**;
 - search, filters, per-card deep links, bookmarks, and guided study paths;
 - Arabic-only / transliteration / English display controls;
 - memorization and local spaced repetition;
