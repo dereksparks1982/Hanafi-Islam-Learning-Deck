@@ -21,12 +21,25 @@
       <h1>Carry the deck with you.</h1>
       <p class="intro">Browse the current card library online, or download all 209 current cards for offline study.</p>
     </div>
-    <div class="actions" aria-label="App actions">
+    <div class="actions" aria-label="Viewer actions">
       <button id="installButton" class="secondary" hidden>Install App</button>
       <button id="offlineButton" class="primary">Download for Offline Use</button>
       <button id="refreshButton" class="secondary" disabled>Update Deck</button>
     </div>
-    <p id="iosInstallHint" class="status" hidden><strong>Install on iPhone:</strong> Safari ••• → Share → Add to Home Screen.</p>
+
+    <aside id="iosInstallHint" hidden aria-label="iPhone installation instructions" style="margin-top:1rem;padding:1rem 1.1rem;border:1px solid rgba(216,181,96,.28);border-radius:16px;background:rgba(255,255,255,.04);color:#f7f1df;line-height:1.55;">
+      <strong style="display:block;margin-bottom:.45rem;color:#d8b560;">Put the Hanafi Learning Deck on your iPhone</strong>
+      <ol style="margin:.25rem 0 .6rem;padding-left:1.35rem;">
+        <li>Open this Web Viewer in <strong>Safari</strong>.</li>
+        <li>Tap Safari’s <strong>•••</strong> menu.</li>
+        <li>Tap <strong>Share</strong>.</li>
+        <li>Scroll down and tap <strong>Add to Home Screen</strong>.</li>
+        <li>Leave <strong>Open as Web App</strong> turned on.</li>
+        <li>Tap <strong>Add</strong>.</li>
+      </ol>
+      <span>The Hanafi Learning Deck icon will appear on your Home Screen and open like an app. No App Store is required.</span>
+    </aside>
+
     <p id="status" class="status" role="status" aria-live="polite">Checking offline library…</p>
   </header>
 
