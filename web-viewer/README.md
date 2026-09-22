@@ -4,6 +4,19 @@ This directory contains the installable, local-first **Web App** for the Hanafi 
 
 The directory name remains `web-viewer/` for implementation continuity, but the user-facing product is the **Web App**.
 
+## Current development: v2.0 — Live Madrasas & Masjids
+
+v1.9 is the published checkpoint. v2.0 development has now started with a dedicated `/live/` hub for verified live or regularly scheduled Islamic teaching and masjid broadcasts.
+
+The first v2.0 directory entries are:
+
+- **SeekersGuidance Live Classes** — official live schedule with Qur'an, hadith, Islamic studies, Hanafi fiqh, spirituality, and Q&A programming;
+- **Masjid al-Haram** — linked to the existing Makkah Live & Prayer Clock inside the Web App;
+- **East London Mosque** — official live video and live audio sources;
+- **Birmingham Central Mosque** — official live mosque radio source.
+
+The v2.0 hub distinguishes teaching sources from masjid broadcasts and labels video, audio, salah, adhan, khutbah, lessons, and related categories rather than treating every source as the same kind of stream.
+
 ## Published v1.9 capabilities
 
 - browse the current five card sets;
