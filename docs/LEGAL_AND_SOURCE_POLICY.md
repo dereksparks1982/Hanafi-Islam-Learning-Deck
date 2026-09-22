@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The Hanafi Learning Deck began as a small personal study aid and has grown into a broader noncommercial Islamic learning project. The repository now includes or plans to include printable study cards, an installable Web App, a Qur'an reader, Islamic history and ruins material, prayer-time tools, and other educational resources.
+The Hanafi Learning Deck began as a small personal study aid and has grown into a broader noncommercial Islamic learning project. The repository now includes or plans to include printable study cards, an installable Web App, a Qur'an reader, prayer-time tools, an interactive Holy Places Explorer, Islamic history and ruins material, educational media, and other learning resources.
 
 The project's purpose is the spread of beneficial Islamic knowledge. It is not built around advertising, subscriptions, paywalls, behavioral tracking, or the commercial sale of access to religious material.
 
@@ -44,15 +44,33 @@ For Qur'an-related material, the project will therefore:
 - document restrictive terms when the strongest available scholarly source carries them rather than pretending those terms do not exist;
 - review any source dispute on its merits and, where necessary, replace disputed human wording with an independently prepared rendering rather than compromise the integrity or free availability of the project.
 
-This policy records the project's religious and scholarly position. It is not a statement that civil copyright law ceases to exist, and it is not a claim that every third-party work in the repository is covered by the project's own license.
+This policy records the project's religious and scholarly position. It is not a statement that civil copyright law ceases to exist, and it is not a claim that every third-party work used or linked by the project is covered by the project's own license.
 
 ## Project-created material and third-party material
 
 The repository's **CC BY-NC-SA 4.0** license applies to original Hanafi Learning Deck material to the extent that the project has the right to license it.
 
-Third-party material does **not** automatically become CC BY-NC-SA merely because it is present in the repository. A third-party text, translation, photograph, recording, dataset, or other work may carry its own legal or attribution terms. Those terms should be recorded with the source whenever practical.
+Third-party material does **not** automatically become CC BY-NC-SA merely because it is present in the repository, displayed in the Web App, embedded from another service, or linked from project documentation. A third-party text, translation, photograph, recording, film, dataset, software library, or other work may carry its own legal or attribution terms. Those terms should be recorded with the source whenever practical.
 
-The project does not claim authorship of externally created translations, photographs, historical documents, or other source material.
+The project does not claim authorship of externally created translations, photographs, films, recordings, historical documents, software libraries, or other source material.
+
+## Media and externally hosted content
+
+The Media area introduced in v1.9 distinguishes between the project's own interface/integration work and the media being viewed through it.
+
+For *The Message* (1976) and **الرسالة / Al-Risalah (1976)**:
+
+- the films are third-party works;
+- the Hanafi Learning Deck does not claim authorship or ownership of either film;
+- the project's CC BY-NC-SA license does not relicense the films;
+- the current Web App streams the selected copy through a **Google Drive embedded player** rather than bundling the movie into the GitHub repository;
+- source and provenance links should be retained where practical, including the source used for the Arabic project copy;
+- film information and historical notes should be clearly distinguished from Qur'an, hadith, fiqh, and other primary or scholarly religious sources;
+- inclusion in the Media area is for noncommercial study and presentation within the project and is not a declaration that the underlying film is public domain or otherwise free of third-party rights.
+
+External hosting or embedding does not make the hosting service, player technology, or media content project property. Google Drive, YouTube, IMDb, Wikipedia, the Academy of Motion Picture Arts and Sciences, Turner Classic Movies, and other external services or sources retain their own identities and applicable terms.
+
+The project's separate Nougat media-player work also remains distinct. If VLC/libVLC or other VideoLAN components are later incorporated directly into the Hanafi Learning Deck, VideoLAN/VLC attribution and the applicable license information must be included with that integration. The current v1.9 movie page does **not** bundle VLC or libVLC.
 
 ## Qur'an source integrity
 
@@ -62,9 +80,9 @@ The project-created transliteration is a learning aid, not a replacement for the
 
 ## Corrections and disputes
 
-Scholarly corrections should be supported with a named source. Legal or source complaints should identify the specific work, passage, file, and asserted right or term at issue.
+Scholarly corrections should be supported with a named source. Legal or source complaints should identify the specific work, passage, file, recording, film, image, dataset, or other material and the asserted right or term at issue.
 
-The project should answer such disputes transparently: identify what source was used, why it was selected, what attribution was provided, and whether the material should remain, be replaced, or be independently recreated.
+The project should answer such disputes transparently: identify what source was used, why it was selected, what attribution was provided, and whether the material should remain, be replaced, be independently recreated, or be removed.
 
 The goal is not to obscure provenance. The goal is to keep Islamic learning material free, traceable, reviewable, and as accurate as the project can make it.
 
