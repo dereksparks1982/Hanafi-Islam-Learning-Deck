@@ -12,6 +12,10 @@
     { id:'aqsa', name:'Al-Aqsa Mosque', subtitle:'Jerusalem', lat:31.7761, lon:35.2358, height:2200, heading:0, pitch:-58 }
   ];
 
+  const MIN_ZOOM_DISTANCE = 40;
+  const SAFE_MAX_ZOOM_DISTANCE = 9000000;
+  const SAFE_MAX_CAMERA_HEIGHT = 8500000;
+
   const container = document.getElementById('cesiumContainer');
   const creditContainer = document.getElementById('cesiumCredits');
   const placeButtons = document.getElementById('placeButtons');
@@ -31,6 +35,8 @@
   let imageryLayer = null;
   let activeId = 'haram';
   let imageryMode = 'satellite';
+  let zoomGuardActive = false;
+  let zoomLimitNoticeShown = false;
 
   function formatCoordinate(value, positive, negative) {
     const direction = value >= 0 ? positive : negative;
@@ -63,6 +69,7 @@
     activeCoordinates.textContent = `${formatCoordinate(place.lat, 'N', 'S')} · ${formatCoordinate(place.lon, 'E', 'W')}`;
     setActiveButton(place.id);
     updateUrl(place);
+    zoomLimitNoticeShown = false;
 
     const destination = Cesium.Cartesian3.fromDegrees(place.lon, place.lat, place.height);
     const orientation = {
@@ -171,6 +178,62 @@
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
   }
 
+  function installSafeZoomGuard() {
+    const controller = viewer.scene.screenSpaceCameraController;
+    controller.enableCollisionDetection = true;
+    controller.minimumZoomDistance = MIN_ZOOM_DISTANCE;
+    controller.maximumZoomDistance = SAFE_MAX_ZOOM_DISTANCE;
+
+    viewer.scene.preUpdate.addEventListener(() => {
+      if (zoomGuardActive) return;
+
+      const camera = viewer.camera;
+      const position = camera.positionCartographic;
+      if (!position) return;
+
+      const valuesAreFinite = Number.isFinite(position.longitude) &&
+        Number.isFinite(position.latitude) &&
+        Number.isFinite(position.height);
+
+      if (!valuesAreFinite) {
+        const place = placeById(activeId);
+        zoomGuardActive = true;
+        camera.setView({
+          destination:Cesium.Cartesian3.fromDegrees(place.lon, place.lat, 1500000),
+          orientation:{ heading:0, pitch:Cesium.Math.toRadians(-85), roll:0 }
+        });
+        zoomGuardActive = false;
+        setStatus('The globe camera reached an invalid position and was safely returned to the current region.');
+        return;
+      }
+
+      if (position.height <= SAFE_MAX_CAMERA_HEIGHT) {
+        zoomLimitNoticeShown = false;
+        return;
+      }
+
+      zoomGuardActive = true;
+      const heading = Number.isFinite(camera.heading) ? camera.heading : 0;
+      const pitch = Number.isFinite(camera.pitch) ? camera.pitch : Cesium.Math.toRadians(-90);
+      const roll = Number.isFinite(camera.roll) ? camera.roll : 0;
+
+      camera.setView({
+        destination:Cesium.Cartesian3.fromRadians(
+          position.longitude,
+          position.latitude,
+          SAFE_MAX_CAMERA_HEIGHT
+        ),
+        orientation:{ heading, pitch, roll }
+      });
+      zoomGuardActive = false;
+
+      if (!zoomLimitNoticeShown) {
+        zoomLimitNoticeShown = true;
+        setStatus('Maximum safe world-view distance reached. Zoom back in to continue exploring the holy places.');
+      }
+    });
+  }
+
   async function start() {
     buildPlaceButtons();
 
@@ -195,9 +258,7 @@
     viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#0b3d2e');
     viewer.scene.skyAtmosphere.show = true;
     viewer.scene.fog.enabled = true;
-    viewer.scene.screenSpaceCameraController.enableCollisionDetection = true;
-    viewer.scene.screenSpaceCameraController.minimumZoomDistance = 40;
-    viewer.scene.screenSpaceCameraController.maximumZoomDistance = 25000000;
+    installSafeZoomGuard();
 
     addPlaceMarkers();
     installMapClick();
