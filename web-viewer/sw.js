@@ -19,6 +19,7 @@ const SHELL = [
   `./makkah/index.html?release=${RELEASE}`,
   `./makkah/styles.css?release=${RELEASE}`,
   `./makkah/app.js?release=${RELEASE}`,
+  `./live/index.html?release=${RELEASE}`,
   `./explore/index.html?release=${RELEASE}`,
   `./explore/styles.css?release=${RELEASE}`,
   `./explore/app.js?release=${RELEASE}`
@@ -139,6 +140,13 @@ async function offlineNavigationFallback(url) {
   const isMakkah = url.pathname.endsWith("/makkah/") || url.pathname.endsWith("/makkah/index.html");
   if (isMakkah) {
     return (await caches.match(`./makkah/index.html?release=${RELEASE}`)) ||
+      (await caches.match(`./index.html?release=${RELEASE}`)) ||
+      (await caches.match("./"));
+  }
+
+  const isLive = url.pathname.endsWith("/live/") || url.pathname.endsWith("/live/index.html");
+  if (isLive) {
+    return (await caches.match(`./live/index.html?release=${RELEASE}`)) ||
       (await caches.match(`./index.html?release=${RELEASE}`)) ||
       (await caches.match("./"));
   }
