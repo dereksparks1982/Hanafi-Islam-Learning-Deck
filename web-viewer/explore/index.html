@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b3d2e">
+  <meta name="description" content="Interactive 3D Holy Places Explorer for the Hanafi Learning Deck Web App.">
+  <title>Holy Places Explorer · Hanafi Learning Deck</title>
+  <link rel="icon" href="../icon.svg?release=v1.8" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../icon-192.png?release=v1.8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cesium@1.124.0/Build/Cesium/Widgets/widgets.css">
+  <link rel="stylesheet" href="../styles.css?release=v1.8">
+  <link rel="stylesheet" href="styles.css?rev=20260922a">
+  <script>window.CESIUM_BASE_URL = "https://cdn.jsdelivr.net/npm/cesium@1.124.0/Build/Cesium/";</script>
+  <script src="https://cdn.jsdelivr.net/npm/cesium@1.124.0/Build/Cesium/Cesium.js" defer></script>
+  <script src="app.js?rev=20260922a" defer></script>
+</head>
+<body>
+  <header class="app-header explore-header">
+    <div class="explore-top-row">
+      <a class="secondary action-link" href="../">← Web App</a>
+      <span class="explore-release">v1.8 prototype</span>
+    </div>
+    <p class="eyebrow">Interactive geography · sacred places</p>
+    <h1>Holy Places Explorer</h1>
+    <p class="intro">Explore Makkah, Madinah, the Hajj sites, Al-Aqsa, and other important Islamic places on an interactive 3D globe. This prototype opens directly over Masjid al-Haram.</p>
+  </header>
+
+  <main class="explore-main">
+    <section class="explore-controls" aria-labelledby="placesHeading">
+      <div class="explore-controls-heading">
+        <div>
+          <p class="eyebrow">Guided locations</p>
+          <h2 id="placesHeading">Choose a holy place</h2>
+        </div>
+        <div class="imagery-switch" role="group" aria-label="Map imagery">
+          <button id="satelliteButton" class="primary" type="button">Satellite</button>
+          <button id="mapButton" class="secondary" type="button">Map</button>
+        </div>
+      </div>
+
+      <div id="placeButtons" class="place-buttons" aria-label="Holy place shortcuts"></div>
+      <p id="exploreStatus" class="explore-status" role="status" aria-live="polite">Loading the globe…</p>
+    </section>
+
+    <section class="globe-panel" aria-label="Interactive globe">
+      <div id="cesiumContainer" class="cesium-container"></div>
+      <div id="cesiumCredits" class="cesium-credits"></div>
+      <div class="globe-overlay">
+        <strong id="activePlace">Masjid al-Haram</strong>
+        <span id="activeCoordinates">21.4225° N · 39.8262° E</span>
+      </div>
+    </section>
+
+    <section class="explore-note" aria-labelledby="prototypeHeading">
+      <p class="eyebrow">Prototype notes</p>
+      <h2 id="prototypeHeading">What this is</h2>
+      <p>This is a geographic learning view, not a live satellite camera. Satellite and map imagery may be captured at different dates. The separate Makkah Live page remains the real-time Masjid al-Haram broadcast.</p>
+      <div class="explore-actions">
+        <a class="primary action-link" href="../makkah/">Open Makkah Live & Prayer Clock</a>
+      </div>
+      <p class="attribution">Explorer concept and selected viewer patterns are adapted from Bilawal Sidhu's <a href="https://github.com/bilawalsidhu/gods-eye-view" target="_blank" rel="noopener noreferrer">God's Eye View</a>, MIT licensed. CesiumJS is used for globe rendering. Imagery providers retain their own terms and attribution.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>No account. No advertising or behavioral tracking by the Hanafi Learning Deck. Map imagery is loaded from external providers.</p>
+  </footer>
+</body>
+</html>
