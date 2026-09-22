@@ -57,27 +57,35 @@ Tor Mirror:
 
 ## v1.9 closed — The Message (1976)
 
+**v1.9 is officially closed and is the current published checkpoint.** Later source-quality improvements to *The Message* do not automatically reopen the release.
+
 Current Media page:
 
 `https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/`
 
 Completed for v1.9:
 
-- English version of *The Message* (1976) through Google Drive embedded playback;
-- Arabic production **الرسالة / Al-Risalah (1976)** as a separate viewing choice;
-- **English / العربية** selector;
-- current English project copy presented at **720p**;
-- current Arabic project copy presented at **360p** with Arabic audio and Arabic subtitles visible in the picture;
-- both copies tested successfully from the public Web App;
-- direct Google Drive fallback follows the selected version;
+- English production of *The Message* (1976) through Google Drive embedded playback;
+- separately filmed Arabic production **الرسالة / Al-Risalah (1976)**;
+- **English / العربية** selection;
+- current English project copy at **720p**;
+- current Arabic standard copy at **360p**, with Arabic audio and Arabic subtitles burned into the picture;
+- current Arabic alternate presentation at **480p**, with Arabic audio and English subtitles burned into the picture;
+- the 480p Arabic alternate also contains additional explanatory text at the beginning and additional chanting/opening material, so it is not conceptually just a higher-resolution duplicate of the 360p copy;
+- all three current project copies available through the public Media page;
+- direct Google Drive fallback follows the selected copy;
+- desktop Google Drive embedded playback retained because it works correctly;
+- iPhone/iPad-specific layout and page-level full-screen workaround added so the Drive player remains usable on mobile, including a separate **Exit full screen** control;
 - film information and study note;
-- IMDb links for both versions;
+- IMDb links for both productions;
 - Wikipedia, Academy Awards, Turner Classic Movies, and Arabic-source provenance links;
 - legal/source wording distinguishing project-created integration from third-party film/player content;
-- root README updated for v1.9 and opening duʿā now ends with **Āmīn**;
+- root README reconciled to the v1.9 published checkpoint and opening duʿā ends with **Āmīn**;
 - card-library sections made independently collapsible with local remembered state.
 
-Higher-quality movie copies may replace the current files later if suitable sources are found. That is a source-quality replacement, not a redesign of the v1.9 Media architecture.
+The current UI remains intentionally simple. The project may later refine Arabic edition-versus-quality labeling, add better source copies, or replace existing copies when genuinely better material is found. Those improvements are future Media maintenance unless explicitly assigned to a new release.
+
+External subtitle files were not integrated into the current Google Drive embedded player. The current copies rely on subtitles already burned into the picture where present.
 
 ## Media-player attribution
 
