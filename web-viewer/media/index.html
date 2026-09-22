@@ -14,12 +14,16 @@
     .media-header-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     .media-release{color:#d8b560;font-weight:700}
     .media-panel{margin-top:1.5rem;padding:1rem;border:1px solid rgba(216,181,96,.28);border-radius:20px;background:rgba(255,255,255,.04)}
-    .media-language-switch{display:flex;gap:.65rem;flex-wrap:wrap;margin:0 0 1rem}
-    .media-language-button[aria-pressed="true"]{background:#d8b560;color:#172017;border-color:#d8b560}
+    .media-controls-row{display:flex;gap:.65rem;flex-wrap:wrap;align-items:center;margin:0 0 1rem}
+    .media-controls-label{color:#d8d2c2;font-weight:700}
+    .media-language-switch,.media-quality-switch{display:flex;gap:.65rem;flex-wrap:wrap;align-items:center}
+    .media-language-button[aria-pressed="true"],.media-quality-button[aria-pressed="true"]{background:#d8b560;color:#172017;border-color:#d8b560}
     .media-player{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#000}
-    .media-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-    .media-note{margin:.9rem .1rem .1rem;color:#d8d2c2;line-height:1.6}
+    .media-player video{display:block;width:100%;height:100%;background:#000;object-fit:contain}
+    .media-player-actions{display:flex;gap:.65rem;flex-wrap:wrap;align-items:center;margin:.85rem 0 0}
+    .media-note{margin:.8rem .1rem .1rem;color:#d8d2c2;line-height:1.6}
     .media-note a,.media-info a{color:#d8b560}
+    .media-status{margin:.55rem .1rem 0;color:#d8d2c2;line-height:1.5}
     .media-info{margin-top:1.5rem;padding:1.15rem;border:1px solid rgba(216,181,96,.28);border-radius:20px;background:rgba(255,255,255,.035);line-height:1.65}
     .media-info h2{margin:.1rem 0 .75rem}
     .media-info h3{margin:1.15rem 0 .35rem;color:#f7f1df}
@@ -29,7 +33,13 @@
     .media-fact strong{display:block;color:#d8b560;margin-bottom:.2rem}
     .media-sources{padding-left:1.25rem}
     .media-sources li{margin:.4rem 0}
-    @media(max-width:700px){.media-facts{grid-template-columns:1fr}}
+    @media(max-width:700px){
+      .media-main{width:min(100% - 1rem,1180px)}
+      .media-panel{padding:.75rem}
+      .media-facts{grid-template-columns:1fr}
+      .media-player{aspect-ratio:16/9}
+      .media-player-actions .action-link,.media-player-actions button{flex:1 1 11rem;text-align:center}
+    }
   </style>
 </head>
 <body>
@@ -40,27 +50,44 @@
     </div>
     <p class="eyebrow">Media</p>
     <h1>The Message (1976)</h1>
-    <p class="intro">Choose the English or original Arabic version of the film.</p>
+    <p class="intro">Choose the English or original Arabic version, then choose an available quality.</p>
   </header>
 
   <main class="media-main">
     <section class="media-panel" aria-label="The Message 1976 video player">
-      <div class="media-language-switch" aria-label="Choose film version">
-        <button id="englishVersion" class="secondary media-language-button" type="button" aria-pressed="true">English · 720p</button>
-        <button id="arabicVersion" class="secondary media-language-button" type="button" aria-pressed="false" lang="ar" dir="rtl">العربية · 360p</button>
+      <div class="media-controls-row">
+        <span class="media-controls-label">Language</span>
+        <div class="media-language-switch" aria-label="Choose film version">
+          <button id="englishVersion" class="secondary media-language-button" type="button" aria-pressed="true">English</button>
+          <button id="arabicVersion" class="secondary media-language-button" type="button" aria-pressed="false" lang="ar" dir="rtl">العربية</button>
+        </div>
+      </div>
+
+      <div class="media-controls-row">
+        <span class="media-controls-label">Quality</span>
+        <div id="qualitySwitch" class="media-quality-switch" aria-label="Choose video quality"></div>
       </div>
 
       <div class="media-player">
-        <iframe
-          id="mediaFrame"
-          src="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/preview"
-          title="The Message (1976) · English version · 720p"
-          allow="autoplay; fullscreen"
-          allowfullscreen
-          loading="eager">
-        </iframe>
+        <video
+          id="mediaVideo"
+          controls
+          playsinline
+          webkit-playsinline
+          preload="metadata"
+          controlslist="nodownload"
+          title="The Message (1976) · English version · 720p">
+          <source id="mediaSource" src="https://drive.usercontent.google.com/download?id=14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW&amp;export=download&amp;confirm=t" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
       </div>
-      <p class="media-note">Video is streamed from Google Drive. Current project copies are presented at 720p for English and 360p for Arabic. If the embedded player does not load, <a id="driveFallback" href="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing" target="_blank" rel="noopener noreferrer">open the selected version directly in Google Drive</a>.</p>
+
+      <div class="media-player-actions">
+        <button id="fullscreenButton" class="secondary" type="button">Full screen</button>
+        <a id="driveFallback" class="secondary action-link" href="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing" target="_blank" rel="noopener noreferrer">Open selected copy in Google Drive</a>
+      </div>
+      <p id="mediaStatus" class="media-status" role="status" aria-live="polite">English · 720p selected.</p>
+      <p class="media-note">The built-in player now uses normal browser video controls instead of the Google Drive preview frame. On iPhone, use the native full-screen control or the <strong>Full screen</strong> button above; the iPhone player provides its own <strong>Done</strong> control to return from full screen. If streaming does not work properly, use the separate Google Drive link above.</p>
     </section>
 
     <section class="media-info" aria-labelledby="filmInfoHeading">
@@ -74,8 +101,8 @@
           <span><em>The Message</em> · about 2h 57m · Anthony Quinn, Irene Papas, Michael Ansara</span>
         </div>
         <div class="media-fact">
-          <strong>Arabic version · 360p</strong>
-          <span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · Arabic subtitles are visible in this copy</span>
+          <strong>Arabic version · 480p / 360p</strong>
+          <span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · Arabic subtitles are visible in the project copies</span>
         </div>
         <div class="media-fact">
           <strong>Director / producer</strong>
@@ -97,7 +124,8 @@
         <li><a href="https://en.wikipedia.org/wiki/The_Message_%281976_film%29" target="_blank" rel="noopener noreferrer">Wikipedia · The Message (1976 film)</a></li>
         <li><a href="https://www.oscars.org/oscars/ceremonies/1978" target="_blank" rel="noopener noreferrer">Academy Awards · 50th Academy Awards (1978)</a></li>
         <li><a href="https://www.tcm.com/articles/489585/mohammed-messenger-from-god-aka-the-message" target="_blank" rel="noopener noreferrer">Turner Classic Movies · film history article</a></li>
-        <li><a href="https://www.youtube.com/watch?v=DDNe5VXwa78" target="_blank" rel="noopener noreferrer">Arabic copy provenance · original YouTube source used for this project copy</a></li>
+        <li><a href="https://www.youtube.com/watch?v=DDNe5VXwa78" target="_blank" rel="noopener noreferrer">Arabic 360p copy provenance · original YouTube source used for this project copy</a></li>
+        <li><a href="https://www.youtube.com/watch?v=68tXNyXu3WA" target="_blank" rel="noopener noreferrer">Arabic 480p copy provenance · original YouTube source used for this project copy</a></li>
       </ul>
     </section>
   </main>
@@ -110,33 +138,149 @@
     (() => {
       const versions = {
         english: {
-          preview: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/preview",
-          view: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing",
-          title: "The Message (1976) · English version · 720p"
+          label: "English",
+          defaultQuality: "720p",
+          qualities: {
+            "720p": {
+              fileId: "14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW",
+              view: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing",
+              title: "The Message (1976) · English version · 720p"
+            }
+          }
         },
         arabic: {
-          preview: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/preview",
-          view: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/view?usp=sharing",
-          title: "Al-Risalah (1976) · Arabic version · 360p"
+          label: "العربية",
+          defaultQuality: "480p",
+          qualities: {
+            "480p": {
+              fileId: "1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO",
+              view: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/view?usp=sharing",
+              title: "Al-Risalah (1976) · Arabic version · 480p"
+            },
+            "360p": {
+              fileId: "1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN",
+              view: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/view?usp=sharing",
+              title: "Al-Risalah (1976) · Arabic version · 360p"
+            }
+          }
         }
       };
 
-      const frame = document.getElementById("mediaFrame");
+      const video = document.getElementById("mediaVideo");
+      const source = document.getElementById("mediaSource");
       const fallback = document.getElementById("driveFallback");
+      const fullscreenButton = document.getElementById("fullscreenButton");
+      const mediaStatus = document.getElementById("mediaStatus");
       const englishButton = document.getElementById("englishVersion");
       const arabicButton = document.getElementById("arabicVersion");
+      const qualitySwitch = document.getElementById("qualitySwitch");
 
-      function selectVersion(name) {
-        const selected = versions[name];
-        frame.src = selected.preview;
-        frame.title = selected.title;
-        fallback.href = selected.view;
-        englishButton.setAttribute("aria-pressed", String(name === "english"));
-        arabicButton.setAttribute("aria-pressed", String(name === "arabic"));
+      let selectedLanguage = "english";
+      let selectedQuality = versions.english.defaultQuality;
+
+      function streamUrl(fileId) {
+        return `https://drive.usercontent.google.com/download?id=${encodeURIComponent(fileId)}&export=download&confirm=t`;
       }
 
-      englishButton.addEventListener("click", () => selectVersion("english"));
-      arabicButton.addEventListener("click", () => selectVersion("arabic"));
+      function setPressed(button, active) {
+        button.setAttribute("aria-pressed", String(active));
+      }
+
+      function renderQualityButtons() {
+        qualitySwitch.replaceChildren();
+        const version = versions[selectedLanguage];
+        Object.keys(version.qualities).forEach(quality => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "secondary media-quality-button";
+          button.textContent = quality;
+          setPressed(button, quality === selectedQuality);
+          button.addEventListener("click", () => selectQuality(quality));
+          qualitySwitch.appendChild(button);
+        });
+      }
+
+      function loadSelection({ preserveTime = false } = {}) {
+        const version = versions[selectedLanguage];
+        const selected = version.qualities[selectedQuality];
+        const previousTime = preserveTime && Number.isFinite(video.currentTime) ? video.currentTime : 0;
+        const wasPlaying = preserveTime && !video.paused && !video.ended;
+
+        source.src = streamUrl(selected.fileId);
+        video.title = selected.title;
+        fallback.href = selected.view;
+        mediaStatus.textContent = `${version.label} · ${selectedQuality} selected.`;
+        video.load();
+
+        if (preserveTime && previousTime > 0) {
+          const restore = () => {
+            video.removeEventListener("loadedmetadata", restore);
+            if (Number.isFinite(video.duration)) video.currentTime = Math.min(previousTime, Math.max(0, video.duration - 1));
+            if (wasPlaying) video.play().catch(() => {});
+          };
+          video.addEventListener("loadedmetadata", restore);
+        }
+      }
+
+      function selectLanguage(language) {
+        if (!versions[language] || language === selectedLanguage) return;
+        selectedLanguage = language;
+        selectedQuality = versions[language].defaultQuality;
+        setPressed(englishButton, language === "english");
+        setPressed(arabicButton, language === "arabic");
+        renderQualityButtons();
+        loadSelection();
+      }
+
+      function selectQuality(quality) {
+        const version = versions[selectedLanguage];
+        if (!version.qualities[quality] || quality === selectedQuality) return;
+        selectedQuality = quality;
+        renderQualityButtons();
+        loadSelection({ preserveTime:true });
+      }
+
+      async function toggleFullscreen() {
+        try {
+          if (video.webkitDisplayingFullscreen && typeof video.webkitExitFullscreen === "function") {
+            video.webkitExitFullscreen();
+            return;
+          }
+          if (document.fullscreenElement) {
+            await document.exitFullscreen();
+            return;
+          }
+          if (typeof video.webkitEnterFullscreen === "function") {
+            video.webkitEnterFullscreen();
+            return;
+          }
+          if (typeof video.requestFullscreen === "function") {
+            await video.requestFullscreen();
+            return;
+          }
+          mediaStatus.textContent = "This browser does not expose a separate full-screen command. Use the full-screen control in the video controls.";
+        } catch (error) {
+          console.warn("Full-screen request failed:", error);
+          mediaStatus.textContent = "Full screen could not start. Use the full-screen control in the video controls instead.";
+        }
+      }
+
+      function updateFullscreenLabel() {
+        const active = Boolean(document.fullscreenElement || video.webkitDisplayingFullscreen);
+        fullscreenButton.textContent = active ? "Exit full screen" : "Full screen";
+      }
+
+      englishButton.addEventListener("click", () => selectLanguage("english"));
+      arabicButton.addEventListener("click", () => selectLanguage("arabic"));
+      fullscreenButton.addEventListener("click", toggleFullscreen);
+      document.addEventListener("fullscreenchange", updateFullscreenLabel);
+      video.addEventListener("webkitbeginfullscreen", updateFullscreenLabel);
+      video.addEventListener("webkitendfullscreen", updateFullscreenLabel);
+      video.addEventListener("error", () => {
+        mediaStatus.textContent = "The selected copy could not stream in the built-in player. Use the Google Drive link above as the fallback.";
+      });
+
+      renderQualityButtons();
     })();
   </script>
 </body>
