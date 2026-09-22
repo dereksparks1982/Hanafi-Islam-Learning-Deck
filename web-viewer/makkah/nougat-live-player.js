@@ -32,10 +32,14 @@
   let sourceIndex = 0;
   let retryTimer = 0;
   let watchdogTimer = 0;
+  let startupTimer = 0;
   let lastProgressTime = 0;
   let lastCurrentTime = -1;
   let startedPlaying = false;
   let switching = false;
+
+  const STARTUP_BUFFER_SECONDS = 12;
+  const STALL_FAILOVER_MS = 16000;
 
   function currentSource() {
     return STREAMS[sourceIndex];
@@ -59,10 +63,24 @@
     if (sourceLabel) sourceLabel.textContent = currentSource().name;
   }
 
+  function bufferedAhead() {
+    try {
+      const current = Number(player.currentTime || 0);
+      for (let i = 0; i < player.buffered.length; i += 1) {
+        if (current >= player.buffered.start(i) - 0.25 && current <= player.buffered.end(i) + 0.25) {
+          return Math.max(0, player.buffered.end(i) - current);
+        }
+      }
+    } catch (_) {}
+    return 0;
+  }
+
   function destroyPlayback() {
     window.clearTimeout(retryTimer);
+    window.clearTimeout(startupTimer);
     window.clearInterval(watchdogTimer);
     watchdogTimer = 0;
+    startupTimer = 0;
 
     if (hls) {
       try { hls.destroy(); } catch (_) {}
@@ -77,18 +95,27 @@
     lastCurrentTime = -1;
   }
 
-  async function attemptAutoplay() {
+  async function attemptAutoplay(force = false) {
     player.muted = true;
     player.defaultMuted = true;
     player.autoplay = true;
     player.playsInline = true;
 
+    const cushion = bufferedAhead();
+    if (!force && cushion > 0 && cushion < STARTUP_BUFFER_SECONDS) {
+      setBadge('BUFFERING', 'connecting');
+      setStatus(`Building a playback cushion before starting… ${Math.floor(cushion)}s buffered.`);
+      window.clearTimeout(startupTimer);
+      startupTimer = window.setTimeout(() => attemptAutoplay(false), 700);
+      return;
+    }
+
     try {
       await player.play();
-      setStatus('Live Makkah video is playing. It starts muted so browsers allow autoplay; use the speaker control for sound.');
+      setStatus('Live Makkah video is playing with a larger buffer cushion. It starts muted so browsers allow autoplay; use the speaker control for sound.');
     } catch (error) {
       console.warn('Nougat live autoplay was blocked:', error);
-      setStatus('The live stream is loaded. Press Play if this browser blocked autoplay.');
+      setStatus('The live stream is buffered and ready. Press Play if this browser blocked autoplay.');
     }
   }
 
@@ -109,8 +136,8 @@
         return;
       }
 
-      if (startedPlaying && !player.paused && now - lastProgressTime > 9000) {
-        failOver('The live feed stopped advancing.');
+      if (startedPlaying && !player.paused && now - lastProgressTime > STALL_FAILOVER_MS) {
+        failOver('The live feed stopped advancing long enough to exhaust its buffer.');
       }
     }, 2000);
   }
@@ -136,7 +163,7 @@
     setBadge('CONNECTING', 'connecting');
     setStatus(`Connecting Nougat Web Player to ${currentSource().name}…`);
     player.src = url;
-    player.addEventListener('loadedmetadata', attemptAutoplay, { once:true });
+    player.addEventListener('canplay', () => attemptAutoplay(false), { once:true });
     player.load();
   }
 
@@ -147,16 +174,26 @@
     hls = new window.Hls({
       enableWorker: true,
       lowLatencyMode: false,
-      backBufferLength: 60,
-      maxBufferLength: 45,
-      liveSyncDurationCount: 3,
-      liveMaxLatencyDurationCount: 10,
-      manifestLoadingMaxRetry: 4,
-      levelLoadingMaxRetry: 4,
-      fragLoadingMaxRetry: 6,
-      manifestLoadingRetryDelay: 800,
-      levelLoadingRetryDelay: 800,
-      fragLoadingRetryDelay: 500
+      startFragPrefetch: true,
+      capLevelToPlayerSize: true,
+      backBufferLength: 45,
+      maxBufferLength: 90,
+      maxMaxBufferLength: 180,
+      maxBufferSize: 120 * 1000 * 1000,
+      maxBufferHole: 1.5,
+      liveSyncDurationCount: 5,
+      liveMaxLatencyDurationCount: 20,
+      maxLiveSyncPlaybackRate: 1.05,
+      maxStarvationDelay: 6,
+      maxLoadingDelay: 6,
+      abrBandWidthFactor: 0.8,
+      abrBandWidthUpFactor: 0.65,
+      manifestLoadingMaxRetry: 6,
+      levelLoadingMaxRetry: 6,
+      fragLoadingMaxRetry: 10,
+      manifestLoadingRetryDelay: 500,
+      levelLoadingRetryDelay: 500,
+      fragLoadingRetryDelay: 350
     });
 
     hls.on(window.Hls.Events.MEDIA_ATTACHED, () => {
@@ -164,7 +201,12 @@
     });
 
     hls.on(window.Hls.Events.MANIFEST_PARSED, () => {
-      attemptAutoplay();
+      setBadge('BUFFERING', 'connecting');
+      setStatus('Stream connected. Nougat is building a larger live buffer before playback…');
+    });
+
+    hls.on(window.Hls.Events.BUFFER_APPENDED, () => {
+      if (!startedPlaying) attemptAutoplay(false);
     });
 
     hls.on(window.Hls.Events.ERROR, (_event, data) => {
@@ -219,7 +261,7 @@
     lastProgressTime = Date.now();
     lastCurrentTime = player.currentTime || 0;
     setBadge('LIVE', 'live');
-    setStatus(`Live Makkah video is playing through ${currentSource().name}. It starts muted so browsers allow autoplay; use the speaker control for sound.`);
+    setStatus(`Live Makkah video is playing through ${currentSource().name}. Nougat is keeping a larger buffer behind playback for smoother viewing.`);
     startWatchdog();
   });
 
@@ -237,13 +279,16 @@
   player.addEventListener('waiting', () => {
     if (startedPlaying) {
       setBadge('BUFFERING', 'connecting');
-      setStatus('Live feed buffering. Nougat will switch sources automatically if it does not recover.');
+      const cushion = bufferedAhead();
+      setStatus(`Live feed is refilling its buffer${cushion > 0 ? ` (${Math.floor(cushion)}s available)` : ''}. Nougat will switch sources automatically if it cannot recover.`);
+      try { hls?.startLoad(); } catch (_) {}
     }
   });
 
   player.addEventListener('stalled', () => {
     setBadge('BUFFERING', 'connecting');
-    setStatus('The live feed stalled. Nougat is watching it and will switch sources if needed.');
+    setStatus('The live feed stalled briefly. Nougat is aggressively refilling the buffer before switching sources.');
+    try { hls?.startLoad(); } catch (_) {}
   });
 
   player.addEventListener('error', () => {
@@ -254,7 +299,7 @@
   retryButton.addEventListener('click', () => startPlayer(true));
 
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && player.paused && startedPlaying) attemptAutoplay();
+    if (!document.hidden && player.paused && startedPlaying) attemptAutoplay(true);
   });
 
   startPlayer(true);
