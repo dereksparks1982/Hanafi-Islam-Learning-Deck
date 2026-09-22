@@ -14,6 +14,8 @@
     .media-header-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     .media-release{color:#d8b560;font-weight:700}
     .media-panel{margin-top:1.5rem;padding:1rem;border:1px solid rgba(216,181,96,.28);border-radius:20px;background:rgba(255,255,255,.04)}
+    .media-language-switch{display:flex;gap:.65rem;flex-wrap:wrap;margin:0 0 1rem}
+    .media-language-button[aria-pressed="true"]{background:#d8b560;color:#172017;border-color:#d8b560}
     .media-player{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#000}
     .media-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
     .media-note{margin:.9rem .1rem .1rem;color:#d8d2c2;line-height:1.6}
@@ -28,26 +30,66 @@
     </div>
     <p class="eyebrow">Media</p>
     <h1>The Message (1976)</h1>
-    <p class="intro">Watch the film from the Hanafi Learning Deck Web App.</p>
+    <p class="intro">Choose the English or original Arabic version of the film.</p>
   </header>
 
   <main class="media-main">
     <section class="media-panel" aria-label="The Message 1976 video player">
+      <div class="media-language-switch" aria-label="Choose film version">
+        <button id="englishVersion" class="secondary media-language-button" type="button" aria-pressed="true">English</button>
+        <button id="arabicVersion" class="secondary media-language-button" type="button" aria-pressed="false" lang="ar" dir="rtl">العربية</button>
+      </div>
+
       <div class="media-player">
         <iframe
+          id="mediaFrame"
           src="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/preview"
-          title="The Message (1976)"
+          title="The Message (1976) · English version"
           allow="autoplay; fullscreen"
           allowfullscreen
           loading="eager">
         </iframe>
       </div>
-      <p class="media-note">Video is streamed from Google Drive. If the embedded player does not load, <a href="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing" target="_blank" rel="noopener noreferrer">open the film directly in Google Drive</a>.</p>
+      <p class="media-note">Video is streamed from Google Drive. If the embedded player does not load, <a id="driveFallback" href="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing" target="_blank" rel="noopener noreferrer">open the selected version directly in Google Drive</a>.</p>
     </section>
   </main>
 
   <footer>
     <p><strong>No advertising. Islam is not for sale.</strong> No account, no paywall, and no behavioral tracking by the Hanafi Learning Deck.</p>
   </footer>
+
+  <script>
+    (() => {
+      const versions = {
+        english: {
+          preview: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/preview",
+          view: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing",
+          title: "The Message (1976) · English version"
+        },
+        arabic: {
+          preview: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/preview",
+          view: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/view?usp=sharing",
+          title: "Al-Risalah (1976) · Arabic version"
+        }
+      };
+
+      const frame = document.getElementById("mediaFrame");
+      const fallback = document.getElementById("driveFallback");
+      const englishButton = document.getElementById("englishVersion");
+      const arabicButton = document.getElementById("arabicVersion");
+
+      function selectVersion(name) {
+        const selected = versions[name];
+        frame.src = selected.preview;
+        frame.title = selected.title;
+        fallback.href = selected.view;
+        englishButton.setAttribute("aria-pressed", String(name === "english"));
+        arabicButton.setAttribute("aria-pressed", String(name === "arabic"));
+      }
+
+      englishButton.addEventListener("click", () => selectVersion("english"));
+      arabicButton.addEventListener("click", () => selectVersion("arabic"));
+    })();
+  </script>
 </body>
 </html>
