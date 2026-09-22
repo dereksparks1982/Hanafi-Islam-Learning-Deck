@@ -9,7 +9,7 @@
   <link rel="icon" href="../icon.svg?release=v1.8" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../icon-192.png?release=v1.8">
   <link rel="stylesheet" href="../styles.css?release=v1.8">
-  <link rel="stylesheet" href="styles.css?rev=20260922a">
+  <link rel="stylesheet" href="styles.css?rev=20260922b">
 </head>
 <body>
   <header class="app-header makkah-header">
@@ -19,7 +19,7 @@
     </div>
     <p class="eyebrow">Makkah · Masjid al-Haram</p>
     <h1>Makkah Live</h1>
-    <p class="intro">Watch the live broadcast from Masjid al-Haram while keeping the Makkah prayer clock visible on the same page. Multiple external live links are kept available so there is another route when one source is unavailable.</p>
+    <p class="intro">Watch the live broadcast from Masjid al-Haram while keeping the Makkah prayer clock visible on the same page. Multiple external live links remain available as backups.</p>
   </header>
 
   <main>
@@ -55,32 +55,39 @@
 
     <section class="live-feed-panel" aria-labelledby="liveFeedHeading">
       <p class="eyebrow">24/7 Makkah broadcast</p>
-      <h2 id="liveFeedHeading">Masjid al-Haram live</h2>
-      <p>The embedded player uses the current KSA Qur'an TV live broadcast reached through <strong>youtube.com/SaudiQuranTv/live</strong>. It starts automatically when this page opens. Browsers normally require autoplay video to begin muted, so use the player's speaker control when you want the live audio.</p>
+      <div class="live-feed-title-row">
+        <h2 id="liveFeedHeading">Masjid al-Haram live</h2>
+        <span id="nougatLiveBadge" class="makkah-release">CONNECTING</span>
+      </div>
+      <p>This player now uses Nougat's web-player approach with a direct HLS stream instead of the 10-second YouTube embed. It attempts to start automatically when the page opens and begins muted so browsers are more likely to allow autoplay.</p>
 
       <div class="live-video-wrap">
-        <iframe
+        <video
+          id="nougatLivePlayer"
           class="live-video"
-          src="https://www.youtube.com/embed/Qvcimc6QQY8?autoplay=1&mute=1&playsinline=1&rel=0"
-          title="KSA Qur'an TV live broadcast from Masjid al-Haram"
-          loading="eager"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allow="autoplay; encrypted-media; picture-in-picture; web-share"
-          allowfullscreen></iframe>
+          controls
+          autoplay
+          muted
+          playsinline
+          preload="auto"
+          aria-label="Live KSA Qur'an TV broadcast from Masjid al-Haram"></video>
       </div>
 
       <div class="live-feed-actions">
-        <a class="primary action-link live-feed-link" href="https://www.youtube.com/SaudiQuranTv/live" target="_blank" rel="noopener noreferrer">Open KSA Qur'an TV Live ↗</a>
+        <button id="nougatRetryButton" class="secondary" type="button">Retry Stream</button>
+        <a class="secondary action-link live-feed-link" href="https://www.youtube.com/SaudiQuranTv/live" target="_blank" rel="noopener noreferrer">Open KSA Qur'an TV Live ↗</a>
         <a class="secondary action-link live-feed-link" href="https://makkahlive.net/" target="_blank" rel="noopener noreferrer">Open MakkahLive Main ↗</a>
         <a class="secondary action-link live-feed-link" href="https://haramain.prh.gov.sa/ar/live" target="_blank" rel="noopener noreferrer">Open Haramain Live ↗</a>
       </div>
+
+      <p id="nougatPlayerStatus" class="live-feed-note" aria-live="polite">Connecting Nougat Web Player to the Makkah live stream…</p>
 
       <div class="live-feed-actions" aria-label="Other holy-site live feeds">
         <a class="secondary action-link live-feed-link" href="https://makkahlive.net/en/live/madinah" target="_blank" rel="noopener noreferrer">Madinah Live ↗</a>
         <a class="secondary action-link live-feed-link" href="https://makkahlive.net/en/live/aqsa" target="_blank" rel="noopener noreferrer">Al-Aqsa Live ↗</a>
       </div>
 
-      <p class="live-feed-note">The external broadcasts remain with their respective providers. The Hanafi Learning Deck links to them rather than copying or re-hosting the video.</p>
+      <p class="live-feed-note">The external broadcasts remain with their respective providers. The Hanafi Learning Deck does not copy or re-host the live video.</p>
     </section>
   </main>
 
@@ -88,6 +95,8 @@
     <p>No account. No advertising or behavioral tracking by the Hanafi Learning Deck. External live-stream providers have their own policies.</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.6.13/dist/hls.min.js" defer></script>
   <script src="app.js?release=v1.8" defer></script>
+  <script src="nougat-live-player.js?rev=20260922a" defer></script>
 </body>
 </html>
