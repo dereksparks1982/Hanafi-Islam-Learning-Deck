@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#0b3d2e">
-  <meta name="description" content="Makkah live access and prayer countdown for the Hanafi Learning Deck Web App.">
+  <meta name="description" content="Makkah live broadcast and prayer countdown for the Hanafi Learning Deck Web App.">
   <title>Makkah Live · Hanafi Learning Deck</title>
   <link rel="icon" href="../icon.svg?release=v1.8" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../icon-192.png?release=v1.8">
   <link rel="stylesheet" href="../styles.css?release=v1.8">
-  <link rel="stylesheet" href="styles.css?release=v1.8">
+  <link rel="stylesheet" href="styles.css?rev=20260922a">
 </head>
 <body>
   <header class="app-header makkah-header">
@@ -19,7 +19,7 @@
     </div>
     <p class="eyebrow">Makkah · Masjid al-Haram</p>
     <h1>Makkah Live</h1>
-    <p class="intro">A dedicated Makkah prayer clock for the live-feed area. The countdown is part of this page, so it continues whether a live video is playing, paused, muted, or opened separately.</p>
+    <p class="intro">Watch the official Saudi Qur'an TV live broadcast from Masjid al-Haram while keeping the Makkah prayer clock visible on the same page.</p>
   </header>
 
   <main>
@@ -54,16 +54,32 @@
     </section>
 
     <section class="live-feed-panel" aria-labelledby="liveFeedHeading">
-      <p class="eyebrow">Official live access</p>
-      <h2 id="liveFeedHeading">Masjid al-Haram live feed</h2>
-      <p>The live-feed button opens the official live portal of the Presidency of Religious Affairs at the Grand Mosque and the Prophet's Mosque. The project links to the authorized source instead of copying or re-hosting its broadcast.</p>
-      <a class="primary action-link live-feed-link" href="https://services.prh.gov.sa/ordo/enlive.php" target="_blank" rel="noopener noreferrer">Open Official Makkah Live ↗</a>
-      <p class="live-feed-note">The prayer clock above belongs to this Web App and keeps running independently of the external broadcast. An in-page player can be added later if an official embeddable source is verified.</p>
+      <p class="eyebrow">24/7 Makkah broadcast</p>
+      <h2 id="liveFeedHeading">Masjid al-Haram live</h2>
+      <p>The player below uses the official KSA Qur'an TV channel operated by the Saudi Broadcasting Authority. If YouTube blocks the embedded player in your browser, use either direct live link underneath it.</p>
+
+      <div class="live-video-wrap">
+        <iframe
+          class="live-video"
+          src="https://www.youtube-nocookie.com/embed/live_stream?channel=UCos52azQNBgW63_9uDJoPDA&rel=0"
+          title="Official KSA Qur'an TV live broadcast from Masjid al-Haram"
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+
+      <div class="live-feed-actions">
+        <a class="primary action-link live-feed-link" href="https://www.youtube.com/@saudiqurantv/live" target="_blank" rel="noopener noreferrer">Open Official KSA Qur'an TV Live ↗</a>
+        <a class="secondary action-link live-feed-link" href="https://haramain.prh.gov.sa/ar/live" target="_blank" rel="noopener noreferrer">Open Official Haramain Live Page ↗</a>
+      </div>
+
+      <p class="live-feed-note">The video source remains with its broadcaster. The Hanafi Learning Deck does not copy or re-host the broadcast.</p>
     </section>
   </main>
 
   <footer>
-    <p>No account. No advertising. No behavioral tracking by the Hanafi Learning Deck. External live-stream providers have their own policies.</p>
+    <p>No account. No advertising or behavioral tracking by the Hanafi Learning Deck. External live-stream providers have their own policies.</p>
   </footer>
 
   <script src="app.js?release=v1.8" defer></script>
