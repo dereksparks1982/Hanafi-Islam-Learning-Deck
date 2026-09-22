@@ -19,7 +19,8 @@
     .media-language-switch,.media-quality-switch{display:flex;gap:.65rem;flex-wrap:wrap;align-items:center}
     .media-language-button[aria-pressed="true"],.media-quality-button[aria-pressed="true"]{background:#d8b560;color:#172017;border-color:#d8b560}
     .media-player{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#000}
-    .media-player video{display:block;width:100%;height:100%;background:#000;object-fit:contain}
+    .media-player iframe,.media-player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+    .media-player video{display:block;object-fit:contain}
     .media-player-actions{display:flex;gap:.65rem;flex-wrap:wrap;align-items:center;margin:.85rem 0 0}
     .media-note{margin:.8rem .1rem .1rem;color:#d8d2c2;line-height:1.6}
     .media-note a,.media-info a{color:#d8b560}
@@ -33,11 +34,11 @@
     .media-fact strong{display:block;color:#d8b560;margin-bottom:.2rem}
     .media-sources{padding-left:1.25rem}
     .media-sources li{margin:.4rem 0}
+    [hidden]{display:none!important}
     @media(max-width:700px){
       .media-main{width:min(100% - 1rem,1180px)}
       .media-panel{padding:.75rem}
       .media-facts{grid-template-columns:1fr}
-      .media-player{aspect-ratio:16/9}
       .media-player-actions .action-link,.media-player-actions button{flex:1 1 11rem;text-align:center}
     }
   </style>
@@ -69,6 +70,14 @@
       </div>
 
       <div class="media-player">
+        <iframe
+          id="driveFrame"
+          src="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/preview"
+          title="The Message (1976) · English version · 720p"
+          allow="autoplay; fullscreen"
+          allowfullscreen
+          loading="eager">
+        </iframe>
         <video
           id="mediaVideo"
           controls
@@ -76,6 +85,7 @@
           webkit-playsinline
           preload="metadata"
           controlslist="nodownload"
+          hidden
           title="The Message (1976) · English version · 720p">
           <source id="mediaSource" src="https://drive.usercontent.google.com/download?id=14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW&amp;export=download&amp;confirm=t" type="video/mp4">
           Your browser does not support HTML5 video.
@@ -83,11 +93,11 @@
       </div>
 
       <div class="media-player-actions">
-        <button id="fullscreenButton" class="secondary" type="button">Full screen</button>
+        <button id="fullscreenButton" class="secondary" type="button" hidden>Full screen</button>
         <a id="driveFallback" class="secondary action-link" href="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing" target="_blank" rel="noopener noreferrer">Open selected copy in Google Drive</a>
       </div>
       <p id="mediaStatus" class="media-status" role="status" aria-live="polite">English · 720p selected.</p>
-      <p class="media-note">The built-in player now uses normal browser video controls instead of the Google Drive preview frame. On iPhone, use the native full-screen control or the <strong>Full screen</strong> button above; the iPhone player provides its own <strong>Done</strong> control to return from full screen. If streaming does not work properly, use the separate Google Drive link above.</p>
+      <p id="mediaNote" class="media-note">Video is streamed from Google Drive. If the embedded player does not load properly, use the separate Google Drive link above.</p>
     </section>
 
     <section class="media-info" aria-labelledby="filmInfoHeading">
@@ -143,6 +153,7 @@
           qualities: {
             "720p": {
               fileId: "14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW",
+              preview: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/preview",
               view: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing",
               title: "The Message (1976) · English version · 720p"
             }
@@ -154,11 +165,13 @@
           qualities: {
             "480p": {
               fileId: "1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO",
+              preview: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/preview",
               view: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/view?usp=sharing",
               title: "Al-Risalah (1976) · Arabic version · 480p"
             },
             "360p": {
               fileId: "1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN",
+              preview: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/preview",
               view: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/view?usp=sharing",
               title: "Al-Risalah (1976) · Arabic version · 360p"
             }
@@ -166,17 +179,28 @@
         }
       };
 
+      const ua = navigator.userAgent || "";
+      const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      const driveFrame = document.getElementById("driveFrame");
       const video = document.getElementById("mediaVideo");
       const source = document.getElementById("mediaSource");
       const fallback = document.getElementById("driveFallback");
       const fullscreenButton = document.getElementById("fullscreenButton");
       const mediaStatus = document.getElementById("mediaStatus");
+      const mediaNote = document.getElementById("mediaNote");
       const englishButton = document.getElementById("englishVersion");
       const arabicButton = document.getElementById("arabicVersion");
       const qualitySwitch = document.getElementById("qualitySwitch");
 
       let selectedLanguage = "english";
       let selectedQuality = versions.english.defaultQuality;
+
+      if (isIOS) {
+        driveFrame.hidden = true;
+        video.hidden = false;
+        fullscreenButton.hidden = false;
+        mediaNote.innerHTML = "On iPhone and iPad, the Media page uses the phone's native video controls so the picture and controls stay correctly aligned. Use <strong>Full screen</strong> to enter full screen; iOS provides its own <strong>Done</strong> control to leave it. If streaming has trouble, use the separate Google Drive link above.";
+      }
 
       function streamUrl(fileId) {
         return `https://drive.usercontent.google.com/download?id=${encodeURIComponent(fileId)}&export=download&confirm=t`;
@@ -203,13 +227,19 @@
       function loadSelection({ preserveTime = false } = {}) {
         const version = versions[selectedLanguage];
         const selected = version.qualities[selectedQuality];
-        const previousTime = preserveTime && Number.isFinite(video.currentTime) ? video.currentTime : 0;
-        const wasPlaying = preserveTime && !video.paused && !video.ended;
-
-        source.src = streamUrl(selected.fileId);
-        video.title = selected.title;
         fallback.href = selected.view;
         mediaStatus.textContent = `${version.label} · ${selectedQuality} selected.`;
+
+        if (!isIOS) {
+          driveFrame.src = selected.preview;
+          driveFrame.title = selected.title;
+          return;
+        }
+
+        const previousTime = preserveTime && Number.isFinite(video.currentTime) ? video.currentTime : 0;
+        const wasPlaying = preserveTime && !video.paused && !video.ended;
+        source.src = streamUrl(selected.fileId);
+        video.title = selected.title;
         video.load();
 
         if (preserveTime && previousTime > 0) {
@@ -237,31 +267,32 @@
         if (!version.qualities[quality] || quality === selectedQuality) return;
         selectedQuality = quality;
         renderQualityButtons();
-        loadSelection({ preserveTime:true });
+        loadSelection({ preserveTime:isIOS });
       }
 
       async function toggleFullscreen() {
+        if (!isIOS) return;
         try {
           if (video.webkitDisplayingFullscreen && typeof video.webkitExitFullscreen === "function") {
             video.webkitExitFullscreen();
-            return;
-          }
-          if (document.fullscreenElement) {
-            await document.exitFullscreen();
             return;
           }
           if (typeof video.webkitEnterFullscreen === "function") {
             video.webkitEnterFullscreen();
             return;
           }
+          if (document.fullscreenElement) {
+            await document.exitFullscreen();
+            return;
+          }
           if (typeof video.requestFullscreen === "function") {
             await video.requestFullscreen();
             return;
           }
-          mediaStatus.textContent = "This browser does not expose a separate full-screen command. Use the full-screen control in the video controls.";
+          mediaStatus.textContent = "Use the full-screen control in the iPhone video controls.";
         } catch (error) {
           console.warn("Full-screen request failed:", error);
-          mediaStatus.textContent = "Full screen could not start. Use the full-screen control in the video controls instead.";
+          mediaStatus.textContent = "Full screen could not start. Use the full-screen control in the iPhone video controls.";
         }
       }
 
@@ -277,7 +308,7 @@
       video.addEventListener("webkitbeginfullscreen", updateFullscreenLabel);
       video.addEventListener("webkitendfullscreen", updateFullscreenLabel);
       video.addEventListener("error", () => {
-        mediaStatus.textContent = "The selected copy could not stream in the built-in player. Use the Google Drive link above as the fallback.";
+        if (isIOS) mediaStatus.textContent = "The selected copy could not stream in the iPhone player. Use the Google Drive link above as the fallback.";
       });
 
       renderQualityButtons();
