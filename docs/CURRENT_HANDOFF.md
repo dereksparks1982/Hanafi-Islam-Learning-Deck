@@ -14,13 +14,16 @@ Active branch:
 
 `main`
 
-Current development cycle:
+Current published checkpoint:
 
 `v1.9`
 
-Current published checkpoint:
+Next reserved development cycles:
 
-`v1.8`
+- `v2.0` — **Live Madrasas**
+- `v2.1` — **Adhan playback**
+
+These reservations are roadmap decisions, not automatic authorization to start either build.
 
 The old `feature/quran-reader` and `gh-pages` workflow assumptions are obsolete. Current work is maintained directly on `main`, and the Web App is deployed through the current GitHub Pages workflow.
 
@@ -52,29 +55,29 @@ Tor Mirror:
 
 `http://hanafiiix6xddzpmjxbpns5svgoujdnjwf3ky4a72rzai5mumxm4mzqd.onion/`
 
-## Current v1.9 focus — The Message (1976)
-
-The v1.9 cycle is intentionally narrow.
+## v1.9 closed — The Message (1976)
 
 Current Media page:
 
 `https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/`
 
-Implemented:
+Completed for v1.9:
 
 - English version of *The Message* (1976) through Google Drive embedded playback;
-- Arabic production **الرسالة / Al-Risalah (1976)** wired as a separate viewing choice;
+- Arabic production **الرسالة / Al-Risalah (1976)** as a separate viewing choice;
 - **English / العربية** selector;
-- Arabic project copy uses Arabic audio with Arabic subtitles visible in the picture;
+- current English project copy presented at **720p**;
+- current Arabic project copy presented at **360p** with Arabic audio and Arabic subtitles visible in the picture;
+- both copies tested successfully from the public Web App;
+- direct Google Drive fallback follows the selected version;
 - film information and study note;
 - IMDb links for both versions;
 - Wikipedia, Academy Awards, Turner Classic Movies, and Arabic-source provenance links;
 - legal/source wording distinguishing project-created integration from third-party film/player content;
-- README updated for v1.9 and opening duʿā now ends with **Āmīn**.
+- root README updated for v1.9 and opening duʿā now ends with **Āmīn**;
+- card-library sections made independently collapsible with local remembered state.
 
-Important verification item:
-
-- the Arabic Google Drive file must be publicly viewable by an ordinary visitor before v1.9 is considered fully closed. The Drive file ID currently used by the Web App is `1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN`.
+Higher-quality movie copies may replace the current files later if suitable sources are found. That is a source-quality replacement, not a redesign of the v1.9 Media architecture.
 
 ## Media-player attribution
 
@@ -90,7 +93,23 @@ All five card-set sections in the Web App are independently collapsible.
 
 The browser remembers the open/closed state locally. Clicking a card-set navigation control should reopen the destination set when needed.
 
-## Prayer tools
+## v2.0 reservation — Live Madrasas
+
+**v2.0 is reserved for Live Madrasas.**
+
+The intended direction is a dedicated way to discover and watch useful live or regularly broadcast madrasa teaching with clear source identity, attribution, useful study labels, and sensible fallback behavior when feeds are offline.
+
+Exact sources, interface, and implementation remain subject to explicit maintainer approval.
+
+## v2.1 reservation — Adhan playback
+
+**v2.1 is reserved for adhan playback.**
+
+The existing prayer-time system already calculates local prayer times. v2.1 should focus on actually playing the adhan at the appropriate times while handling browser/PWA background limits honestly.
+
+Exact audio, scheduling behavior, controls, and implementation remain subject to explicit maintainer approval.
+
+## Prayer tools already implemented
 
 Implemented:
 
@@ -105,8 +124,6 @@ Implemented:
 - daily schedule;
 - Makkah-specific prayer clock on the Makkah page.
 
-Future work includes adhan support and honest handling of browser/PWA background limitations.
-
 ## Holy Places Explorer
 
 The Explorer uses CesiumJS and currently includes guided locations such as Masjid al-Haram, Mina, ʿArafāt, Muzdalifah, Jabal al-Nūr, Jabal Thawr, Masjid an-Nabawī, and Al-Aqsa Mosque.
@@ -117,11 +134,15 @@ A Tor failure caused by restricted WebGL depth-buffer/picking behavior was fixed
 
 The current viewer does not require real terrain clamping. If terrain is added later, marker placement and Tor compatibility must be retested.
 
-## Qur'an Reader
+## Qur'an Reader — page by page
 
 The Qur'an Reader is a **normal page-based reader, not a card expansion**.
 
-The first implemented construction page is Surah al-Fatihah. The goal remains the complete standard **604-page Madinah Mushaf structure**.
+The first implemented construction page is Surah al-Fatihah.
+
+The reader is a **long-running page-by-page project**. It is not a single build that is supposed to complete the entire Qur'an at once. Each page should be constructed, checked, and improved in sequence, and the work may take months.
+
+The standard **604-page Madinah Mushaf structure** is the page framework and long-term reference structure only. It is not a promise that all 604 pages belong to one release target.
 
 Each ayah should support:
 
@@ -189,7 +210,7 @@ Retained on the roadmap:
 
 ## Documentation / project management
 
-The GitHub Wiki has been created and can later be polished into pages for Getting Started, Card Collections, Qur'an Reader, Prayer Tools, Makkah Live, Explorer, Media, Sources, Legal/Attribution, Roadmap, and Development History.
+The GitHub Wiki has been created and can later be polished into pages for Getting Started, Card Collections, Qur'an Reader, Prayer Tools, Makkah Live, Explorer, Media, Live Madrasas, Sources, Legal/Attribution, Roadmap, and Development History.
 
 The same roadmap should also be represented visually in the maintainer's GitHub Project (`users/dereksparks1982/projects/1`) when project-board editing is available.
 
