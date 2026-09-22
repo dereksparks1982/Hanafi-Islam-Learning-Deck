@@ -31,7 +31,7 @@ footer {
   margin-inline: auto;
 }
 
-.app-header { padding: 3rem 0 1.5rem; }
+.app-header { padding: calc(3rem + env(safe-area-inset-top, 0px)) 0 1.5rem; }
 .eyebrow {
   margin: 0 0 .35rem;
   color: var(--gold);
@@ -84,6 +84,7 @@ button:disabled { opacity: .62; cursor: progress; }
   border-color: var(--gold-deep);
   outline: none;
 }
+.back-to-top { margin-bottom: .85rem; }
 
 .status {
   min-height: 1.5em;
@@ -254,7 +255,7 @@ button:disabled { opacity: .62; cursor: progress; }
 
 .set-nav {
   position: sticky;
-  top: 0;
+  top: env(safe-area-inset-top, 0px);
   z-index: 5;
   display: flex;
   gap: .55rem;
@@ -346,7 +347,7 @@ footer {
 
 @media (max-width: 520px) {
   .app-header, main, footer { width: min(100% - 1rem, 1180px); }
-  .app-header { padding-top: 1.8rem; }
+  .app-header { padding-top: calc(1.8rem + env(safe-area-inset-top, 0px)); }
   .prayer-panel { padding: .9rem; border-radius: 14px; }
   .prayer-schedule { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
