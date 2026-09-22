@@ -1,4 +1,4 @@
-# Hanafi Learning Deck v1.9 Development
+# Hanafi Learning Deck v1.9
 
 <div align="center">
 
@@ -19,13 +19,13 @@ A growing, printable, offline-capable, and mobile-friendly library for learning 
 
 This project began with a simple problem: a learner can find thousands of isolated answers online and still struggle to find a clear path through them. The Hanafi Learning Deck tries to turn that maze into something a person can actually study, review, print, carry on a phone, verify against sources, and return to every day.
 
-> **Current development cycle:** **v1.9**
+> **Current published checkpoint:** **v1.9**
 >
-> **Current published checkpoint:** **v1.8**
+> **Next reserved development cycle:** **v2.0 — Live Madrasas**
 >
 > **Published card library:** **209 cards across five independent sets**
 >
-> **v1.9 focus:** **Media — The Message (1976)**
+> **v1.9 status:** **closed — Media: The Message (1976)**
 >
 > **Status:** educational study aid, still undergoing full manual audit and pending qualified imam/scholar review.
 
@@ -57,7 +57,7 @@ The project did not begin as an attempt to build an Islamic reference library. I
 
 The scope changed naturally as the study became more serious. Early questions led to the discovery that Sunni jurisprudence is preserved through multiple established legal schools. Rather than mix rulings without realizing it, the project adopted a consistent **Hanafi** framework. That decision led from simple answers into fiqh, source comparison, Arabic terminology, Qur'an and hadith references, legal reasoning, the history of the madhhab, and the need to distinguish a ruling from the evidence and method behind it.
 
-The result is now much more than a deck. The cards remain the project's foundation, but the wider system now includes an installable **Web App**, a Tor Mirror, a page-based Qur'an Reader, local Hanafi prayer-time tools, Makkah live broadcasting, a Cesium-based Holy Places Explorer, and a new Media section. Future parts are intended to connect rather than sit as unrelated tools.
+The result is now much more than a deck. The cards remain the project's foundation, but the wider system now includes an installable **Web App**, a Tor Mirror, a page-based Qur'an Reader, local Hanafi prayer-time tools, Makkah live broadcasting, a Cesium-based Holy Places Explorer, and a Media section. Future parts are intended to connect rather than sit as unrelated tools.
 
 The long-term pattern is increasingly:
 
@@ -148,21 +148,31 @@ The Explorer concept and selected viewer patterns are adapted from Bilawal Sidhu
 
 Tor Browser compatibility is deliberately maintained. A Cesium failure caused by restricted depth-buffer/picking operations was fixed by removing depth-dependent behavior that the Explorer did not actually need rather than attempting to defeat Tor Browser's privacy restrictions.
 
-## v1.9 Media — The Message (1976)
+## v1.9 Media — The Message (1976) — closed
 
-The **v1.9 development cycle is intentionally narrow:** get *The Message* (1976) working cleanly in the Web App before expanding the Media section further.
+The **v1.9 checkpoint is officially closed.** Its deliberately narrow job was to get *The Message* (1976) working cleanly in the Web App before expanding the Media section further.
 
 Current page:
 
 https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/
 
-The Media page now provides an **English / العربية** selector for the two separately filmed productions. Both copies are configured to stream from **Google Drive** through Google's embedded player. The Hanafi Learning Deck supplies the surrounding page, navigation, project presentation, source context, selector, and integration; Google supplies the current hosted video playback surface.
+The Media page currently exposes three project copies through Google Drive playback:
 
-The English production stars Anthony Quinn, Irene Papas, and Michael Ansara. The Arabic production, **الرسالة / Al-Risalah (1976)**, uses a different principal cast, including Abdallah Gheith and Mona Wassef. The Arabic project copy contains Arabic audio with Arabic subtitles visible in the picture.
+- **English production · 720p**;
+- **Arabic standard copy · 360p** — Arabic audio with Arabic subtitles burned into the picture;
+- **Arabic alternate presentation · 480p** — Arabic audio with English subtitles burned into the picture, additional explanatory text at the beginning, and additional chanting/opening material not present in the other two project copies.
 
-The Media page also records film information and links to IMDb entries for both versions, Wikipedia, the Academy Awards record, Turner Classic Movies, and the source used for the Arabic project copy.
+The 480p Arabic copy is therefore not treated conceptually as merely a higher-resolution duplicate of the 360p copy. The current page still keeps the interface intentionally simple, and the project can refine edition-versus-quality labeling later if useful.
+
+Desktop playback uses Google's embedded player. The iPhone/iPad presentation includes a mobile-specific layout/full-screen workaround so the embedded player remains usable, with a separate **Exit full screen** control and a direct **Open selected copy in Google Drive** fallback when embedded playback is troublesome.
+
+The English production stars Anthony Quinn, Irene Papas, and Michael Ansara. The Arabic production, **الرسالة / Al-Risalah (1976)**, uses a different principal cast, including Abdallah Gheith and Mona Wassef.
+
+The Media page also records film information and links to IMDb entries for both productions, Wikipedia, the Academy Awards record, Turner Classic Movies, and the Arabic project-copy source links.
 
 The film itself is a **third-party historical drama**. It is not Qur'an, hadith, a fatwa, or a substitute for Seerah study, and the Hanafi Learning Deck does not claim authorship or ownership of the film.
+
+Better source copies of *The Message* may be hunted down and added later. Improving source quality or replacing/adding a project copy does not by itself reopen the v1.9 checkpoint.
 
 ### Media-player attribution and VLC / Nougat
 
@@ -180,7 +190,7 @@ The prayer clock uses Makkah's timezone and Umm al-Qura calculation conventions.
 
 The Qur'an Reader is being developed as a normal page-based reading system rather than another card set. The Arabic Qur'an is the controlling source text. Transliteration and English are study layers.
 
-The first implemented page is Surah al-Fatihah. The reader is explicitly marked as under construction and awaiting qualified review while work toward the complete 604-page reader continues.
+The first implemented page is Surah al-Fatihah. The reader is a **long-running page-by-page project**: later pages are intended to be constructed, checked, and improved one at a time, and the work may continue for months. The familiar 604-page Madinah Mushaf structure is the long-term page framework, not a promise to complete all 604 pages in one release.
 
 ## Study on a phone
 
@@ -290,21 +300,22 @@ The next place is not considered approved merely because it appears on a candida
 
 ## Where the project goes next
 
-**v1.9 is the current development cycle on `main`.** Its intentionally narrow job is to finish *The Message* (1976) Media entry cleanly, including the English and Arabic viewing choices.
+**v1.9 is officially closed and is the current published checkpoint.** The next reserved development cycle is **v2.0 — Live Madrasas**. Reservation on the roadmap is not automatic permission to begin implementation; the normal approval gate still applies.
 
-After v1.9, planned work returns to the broader roadmap, including:
+Planned work after v1.9 includes:
 
+- **v2.0 — Live Madrasas**;
+- **v2.1 — Adhan playback**;
+- continued **page-by-page Qur'an Reader** construction over time;
 - stronger card-to-content linking so a card can open a relevant Qur'an passage, place, live feed, media item, source, or related card;
 - Important Places integration into the Explorer;
 - **Featured Mosque** cards for functioning mosques specifically highlighted by the project, without implying that they are sacred or historically famous;
 - Live Masjids as a live-stream/filter layer across applicable mosques;
-- continued full Qur'an Reader construction;
-- adhan support;
 - deeper Hanafi jurisprudence and historical material;
 - Islamic Ruins & Lost Cities;
 - future educational games after the study tools are mature enough.
 
-The full working plan is maintained in [`docs/roadmap.md`](docs/roadmap.md). Older roadmap language may lag behind the current `main` implementation and should be treated as planning history until reconciled.
+The full working plan is maintained in [`docs/roadmap.md`](docs/roadmap.md).
 
 ## Sourcing and corrections
 
@@ -366,4 +377,4 @@ A legal or rights claim should identify the exact material at issue, the person 
 
 ---
 
-**Hanafi Learning Deck · v1.9 development · v1.8 published checkpoint**
+**Hanafi Learning Deck · v1.9 published checkpoint**
