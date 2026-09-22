@@ -2,16 +2,26 @@
 
 ## v1.9 — Media: The Message (1976)
 
-- Closed the **v1.9** checkpoint around a deliberately narrow Media scope: make *The Message* (1976) work cleanly in the Web App.
+- **Officially closed v1.9** as the current published checkpoint after the Media page was confirmed working on desktop and iPhone.
 - Added the dedicated `/media/` route and linked it from the main Web App.
 - Added separate viewing choices for the English production and the separately filmed Arabic production **الرسالة / Al-Risalah (1976)**.
-- Added an **English / العربية** selector that switches the Google Drive embedded player and direct fallback link without changing the rest of the page.
-- Current project copies are presented at **720p for English** and **360p for Arabic**. Higher-quality source copies may replace them later without changing the selector design.
-- Confirmed both current copies play successfully from the public Web App.
+- Added an **English / العربية** selector and current copy selector that switches the Google Drive embedded player and direct fallback link without changing the rest of the page.
+- Current project copies are:
+  - **English production · 720p**;
+  - **Arabic standard copy · 360p**, Arabic audio with Arabic subtitles burned into the picture;
+  - **Arabic alternate presentation · 480p**, Arabic audio with English subtitles burned into the picture, additional explanatory text at the beginning, and additional chanting/opening material.
+- Recorded that the Arabic 480p alternate is not conceptually just a higher-resolution duplicate of the Arabic 360p copy because their presentation/timeline content differs.
+- Confirmed current copies are available from the public Web App through Google Drive embedded playback.
+- Kept desktop playback on the normal Google Drive player because it was already working correctly.
+- Added an iPhone/iPad-specific layout workaround for Google's embedded player so the video and controls remain usable on smaller screens.
+- Added page-level mobile full-screen handling with a separate **Exit full screen** control after the native/direct-video approach proved unreliable with the current Google Drive-hosted files.
+- Kept **Open selected copy in Google Drive** as a separate fallback instead of using the player/full-screen control as a Drive-navigation shortcut.
 - Added film information, cast/runtime context, a study note, and links to IMDb, Wikipedia, the Academy Awards, Turner Classic Movies, and Arabic-copy provenance.
 - Kept the religious-source distinction explicit: the film is historical drama, not Qur'an, hadith, fiqh, a fatwa, or a substitute for sourced Seerah study.
 - Updated the legal/source policy for third-party films, external hosting, Google Drive playback, provenance, and the distinction between project-created integration and third-party media.
 - Kept VLC/Nougat attribution accurate: the current Hanafi Media page uses a **Google Drive embed** and does **not** bundle VLC or libVLC.
+- External `.srt` subtitle files were not integrated into the current Google Drive embedded player; the current copies rely on subtitles already burned into the video where present.
+- Better source copies of *The Message* may be hunted down and added later without automatically reopening the v1.9 checkpoint.
 - Added **Āmīn** to the closing line of the opening duʿā in the root README.
 - Added independently collapsible card-set sections to the Web App so users no longer need to scroll through every card to reach another set; the local open/closed state is remembered by the browser.
 - Reconciled current documentation with the `main`-only workflow and current Web App features.
