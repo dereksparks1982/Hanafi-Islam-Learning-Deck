@@ -40,14 +40,49 @@ Current v1.9 work:
 - English version of *The Message* (1976) streamed through Google Drive;
 - Arabic production **الرسالة / Al-Risalah (1976)** added as a separate viewing choice;
 - **English / العربية** selector on the Media page;
-- Arabic project copy uses Arabic audio with Arabic subtitles visible in the picture;
+- current English project copy presented at **720p**;
+- current Arabic project copy presented at **360p** with Arabic audio and Arabic subtitles visible in the picture;
 - film information and a clear study note distinguishing historical drama from Qur'an, hadith, fiqh, and sourced Seerah;
 - links to relevant film-information sources and Arabic-copy provenance;
 - README updated for v1.9;
 - legal/source policy updated to cover films, external hosting, Google Drive playback, source provenance, and the distinction between project-created integration and third-party media;
 - VLC/Nougat attribution wording kept accurate: the current Hanafi Media page uses a Google Drive embed and does **not** bundle VLC/libVLC.
 
-Before v1.9 is treated as fully closed, both selected movie copies should be tested from the public Web App as an ordinary visitor, including direct fallback links.
+Both selected movie copies have been tested from the public Web App and currently play successfully. Higher-quality copies may replace the current files later if suitable sources are found, without changing the basic English/Arabic selector design.
+
+## v2.0 — Live Madrasas
+
+**v2.0 is reserved for Live Madrasas.**
+
+The goal is to create a dedicated way to discover and watch useful live or regularly broadcast madrasa teaching without mixing that work into v1.9.
+
+Planned considerations include:
+
+- verified madrasa identity and location;
+- public live or scheduled teaching feeds;
+- clear source links and attribution;
+- useful labels such as live video, audio, lesson, Qur'an, fiqh, Arabic, or other study categories where appropriate;
+- reliable fallbacks when a stream is offline;
+- no advertising inserted by the Hanafi Learning Deck;
+- links back into relevant cards, Qur'an pages, places, or sources when there is a genuine study relationship.
+
+The exact interface and source list remain subject to the normal approval gate.
+
+## v2.1 — Adhan playing
+
+**v2.1 is reserved for adhan playback.**
+
+The existing prayer-time system already calculates local prayer times and countdowns. v2.1 should focus on actually playing the adhan at the appropriate prayer times while documenting platform limits honestly.
+
+Planned work includes:
+
+- user-controlled adhan enable/disable;
+- local prayer-time integration;
+- appropriate handling of Fajr versus other prayers if separate audio is used;
+- volume/playback controls;
+- selected human adhan recording with clear provenance and permission/licensing information;
+- investigation of the most reliable background/native scheduling path available;
+- honest fallback behavior where browsers or PWAs cannot guarantee closed-app playback.
 
 ## Unified card-to-content relationships
 
@@ -115,7 +150,7 @@ Where relevant, a Featured Mosque or other place entry should link directly to i
 
 A remote livestream is a study/viewing resource; it should not be presented as making a remote viewer part of the local congregational prayer.
 
-## Qur'an Reader
+## Qur'an Reader — long-running page-by-page project
 
 The Qur'an Reader is a **normal book-style reader, not a card expansion**.
 
@@ -125,14 +160,16 @@ Each ayah is intended to appear as a layered study unit:
 2. project-created transliteration
 3. English meaning
 
-The first implemented construction page is Surah al-Fatihah. The project intends to continue toward the complete standard **604-page Madinah Mushaf structure** rather than treating Page 1 as a permanent endpoint.
+The reader is a **page-by-page project**. It is not a single build in which the entire Qur'an will suddenly be completed. Each page should be constructed, checked, and improved in sequence, and the work may continue for months.
 
-Planned reader features include:
+Surah al-Fatihah is the first implemented construction page. The familiar **604-page Madinah Mushaf structure** is the page framework and long-term reference structure, not a promise that all 604 pages are the next release target.
 
-- all 604 pages;
+Planned reader development includes, over time:
+
+- continuing one page at a time;
 - surah index;
 - page/surah navigation;
-- search;
+- search when enough content exists to make it useful;
 - bookmarks;
 - Arabic-only / transliteration / English display controls;
 - local offline reading;
@@ -142,18 +179,13 @@ Planned reader features include:
 
 Arabic source text must never be silently altered. Source/provenance rules live in the Qur'an documentation and legal/source policy.
 
-## Prayer and adhan work
+## Prayer tools after v2.1
 
 The local prayer-time system is already implemented in the Web App with selectable calculation methods and Hanafi ʿAṣr.
 
-Future prayer work includes:
+After the dedicated v2.1 adhan work, later prayer improvements can include continued comparison against trusted local timetables and refinements to platform-specific scheduling as needed.
 
-- adhan support;
-- appropriate background/native scheduling research for reliable closed-app playback;
-- continued comparison against trusted local timetables;
-- preserving local prayer calculations separately from the Makkah live-page clock.
-
-Standard browser/PWA limitations must be documented honestly rather than promising reliable background alarms where the platform cannot provide them.
+Local prayer calculations must remain separate from the Makkah live-page clock.
 
 ## Holy Places Explorer
 
@@ -285,6 +317,7 @@ The GitHub Wiki can eventually provide polished pages for:
 - Holy Places Explorer
 - Media
 - Featured Mosques / Live Masjids
+- Live Madrasas
 - Sources & Review
 - Legal / Attribution
 - Roadmap
