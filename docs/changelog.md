@@ -1,5 +1,36 @@
 # Changelog
 
+## v1.9 — Media: The Message (1976)
+
+- Closed the **v1.9** checkpoint around a deliberately narrow Media scope: make *The Message* (1976) work cleanly in the Web App.
+- Added the dedicated `/media/` route and linked it from the main Web App.
+- Added separate viewing choices for the English production and the separately filmed Arabic production **الرسالة / Al-Risalah (1976)**.
+- Added an **English / العربية** selector that switches the Google Drive embedded player and direct fallback link without changing the rest of the page.
+- Current project copies are presented at **720p for English** and **360p for Arabic**. Higher-quality source copies may replace them later without changing the selector design.
+- Confirmed both current copies play successfully from the public Web App.
+- Added film information, cast/runtime context, a study note, and links to IMDb, Wikipedia, the Academy Awards, Turner Classic Movies, and Arabic-copy provenance.
+- Kept the religious-source distinction explicit: the film is historical drama, not Qur'an, hadith, fiqh, a fatwa, or a substitute for sourced Seerah study.
+- Updated the legal/source policy for third-party films, external hosting, Google Drive playback, provenance, and the distinction between project-created integration and third-party media.
+- Kept VLC/Nougat attribution accurate: the current Hanafi Media page uses a **Google Drive embed** and does **not** bundle VLC or libVLC.
+- Added **Āmīn** to the closing line of the opening duʿā in the root README.
+- Added independently collapsible card-set sections to the Web App so users no longer need to scroll through every card to reach another set; the local open/closed state is remembered by the browser.
+- Reconciled current documentation with the `main`-only workflow and current Web App features.
+- Reserved **v2.0 for Live Madrasas** and **v2.1 for adhan playback**. These roadmap entries are plans, not automatic authorization to begin those builds.
+- Clarified that the Qur'an Reader is a **long-running page-by-page project** that may take months rather than a single release intended to complete the entire Qur'an at once.
+
+## v1.8 — Qur'an Reader, prayer tools, Makkah Live, and Holy Places Explorer
+
+- Closed the **v1.8** checkpoint with the Web App expanded beyond card browsing into a broader Islamic learning surface.
+- Integrated the first Qur'an Reader construction page, **Surah al-Fatihah**, with Arabic, project transliteration, English meaning, and display controls.
+- Established the Qur'an Reader as a normal page-based reader rather than a card expansion.
+- Added local prayer-time calculation with **Hanafi ʿAṣr**, current/next prayer information, countdowns, and daily schedule support.
+- Added exact city lookup, device-location support, and manual-coordinate prayer calculation.
+- Added **Makkah Live & Prayer Clock** as a dedicated Web App route.
+- Added the CesiumJS-based **Holy Places Explorer** with guided Islamic locations and links back into the wider Web App.
+- Preserved Tor Browser compatibility by removing unnecessary depth-buffer/picking behavior that hardened browsers could reject.
+- Consolidated current Web App work on **`main`** and retired the old feature-branch / `gh-pages` development assumptions.
+- Kept the Tor mirror as an alternate access path to the same project rather than a separate development branch.
+
 ## v1.7 — Web Viewer, offline access, and closeout fixes
 
 - Closed the **v1.7** checkpoint at **209 cards across five independent sets**.
