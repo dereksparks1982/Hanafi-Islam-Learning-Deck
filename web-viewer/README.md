@@ -4,7 +4,7 @@ This directory contains the installable, local-first **Web App** for the Hanafi 
 
 The directory name remains `web-viewer/` for implementation continuity, but the user-facing product is the **Web App**.
 
-## Current v1.9 capabilities
+## Published v1.9 capabilities
 
 - browse the current five card sets;
 - collapse or expand each card set independently;
@@ -18,6 +18,9 @@ The directory name remains `web-viewer/` for implementation continuity, but the 
 - Makkah Live & Prayer Clock;
 - Cesium-based Holy Places Explorer;
 - Media section, beginning with *The Message* (1976), with English and Arabic viewing choices;
+- current Media copies: English 720p, Arabic standard 360p, and Arabic alternate 480p;
+- iPhone/iPad-specific Google Drive player layout and page-level full-screen handling;
+- separate direct Google Drive fallback for the selected Media copy;
 - no account, advertising, commercial paywall, or behavioral tracking by the Hanafi Learning Deck.
 
 The authoritative card PNGs remain in their existing repository directories. The Web App references those files without modifying them.
@@ -30,6 +33,8 @@ The Tor mirror is an alternate access path to the same Web App and is updated se
 
 ## Media playback
 
-The current v1.9 movie page uses **Google Drive embedded playback**. It does not bundle VLC or libVLC. Any future Nougat/VLC integration must carry the appropriate VideoLAN/VLC attribution and licensing information.
+The published v1.9 movie page uses **Google Drive embedded playback**. It does not bundle VLC or libVLC.
+
+The three current project copies are not all interchangeable cuts: the Arabic 480p alternate includes English subtitles burned into the picture plus additional opening explanatory/chanting material, while the Arabic 360p copy has Arabic subtitles burned into the picture. Better source copies may be added later without reopening the v1.9 checkpoint.
 
 Third-party films, streams, imagery, libraries, and external services remain subject to their own source and licensing terms. See [`../docs/LEGAL_AND_SOURCE_POLICY.md`](../docs/LEGAL_AND_SOURCE_POLICY.md).
