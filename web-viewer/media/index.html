@@ -46,21 +46,21 @@
   <main class="media-main">
     <section class="media-panel" aria-label="The Message 1976 video player">
       <div class="media-language-switch" aria-label="Choose film version">
-        <button id="englishVersion" class="secondary media-language-button" type="button" aria-pressed="true">English</button>
-        <button id="arabicVersion" class="secondary media-language-button" type="button" aria-pressed="false" lang="ar" dir="rtl">العربية</button>
+        <button id="englishVersion" class="secondary media-language-button" type="button" aria-pressed="true">English · 720p</button>
+        <button id="arabicVersion" class="secondary media-language-button" type="button" aria-pressed="false" lang="ar" dir="rtl">العربية · 360p</button>
       </div>
 
       <div class="media-player">
         <iframe
           id="mediaFrame"
           src="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/preview"
-          title="The Message (1976) · English version"
+          title="The Message (1976) · English version · 720p"
           allow="autoplay; fullscreen"
           allowfullscreen
           loading="eager">
         </iframe>
       </div>
-      <p class="media-note">Video is streamed from Google Drive. If the embedded player does not load, <a id="driveFallback" href="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing" target="_blank" rel="noopener noreferrer">open the selected version directly in Google Drive</a>.</p>
+      <p class="media-note">Video is streamed from Google Drive. Current project copies are presented at 720p for English and 360p for Arabic. If the embedded player does not load, <a id="driveFallback" href="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing" target="_blank" rel="noopener noreferrer">open the selected version directly in Google Drive</a>.</p>
     </section>
 
     <section class="media-info" aria-labelledby="filmInfoHeading">
@@ -70,11 +70,11 @@
 
       <div class="media-facts">
         <div class="media-fact">
-          <strong>English version</strong>
+          <strong>English version · 720p</strong>
           <span><em>The Message</em> · about 2h 57m · Anthony Quinn, Irene Papas, Michael Ansara</span>
         </div>
         <div class="media-fact">
-          <strong>Arabic version</strong>
+          <strong>Arabic version · 360p</strong>
           <span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · Arabic subtitles are visible in this copy</span>
         </div>
         <div class="media-fact">
@@ -112,12 +112,12 @@
         english: {
           preview: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/preview",
           view: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing",
-          title: "The Message (1976) · English version"
+          title: "The Message (1976) · English version · 720p"
         },
         arabic: {
           preview: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/preview",
           view: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/view?usp=sharing",
-          title: "Al-Risalah (1976) · Arabic version"
+          title: "Al-Risalah (1976) · Arabic version · 360p"
         }
       };
 
