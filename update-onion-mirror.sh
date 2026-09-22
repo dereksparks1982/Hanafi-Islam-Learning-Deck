@@ -22,11 +22,18 @@ git clone --quiet --depth 1 --branch main "$REPO_SSH" "$SOURCE"
 cd "$SOURCE"
 
 echo "[2/5] Validating current Web App..."
-node --check web-viewer/app.js
-node --check web-viewer/sw.js
-node --check web-viewer/quran/app.js
-node --check web-viewer/makkah/app.js
-node --check web-viewer/explore/app.js
+if command -v node >/dev/null 2>&1; then
+  node --check web-viewer/app.js
+  node --check web-viewer/sw.js
+  node --check web-viewer/quran/app.js
+  node --check web-viewer/makkah/app.js
+  node --check web-viewer/explore/app.js
+  echo "PASS: JavaScript syntax checks"
+else
+  echo "NOTE: Node.js is not installed on this host; skipping optional JavaScript syntax checks."
+  echo "      GitHub Pages CI remains the JavaScript validation gate."
+fi
+
 python3 -m json.tool web-viewer/manifest.webmanifest >/dev/null
 python3 -m json.tool web-viewer/quran/data/page-001.json >/dev/null
 
