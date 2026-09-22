@@ -1,6 +1,8 @@
 # Hanafi Learning Deck — Roadmap
 
-## Current development cycle: v1.9
+## Current published checkpoint: v1.9
+
+The next reserved development cycle is **v2.0 — Live Madrasas**. Reservation on the roadmap is not automatic permission to begin implementation.
 
 The project currently contains **209 cards across five independent sets**:
 
@@ -27,28 +29,32 @@ The project is now larger than the printed deck. Current implemented study surfa
 - the **Holy Places Explorer** using CesiumJS;
 - Tor Browser compatibility for the Explorer after removing unnecessary depth-buffer picking behavior;
 - the page-based **Qur'an Reader** foundation with Surah al-Fatihah implemented as the first construction page;
-- the **Media** area introduced in v1.9.
+- the **Media** area introduced and published in v1.9.
 
 The Tor mirror is an alternate access path to the same project, not a separate development branch.
 
-## v1.9 — Media: The Message (1976)
+## v1.9 — Media: The Message (1976) — closed
 
-The v1.9 cycle is intentionally narrow. Its job is to establish the first Media entry cleanly before the Media area grows further.
+**v1.9 is officially closed.** Its deliberately narrow job was to establish the first Media entry cleanly before the Media area grows further.
 
-Current v1.9 work:
+Published v1.9 work includes:
 
-- English version of *The Message* (1976) streamed through Google Drive;
-- Arabic production **الرسالة / Al-Risalah (1976)** added as a separate viewing choice;
-- **English / العربية** selector on the Media page;
-- current English project copy presented at **720p**;
-- current Arabic project copy presented at **360p** with Arabic audio and Arabic subtitles visible in the picture;
+- English production of *The Message* (1976) streamed through Google Drive;
+- separately filmed Arabic production **الرسالة / Al-Risalah (1976)**;
+- **English / العربية** selection on the Media page;
+- current English project copy at **720p**;
+- Arabic standard project copy at **360p**, with Arabic audio and Arabic subtitles burned into the picture;
+- Arabic alternate presentation at **480p**, with Arabic audio and English subtitles burned into the picture;
+- recognition that the 480p Arabic alternate is not merely a higher-resolution duplicate because it contains additional explanatory text at the beginning and additional chanting/opening material;
+- direct Google Drive fallback for the selected copy;
+- iPhone/iPad-specific layout and page-level full-screen handling for the Google Drive embedded player;
 - film information and a clear study note distinguishing historical drama from Qur'an, hadith, fiqh, and sourced Seerah;
 - links to relevant film-information sources and Arabic-copy provenance;
-- README updated for v1.9;
+- README and handoff documentation reconciled to the published v1.9 checkpoint;
 - legal/source policy updated to cover films, external hosting, Google Drive playback, source provenance, and the distinction between project-created integration and third-party media;
 - VLC/Nougat attribution wording kept accurate: the current Hanafi Media page uses a Google Drive embed and does **not** bundle VLC/libVLC.
 
-Both selected movie copies have been tested from the public Web App and currently play successfully. Higher-quality copies may replace the current files later if suitable sources are found, without changing the basic English/Arabic selector design.
+Better copies of *The Message* may be found and added later. Improving source quality, replacing a copy, or refining edition-versus-quality labeling is future Media maintenance unless explicitly assigned to a later release.
 
 ## v2.0 — Live Madrasas
 
