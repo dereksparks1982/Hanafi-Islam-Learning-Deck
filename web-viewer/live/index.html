@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b3d2e">
+  <meta name="description" content="Verified live madrasa teaching and masjid broadcasts in the Hanafi Learning Deck Web App.">
+  <title>Live Madrasas & Masjids · Hanafi Learning Deck</title>
+  <link rel="icon" href="../icon.svg?release=v2.0" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../icon-192.png?release=v2.0">
+  <link rel="stylesheet" href="../styles.css?release=v1.8">
+  <style>
+    .live-main{width:min(1120px,calc(100% - 2rem));margin:0 auto 3rem}
+    .live-header-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+    .live-release{color:#d8b560;font-weight:800}
+    .live-nav{display:flex;gap:.65rem;flex-wrap:wrap;margin:1rem 0 0}
+    .live-section{margin-top:1.5rem;padding:1rem;border:1px solid rgba(216,181,96,.28);border-radius:20px;background:rgba(255,255,255,.035)}
+    .live-section h2{margin:.1rem 0 .35rem}
+    .live-section-intro{margin:.2rem 0 1rem;color:#d8d2c2;line-height:1.6}
+    .live-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+    .live-card{padding:1rem;border:1px solid rgba(216,181,96,.22);border-radius:16px;background:rgba(255,255,255,.035)}
+    .live-card h3{margin:.25rem 0 .4rem;color:#f7f1df}
+    .live-location{margin:0 0 .7rem;color:#d8b560;font-weight:700}
+    .live-card p{color:#d8d2c2;line-height:1.55}
+    .live-badges{display:flex;gap:.4rem;flex-wrap:wrap;margin:.7rem 0}
+    .live-badge{display:inline-flex;align-items:center;padding:.28rem .55rem;border:1px solid rgba(216,181,96,.35);border-radius:999px;color:#f7f1df;background:rgba(216,181,96,.08);font-size:.88rem;font-weight:700}
+    .live-actions{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.9rem}
+    .live-actions a{text-decoration:none}
+    .live-note{margin-top:1rem;padding:.9rem 1rem;border-radius:14px;background:rgba(11,61,46,.35);color:#d8d2c2;line-height:1.6}
+    @media(max-width:760px){.live-grid{grid-template-columns:1fr}.live-main{width:min(100% - 1rem,1120px)}}
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="live-header-row">
+      <a class="secondary action-link" href="../">← Web App</a>
+      <span class="live-release">v2.0</span>
+    </div>
+    <p class="eyebrow">Live learning & worship broadcasts</p>
+    <h1>Live Madrasas & Masjids</h1>
+    <p class="intro">A small, verified starting directory for live or regularly scheduled Islamic teaching, salah, adhan, khutbahs, and masjid broadcasts. Sources remain on their own official sites.</p>
+    <nav class="live-nav" aria-label="Live sections">
+      <a class="secondary action-link" href="#madrasas">Madrasas & teaching</a>
+      <a class="secondary action-link" href="#masjids">Masjids</a>
+    </nav>
+  </header>
+
+  <main class="live-main">
+    <section id="madrasas" class="live-section" aria-labelledby="madrasasHeading">
+      <p class="eyebrow">Teaching</p>
+      <h2 id="madrasasHeading">Live madrasas & study</h2>
+      <p class="live-section-intro">The first entries favor sources with a clear institutional identity, an official schedule, and useful study categories. A listing here is a directory link, not a blanket endorsement of every view expressed by every teacher.</p>
+
+      <div class="live-grid">
+        <article class="live-card">
+          <span class="live-badge">Verified official source</span>
+          <h3>SeekersGuidance Live Classes</h3>
+          <p class="live-location">Global online seminary · Canada / Türkiye / online</p>
+          <p>Official live schedule with recurring classes in Qur'an studies, hadith, Islamic studies, Hanafi fiqh, spirituality, and question-and-answer sessions. Their current schedule includes dedicated Hanafi law classes alongside broader Islamic studies.</p>
+          <div class="live-badges" aria-label="SeekersGuidance categories">
+            <span class="live-badge">Hanafi fiqh</span>
+            <span class="live-badge">Qur'an</span>
+            <span class="live-badge">Hadith</span>
+            <span class="live-badge">Lessons</span>
+            <span class="live-badge">Q&A</span>
+          </div>
+          <div class="live-actions">
+            <a class="primary action-link" href="https://seekersguidance.org/live/" target="_blank" rel="noopener noreferrer">Open live schedule</a>
+            <a class="secondary action-link" href="https://seekersguidance.org/" target="_blank" rel="noopener noreferrer">Official site</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="masjids" class="live-section" aria-labelledby="masjidsHeading">
+      <p class="eyebrow">Mosques</p>
+      <h2 id="masjidsHeading">Live masjids</h2>
+      <p class="live-section-intro">Masjid entries are separated from madrasa teaching so prayer broadcasts, khutbahs, audio, and 24/7-style feeds can be labeled honestly instead of being mixed together.</p>
+
+      <div class="live-grid">
+        <article class="live-card">
+          <span class="live-badge">Inside this Web App</span>
+          <h3>Masjid al-Haram</h3>
+          <p class="live-location">Makkah, Saudi Arabia</p>
+          <p>The existing Makkah Live & Prayer Clock remains the project's dedicated Masjid al-Haram viewing surface, with live-broadcast fallback handling and the Makkah prayer clock kept separate from the user's local salah times.</p>
+          <div class="live-badges">
+            <span class="live-badge">Live video</span>
+            <span class="live-badge">Salah</span>
+            <span class="live-badge">Adhan</span>
+          </div>
+          <div class="live-actions">
+            <a class="primary action-link" href="../makkah/">Open Makkah Live</a>
+          </div>
+        </article>
+
+        <article class="live-card">
+          <span class="live-badge">Verified official source</span>
+          <h3>East London Mosque</h3>
+          <p class="live-location">London, United Kingdom</p>
+          <p>The mosque's official site provides live video and live audio. Its prayer information states that congregational prayers, Friday sermons, the adhan, and talks from the main prayer hall are broadcast through its live services.</p>
+          <div class="live-badges">
+            <span class="live-badge">Live video</span>
+            <span class="live-badge">Live audio</span>
+            <span class="live-badge">Salah</span>
+            <span class="live-badge">Adhan</span>
+            <span class="live-badge">Khutbah</span>
+            <span class="live-badge">Talks</span>
+          </div>
+          <div class="live-actions">
+            <a class="primary action-link" href="https://www.eastlondonmosque.org.uk/live" target="_blank" rel="noopener noreferrer">Open live video</a>
+            <a class="secondary action-link" href="https://www.eastlondonmosque.org.uk/live-audio" target="_blank" rel="noopener noreferrer">Open live audio</a>
+          </div>
+        </article>
+
+        <article class="live-card">
+          <span class="live-badge">Verified official source</span>
+          <h3>Birmingham Central Mosque</h3>
+          <p class="live-location">Birmingham, United Kingdom</p>
+          <p>The mosque's official site carries a live mosque radio stream and current prayer/Jumu'ah information. The stream is presented as audio rather than being mislabeled as live video.</p>
+          <div class="live-badges">
+            <span class="live-badge">Live audio</span>
+            <span class="live-badge">Mosque radio</span>
+            <span class="live-badge">Prayer information</span>
+          </div>
+          <div class="live-actions">
+            <a class="primary action-link" href="https://centralmosque.org.uk/" target="_blank" rel="noopener noreferrer">Open live radio</a>
+          </div>
+        </article>
+      </div>
+
+      <p class="live-note"><strong>Prayer note:</strong> watching or listening remotely is a learning/viewing resource. It does not make the remote viewer part of the local congregational salah.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>No advertising. Islam is not for sale.</strong> The Hanafi Learning Deck does not insert advertising into this directory. External sources remain responsible for their own sites, players, availability, and policies.</p>
+  </footer>
+</body>
+</html>
