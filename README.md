@@ -1,4 +1,4 @@
-# Hanafi Learning Deck v1.8 Development
+# Hanafi Learning Deck v1.9 Development
 
 <div align="center">
 
@@ -15,17 +15,24 @@ This project is undertaken seeking the pleasure of Allah and the spread of benef
 
 </div>
 
-A growing, printable, offline-capable, and mobile-friendly library for learning **Islam through a consistent Hanafi framework**: belief, salah, purification, duʿā, daily worship, Qur'an, Arabic literacy, sacred places, Islamic history, jurisprudence, and the wider Muslim world.
+A growing, printable, offline-capable, and mobile-friendly library for learning **Islam through a consistent Hanafi framework**: belief, salah, purification, duʿā, daily worship, Qur'an, Arabic literacy, sacred places, Islamic geography, live religious media, Islamic history, jurisprudence, and the wider Muslim world.
 
 This project began with a simple problem: a learner can find thousands of isolated answers online and still struggle to find a clear path through them. The Hanafi Learning Deck tries to turn that maze into something a person can actually study, review, print, carry on a phone, verify against sources, and return to every day.
 
-> **Current development cycle:** **v1.8**
+> **Current development cycle:** **v1.9**
 >
-> **Current published checkpoint:** **v1.7**
+> **Current published checkpoint:** **v1.8**
 >
-> **Published library:** **209 cards across five independent sets**
+> **Published card library:** **209 cards across five independent sets**
+>
+> **v1.9 focus:** **Media — The Message (1976)**
 >
 > **Status:** educational study aid, still undergoing full manual audit and pending qualified imam/scholar review.
+
+## Project principle
+
+> **No advertising. Islam is not for sale.**  
+> No account, no paywall, and no behavioral tracking by the Hanafi Learning Deck. This project exists to help people learn, remember Allah ﷻ, and surround themselves with the dīn, not to turn Islam into a commodity.
 
 ## Start here
 
@@ -34,6 +41,8 @@ Everything currently being developed is kept on **`main`**. You should not need 
 - **Open the Web App:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/
 - **Open the Qur'an Reader:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/quran/
 - **Open Makkah Live & Prayer Clock:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/makkah/
+- **Open the Holy Places Explorer:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/explore/
+- **Open Media:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/
 - **Qur'an Reader source and review notes:** [`quran/README.md`](quran/README.md)
 - **Qur'an transliteration standard:** [`quran/transliteration-rules.md`](quran/transliteration-rules.md)
 - **Project roadmap:** [`docs/roadmap.md`](docs/roadmap.md)
@@ -48,7 +57,11 @@ The project did not begin as an attempt to build an Islamic reference library. I
 
 The scope changed naturally as the study became more serious. Early questions led to the discovery that Sunni jurisprudence is preserved through multiple established legal schools. Rather than mix rulings without realizing it, the project adopted a consistent **Hanafi** framework. That decision led from simple answers into fiqh, source comparison, Arabic terminology, Qur'an and hadith references, legal reasoning, the history of the madhhab, and the need to distinguish a ruling from the evidence and method behind it.
 
-The result is now much more than a deck. The cards remain the project's foundation, but the wider direction includes an installable **Web App**, a Tor Mirror, a page-based Qur'an Reader, prayer-time tools, Islamic historical and ruins material, deeper jurisprudence study, and eventually small educational games built around original art and code.
+The result is now much more than a deck. The cards remain the project's foundation, but the wider system now includes an installable **Web App**, a Tor Mirror, a page-based Qur'an Reader, local Hanafi prayer-time tools, Makkah live broadcasting, a Cesium-based Holy Places Explorer, and a new Media section. Future parts are intended to connect rather than sit as unrelated tools.
+
+The long-term pattern is increasingly:
+
+**Card → Qur'an → Place → Live → Media → Sources → Related learning**
 
 The aim is not to manufacture an appearance of authority. The aim is to make the work **traceable, reviewable, useful, and increasingly rigorous** as the project grows.
 
@@ -75,9 +88,9 @@ The Hanafi madhhab is one of the four major Sunni schools of Islamic law. It tra
 
 A madhhab is not a separate religion or sect. It is a legal tradition and method. This project follows Hanafi fiqh so a learner can build one coherent foundation instead of unknowingly mixing rulings from different schools.
 
-## Current published library
+## Current card library
 
-At the v1.7 checkpoint, the repository contains **209 cards across five independent sets**:
+The repository contains **209 cards across five independent sets**:
 
 | Set | Status | Cards |
 | --- | --- | ---: |
@@ -88,6 +101,8 @@ At the v1.7 checkpoint, the repository contains **209 cards across five independ
 | Important Places of the Muslim World | **in progress** | **3** |
 
 The Main Deck count includes the unnumbered-on-artwork Card 00 frontispiece followed by numbered Cards 1–146. Each expansion starts at Card 1 and keeps its own numbering.
+
+In the Web App, each card set can now be **collapsed or expanded independently** so the 209-card library does not require scrolling through every card merely to reach another set. The browser remembers the open/closed state locally.
 
 ## Card preview
 
@@ -108,6 +123,63 @@ These are actual cards from the repository.
 
 The optional decorative card back is available in [`card-back/`](card-back/). The learning cards can also be printed single-sided.
 
+## Web App
+
+The Web App has grown beyond a card viewer. Current major areas include:
+
+- the five-set card library with collapsible sections;
+- a local prayer clock using Hanafi ʿAṣr;
+- exact city lookup, device location, and manual coordinates;
+- the Qur'an Reader foundation;
+- Makkah Live & Prayer Clock;
+- the Holy Places Explorer;
+- Media, beginning with *The Message* (1976);
+- installable PWA/offline card support where the browser permits it.
+
+The source implementation directory is currently named `web-viewer/`, but the user-facing product is the **Web App**.
+
+## Holy Places Explorer
+
+The Holy Places Explorer uses **CesiumJS** to provide an interactive globe for geographic study. Current guided locations include Masjid al-Haram, Mina, ʿArafāt, Muzdalifah, Jabal al-Nūr, Jabal Thawr, Masjid an-Nabawī, and Al-Aqsa Mosque.
+
+The Explorer includes satellite and map imagery, labeled markers, smooth flights, coordinates, direct location URLs, and a link back to Makkah Live.
+
+The Explorer concept and selected viewer patterns are adapted from Bilawal Sidhu's **God's Eye View**, which is MIT licensed. CesiumJS is used for globe rendering. Imagery providers retain their own terms and attribution.
+
+Tor Browser compatibility is deliberately maintained. A Cesium failure caused by restricted depth-buffer/picking operations was fixed by removing depth-dependent behavior that the Explorer did not actually need rather than attempting to defeat Tor Browser's privacy restrictions.
+
+## v1.9 Media — The Message (1976)
+
+The **v1.9 development cycle is intentionally narrow:** get *The Message* (1976) working cleanly in the Web App before expanding the Media section further.
+
+Current page:
+
+https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/
+
+The current English-language film is streamed from **Google Drive** through Google's embedded player. The Hanafi Learning Deck supplies the surrounding page, navigation, project presentation, source context, and integration; Google supplies the current hosted video playback surface.
+
+The film itself is a **third-party historical drama**. It is not Qur'an, hadith, a fatwa, or a substitute for Seerah study, and the Hanafi Learning Deck does not claim authorship or ownership of the film.
+
+A separately filmed Arabic production, **الرسالة / Al-Risalah (1976)**, is being prepared for the same Media page. The Arabic copy being prepared contains Arabic audio with Arabic subtitles visible in the picture. The final Web App design is intended to let the viewer choose between the **English** and **Arabic** versions rather than treating the Arabic production as a simple alternate audio track.
+
+### Media-player attribution and VLC / Nougat
+
+The project's owner also develops separate **Nougat** media-player work. That player work and the Hanafi Learning Deck are owner-developed projects, while any VLC/libVLC components used by Nougat remain third-party VideoLAN technology under their own licensing terms.
+
+**The current Hanafi Learning Deck movie page does not bundle VLC or libVLC.** Its present film playback is a Google Drive embed. This distinction is deliberate so the README does not imply that project-created interface/integration code makes VLC, Google Drive, or the film itself project property. If Nougat/VLC playback is later incorporated directly into this Web App, the relevant VideoLAN/VLC attribution and license information must be carried with that integration.
+
+## Makkah Live & Prayer Clock
+
+The Makkah page combines a Makkah prayer clock with live Masjid al-Haram video and fallback streams. The playback logic is designed around resilience and remaining reasonably close to the live edge rather than accumulating a huge delay merely to avoid every possible interruption.
+
+The prayer clock uses Makkah's timezone and Umm al-Qura calculation conventions. The user's own obligatory prayer times remain based on the user's local location rather than the time in Makkah.
+
+## Qur'an Reader
+
+The Qur'an Reader is being developed as a normal page-based reading system rather than another card set. The Arabic Qur'an is the controlling source text. Transliteration and English are study layers.
+
+The first implemented page is Surah al-Fatihah. The reader is explicitly marked as under construction and awaiting qualified review while work toward the complete 604-page reader continues.
+
 ## Study on a phone
 
 The [`mobile-view/`](mobile-view/) folder provides scrollable galleries designed for phone use. On supported mobile browsers/apps, tap a displayed card to open the full-resolution PNG and use the normal pinch gesture for close reading.
@@ -116,10 +188,15 @@ The mobile layer is only a viewing aid. The printable PNG files remain authorita
 
 ## Web App and Tor Mirror
 
-The project is also available through two live web versions:
+The project is available through both the normal Web App and a Tor mirror:
 
 - **Web App:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/  
   The normal browser version of the Hanafi Learning Deck. It can download the current card library for offline study and, on supported devices, can be installed to the Home Screen so it opens in a standalone app-style window.
+
+- **Tor Mirror:** http://hanafiiix6xddzpmjxbpns5svgoujdnjwf3ky4a72rzai5mumxm4mzqd.onion/  
+  A Tor-accessible mirror of the Hanafi Learning Deck. Open this address in Tor Browser. Tor Browser may restrict offline app storage, so the Tor Mirror should be treated primarily as an alternate way to access and browse the project rather than as the installable offline version.
+
+The Tor mirror tracks the current `main` Web App through the repository's mirror-update workflow; it is not a separate development branch.
 
 ### Put the Web App on an iPhone
 
@@ -133,11 +210,6 @@ Apple places the install option inside Safari's Share menu instead of giving web
 6. Tap **Add**.
 
 The **Hanafi Learning Deck** icon will then appear on the iPhone Home Screen and open like an app. **No App Store is required.**
-
-- **Tor Mirror:** http://hanafiiix6xddzpmjxbpns5svgoujdnjwf3ky4a72rzai5mumxm4mzqd.onion/  
-  A Tor-accessible mirror of the Hanafi Learning Deck. Open this address in Tor Browser. Tor Browser may restrict offline app storage, so the Tor Mirror should be treated primarily as an alternate way to access and browse the project rather than as the installable offline version.
-
-The source implementation directory is currently named `web-viewer/`, but the user-facing product is the **Web App**.
 
 ## Downloads and collections
 
@@ -216,17 +288,21 @@ The next place is not considered approved merely because it appears on a candida
 
 ## Where the project goes next
 
-**v1.8 is the current development cycle on `main`.** The intended implementation order is:
+**v1.9 is the current development cycle on `main`.** Its intentionally narrow job is to finish the *The Message* (1976) Media entry cleanly, including the English and Arabic viewing choices once the Arabic Drive copy is ready.
 
-1. verify and document the Qur'an source stack and transliteration rules;
-2. build **Page 1 / Surah al-Fatihah** as the Qur'an Reader prototype;
-3. integrate that reader into the installable Web App and confirm phone/offline behavior;
-4. add local prayer-time calculation and a persistent next-prayer countdown, plus a separate Makkah countdown on the live-feed page;
-5. begin **Islamic Ruins & Lost Cities**, starting with the Minaret of Jam / probable lost Ghurid Firuzkuh in Afghanistan;
-6. continue the card expansions and deeper Hanafi jurisprudence material under the normal review gates;
-7. eventually prototype **Caravan Crossing**, the first planned educational arcade game.
+After v1.9, planned work returns to the broader roadmap, including:
 
-The full working plan, including the other game concepts and technical requirements, is in [`docs/roadmap.md`](docs/roadmap.md).
+- stronger card-to-content linking so a card can open a relevant Qur'an passage, place, live feed, media item, source, or related card;
+- Important Places integration into the Explorer;
+- **Featured Mosque** cards for functioning mosques specifically highlighted by the project, without implying that they are sacred or historically famous;
+- Live Masjids as a live-stream/filter layer across applicable mosques;
+- continued full Qur'an Reader construction;
+- adhan support;
+- deeper Hanafi jurisprudence and historical material;
+- Islamic Ruins & Lost Cities;
+- future educational games after the study tools are mature enough.
+
+The full working plan is maintained in [`docs/roadmap.md`](docs/roadmap.md). Older roadmap language may lag behind the current `main` implementation and should be treated as planning history until reconciled.
 
 ## Sourcing and corrections
 
@@ -272,93 +348,13 @@ Scholarly/source material remains separate in [`AUDIT_AND_SOURCES.md`](AUDIT_AND
 
 </div>
 
-### 1. Scope of this statement
+The repository license applies only to material the project has the right to license. It does not convert third-party works into project property.
 
-This section records the project's **religious, scholarly, licensing, and source-handling framework**. It distinguishes between questions of Shariah, questions of authorship and provenance, and questions arising under the civil law of a particular jurisdiction. Those are related questions, but they are not identical questions.
+The project **does not claim authorship or ownership of the Qur'an**. The Arabic Qur'an is treated as revelation from Allah and as the controlling sacred source text. Human translations, transliterations, commentary, typography, software, recordings, photographs, films, datasets, and other editorial or technical works are separate layers that may carry their own authorship, attribution, contractual, or legal terms.
 
-For questions of **Islamic permissibility and obligation**, this project looks to the Qur'an, Sunnah, and the juristic tradition, with particular attention to Hanafi fiqh. Civil copyright statutes are not treated as sources of halal and haram. Questions of civil enforceability, however, are separate matters and may be governed by the law applicable to a particular person, place, service, or dispute.
+Third-party media shown or linked through the Web App remains third-party material. Hosting, embedding, linking, or building a project interface around a film does not make the underlying film project-owned material. Likewise, third-party software or playback engines retain their own licenses and attribution even when integrated with project-created code or interface work.
 
-Nothing in this section purports to issue a fatwa or to provide jurisdiction-specific legal advice. Its purpose is to state the project's methodology openly so that its sources and decisions can be examined rather than guessed.
-
-### 2. Project-created material
-
-Original material created specifically for the Hanafi Learning Deck is released under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license (CC BY-NC-SA 4.0)** unless a particular file or section states otherwise.
-
-Subject to that license, the project's original material may be downloaded, printed, copied, shared, taught from, and adapted for personal, educational, mosque, classroom, study-group, community, and other **noncommercial** purposes. Adaptations must provide appropriate attribution, identify changes, remain noncommercial, and use the same license.
-
-The license applies only to material the project has the right to license. It does not convert third-party works into project property.
-
-### 3. The Qur'an and the distinction between revelation and human work
-
-The project **does not claim authorship or ownership of the Qur'an**. The Arabic Qur'an is treated as revelation from Allah and as the controlling sacred source text. It is not project-authored material, and verified Qur'anic Arabic is not to be silently rewritten, paraphrased, or altered in order to avoid a licensing dispute.
-
-The project distinguishes the revealed text from human work surrounding it. Human work may include a translation, transliteration, commentary, typesetting, digital encoding, database structure, page metadata, photograph, audio recording, software implementation, or editorial apparatus. Those layers may carry separate authorship, attribution, contractual, or legal questions even though the Qur'an itself is not the work of a modern human author.
-
-### 4. Translations, transliterations, and provenance
-
-An English translation is a **human rendering of the meaning of the Qur'an**, not the Arabic Qur'an itself. When a translation, transliteration, dataset, photograph, recording, historical document, or other externally produced source is used, the project will identify the creator, translator, edition, source, or provenance as clearly as reasonably possible.
-
-Attribution is treated as a matter of scholarly integrity. Giving attribution does not erase a source's legal terms, and recording a source's legal terms does not require the project to describe the underlying Qur'anic revelation as privately authored property.
-
-Third-party material does **not** become CC BY-NC-SA merely because it is present in this repository. The project does not claim authorship of material created by others.
-
-### 5. The Shariah disagreement concerning intellectual property
-
-The project does not present modern intellectual property as an issue on which Muslim jurists have always spoken with one voice.
-
-Mufti Muhammad Taqi Usmani, in his discussion **"Copyright According to Shariah,"** expressly records a contemporary scholarly position that does not accept intellectual property as a form of private ownership. He summarizes that position as reasoning that classical ownership concerned tangible objects, that no clear precedent in the Qur'an, Sunnah, or classical juristic writings establishes private ownership of intangible knowledge in the modern sense, and that knowledge cannot simply be monopolized as the private possession of an individual.
-
-He also records the opposing position and ultimately adopts it: that Shariah can recognize valuable intangible rights and that copyright may be protected. His discussion further treats compliance with applicable copyright law as an independent obligation in circumstances where the law does not compel what Shariah forbids or forbid what Shariah requires.
-
-Reference: https://islamqa.org/hanafi/albalagh/22252/copyright-according-to-shariah/
-
-The **International Islamic Fiqh Academy** adopted Resolution No. 43 (5/5) in 1988. That resolution recognizes literary production, inventions, copyright, and patent rights as rights protected by Shariah and states that such rights are not to be violated.
-
-Reference: https://iifa-aifi.org/en/54157.html
-
-The project therefore records both the existence of a real juristic disagreement and the fact that significant contemporary authorities recognize intellectual-property rights under Shariah. It will not erase either side of the record to make the legal discussion appear simpler than it is.
-
-### 6. Shariah analysis and civil-law analysis are distinct
-
-A disagreement about the Shariah characterization of intellectual property does not, by itself, answer every question of civil liability or enforceability. Conversely, the existence of a civil copyright rule does not, by itself, settle the separate religious question of how an asserted right is characterized under Islamic jurisprudence.
-
-Accordingly, if a dispute arises, the project may distinguish between:
-
-1. **the Shariah question**, including whether the asserted interest is recognized, limited, or disputed within Islamic jurisprudence;
-2. **the civil-law question**, including what rights or restrictions are enforceable in the relevant jurisdiction; and
-3. **the scholarly question**, including whether the source has been accurately identified, quoted, translated, attributed, and preserved.
-
-This distinction is not intended as a declaration that one legal system simply disappears in the presence of the other. It is a statement that they arise from different sources of authority and must be analyzed with intellectual honesty rather than collapsed into a single argument.
-
-### 7. Access to Islamic knowledge
-
-The project is organized around free study and teaching. The Qur'an Reader and core Islamic study material are intended to remain free of advertising, subscriptions, behavioral tracking, and commercial paywalls.
-
-Where more than one source can satisfy the same scholarly need, the project prefers a public-domain, permissively licensed, openly redistributable, or project-created source. Where the strongest available scholarly reference carries restrictive terms, those terms should be documented rather than hidden, and the project should consider whether the same educational purpose can be achieved through permission, a different source, or independently prepared material.
-
-The project's preference for free access is a project principle. It does not require false attribution, concealment of provenance, or alteration of Qur'anic Arabic.
-
-### 8. Source complaints and dispute procedure
-
-A source or rights complaint should identify, as specifically as possible:
-
-- the file, page, passage, image, recording, or dataset at issue;
-- the person or entity asserting the right;
-- the source or edition involved;
-- the right, restriction, or term said to apply; and
-- the action being requested.
-
-The project will evaluate the complaint against the source record, the applicable license or terms, the relevant civil-law question where necessary, and the documented Shariah analysis. Depending on the circumstances, an appropriate response may include correcting attribution, obtaining permission, substituting another source, independently preparing replacement material, revising a file, or removing disputed human-authored material.
-
-The objective is not to obscure authorship or evade scrutiny. The objective is to keep the project **free, traceable, reviewable, accurately sourced, and faithful to the Qur'an and Sunnah**.
-
-### 9. Governing project documents
-
-The complete source-handling policy and supporting notes are maintained in [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md). The repository license is maintained separately in [`LICENSE`](LICENSE).
-
-Where a third-party work carries its own valid terms, those terms should be recorded with that work rather than silently replaced by the repository's general license.
-
-### 10. Contact for legal, licensing, source, and scholarly matters
+The complete source-handling policy, including the documented contemporary Shariah disagreement concerning intellectual property, is maintained in [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md). The repository license is maintained separately in [`LICENSE`](LICENSE).
 
 For rights claims, licensing questions, attribution disputes, source complaints, scholarly corrections, or other project correspondence, contact:
 
@@ -368,4 +364,4 @@ A legal or rights claim should identify the exact material at issue, the person 
 
 ---
 
-**Hanafi Learning Deck · v1.8 development · v1.7 published checkpoint**
+**Hanafi Learning Deck · v1.9 development · v1.8 published checkpoint**
