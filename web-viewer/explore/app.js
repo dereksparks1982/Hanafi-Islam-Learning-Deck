@@ -126,13 +126,12 @@
     PLACES.forEach(place => {
       viewer.entities.add({
         id:`holy-place-${place.id}`,
-        position:Cesium.Cartesian3.fromDegrees(place.lon, place.lat, 30),
+        position:Cesium.Cartesian3.fromDegrees(place.lon, place.lat, 80),
         point:{
           pixelSize:10,
           color:Cesium.Color.fromCssColorString('#d8b560'),
           outlineColor:Cesium.Color.fromCssColorString('#071b15'),
           outlineWidth:3,
-          heightReference:Cesium.HeightReference.CLAMP_TO_GROUND,
           disableDepthTestDistance:Number.POSITIVE_INFINITY
         },
         label:{
@@ -144,7 +143,6 @@
           style:Cesium.LabelStyle.FILL_AND_OUTLINE,
           pixelOffset:new Cesium.Cartesian2(0, -22),
           verticalOrigin:Cesium.VerticalOrigin.BOTTOM,
-          heightReference:Cesium.HeightReference.CLAMP_TO_GROUND,
           disableDepthTestDistance:Number.POSITIVE_INFINITY,
           distanceDisplayCondition:new Cesium.DistanceDisplayCondition(0, 250000)
         }
@@ -258,6 +256,15 @@
     viewer.scene.globe.baseColor = Cesium.Color.fromCssColorString('#0b3d2e');
     viewer.scene.skyAtmosphere.show = true;
     viewer.scene.fog.enabled = true;
+
+    // Tor Browser and some hardened Firefox configurations block WebGL depth-buffer
+    // readback. The Explorer does not need depth picking, so keep Cesium out of
+    // that path and place our markers slightly above the ellipsoid instead of
+    // clamping them to terrain.
+    viewer.scene.useDepthPicking = false;
+    viewer.scene.pickTranslucentDepth = false;
+    viewer.scene.globe.depthTestAgainstTerrain = false;
+
     installSafeZoomGuard();
 
     addPlaceMarkers();
