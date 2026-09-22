@@ -4,23 +4,25 @@
 
 This document is the recovery point for the current development thread. It records the decisions that must survive if chat context is lost or work is resumed later.
 
-**Active feature development is paused. Documentation work only has been performed at this checkpoint.**
-
 ## Repository state
 
 Repository:
 
 `dereksparks1982/Hanafi-Islam-Learning-Deck`
 
-Published baseline:
+Active branch:
 
-`main` at v1.7
+`main`
 
-Development branch:
+Current development cycle:
 
-`feature/quran-reader`
+`v1.9`
 
-The feature branch is intentionally isolated from `main`. Do not merge it or publish a new release without explicit maintainer approval.
+Current published checkpoint:
+
+`v1.8`
+
+The old `feature/quran-reader` and `gh-pages` workflow assumptions are obsolete. Current work is maintained directly on `main`, and the Web App is deployed through the current GitHub Pages workflow.
 
 The published card library remains **209 cards across five independent sets**:
 
@@ -30,38 +32,17 @@ The published card library remains **209 cards across five independent sets**:
 - Arabic Alphabet Expansion: 28
 - Important Places of the Muslim World: 3
 
-## What the project has become
+## Current product surfaces
 
-The project began as a small personal set of cards for learning Islam. As study progressed, the maintainer encountered the established Sunni schools of law and chose to build from a consistent **Hanafi** framework rather than unknowingly mix rulings.
-
-That choice expanded the project from simple cards into a broader Islamic learning system concerned with:
-
-- Hanafi fiqh and source accuracy
-- Arabic literacy
-- Qur'an study
-- hadith and legal sourcing
-- Islamic jurisprudence and the reasoning behind rulings
-- sacred and historical places
-- mobile/offline access
-- transparent review and correction
-- future prayer-time tools
-- Islamic history/ruins material
-- later educational games
-
-The cards remain important, but they are no longer the complete scope of the project.
-
-## Canonical product terminology
-
-Use these names in user-facing project documentation:
+Use these user-facing names:
 
 - **Web App** = normal installable/offline GitHub Pages version
 - **Tor Mirror** = `.onion` version
+- **Qur'an Reader** = page-based reader/book system
+- **Holy Places Explorer** = CesiumJS geographic study surface
+- **Media** = project media area introduced in v1.9
 
-The source directory is currently named `web-viewer/`, but the user-facing product should be called the **Web App**.
-
-The Qur'an Reader is a **reader/book/tome**, not a card deck or card expansion.
-
-## Published Web App
+The source directory remains `web-viewer/`, but user-facing documentation should call it the **Web App**.
 
 Public Web App:
 
@@ -71,210 +52,165 @@ Tor Mirror:
 
 `http://hanafiiix6xddzpmjxbpns5svgoujdnjwf3ky4a72rzai5mumxm4mzqd.onion/`
 
-The Web App must remain installable on supported phones through Home Screen installation and open in a standalone app-style window. No native App Store package is required for this goal.
+## Current v1.9 focus — The Message (1976)
 
-## Qur'an Reader plan
+The v1.9 cycle is intentionally narrow.
 
-The Qur'an Reader is the next implementation priority after documentation/source rules are settled.
+Current Media page:
 
-### Presentation
+`https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/`
 
-Each ayah should appear as one study unit:
+Implemented:
 
-1. Arabic
-2. Hanafi Learning Deck transliteration
+- English version of *The Message* (1976) through Google Drive embedded playback;
+- Arabic production **الرسالة / Al-Risalah (1976)** wired as a separate viewing choice;
+- **English / العربية** selector;
+- Arabic project copy uses Arabic audio with Arabic subtitles visible in the picture;
+- film information and study note;
+- IMDb links for both versions;
+- Wikipedia, Academy Awards, Turner Classic Movies, and Arabic-source provenance links;
+- legal/source wording distinguishing project-created integration from third-party film/player content;
+- README updated for v1.9 and opening duʿā now ends with **Āmīn**.
+
+Important verification item:
+
+- the Arabic Google Drive file must be publicly viewable by an ordinary visitor before v1.9 is considered fully closed. The Drive file ID currently used by the Web App is `1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN`.
+
+## Media-player attribution
+
+The current Hanafi Learning Deck Media page uses **Google Drive embedded playback**.
+
+It does **not** bundle VLC or libVLC.
+
+The maintainer's separate Nougat media-player work may use VideoLAN technology, but that does not make VLC part of the current Hanafi Web App. If VLC/libVLC is later integrated directly, the applicable VideoLAN attribution and license information must be included.
+
+## Card library navigation
+
+All five card-set sections in the Web App are independently collapsible.
+
+The browser remembers the open/closed state locally. Clicking a card-set navigation control should reopen the destination set when needed.
+
+## Prayer tools
+
+Implemented:
+
+- local prayer-time calculation;
+- **Hanafi ʿAṣr**;
+- selectable calculation methods;
+- exact city lookup;
+- device-location option;
+- manual coordinates;
+- current prayer period;
+- next prayer and countdown;
+- daily schedule;
+- Makkah-specific prayer clock on the Makkah page.
+
+Future work includes adhan support and honest handling of browser/PWA background limitations.
+
+## Holy Places Explorer
+
+The Explorer uses CesiumJS and currently includes guided locations such as Masjid al-Haram, Mina, ʿArafāt, Muzdalifah, Jabal al-Nūr, Jabal Thawr, Masjid an-Nabawī, and Al-Aqsa Mosque.
+
+Tor Browser compatibility is a required acceptance target.
+
+A Tor failure caused by restricted WebGL depth-buffer/picking behavior was fixed by removing unnecessary depth-dependent operations rather than weakening Tor Browser privacy behavior.
+
+The current viewer does not require real terrain clamping. If terrain is added later, marker placement and Tor compatibility must be retested.
+
+## Qur'an Reader
+
+The Qur'an Reader is a **normal page-based reader, not a card expansion**.
+
+The first implemented construction page is Surah al-Fatihah. The goal remains the complete standard **604-page Madinah Mushaf structure**.
+
+Each ayah should support:
+
+1. Arabic Qur'an text
+2. project-created transliteration
 3. English meaning
 
-The reader should follow normal page-based book presentation rather than create thousands of cards.
+Arabic Qur'an text must never be silently altered. Source/provenance decisions must remain explicit and reviewable.
 
-### First prototype
+## Unified card relationships
 
-Build **only Page 1 / Surah al-Fatihah first**.
+Future digital architecture should let cards link into relevant project content rather than leaving every feature isolated.
 
-Review before Page 2:
+Conceptual relationship types:
 
-- Arabic typography
-- ayah boundaries/references
-- transliteration rules
-- English alignment
-- responsive phone layout
-- desktop layout
-- previous/next navigation
-- jump-to-page and jump-to-surah structure
-- offline caching
-- source/provenance presentation
-- Home Screen / standalone Web App behavior
+- Qur'an
+- places / Explorer
+- hadith
+- related cards
+- media
+- live feeds
+- sources / further study
 
-Do not scale to the rest of the Qur'an until Page 1 is accepted.
+The printable PNG remains authoritative card artwork. Digital relationships are an additional study/navigation layer.
 
-### Arabic source architecture
+## Featured Mosques and Live Masjids
 
-Current intended approach:
+Future category:
 
-- primary reference: verified **Hafs 'an 'Asim Madinah Mushaf** text associated with the King Fahd Glorious Qur'an Printing Complex tradition
-- independent verification: **Tanzil Uthmani**
-- page structure: standard **604-page Madinah Mushaf** structure, after exact page metadata is verified
+**Featured Mosque**
 
-Never silently alter Qur'anic Arabic. If authoritative references disagree, stop on that ayah and investigate.
+This is for functioning mosques the project intentionally highlights without implying that they are sacred or historically famous.
 
-### Transliteration
+First identified example:
 
-Create the transliteration in-project, page by page.
+- Islamic Society of Wichita — Wichita, Kansas, USA
 
-It should function as a pronunciation/reading aid for Hafs recitation and account for matters such as:
+`Live` should be treated as an attribute/badge where a reliable feed exists, not as the religious category itself.
 
-- long vowels
-- hamzah and 'ayn
-- emphatic letters
-- shaddah
-- hamzat al-wasl
-- assimilation
-- connected reading
-- stopping where appropriate
+Future live filters may include Video, Audio, Full Salah, Adhan/Recitation, Khutbah, and 24/7.
 
-The Quranic Arabic Corpus may be used as a word-level verification aid, but the finished transliteration should be project-created and reviewed.
+## Islamic Ruins & Lost Cities
 
-### English meaning
+This remains a planned historical Web App section.
 
-Current preferred primary study rendering:
+First intended subject:
 
-**Mufti Muhammad Taqi Usmani, _The Meanings of the Noble Qur'an_**
+**Minaret of Jam / probable lost Ghurid Firuzkuh — Ghor Province, Afghanistan**
 
-Before bulk inclusion, identify and document the exact edition/source.
+Each entry should include location, dynasty/period, significance, surviving remains, losses/destruction, preservation condition, maps, photographs where usable, and named sources.
 
-Use other respected translations for comparison where needed, including Saheeh International and historical/public-domain translations such as Marmaduke Pickthall.
+## Existing future content work
 
-Do not describe any English translation as the Qur'an itself. The Arabic Qur'an is the revealed source; translation is human interpretation/rendering of meaning.
+Retained on the roadmap:
 
-## Legal, copyright, and source policy
+- Main Deck continuation / Everyday Islamic Speech;
+- The Hanafi School: Origins, Method & Legacy;
+- The Prophets of Islam;
+- The Life of Prophet Muhammad ﷺ;
+- continuing Important Places cards one at a time;
+- deeper Arabic literacy where it directly supports Qur'an/fiqh study;
+- qualified imam/scholar review;
+- Islamic Ruins & Lost Cities;
+- future educational games, with **Caravan Crossing** as the first selected game concept.
+
+## Documentation / project management
+
+The GitHub Wiki has been created and can later be polished into pages for Getting Started, Card Collections, Qur'an Reader, Prayer Tools, Makkah Live, Explorer, Media, Sources, Legal/Attribution, Roadmap, and Development History.
+
+The same roadmap should also be represented visually in the maintainer's GitHub Project (`users/dereksparks1982/projects/1`) when project-board editing is available.
+
+## Legal/source policy
 
 Dedicated policy:
 
 [`LEGAL_AND_SOURCE_POLICY.md`](LEGAL_AND_SOURCE_POLICY.md)
 
-The root README now contains a dedicated **Legal, licensing, copyright, and source policy** section and displays the **CC BY-NC-SA 4.0** license badge.
+Core rules:
 
-Core distinctions:
+- no claim of ownership over the Qur'an itself;
+- project-created original material is licensed CC BY-NC-SA 4.0 only where the project has the right to license it;
+- third-party films, photos, recordings, translations, datasets, libraries, and services retain their own status/terms;
+- source provenance should be preserved;
+- Media embedding/hosting does not make a third-party film project property;
+- the contemporary Shariah disagreement over intellectual property is documented rather than hidden;
+- the project remains noncommercial and free of advertising, subscriptions, paywalls, and behavioral tracking by the Hanafi Learning Deck.
 
-- the project does not claim ownership of the Qur'an itself;
-- project-created original material is © 2026 Derek Sparks and licensed CC BY-NC-SA 4.0 where the project has the right to license it;
-- third-party material does not automatically inherit the project's license;
-- human translations, photographs, recordings, datasets, typography, metadata, and software are separate human works and should retain attribution/provenance;
-- the project documents the contemporary Shariah disagreement over intellectual property rather than pretending there is one unanimous position;
-- one documented position rejects the modern treatment of intangible knowledge as privately monopolizable property;
-- another contemporary position, including major fiqh bodies, recognizes copyright and related rights under Shariah;
-- restrictive terms should be documented rather than concealed;
-- if a disputed human translation later becomes unusable, the project may replace it with an independently prepared rendering rather than compromise free access to the study material.
+## Approval rule
 
-The Qur'an Reader should have no advertising, paywall, subscription, required account, or behavioral tracking.
+Roadmap entries are plans, not automatic permission to build them.
 
-## Prayer-time feature plan
-
-A persistent prayer clock is approved for the roadmap.
-
-### Local prayer clock
-
-The Web App should eventually:
-
-- request device location with permission;
-- calculate prayer times for the user's local area;
-- default to **Hanafi Asr**;
-- provide manual location fallback;
-- allow appropriate prayer-calculation method settings because Fajr/Isha conventions vary;
-- show current prayer period;
-- show next prayer;
-- show a continuously ticking countdown;
-- show the day's prayer schedule;
-- roll automatically to the next prayer;
-- use the user's local timezone;
-- continue counting independently of any video player;
-- where practical, keep calculated times/countdown working offline after location/settings are known.
-
-### Makkah prayer clock
-
-The live-feed page should separately show:
-
-- current Makkah prayer period
-- next Makkah prayer
-- live countdown
-- Makkah daily schedule
-- Makkah timezone independent of user location
-
-The timer is page UI, not part of the embedded stream. Pausing the live video must not pause the prayer countdown.
-
-## Islamic Ruins & Lost Cities
-
-This is a planned **historical Web App section, not a card expansion**.
-
-First intended subject:
-
-**Minaret of Jam / probable lost Ghurid Firuzkuh, Ghor Province, Afghanistan**
-
-The entry should cover the remote river setting, Ghurid history, surviving minaret, remains of the wider settlement, erosion/flood/structural danger, and documented preservation status. Do not invent a specific collapse year.
-
-Candidate later subjects include:
-
-- Ancient Merv, Turkmenistan
-- Samarra Archaeological City, Iraq
-- Qal'at Bani Hammad, Algeria
-- ruined caravan cities
-- abandoned madrasas/manuscript centers
-- forgotten observatories
-- lost libraries
-- fortresses/frontier settlements
-- endangered minarets and mosques
-- buried or partly excavated Islamic cities
-
-Each article should document location, dynasty/period, what stood there, why it mattered, what survives, what disappeared, preservation status, maps, photographs where usable, and named sources.
-
-## Educational arcade-game roadmap
-
-Games are a later phase and must **not interrupt the Qur'an Reader build**.
-
-Use classic gameplay concepts with original implementation/assets. Do not copy protected ROM art/audio/code.
-
-Current concepts:
-
-1. **Caravan Crossing** — Frogger-style crossing mechanics. First selected game prototype.
-2. **Minaret Mosaic** — Q*bert-style tile-hopping mechanics.
-3. **House of Knowledge** — maze/collection mechanics.
-4. **Manuscript Restorer** — Breakout-style mechanics.
-5. **Defender of the Library** — fixed-shooter mechanics with abstract/nonhuman hazards.
-6. **Sabil** — Tapper-style water-service mechanics.
-7. **City of Scholars** — excavation/tunneling mechanics inspired by Dig Dug.
-8. **Crescent Observatory** — precision/astronomy mechanics.
-
-Religious sensitivity:
-
-- do not depict Prophet Muhammad ﷺ;
-- do not make salah, Qur'an recitation, Hajj rites, or other sacred worship into irreverent score mechanics;
-- prefer historical/environmental settings;
-- do not cast real religious/ethnic communities as game enemies.
-
-## Existing future content work
-
-Still retained on the roadmap:
-
-- Main Deck continuation, Everyday Islamic Speech, Cards 147–170 concept
-- The Hanafi School: Origins, Method & Legacy
-- The Prophets of Islam
-- The Life of Prophet Muhammad ﷺ
-- continuing Important Places cards one at a time
-- deeper Arabic literacy material where it directly supports Qur'an/fiqh study
-- manual audit and eventual qualified scholar/imam review
-
-## Resume order
-
-When the maintainer explicitly says to resume active development, follow this order unless he changes it:
-
-1. verify/document Qur'an sources and transliteration rules;
-2. build and review Page 1 / Surah al-Fatihah;
-3. integrate the Qur'an Reader into the installable Web App and verify phone/offline behavior;
-4. implement local and Makkah prayer-time architecture;
-5. begin Islamic Ruins & Lost Cities with Jam/Firuzkuh;
-6. return to approved card/deeper-study work;
-7. eventually prototype Caravan Crossing.
-
-## Stop condition
-
-At this handoff checkpoint, **do not continue implementation work automatically**. The requested task was to update the README, roadmap, legal/source documentation, and preserve the current plan in GitHub. Further building requires a new explicit instruction from the maintainer.
+The maintainer's explicit approval remains the gate for active implementation.
