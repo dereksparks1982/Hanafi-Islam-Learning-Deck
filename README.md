@@ -11,7 +11,7 @@
 **Al-ḥamdu lillāhi Rabbil-ʿālamīn, waṣ-ṣalātu was-salāmu ʿalā Rasūlillāh.**  
 *All praise belongs to Allah, Lord of the worlds, and peace and blessings be upon the Messenger of Allah ﷺ.*
 
-This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement.
+This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement. **Āmīn.**
 
 </div>
 
@@ -156,11 +156,13 @@ Current page:
 
 https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/
 
-The current English-language film is streamed from **Google Drive** through Google's embedded player. The Hanafi Learning Deck supplies the surrounding page, navigation, project presentation, source context, and integration; Google supplies the current hosted video playback surface.
+The Media page now provides an **English / العربية** selector for the two separately filmed productions. Both copies are configured to stream from **Google Drive** through Google's embedded player. The Hanafi Learning Deck supplies the surrounding page, navigation, project presentation, source context, selector, and integration; Google supplies the current hosted video playback surface.
+
+The English production stars Anthony Quinn, Irene Papas, and Michael Ansara. The Arabic production, **الرسالة / Al-Risalah (1976)**, uses a different principal cast, including Abdallah Gheith and Mona Wassef. The Arabic project copy contains Arabic audio with Arabic subtitles visible in the picture.
+
+The Media page also records film information and links to IMDb entries for both versions, Wikipedia, the Academy Awards record, Turner Classic Movies, and the source used for the Arabic project copy.
 
 The film itself is a **third-party historical drama**. It is not Qur'an, hadith, a fatwa, or a substitute for Seerah study, and the Hanafi Learning Deck does not claim authorship or ownership of the film.
-
-A separately filmed Arabic production, **الرسالة / Al-Risalah (1976)**, is being prepared for the same Media page. The Arabic copy being prepared contains Arabic audio with Arabic subtitles visible in the picture. The final Web App design is intended to let the viewer choose between the **English** and **Arabic** versions rather than treating the Arabic production as a simple alternate audio track.
 
 ### Media-player attribution and VLC / Nougat
 
@@ -288,7 +290,7 @@ The next place is not considered approved merely because it appears on a candida
 
 ## Where the project goes next
 
-**v1.9 is the current development cycle on `main`.** Its intentionally narrow job is to finish the *The Message* (1976) Media entry cleanly, including the English and Arabic viewing choices once the Arabic Drive copy is ready.
+**v1.9 is the current development cycle on `main`.** Its intentionally narrow job is to finish *The Message* (1976) Media entry cleanly, including the English and Arabic viewing choices.
 
 After v1.9, planned work returns to the broader roadmap, including:
 
