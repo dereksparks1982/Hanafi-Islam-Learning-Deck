@@ -38,12 +38,15 @@ jobs:
           for start in range(len(chunk) - 24 + 1):
               candidate = chunk[:start] + chunk[start + 24:]
               if hashlib.sha256(candidate.encode()).hexdigest() == wanted:
-                  matches.append((start, candidate, chunk[start:start+24]))
+                  matches.append((start, candidate))
 
-          assert len(matches) == 1, f'expected exactly one hash match, got {len(matches)}'
-          start, corrected, removed = matches[0]
+          assert matches, 'no exact hash match found'
+          unique_candidates = {candidate for _, candidate in matches}
+          assert len(unique_candidates) == 1, f'hash matches disagree: {len(unique_candidates)} candidates'
+          corrected = next(iter(unique_candidates))
           assert len(corrected) == 1000
-          print(f'PASS: unique correction found at offset {start}; removed={removed!r}')
+          assert hashlib.sha256(corrected.encode()).hexdigest() == wanted
+          print(f'PASS: {len(matches)} equivalent deletion positions all yield the same exact corrected chunk')
 
           rest = rest[:first.start(1)] + corrected + rest[first.end(1):]
           p.write_text(head + 'chunks = [' + rest)
