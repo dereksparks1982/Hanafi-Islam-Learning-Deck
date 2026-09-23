@@ -6,7 +6,7 @@ html {
   text-size-adjust: 100%;
 }
 
-/* Phones and touch-first mobile devices use one orientation-independent treatment. */
+/* Phones and touch-first mobile devices use one shared fixed background layer. */
 @media (max-width: 760px), (hover: none) and (pointer: coarse) {
   html {
     background: #03130e;
@@ -36,11 +36,28 @@ html {
       linear-gradient(180deg, #06271c 0, #031a13 34rem, #02110d 100%);
     background-position: center top, center top;
     background-repeat: no-repeat, no-repeat;
-    background-size: 100% auto, 100% 100%;
   }
 
   /* Keep page titles from growing dramatically merely because the phone rotates. */
   body h1 {
     font-size: clamp(2.1rem, 10vmin, 3.35rem) !important;
+  }
+}
+
+/* Portrait: make the artwork as tall as the phone and crop the lantern zones off-screen. */
+@media (orientation: portrait) and (max-width: 760px),
+       (orientation: portrait) and (hover: none) and (pointer: coarse) {
+  body::before {
+    background-size: 130% 100%, 100% 100%;
+    background-position: center top, center top;
+  }
+}
+
+/* Landscape: show the full-width lantern frame while keeping the artwork fixed. */
+@media (orientation: landscape) and (max-height: 760px),
+       (orientation: landscape) and (hover: none) and (pointer: coarse) {
+  body::before {
+    background-size: 100% auto, 100% 100%;
+    background-position: center top, center top;
   }
 }
