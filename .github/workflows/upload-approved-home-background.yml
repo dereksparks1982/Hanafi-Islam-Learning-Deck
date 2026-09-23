@@ -1,0 +1,36 @@
+name: Upload approved home background
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/upload-approved-home-background.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download and verify approved image
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p web-viewer/assets
+          curl -fL 'https://sdmntpreastus2.oaiusercontent.com/files/00000000-7860-81f6-b039-205a4613b265/raw?se=2026-09-23T12%3A22%3A37Z&sp=r&sv=2026-02-06&sr=b&scid=0569a5d6-d865-5d11-bb0e-57d51883208e&skoid=c36a4874-d531-4a8d-99fc-7da0d9143d9c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-23T12%3A03%3A37Z&ske=2026-09-24T12%3A03%3A37Z&sks=b&skv=2026-02-06&sig=a2xORYCMfapuMuxIzPGtg8lA4OxQgXlB9FQaCUZGSwc%3D' -o web-viewer/assets/hanafi-home-background-approved.png
+          test "$(stat -c %s web-viewer/assets/hanafi-home-background-approved.png)" = '2233477'
+          echo 'cc848bdb16cdd51cd94e804eeb535289f027d87b286e278f71b363911370d759  web-viewer/assets/hanafi-home-background-approved.png' | sha256sum -c -
+      - name: Commit exact approved image only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'Abdullāh ibn al-Malik al-Jazzār'
+          git config user.email 'dereksparks1982@gmail.com'
+          git add -- web-viewer/assets/hanafi-home-background-approved.png
+          git diff --cached --quiet && exit 0
+          git commit -m 'Add approved home background image'
+          git push origin HEAD:main
