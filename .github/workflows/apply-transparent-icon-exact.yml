@@ -1,0 +1,91 @@
+name: Apply exact transparent Hanafi icon
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/apply-transparent-icon-exact.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Reconstruct and verify exact transparent icon
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet pillow
+          python3 - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          import base64, hashlib, re, zlib
+
+          icon = Path('web-viewer/assets/hanafi-learning-deck-icon-approved.png')
+          source = icon.read_bytes()
+          assert len(source) == 2092425, len(source)
+          assert hashlib.sha256(source).hexdigest() == '2927924bc6f41033d660c80c7b4ea5b40c175de5bfc74e2dd8b18416e4cb1de3'
+
+          mask_workflow = Path('.github/workflows/upload-approved-transparent-icon.yml').read_text()
+          block = mask_workflow.split('chunks = [', 1)[1].split(']', 1)[0]
+          chunks = re.findall(r"'([A-Za-z0-9+/=]+)'", block)
+          assert len(chunks) == 8, len(chunks)
+          assert len(chunks[0]) == 1024, len(chunks[0])
+          assert hashlib.sha256(chunks[0].encode()).hexdigest() == '62e44539015db2830d30346f1fc46cb1db6af4a7860c4ceda9f7611d27839f2c'
+
+          wanted_chunk = 'ba614a470ee0395333afd7577c3699635f900c8b1bf65009b7e0ad53ef34dc3d'
+          matches = []
+          bad = chunks[0]
+          for start in range(len(bad) - 24 + 1):
+              candidate = bad[:start] + bad[start + 24:]
+              if hashlib.sha256(candidate.encode()).hexdigest() == wanted_chunk:
+                  matches.append(candidate)
+          assert matches, 'no exact corrected first chunk found'
+          candidates = set(matches)
+          assert len(candidates) == 1, len(candidates)
+          chunks[0] = next(iter(candidates))
+          assert len(chunks[0]) == 1000
+
+          mask_b64 = ''.join(chunks)
+          assert len(mask_b64) == 7024, len(mask_b64)
+          assert hashlib.sha256(mask_b64.encode()).hexdigest() == '9188b6093396b8c9c04ba76dfb93fff09998b901ca8d4532ef78ebacb3fca8e5'
+          alpha = zlib.decompress(base64.b64decode(mask_b64))
+          assert len(alpha) == 1254 * 1254, len(alpha)
+
+          img = Image.open(icon).convert('RGBA')
+          assert img.size == (1254, 1254), img.size
+          img.putalpha(Image.frombytes('L', img.size, alpha))
+          target_rgba = 'cf57e42d7c48011b1091b1ce11c5e0f271ba194610c023e8c1ac2153a5e90478'
+          assert hashlib.sha256(img.tobytes()).hexdigest() == target_rgba
+
+          tmp = icon.with_suffix('.transparent.png')
+          img.save(tmp, 'PNG', optimize=True, compress_level=9)
+          check = Image.open(tmp).convert('RGBA')
+          assert check.size == (1254, 1254)
+          assert hashlib.sha256(check.tobytes()).hexdigest() == target_rgba
+          tmp.replace(icon)
+
+          print('PASS: original approved RGB preserved exactly')
+          print('PASS: exact approved transparency mask applied')
+          print('PNG bytes:', icon.stat().st_size)
+          print('PNG SHA-256:', hashlib.sha256(icon.read_bytes()).hexdigest())
+          PY
+
+      - name: Commit only the icon asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Abdullāh ibn al-Malik al-Jazzār"
+          git config user.email "dereksparks1982@gmail.com"
+          git add -- web-viewer/assets/hanafi-learning-deck-icon-approved.png
+          test "$(git diff --cached --name-only | wc -l)" -eq 1
+          test "$(git diff --cached --name-only)" = "web-viewer/assets/hanafi-learning-deck-icon-approved.png"
+          git commit -m "Remove background from approved icon"
+          git push origin HEAD:main
