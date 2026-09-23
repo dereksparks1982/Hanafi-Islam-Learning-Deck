@@ -32,7 +32,7 @@ html {
     pointer-events: none;
     background-color: #03130e;
     background-image:
-      url("assets/hanafi-home-background-approved.png?rev=20260923mobile1"),
+      url("assets/hanafi-home-background-approved.png?rev=20260923mobile2"),
       linear-gradient(180deg, #06271c 0, #031a13 34rem, #02110d 100%);
     background-position: center top, center top;
     background-repeat: no-repeat, no-repeat;
@@ -44,20 +44,20 @@ html {
   }
 }
 
-/* Portrait: make the artwork as tall as the phone and crop the lantern zones off-screen. */
+/* Portrait: fill the phone from top to bottom while cropping the lanterns off the sides. */
 @media (orientation: portrait) and (max-width: 760px),
        (orientation: portrait) and (hover: none) and (pointer: coarse) {
   body::before {
-    background-size: 130% 100%, 100% 100%;
+    background-size: auto 100%, 100% 100%;
     background-position: center top, center top;
   }
 }
 
-/* Landscape: show the full-width lantern frame while keeping the artwork fixed. */
+/* Landscape: keep the lanterns and full side frame visible while filling the viewport. */
 @media (orientation: landscape) and (max-height: 760px),
        (orientation: landscape) and (hover: none) and (pointer: coarse) {
   body::before {
-    background-size: 100% auto, 100% 100%;
+    background-size: 100% 100%, 100% 100%;
     background-position: center top, center top;
   }
 }
