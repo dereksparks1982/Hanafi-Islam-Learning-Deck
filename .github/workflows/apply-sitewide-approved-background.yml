@@ -1,0 +1,104 @@
+name: Apply approved background site-wide
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-sitewide-approved-background.yml'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: sitewide-approved-background
+  cancel-in-progress: false
+
+jobs:
+  apply-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply approved background and safe widths
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path('web-viewer')
+          approved = 'hanafi-home-background-approved.png?rev=20260923site'
+
+          css = root / 'styles.css'
+          text = css.read_text()
+          old = '  background: radial-gradient(circle at top, #154937 0, var(--bg) 42rem);'
+          new = '''  background-color: #03130e;\n  background-image: url("assets/%s");\n  background-position: center top;\n  background-repeat: no-repeat;\n  background-size: cover;\n  background-attachment: fixed;''' % approved
+          if old not in text:
+              raise SystemExit('Expected shared body background rule not found')
+          text = text.replace(old, new, 1)
+
+          marker = '/* Site-wide approved-background safe interior width. */'
+          if marker not in text:
+              text += '''\n\n/* Site-wide approved-background safe interior width. */\n@media (min-width: 900px) {\n  body:not(#top) .app-header,\n  body:not(#top) main,\n  body:not(#top) footer,\n  body:not(#top) .live-main,\n  body:not(#top) .media-main,\n  body:not(#top) .explore-main {\n    width: min(920px, calc(100% - 3rem));\n    margin-inline: auto;\n  }\n}\n'''
+          css.write_text(text)
+
+          qcss = root / 'quran' / 'styles.css'
+          qtext = qcss.read_text()
+          qold = '  background: radial-gradient(circle at top, #154937 0, var(--bg) 42rem);'
+          qnew = '''  background-color: #03130e;\n  background-image: url("../assets/%s");\n  background-position: center top;\n  background-repeat: no-repeat;\n  background-size: cover;\n  background-attachment: fixed;''' % approved
+          if qold not in qtext:
+              raise SystemExit('Expected Quran body background rule not found')
+          qcss.write_text(qtext.replace(qold, qnew, 1))
+
+          htmls = [
+              root / 'index.html',
+              root / 'explore' / 'index.html',
+              root / 'live' / 'index.html',
+              root / 'makkah' / 'index.html',
+              root / 'media' / 'index.html',
+          ]
+          for path in htmls:
+              h = path.read_text()
+              h2 = re.sub(r'(styles\\.css\\?release=v2\\.0&rev=)[^"&]+', r'\\g<1>20260923site', h)
+              if h2 == h:
+                  raise SystemExit(f'Could not bump shared stylesheet revision in {path}')
+              path.write_text(h2)
+
+          qindex = root / 'quran' / 'index.html'
+          h = qindex.read_text()
+          old_link = 'styles.css?release=v2.0'
+          new_link = 'styles.css?release=v2.0&rev=20260923site'
+          if old_link not in h:
+              raise SystemExit('Could not find Quran stylesheet link')
+          qindex.write_text(h.replace(old_link, new_link, 1))
+          PY
+
+          git diff --check
+
+      - name: Commit site-wide background rollout
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'Abdullāh ibn al-Malik al-Jazzār'
+          git config user.email 'dereksparks1982@gmail.com'
+          git add web-viewer/styles.css web-viewer/quran/styles.css web-viewer/index.html web-viewer/explore/index.html web-viewer/live/index.html web-viewer/makkah/index.html web-viewer/media/index.html web-viewer/quran/index.html
+          git diff --cached --quiet && exit 0
+          git commit -m 'Use approved background across web app'
+          git push origin HEAD:main
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web-viewer
+
+      - name: Deploy Pages
+        uses: actions/deploy-pages@v4
