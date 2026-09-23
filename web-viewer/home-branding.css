@@ -90,6 +90,42 @@ body#top .prayer-schedule-row strong {
   font-weight: 800;
 }
 
+/* Optional support stays at the bottom-right of Home and outside learning content. */
+body#top .home-footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+body#top .home-footer > p {
+  flex: 1 1 30rem;
+}
+
+body#top .home-patreon-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  margin-left: auto;
+  color: var(--gold);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+body#top .home-patreon-link:hover,
+body#top .home-patreon-link:focus-visible {
+  text-decoration: underline;
+}
+
+body#top .home-patreon-icon {
+  display: block;
+  width: 48px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.32);
+}
+
 /* Phone portrait: do not enlarge/crop the desktop lantern artwork. */
 @media (orientation: portrait) and (max-width: 760px) {
   body#top {
@@ -139,5 +175,9 @@ body#top .prayer-schedule-row strong {
 
   body#top .prayer-schedule-row span {
     font-size: 1.16rem;
+  }
+
+  body#top .home-patreon-icon {
+    width: 42px;
   }
 }
