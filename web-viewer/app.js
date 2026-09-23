@@ -1,4 +1,4 @@
-const RELEASE = "v1.8";
+const RELEASE = "v2.0";
 const ADHAN_VERSION = "4.4.6";
 const ADHAN_URL = `https://unpkg.com/adhan@${ADHAN_VERSION}/lib/bundles/adhan.umd.min.js`;
 const PRAYER_STORAGE_KEY = "hanafi-deck-prayer-settings-v1";
