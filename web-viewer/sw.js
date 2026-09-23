@@ -190,6 +190,22 @@ self.addEventListener("fetch", event => {
 
   if (url.origin !== self.location.origin) return;
 
+  /* Mobile background CSS is network-first so installed iOS/Android apps do not stay
+     stuck on an older cached layout rule after a styling repair. */
+  if (url.pathname.endsWith("/mobile-background.css")) {
+    event.respondWith((async () => {
+      const cache = await caches.open(SHELL_CACHE);
+      try {
+        const response = await fetch(event.request, { cache:"no-cache" });
+        if (response.ok) await cache.put(event.request, response.clone());
+        return response;
+      } catch {
+        return (await cache.match(event.request)) || Response.error();
+      }
+    })());
+    return;
+  }
+
   if (event.request.mode === "navigate") {
     event.respondWith((async () => {
       try {
