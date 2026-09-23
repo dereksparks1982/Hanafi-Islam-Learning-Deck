@@ -1,0 +1,28 @@
+/* Keep the release number in the same far top-right position as the home page. */
+.live-header-row > .live-release,
+.explore-top-row > .explore-release,
+.makkah-top-row > .makkah-release,
+.media-header-row > .media-release,
+.reader-header .header-row > .release {
+  position: absolute;
+  top: calc(.85rem + env(safe-area-inset-top, 0px));
+  right: max(1.2rem, env(safe-area-inset-right, 0px));
+  z-index: 10;
+  color: #d8b560;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: .76rem;
+  font-weight: 850;
+  letter-spacing: .08em;
+}
+
+@media (max-width: 760px) {
+  .live-header-row > .live-release,
+  .explore-top-row > .explore-release,
+  .makkah-top-row > .makkah-release,
+  .media-header-row > .media-release,
+  .reader-header .header-row > .release {
+    top: calc(.55rem + env(safe-area-inset-top, 0px));
+    right: max(.7rem, env(safe-area-inset-right, 0px));
+    font-size: .7rem;
+  }
+}
