@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Correct only the extra padding in mask chunk one
+      - name: Find the exact 24-character correction by SHA-256
         shell: bash
         run: |
           set -euo pipefail
@@ -33,19 +33,20 @@ jobs:
           assert len(chunk) == 1024, len(chunk)
           assert hashlib.sha256(chunk.encode()).hexdigest() == '62e44539015db2830d30346f1fc46cb1db6af4a7860c4ceda9f7611d27839f2c'
 
-          pattern = r'(we9a6PBdHLeCtb2awuyw)(A+)(T7hcLi4C0K6czAHtyMkc)'
-          m = re.search(pattern, chunk)
-          assert m, 'known padding run not found'
-          assert len(m.group(2)) == 73, len(m.group(2))
+          wanted = 'ba614a470ee0395333afd7577c3699635f900c8b1bf65009b7e0ad53ef34dc3d'
+          matches = []
+          for start in range(len(chunk) - 24 + 1):
+              candidate = chunk[:start] + chunk[start + 24:]
+              if hashlib.sha256(candidate.encode()).hexdigest() == wanted:
+                  matches.append((start, candidate, chunk[start:start+24]))
 
-          corrected = chunk[:m.start(2)] + ('A' * 49) + chunk[m.end(2):]
-          assert len(corrected) == 1000, len(corrected)
-          assert hashlib.sha256(corrected.encode()).hexdigest() == 'ba614a470ee0395333afd7577c3699635f900c8b1bf65009b7e0ad53ef34dc3d'
+          assert len(matches) == 1, f'expected exactly one hash match, got {len(matches)}'
+          start, corrected, removed = matches[0]
+          assert len(corrected) == 1000
+          print(f'PASS: unique correction found at offset {start}; removed={removed!r}')
 
           rest = rest[:first.start(1)] + corrected + rest[first.end(1):]
-          updated = head + 'chunks = [' + rest
-          p.write_text(updated)
-          print('PASS: corrected only the 24 extra padding characters')
+          p.write_text(head + 'chunks = [' + rest)
           PY
 
           git config user.name "Abdullāh ibn al-Malik al-Jazzār"
