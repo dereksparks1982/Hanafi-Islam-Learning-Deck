@@ -16,7 +16,12 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(circle at top, #154937 0, var(--bg) 42rem);
+  background-color: #03130e;
+  background-image: url("assets/hanafi-home-background-approved.png?rev=20260923site");
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
   color: var(--text);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -492,5 +497,19 @@ body#top {
 
   body#top .card-link {
     padding: .5rem;
+  }
+}
+
+
+/* Site-wide approved-background safe interior width. */
+@media (min-width: 900px) {
+  body:not(#top) .app-header,
+  body:not(#top) main,
+  body:not(#top) footer,
+  body:not(#top) .live-main,
+  body:not(#top) .media-main,
+  body:not(#top) .explore-main {
+    width: min(920px, calc(100% - 3rem));
+    margin-inline: auto;
   }
 }
