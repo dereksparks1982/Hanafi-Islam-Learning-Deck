@@ -1,5 +1,11 @@
 (() => {
   const STORAGE_KEY = "hanafi-deck-card-set-collapse-v1";
+  const DISPLAY_TITLES = {
+    "sacred-places": "Sacred Places",
+    "names-of-allah": "99 Names of Allah",
+    "arabic-alphabet": "Arabic Alphabet",
+    "important-places": "Important Places"
+  };
 
   const style = document.createElement("style");
   style.textContent = `
@@ -74,7 +80,7 @@
     const grid = section.querySelector(".card-grid");
     if (!heading || !title || !grid) return;
 
-    const titleText = section.id === "important-places" ? "Important Places" : title.textContent.trim();
+    const titleText = DISPLAY_TITLES[section.id] || title.textContent.trim();
     const gridId = `${section.id}-cards`;
     grid.id = gridId;
 
@@ -105,7 +111,7 @@
 
   document.querySelectorAll("#setNav a[href^='#']").forEach(link => {
     const id = link.getAttribute("href").slice(1);
-    if (id === "important-places") link.textContent = "Important Places";
+    if (DISPLAY_TITLES[id]) link.textContent = DISPLAY_TITLES[id];
 
     link.addEventListener("click", () => {
       const section = document.getElementById(id);
