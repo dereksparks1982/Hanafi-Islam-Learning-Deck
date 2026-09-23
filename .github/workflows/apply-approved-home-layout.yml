@@ -1,0 +1,107 @@
+name: Apply approved home background layout
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-approved-home-layout.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Wire approved fixed background and desktop scale
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          css_path = Path('web-viewer/styles.css')
+          css = css_path.read_text()
+
+          marker = '/* Approved fixed home background: exact uploaded artwork, page content scrolls over it. */'
+          if marker not in css:
+              css += r'''
+
+/* Approved fixed home background: exact uploaded artwork, page content scrolls over it. */
+body#top {
+  background-color: #03130e;
+  background-image: url("assets/hanafi-home-background-approved.png?rev=20260923b");
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Keep the approved side lantern/border artwork visible at normal 100% browser zoom. */
+@media (min-width: 900px) {
+  body#top .app-header,
+  body#top main,
+  body#top footer {
+    width: min(960px, calc(100% - 3rem));
+  }
+
+  body#top h1 {
+    font-size: clamp(2.15rem, 4vw, 3.55rem);
+  }
+
+  body#top .intro {
+    font-size: .98rem;
+    line-height: 1.5;
+  }
+
+  body#top .actions {
+    gap: .6rem;
+    margin-top: 1.2rem;
+  }
+
+  body#top button,
+  body#top .action-link {
+    padding: .68rem 1rem;
+  }
+
+  body#top .prayer-panel {
+    padding: 1rem;
+  }
+
+  body#top .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: .8rem;
+  }
+
+  body#top .card-link {
+    padding: .5rem;
+  }
+}
+'''
+          css_path.write_text(css)
+
+          html_path = Path('web-viewer/index.html')
+          html = html_path.read_text()
+          old = 'styles.css?release=v2.0&rev=20260923a'
+          new = 'styles.css?release=v2.0&rev=20260923b'
+          if old in html:
+              html = html.replace(old, new, 1)
+          elif new not in html:
+              raise SystemExit('Expected stylesheet revision marker not found')
+          html_path.write_text(html)
+          PY
+
+      - name: Commit only home-page wiring
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'Abdullāh ibn al-Malik al-Jazzār'
+          git config user.email 'dereksparks1982@gmail.com'
+          git add -- web-viewer/styles.css web-viewer/index.html
+          git diff --cached --check
+          git diff --cached --quiet && exit 0
+          git commit -m 'Use approved fixed home background at 100 percent zoom'
+          git push origin HEAD:main
