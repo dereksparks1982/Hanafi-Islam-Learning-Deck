@@ -1,4 +1,4 @@
-# Hanafi Learning Deck v1.9
+<h1 align="center">Hanafi Learning Deck v2.0</h1>
 
 <div align="center">
 
@@ -19,13 +19,13 @@ A growing, printable, offline-capable, and mobile-friendly library for learning 
 
 This project began with a simple problem: a learner can find thousands of isolated answers online and still struggle to find a clear path through them. The Hanafi Learning Deck tries to turn that maze into something a person can actually study, review, print, carry on a phone, verify against sources, and return to every day.
 
-> **Current published checkpoint:** **v1.9**
+> **Current published checkpoint:** **v2.0**
 >
-> **Next reserved development cycle:** **v2.0 — Live Madrasas**
+> **Next development cycle:** **v2.1 — Font Identity & Web App UI overhaul**
 >
 > **Published card library:** **209 cards across five independent sets**
 >
-> **v1.9 status:** **closed — Media: The Message (1976)**
+> **v2.0 status:** **closed — Live Madrasas, Masjids & Islamic live discovery**
 >
 > **Status:** educational study aid, still undergoing full manual audit and pending qualified imam/scholar review.
 
@@ -43,6 +43,7 @@ Everything currently being developed is kept on **`main`**. You should not need 
 - **Open Makkah Live & Prayer Clock:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/makkah/
 - **Open the Holy Places Explorer:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/explore/
 - **Open Media:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/
+- **Open Live:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/live/
 - **Qur'an Reader source and review notes:** [`quran/README.md`](quran/README.md)
 - **Qur'an transliteration standard:** [`quran/transliteration-rules.md`](quran/transliteration-rules.md)
 - **Project roadmap:** [`docs/roadmap.md`](docs/roadmap.md)
@@ -57,7 +58,7 @@ The project did not begin as an attempt to build an Islamic reference library. I
 
 The scope changed naturally as the study became more serious. Early questions led to the discovery that Sunni jurisprudence is preserved through multiple established legal schools. Rather than mix rulings without realizing it, the project adopted a consistent **Hanafi** framework. That decision led from simple answers into fiqh, source comparison, Arabic terminology, Qur'an and hadith references, legal reasoning, the history of the madhhab, and the need to distinguish a ruling from the evidence and method behind it.
 
-The result is now much more than a deck. The cards remain the project's foundation, but the wider system now includes an installable **Web App**, a Tor Mirror, a page-based Qur'an Reader, local Hanafi prayer-time tools, Makkah live broadcasting, a Cesium-based Holy Places Explorer, and a Media section. Future parts are intended to connect rather than sit as unrelated tools.
+The result is now much more than a deck. The cards remain the project's foundation, but the wider system now includes an installable **Web App**, a Tor Mirror, a page-based Qur'an Reader, local Hanafi prayer-time tools, Makkah live broadcasting, a Cesium-based Holy Places Explorer, a Media section, and the v2.0 Live directory for madrasas, masjids, and Islamic live discovery. Future parts are intended to connect rather than sit as unrelated tools.
 
 The long-term pattern is increasingly:
 
@@ -134,6 +135,7 @@ The Web App has grown beyond a card viewer. Current major areas include:
 - Makkah Live & Prayer Clock;
 - the Holy Places Explorer;
 - Media, beginning with *The Message* (1976);
+- the v2.0 Live directory for madrasas, masjids, and Islamic live discovery;
 - installable PWA/offline card support where the browser permits it.
 
 The source implementation directory is currently named `web-viewer/`, but the user-facing product is the **Web App**.
@@ -168,7 +170,7 @@ Desktop playback uses Google's embedded player. The iPhone/iPad presentation inc
 
 The English production stars Anthony Quinn, Irene Papas, and Michael Ansara. The Arabic production, **الرسالة / Al-Risalah (1976)**, uses a different principal cast, including Abdallah Gheith and Mona Wassef.
 
-The Media page also records film information and links to IMDb entries for both productions, Wikipedia, the Academy Awards record, Turner Classic Movies, and the Arabic project-copy source links.
+The Media page also records film information and links to IMDb entries for both productions, Wikipedia, the Academy Awards record, Turner Classic Movies, the Arabic project-copy source links, and an external Alexander Guitar Arabic-search listening resource.
 
 The film itself is a **third-party historical drama**. It is not Qur'an, hadith, a fatwa, or a substitute for Seerah study, and the Hanafi Learning Deck does not claim authorship or ownership of the film.
 
@@ -179,6 +181,24 @@ Better source copies of *The Message* may be hunted down and added later. Improv
 The project's owner also develops separate **Nougat** media-player work. That player work and the Hanafi Learning Deck are owner-developed projects, while any VLC/libVLC components used by Nougat remain third-party VideoLAN technology under their own licensing terms.
 
 **The current Hanafi Learning Deck movie page does not bundle VLC or libVLC.** Its present film playback is a Google Drive embed. This distinction is deliberate so the README does not imply that project-created interface/integration code makes VLC, Google Drive, or the film itself project property. If Nougat/VLC playback is later incorporated directly into this Web App, the relevant VideoLAN/VLC attribution and license information must be carried with that integration.
+
+## v2.0 Live Madrasas, Masjids & Islamic discovery — closed
+
+**v2.0 is officially closed.** The release established a dedicated Live area instead of mixing live study links into unrelated pages.
+
+Current page:
+
+https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/live/
+
+The published v2.0 Live area organizes current links into three groups:
+
+- **Madrasas**, beginning with SeekersGuidance live classes;
+- **Masjids**, including Masjid al-Haram through the internal Makkah page and selected mosque live resources;
+- **Islamic TV & discovery**, including Islam Channel Live and open discovery links where the destination itself is not represented as project-verified religious instruction.
+
+The Live area preserves the project's no-advertising principle: the Hanafi Learning Deck does not insert advertising, subscriptions, or behavioral tracking into the directory. External sites and platforms retain their own content, policies, and advertising behavior.
+
+A remote mosque livestream is treated as a viewing and study resource. It is not presented as making a remote viewer part of the local congregational prayer.
 
 ## Makkah Live & Prayer Clock
 
@@ -208,7 +228,7 @@ The project is available through both the normal Web App and a Tor mirror:
 - **Tor Mirror:** http://hanafiiix6xddzpmjxbpns5svgoujdnjwf3ky4a72rzai5mumxm4mzqd.onion/  
   A Tor-accessible mirror of the Hanafi Learning Deck. Open this address in Tor Browser. Tor Browser may restrict offline app storage, so the Tor Mirror should be treated primarily as an alternate way to access and browse the project rather than as the installable offline version.
 
-The Tor mirror tracks the current `main` Web App through the repository's mirror-update workflow; it is not a separate development branch.
+The Tor mirror is built from the same current `main` Web App. Repository script [`update-onion-mirror.sh`](update-onion-mirror.sh) performs the mirror refresh on the Tor host; the hidden service remains an alternate deployment target, not a separate development branch.
 
 ### Put the Web App on an iPhone
 
@@ -300,20 +320,21 @@ The next place is not considered approved merely because it appears on a candida
 
 ## Where the project goes next
 
-**v1.9 is officially closed and is the current published checkpoint.** The next reserved development cycle is **v2.0 — Live Madrasas**. Reservation on the roadmap is not automatic permission to begin implementation; the normal approval gate still applies.
+**v2.0 is officially closed and is the current published checkpoint.** The next development cycle is **v2.1 — Font Identity & Web App UI overhaul**.
 
-Planned work after v1.9 includes:
+The v2.1 direction currently includes:
 
-- **v2.0 — Live Madrasas**;
-- **v2.1 — Adhan playback**;
-- continued **page-by-page Qur'an Reader** construction over time;
-- stronger card-to-content linking so a card can open a relevant Qur'an passage, place, live feed, media item, source, or related card;
-- Important Places integration into the Explorer;
-- **Featured Mosque** cards for functioning mosques specifically highlighted by the project, without implying that they are sacred or historically famous;
-- Live Masjids as a live-stream/filter layer across applicable mosques;
-- deeper Hanafi jurisprudence and historical material;
-- Islamic Ruins & Lost Cities;
-- future educational games after the study tools are mature enough.
+- self-hosted **Amarante** as the first display-font experiment for titles and headers while keeping body text conservative;
+- the new Hanafi Learning Deck brand/icon identity and a richer decorative Web App surface while continuing to maintain the printer-friendly deck separately;
+- redesigned buttons and interface styling;
+- desktop density work so normal **100% browser zoom** feels closer to the comfortable information density currently seen when manually zooming out;
+- larger and more prominent prayer names and prayer times;
+- larger **Current period**, **Time until Fajr**, and **Next prayer time** labels;
+- prayer tiles linking into corresponding learning cards where appropriate;
+- the planned **Advanced Learner Library** hidden-study gate, opened from the project symbol rather than the release label;
+- continued card-to-content linking and page-by-page Qur'an Reader construction.
+
+Adhan playback remains future prayer-tool work and is no longer assigned to v2.1.
 
 The full working plan is maintained in [`docs/roadmap.md`](docs/roadmap.md).
 
@@ -377,4 +398,4 @@ A legal or rights claim should identify the exact material at issue, the person 
 
 ---
 
-**Hanafi Learning Deck · v1.9 published checkpoint**
+**Hanafi Learning Deck · v2.0 published checkpoint**
