@@ -15,6 +15,34 @@
   letter-spacing: .08em;
 }
 
+/* Phone portrait: use the clean green treatment instead of zooming the desktop frame. */
+@media (orientation: portrait) and (max-width: 760px) {
+  body {
+    background-color: #03130e !important;
+    background-image:
+      radial-gradient(ellipse at 50% 0%, rgba(28,109,73,.38) 0, rgba(7,49,35,.24) 18rem, transparent 34rem),
+      linear-gradient(180deg, #06271c 0, #031a13 34rem, #02110d 100%) !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+    background-size: auto !important;
+    background-attachment: scroll !important;
+  }
+}
+
+/* Phone landscape: restore the approved lantern frame, fitted to viewport width. */
+@media (orientation: landscape) and (max-height: 600px) and (max-width: 1000px) {
+  body {
+    background-color: #03130e !important;
+    background-image:
+      url("assets/hanafi-home-background-approved.png?rev=20260923b"),
+      linear-gradient(180deg, #06271c 0, #031a13 34rem, #02110d 100%) !important;
+    background-position: center top, center top !important;
+    background-repeat: no-repeat, no-repeat !important;
+    background-size: 100% auto, auto !important;
+    background-attachment: scroll !important;
+  }
+}
+
 @media (max-width: 760px) {
   .live-header-row > .live-release,
   .explore-top-row > .explore-release,
