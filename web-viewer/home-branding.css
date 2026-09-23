@@ -69,7 +69,14 @@ body#top h3 {
   font-weight: 400;
 }
 
-/* Prayer names should lead visually; times remain clear but secondary. */
+/* The three primary prayer-clock values share one clear visual weight. */
+body#top .prayer-clock-cell strong,
+body#top .prayer-countdown {
+  font-size: clamp(1.45rem, 3vw, 1.85rem) !important;
+  line-height: 1.12;
+}
+
+/* Prayer names in the six-time schedule lead visually; times remain secondary. */
 body#top .prayer-schedule-row span {
   font-size: 1.2rem;
   font-weight: 850;
@@ -81,6 +88,34 @@ body#top .prayer-schedule-row strong {
   margin-top: .18rem;
   font-size: .92rem;
   font-weight: 800;
+}
+
+/* Phone portrait: do not enlarge/crop the desktop lantern artwork. */
+@media (orientation: portrait) and (max-width: 760px) {
+  body#top {
+    background-color: #03130e;
+    background-image:
+      radial-gradient(ellipse at 50% 0%, rgba(28,109,73,.38) 0, rgba(7,49,35,.24) 18rem, transparent 34rem),
+      linear-gradient(180deg, #06271c 0, #031a13 34rem, #02110d 100%);
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-attachment: scroll;
+  }
+}
+
+/* Phone landscape: there is enough width to show the lantern frame again. */
+@media (orientation: landscape) and (max-height: 600px) and (max-width: 1000px) {
+  body#top {
+    background-color: #03130e;
+    background-image:
+      url("assets/hanafi-home-background-approved.png?rev=20260923b"),
+      linear-gradient(180deg, #06271c 0, #031a13 34rem, #02110d 100%);
+    background-position: center top, center top;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 100% auto, auto;
+    background-attachment: scroll;
+  }
 }
 
 @media (max-width: 760px) {
