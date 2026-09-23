@@ -74,7 +74,7 @@
     const grid = section.querySelector(".card-grid");
     if (!heading || !title || !grid) return;
 
-    const titleText = title.textContent.trim();
+    const titleText = section.id === "important-places" ? "Important Places" : title.textContent.trim();
     const gridId = `${section.id}-cards`;
     grid.id = gridId;
 
@@ -104,8 +104,10 @@
   });
 
   document.querySelectorAll("#setNav a[href^='#']").forEach(link => {
+    const id = link.getAttribute("href").slice(1);
+    if (id === "important-places") link.textContent = "Important Places";
+
     link.addEventListener("click", () => {
-      const id = link.getAttribute("href").slice(1);
       const section = document.getElementById(id);
       if (!section) return;
       setCollapsed(section, false);
