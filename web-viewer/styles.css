@@ -146,8 +146,9 @@ button:disabled { opacity: .62; cursor: progress; }
 .prayer-clock-cell strong {
   display: block;
   margin-top: .3rem;
-  color: var(--text);
+  color: var(--gold);
   font-size: 1.15rem;
+  font-weight: 800;
 }
 
 .prayer-countdown-cell {
@@ -244,12 +245,15 @@ button:disabled { opacity: .62; cursor: progress; }
 }
 
 .prayer-schedule-row span {
-  color: var(--muted);
+  color: var(--gold);
   font-size: .76rem;
+  font-weight: 800;
 }
 
 .prayer-schedule-row strong {
+  color: var(--gold);
   font-size: .93rem;
+  font-weight: 800;
   font-variant-numeric: tabular-nums;
 }
 
@@ -320,6 +324,11 @@ button:disabled { opacity: .62; cursor: progress; }
   object-fit: contain;
   border-radius: 10px;
   background: #f5f0e5;
+}
+#main-deck .card-link:first-child img {
+  aspect-ratio: auto;
+  object-fit: initial;
+  background: transparent;
 }
 .card-label {
   display: block;
