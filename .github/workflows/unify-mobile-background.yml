@@ -41,10 +41,11 @@ jobs:
           js = script.read_text(encoding='utf-8')
           reveal = '\n\n  document.getElementById("setNav")?.classList.remove("card-layout-pending");\n  document.getElementById("library")?.classList.remove("card-layout-pending");\n'
           if 'classList.remove("card-layout-pending")' not in js:
-              close = '\n})();\n'
-              if close not in js:
+              close = '})();'
+              stripped = js.rstrip()
+              if not stripped.endswith(close):
                   raise SystemExit('card-set-collapse IIFE ending not found')
-              js = js.replace(close, reveal + close, 1)
+              js = stripped[:-len(close)] + reveal + close + '\n'
               script.write_text(js, encoding='utf-8')
           PY
 
