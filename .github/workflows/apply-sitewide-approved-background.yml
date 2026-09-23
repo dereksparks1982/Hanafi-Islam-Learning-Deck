@@ -65,7 +65,7 @@ jobs:
           ]
           for path in htmls:
               h = path.read_text()
-              h2 = re.sub(r'(styles\\.css\\?release=v2\\.0&rev=)[^"&]+', r'\\g<1>20260923site', h)
+              h2 = re.sub(r'(styles\.css\?release=v2\.0&rev=)[^"&]+', r'\g<1>20260923site', h)
               if h2 == h:
                   raise SystemExit(f'Could not bump shared stylesheet revision in {path}')
               path.write_text(h2)
