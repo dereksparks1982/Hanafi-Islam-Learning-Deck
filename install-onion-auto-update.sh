@@ -9,6 +9,8 @@ INSTALL_DIR="/usr/local/lib/hanafi-learning-deck"
 INSTALLED_UPDATER="$INSTALL_DIR/update-onion-mirror.sh"
 RUN_USER="${SUDO_USER:-$USER}"
 RUN_HOME="$(getent passwd "$RUN_USER" | cut -d: -f6)"
+RUN_UID="$(id -u "$RUN_USER")"
+SSH_AGENT_SOCKET="/run/user/$RUN_UID/gcr/ssh"
 
 if [[ ! -f "$SOURCE_UPDATER" ]]; then
   echo "ERROR: update-onion-mirror.sh was not found beside this installer." >&2
@@ -20,9 +22,15 @@ if [[ -z "$RUN_HOME" ]]; then
   exit 1
 fi
 
-# The service runs as the normal project owner so GitHub SSH uses that user's
-# SSH configuration. update-onion-mirror.sh itself uses sudo for the web-root
-# and nginx steps, so unattended sudo must already be available.
+if [[ ! -S "$SSH_AGENT_SOCKET" ]]; then
+  echo "ERROR: the desktop SSH agent socket is not available at $SSH_AGENT_SOCKET." >&2
+  echo "Log into the desktop session so the GCR SSH agent is running, then rerun this installer." >&2
+  exit 1
+fi
+
+# The service runs as the normal project owner and deliberately reuses that
+# user's GCR SSH agent. This matches the SSH path verified interactively for
+# GitHub access without copying or exposing private keys.
 if ! sudo -n true 2>/dev/null; then
   echo "ERROR: unattended sudo is not available for $RUN_USER." >&2
   echo "The automatic Tor updater will not be installed because systemd cannot answer a sudo password prompt." >&2
@@ -41,11 +49,13 @@ cat >"$SERVICE_FILE" <<EOF
 Description=Update Hanafi Learning Deck Tor mirror from GitHub main
 Wants=network-online.target
 After=network-online.target tor@default.service nginx.service
+ConditionPathIsSocket=$SSH_AGENT_SOCKET
 
 [Service]
 Type=oneshot
 User=$RUN_USER
 Environment="HOME=$RUN_HOME"
+Environment="SSH_AUTH_SOCK=$SSH_AGENT_SOCKET"
 WorkingDirectory=$RUN_HOME
 ExecStart=/usr/bin/bash "$INSTALLED_UPDATER"
 EOF
@@ -79,6 +89,7 @@ echo "PASS: automatic Tor mirror updates are installed."
 echo "Timer: $TIMER_NAME"
 echo "Schedule: on boot, then every 5 minutes."
 echo "Installed updater: $INSTALLED_UPDATER"
+echo "SSH agent: $SSH_AGENT_SOCKET"
 echo "Source: GitHub main via SSH"
 echo
 sudo systemctl status "$TIMER_NAME" --no-pager -l
