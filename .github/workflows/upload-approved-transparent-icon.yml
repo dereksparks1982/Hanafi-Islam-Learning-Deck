@@ -25,7 +25,8 @@ jobs:
           dest="web-viewer/assets/hanafi-learning-deck-icon-approved.png"
           tmp="${dest}.download"
           mkdir -p "$(dirname "$dest")"
-          curl -L --fail --retry 3 --retry-delay 1 -A "Mozilla/5.0" "https://drive.usercontent.google.com/download?id=1RNadgbTbKy4kXvyJ4JpieXnwVrJViu77&export=download&confirm=t" -o "$tmp"
+          python3 -m pip install --quiet gdown
+          python3 -m gdown "https://drive.google.com/uc?id=1RNadgbTbKy4kXvyJ4JpieXnwVrJViu77" -O "$tmp"
           file "$tmp"
           actual_size="$(wc -c < "$tmp" | tr -d ' ')"
           actual_sha="$(sha256sum "$tmp" | awk '{print $1}')"
