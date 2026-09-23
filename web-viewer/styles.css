@@ -327,9 +327,10 @@ button:disabled { opacity: .62; cursor: progress; }
   background: #f5f0e5;
 }
 #main-deck .card-link:first-child img {
-  aspect-ratio: auto;
-  object-fit: initial;
-  background: transparent;
+  aspect-ratio: 5 / 7;
+  object-fit: cover;
+  object-position: center;
+  background: #f5f0e5;
 }
 .card-label {
   display: block;
