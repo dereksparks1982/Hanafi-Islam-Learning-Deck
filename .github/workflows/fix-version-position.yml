@@ -1,0 +1,88 @@
+name: Fix interior version position
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/fix-version-position.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+      - name: Patch version placement
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cat >> web-viewer/styles.css <<'EOF'
+
+/* Interior version placement: match home page. */
+.live-header-row > .live-release,
+.media-header-row > .media-release,
+.explore-top-row > .explore-release,
+.makkah-top-row > .makkah-release {
+  position: absolute;
+  top: calc(.85rem + env(safe-area-inset-top, 0px));
+  right: max(1.2rem, env(safe-area-inset-right, 0px));
+  z-index: 10;
+  color: var(--gold);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: .76rem;
+  font-weight: 850;
+  letter-spacing: .08em;
+}
+
+@media (max-width: 760px) {
+  .live-header-row > .live-release,
+  .media-header-row > .media-release,
+  .explore-top-row > .explore-release,
+  .makkah-top-row > .makkah-release {
+    top: calc(.55rem + env(safe-area-inset-top, 0px));
+    right: max(.7rem, env(safe-area-inset-right, 0px));
+    font-size: .7rem;
+  }
+}
+EOF
+
+          cat >> web-viewer/quran/styles.css <<'EOF'
+
+/* Qur'an version placement: match home page. */
+.header-row > .release {
+  position: absolute;
+  top: calc(.85rem + env(safe-area-inset-top, 0px));
+  right: max(1.2rem, env(safe-area-inset-right, 0px));
+  z-index: 10;
+  color: var(--gold);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: .76rem;
+  font-weight: 850;
+  letter-spacing: .08em;
+}
+
+@media (max-width: 760px) {
+  .header-row > .release {
+    top: calc(.55rem + env(safe-area-inset-top, 0px));
+    right: max(.7rem, env(safe-area-inset-right, 0px));
+    font-size: .7rem;
+  }
+}
+EOF
+
+          for page in web-viewer/live/index.html web-viewer/explore/index.html web-viewer/makkah/index.html web-viewer/media/index.html; do
+            sed -i 's/rev=20260923site/rev=20260923version/' "$page"
+          done
+          sed -i 's/rev=20260923site/rev=20260923version/' web-viewer/quran/index.html
+
+          git diff --check
+          git config user.name "Abdullāh ibn al-Malik al-Jazzār"
+          git config user.email "dereksparks1982@gmail.com"
+          git add web-viewer/styles.css web-viewer/quran/styles.css web-viewer/live/index.html web-viewer/explore/index.html web-viewer/makkah/index.html web-viewer/media/index.html web-viewer/quran/index.html
+          git commit -m "Align interior version labels with home"
+          git push origin HEAD:main
