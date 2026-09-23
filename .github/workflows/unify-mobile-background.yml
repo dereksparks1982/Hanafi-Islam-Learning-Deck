@@ -24,33 +24,22 @@ jobs:
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
-
           index = Path('web-viewer/index.html')
           text = index.read_text(encoding='utf-8')
-
           marker = '  <link rel="stylesheet" href="mobile-background.css?rev=20260923mobile1">\n'
-          anti_flash = '''  <style>
-    #setNav.card-layout-pending,
-    #library.card-layout-pending { visibility: hidden; }
-  </style>
-'''
+          anti_flash = '  <style>\n    #setNav.card-layout-pending,\n    #library.card-layout-pending { visibility: hidden; }\n  </style>\n'
           if 'card-layout-pending' not in text:
               if marker not in text:
                   raise SystemExit('mobile stylesheet marker not found in Home')
               text = text.replace(marker, marker + anti_flash, 1)
               text = text.replace('id="setNav" class="set-nav"', 'id="setNav" class="set-nav card-layout-pending"', 1)
               text = text.replace('id="library" class="library"', 'id="library" class="library card-layout-pending"', 1)
-
           text = text.replace('card-set-collapse.js?rev=20260923c', 'card-set-collapse.js?rev=20260923d')
           index.write_text(text, encoding='utf-8')
 
           script = Path('web-viewer/card-set-collapse.js')
           js = script.read_text(encoding='utf-8')
-          reveal = '''
-
-  document.getElementById("setNav")?.classList.remove("card-layout-pending");
-  document.getElementById("library")?.classList.remove("card-layout-pending");
-'''
+          reveal = '\n\n  document.getElementById("setNav")?.classList.remove("card-layout-pending");\n  document.getElementById("library")?.classList.remove("card-layout-pending");\n'
           if 'classList.remove("card-layout-pending")' not in js:
               close = '\n})();\n'
               if close not in js:
