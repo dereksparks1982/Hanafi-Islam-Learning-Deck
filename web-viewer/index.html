@@ -9,18 +9,18 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Hanafi Deck">
   <title>Hanafi Learning Deck</title>
-  <link rel="manifest" href="manifest.webmanifest?release=v1.8">
-  <link rel="icon" href="icon.svg?release=v1.8" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon-192.png?release=v1.8">
-  <link rel="stylesheet" href="styles.css?release=v1.8">
+  <link rel="manifest" href="manifest.webmanifest?release=v2.0">
+  <link rel="icon" href="icon.svg?release=v2.0" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-192.png?release=v2.0">
+  <link rel="stylesheet" href="styles.css?release=v2.0">
   <link rel="stylesheet" href="city-picker.css?rev=20260922a">
 </head>
-<body>
+<body id="top">
   <header class="app-header">
     <div>
       <p class="eyebrow">Hanafi Learning Deck · v2.0</p>
       <h1>Carry your deck with you.</h1>
-      <p class="intro">Browse the current card library online, open the Qur'an Reader, explore holy places, check local prayer times, or use the new Live Madrasas & Masjids directory for Makkah Live and other broadcasts.</p>
+      <p class="intro">Browse the current card library online, open the Qur'an Reader, explore holy places, check local prayer times, or use the Live Madrasas & Masjids directory for Makkah Live and other broadcasts.</p>
     </div>
     <div class="actions" aria-label="Web App actions">
       <a class="secondary action-link" href="quran/">Open Qur'an Reader</a>
@@ -58,7 +58,7 @@
     <section class="prayer-panel" aria-labelledby="prayerHeading">
       <div class="prayer-heading-row">
         <div>
-          <p class="eyebrow">Local salah clock · v1.8 prototype</p>
+          <p class="eyebrow">Local salah clock</p>
           <h2 id="prayerHeading">Next prayer</h2>
           <p id="prayerLocation" class="prayer-location">Location not set yet.</p>
         </div>
@@ -134,6 +134,10 @@
 
     <nav id="setNav" class="set-nav" aria-label="Card sets"></nav>
     <section id="library" class="library" aria-live="polite"></section>
+
+    <div class="back-to-top">
+      <a class="secondary action-link" href="#top">↑ Back to top</a>
+    </div>
   </main>
 
   <footer>
@@ -148,8 +152,9 @@
       if (isiOS && !standalone) document.getElementById("iosInstallHint").hidden = false;
     })();
   </script>
-  <script src="app.js?release=v1.8" defer></script>
+  <script src="app.js?release=v2.0" defer></script>
   <script src="city-picker.js?rev=20260922a" defer></script>
   <script src="card-set-collapse.js?rev=20260922a" defer></script>
+  <script src="card-viewer.js?release=v2.0" defer></script>
 </body>
 </html>
