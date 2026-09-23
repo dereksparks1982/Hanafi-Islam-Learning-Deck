@@ -1,0 +1,121 @@
+name: Unify mobile background
+
+on:
+  push:
+    paths:
+      - '.github/workflows/unify-mobile-background.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply-mobile-background:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Apply one mobile background system
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          rev = '20260923mobile1'
+          css = '''/* Shared phone background behavior for the entire Hanafi Learning Deck Web App.
+             The approved artwork is never modified; this file only controls how it is displayed. */
+
+          html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+          }
+
+          /* Phones and touch-first mobile devices use one orientation-independent treatment. */
+          @media (max-width: 760px), (hover: none) and (pointer: coarse) {
+            html {
+              background: #03130e;
+            }
+
+            body {
+              position: relative;
+              isolation: isolate;
+              min-height: 100dvh;
+              background-color: #03130e !important;
+              background-image: none !important;
+              background-attachment: scroll !important;
+              overflow-x: clip;
+            }
+
+            /* A fixed layer is used instead of background-attachment: fixed because iOS Safari
+               does not keep body backgrounds reliably pinned while scrolling or rotating. */
+            body::before {
+              content: "";
+              position: fixed;
+              inset: 0;
+              z-index: -1;
+              pointer-events: none;
+              background-color: #03130e;
+              background-image:
+                url("assets/hanafi-home-background-approved.png?rev=20260923mobile1"),
+                linear-gradient(180deg, #06271c 0, #031a13 34rem, #02110d 100%);
+              background-position: center top, center top;
+              background-repeat: no-repeat, no-repeat;
+              background-size: 100% auto, 100% 100%;
+            }
+
+            /* Keep page titles from growing dramatically merely because the phone rotates. */
+            body h1 {
+              font-size: clamp(2.1rem, 10vmin, 3.35rem) !important;
+            }
+          }
+          '''
+          Path('web-viewer/mobile-background.css').write_text(css, encoding='utf-8')
+
+          pages = {
+              Path('web-viewer/index.html'): f'  <link rel="stylesheet" href="mobile-background.css?rev={rev}">\n',
+              Path('web-viewer/quran/index.html'): f'  <link rel="stylesheet" href="../mobile-background.css?rev={rev}">\n',
+              Path('web-viewer/media/index.html'): f'  <link rel="stylesheet" href="../mobile-background.css?rev={rev}">\n',
+              Path('web-viewer/explore/index.html'): f'  <link rel="stylesheet" href="../mobile-background.css?rev={rev}">\n',
+              Path('web-viewer/live/index.html'): f'  <link rel="stylesheet" href="../mobile-background.css?rev={rev}">\n',
+              Path('web-viewer/makkah/index.html'): f'  <link rel="stylesheet" href="../mobile-background.css?rev={rev}">\n',
+          }
+
+          for path, link in pages.items():
+              text = path.read_text(encoding='utf-8')
+              if 'mobile-background.css?' not in text:
+                  if '</head>' not in text:
+                      raise SystemExit(f'missing </head> in {path}')
+                  text = text.replace('</head>', link + '</head>', 1)
+                  path.write_text(text, encoding='utf-8')
+
+          sw = Path('web-viewer/sw.js')
+          text = sw.read_text(encoding='utf-8')
+          shell_entry = f'  `./mobile-background.css?rev={rev}`,\n'
+          if 'mobile-background.css?' not in text:
+              needle = '  `./styles.css?release=${RELEASE}`,\n'
+              if needle not in text:
+                  raise SystemExit('styles.css shell entry not found')
+              text = text.replace(needle, needle + shell_entry, 1)
+              sw.write_text(text, encoding='utf-8')
+
+          for path, _ in pages.items():
+              text = path.read_text(encoding='utf-8')
+              if f'mobile-background.css?rev={rev}' not in text:
+                  raise SystemExit(f'mobile stylesheet missing from {path}')
+          PY
+
+      - name: Commit unified mobile background
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'Abdullāh ibn al-Malik al-Jazzār'
+          git config user.email 'dereksparks1982@gmail.com'
+          git add web-viewer/mobile-background.css web-viewer/index.html web-viewer/quran/index.html web-viewer/media/index.html web-viewer/explore/index.html web-viewer/live/index.html web-viewer/makkah/index.html web-viewer/sw.js
+          git diff --cached --check
+          git diff --cached --quiet && exit 0
+          git commit -m 'Unify mobile background across web app'
+          git push origin HEAD:main
