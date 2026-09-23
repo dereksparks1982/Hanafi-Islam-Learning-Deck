@@ -14,6 +14,7 @@
     .media-header-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     .media-release{color:#d8b560;font-weight:700}
     .media-tabs{display:flex;gap:.65rem;flex-wrap:wrap;margin:1rem 0 0}
+    .media-tab[aria-selected="true"]{background:#d8b560;color:#172017;border-color:#d8b560}
     .media-category{margin-top:1.5rem;scroll-margin-top:1rem}
     .media-category-heading{margin:.1rem 0 .35rem}
     .media-category-intro{margin:.2rem 0 1rem;color:#d8d2c2;line-height:1.6}
@@ -37,6 +38,7 @@
     .media-fact strong{display:block;color:#d8b560;margin-bottom:.2rem}
     .media-sources{padding-left:1.25rem}
     .media-sources li{margin:.4rem 0}
+    .media-back-top{margin:1.5rem 0 0}
     [hidden]{display:none!important}
 
     /* iPhone/iPad: give the Google player a desktop-sized internal viewport, then scale it down. */
@@ -57,20 +59,20 @@
 <body id="top">
   <header class="app-header">
     <div class="media-header-row">
-      <a class="secondary action-link" href="../">← Web App</a>
+      <a class="secondary action-link" href="../">← Home</a>
       <span class="media-release">v2.0</span>
     </div>
     <p class="eyebrow">Hanafi Learning Deck</p>
     <h1>Media</h1>
     <p class="intro">Video and audio resources gathered in one place for study, listening, and Islamic cultural material.</p>
-    <nav class="media-tabs" aria-label="Media sections">
-      <a class="secondary action-link" href="#video">Video</a>
-      <a class="secondary action-link" href="#audio">Audio</a>
+    <nav class="media-tabs" role="tablist" aria-label="Media sections">
+      <button id="videoTab" class="secondary media-tab" type="button" role="tab" aria-selected="true" aria-controls="video">Video</button>
+      <button id="audioTab" class="secondary media-tab" type="button" role="tab" aria-selected="false" aria-controls="audio">Audio</button>
     </nav>
   </header>
 
   <main class="media-main">
-    <section id="video" class="media-category" aria-labelledby="videoHeading">
+    <section id="video" class="media-category" role="tabpanel" aria-labelledby="videoTab">
       <p class="eyebrow">Video</p>
       <h2 id="videoHeading" class="media-category-heading">Video</h2>
       <p class="media-category-intro">Films, documentaries, lectures, and other visual material. The current library begins with <em>The Message</em> (1976).</p>
@@ -148,11 +150,9 @@
           <li><a href="https://www.youtube.com/watch?v=68tXNyXu3WA" target="_blank" rel="noopener noreferrer">Arabic 480p copy provenance · original YouTube source used for this project copy</a></li>
         </ul>
       </section>
-
-      <p><a class="secondary action-link" href="#top">↑ Back to top</a></p>
     </section>
 
-    <section id="audio" class="media-category media-info" aria-labelledby="audioHeading">
+    <section id="audio" class="media-category media-info" role="tabpanel" aria-labelledby="audioTab" hidden>
       <p class="eyebrow">Audio</p>
       <h2 id="audioHeading">Audio</h2>
       <p>Arabic listening, music, recitation, spoken material, and other audio resources will live here so they remain easy to find.</p>
@@ -172,9 +172,9 @@
         <li><a href="https://yaqeeninstitute.org/listen/quran-30-for-30-season-2" target="_blank" rel="noopener noreferrer"><strong>Qur'an 30 for 30</strong></a> · Qur'an reflections · Seerah</li>
         <li><a href="https://www.cambridgemuslimcollege.ac.uk/campaigns/media/" target="_blank" rel="noopener noreferrer"><strong>Cambridge Muslim College Media</strong></a> · Audio lectures · Islamic Studies</li>
       </ul>
-
-      <p><a class="secondary action-link" href="#top">↑ Back to top</a></p>
     </section>
+
+    <p class="media-back-top"><a class="secondary action-link" href="#top">↑ Back to top</a></p>
   </main>
 
   <footer>
@@ -225,6 +225,10 @@
       const englishButton = document.getElementById("englishVersion");
       const arabicButton = document.getElementById("arabicVersion");
       const qualitySwitch = document.getElementById("qualitySwitch");
+      const videoTab = document.getElementById("videoTab");
+      const audioTab = document.getElementById("audioTab");
+      const videoSection = document.getElementById("video");
+      const audioSection = document.getElementById("audio");
 
       let selectedLanguage = "english";
       let selectedQuality = versions.english.defaultQuality;
@@ -232,6 +236,15 @@
 
       function setPressed(button, active) {
         button.setAttribute("aria-pressed", String(active));
+      }
+
+      function showMediaSection(section) {
+        const showVideo = section === "video";
+        videoSection.hidden = !showVideo;
+        audioSection.hidden = showVideo;
+        videoTab.setAttribute("aria-selected", String(showVideo));
+        audioTab.setAttribute("aria-selected", String(!showVideo));
+        if (showVideo && isIOS) window.setTimeout(sizeIOSDriveFrame, 0);
       }
 
       function currentSelection() {
@@ -316,11 +329,14 @@
         window.setTimeout(sizeIOSDriveFrame, 0);
       }
 
+      videoTab.addEventListener("click", () => showMediaSection("video"));
+      audioTab.addEventListener("click", () => showMediaSection("audio"));
       fullscreenButton.addEventListener("click", () => setIOSFullscreen(!iosFullscreen));
       exitFullscreenButton.addEventListener("click", () => setIOSFullscreen(false));
       englishButton.addEventListener("click", () => selectLanguage("english"));
       arabicButton.addEventListener("click", () => selectLanguage("arabic"));
 
+      showMediaSection("video");
       renderQualityButtons();
     })();
   </script>
