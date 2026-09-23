@@ -119,4 +119,8 @@
       setCollapsed(section, false);
     });
   });
+
+
+  document.getElementById("setNav")?.classList.remove("card-layout-pending");
+  document.getElementById("library")?.classList.remove("card-layout-pending");
 })();

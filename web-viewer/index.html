@@ -19,6 +19,10 @@
   <link rel="stylesheet" href="city-picker.css?rev=20260922a">
   <link rel="stylesheet" href="home-branding.css?rev=20260923c">
   <link rel="stylesheet" href="mobile-background.css?rev=20260923mobile1">
+  <style>
+    #setNav.card-layout-pending,
+    #library.card-layout-pending { visibility: hidden; }
+  </style>
 </head>
 <body id="top">
   <header class="app-header home-header">
@@ -150,8 +154,8 @@
       <p class="prayer-source">Prayer calculations use <strong>Adhan JS 4.4.6</strong> by Batoul Apps under the MIT License. Calculation conventions differ by region, so the method can be changed to match a trusted local timetable.</p>
     </section>
 
-    <nav id="setNav" class="set-nav" aria-label="Card sets"></nav>
-    <section id="library" class="library" aria-live="polite"></section>
+    <nav id="setNav" class="set-nav card-layout-pending" aria-label="Card sets"></nav>
+    <section id="library" class="library card-layout-pending" aria-live="polite"></section>
 
     <div class="back-to-top">
       <a class="secondary action-link" href="#top">↑ Back to top</a>
@@ -178,7 +182,7 @@
   </script>
   <script src="app.js?release=v2.0" defer></script>
   <script src="city-picker.js?rev=20260922a" defer></script>
-  <script src="card-set-collapse.js?rev=20260923c" defer></script>
+  <script src="card-set-collapse.js?rev=20260923d" defer></script>
   <script src="card-viewer.js?release=v2.0" defer></script>
 </body>
 </html>
