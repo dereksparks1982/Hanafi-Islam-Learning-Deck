@@ -1,0 +1,127 @@
+name: Fix interior version position
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/fix-version-position.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Match interior version labels to home page
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          shared = Path('web-viewer/styles.css')
+          text = shared.read_text(encoding='utf-8')
+          marker = '/* Interior version placement: match home page. */'
+          assert marker not in text
+          block = r'''
+
+/* Interior version placement: match home page. */
+.live-header-row > .live-release,
+.media-header-row > .media-release,
+.explore-top-row > .explore-release,
+.makkah-top-row > .makkah-release {
+  position: absolute;
+  top: calc(.85rem + env(safe-area-inset-top, 0px));
+  right: max(1.2rem, env(safe-area-inset-right, 0px));
+  z-index: 10;
+  color: var(--gold);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: .76rem;
+  font-weight: 850;
+  letter-spacing: .08em;
+}
+
+@media (max-width: 760px) {
+  .live-header-row > .live-release,
+  .media-header-row > .media-release,
+  .explore-top-row > .explore-release,
+  .makkah-top-row > .makkah-release {
+    top: calc(.55rem + env(safe-area-inset-top, 0px));
+    right: max(.7rem, env(safe-area-inset-right, 0px));
+    font-size: .7rem;
+  }
+}
+'''
+          shared.write_text(text.rstrip() + block + '\n', encoding='utf-8')
+
+          quran = Path('web-viewer/quran/styles.css')
+          text = quran.read_text(encoding='utf-8')
+          qmarker = '/* Qur’an version placement: match home page. */'
+          assert qmarker not in text
+          qblock = r'''
+
+/* Qur’an version placement: match home page. */
+.header-row > .release {
+  position: absolute;
+  top: calc(.85rem + env(safe-area-inset-top, 0px));
+  right: max(1.2rem, env(safe-area-inset-right, 0px));
+  z-index: 10;
+  color: var(--gold);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: .76rem;
+  font-weight: 850;
+  letter-spacing: .08em;
+}
+
+@media (max-width: 760px) {
+  .header-row > .release {
+    top: calc(.55rem + env(safe-area-inset-top, 0px));
+    right: max(.7rem, env(safe-area-inset-right, 0px));
+    font-size: .7rem;
+  }
+}
+'''
+          quran.write_text(text.rstrip() + qblock + '\n', encoding='utf-8')
+
+          shared_pages = [
+              Path('web-viewer/live/index.html'),
+              Path('web-viewer/explore/index.html'),
+              Path('web-viewer/makkah/index.html'),
+              Path('web-viewer/media/index.html'),
+          ]
+          old = '../styles.css?release=v2.0&rev=20260923site'
+          new = '../styles.css?release=v2.0&rev=20260923version'
+          for path in shared_pages:
+              html = path.read_text(encoding='utf-8')
+              assert html.count(old) == 1, (path, html.count(old))
+              path.write_text(html.replace(old, new, 1), encoding='utf-8')
+
+          path = Path('web-viewer/quran/index.html')
+          html = path.read_text(encoding='utf-8')
+          old = 'styles.css?release=v2.0&rev=20260923site'
+          new = 'styles.css?release=v2.0&rev=20260923version'
+          assert html.count(old) == 1, html.count(old)
+          path.write_text(html.replace(old, new, 1), encoding='utf-8')
+          PY
+
+          expected=$(printf '%s\n' \
+            web-viewer/explore/index.html \
+            web-viewer/live/index.html \
+            web-viewer/makkah/index.html \
+            web-viewer/media/index.html \
+            web-viewer/quran/index.html \
+            web-viewer/quran/styles.css \
+            web-viewer/styles.css)
+          actual=$(git diff --name-only | sort)
+          test "$actual" = "$expected"
+
+          git diff --check
+          git config user.name "Abdullāh ibn al-Malik al-Jazzār"
+          git config user.email "dereksparks1982@gmail.com"
+          git add -- web-viewer/styles.css web-viewer/quran/styles.css web-viewer/live/index.html web-viewer/explore/index.html web-viewer/makkah/index.html web-viewer/media/index.html web-viewer/quran/index.html
+          git commit -m "Align interior version labels with home"
+          git push origin HEAD:main
