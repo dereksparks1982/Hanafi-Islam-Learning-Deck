@@ -1,4 +1,4 @@
-const RELEASE = "v1.8";
+const RELEASE = "v2.0";
 const CACHE_PREFIX = "hanafi-deck-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}`;
 const CARD_CACHE = `${CACHE_PREFIX}cards-${RELEASE}`;
@@ -8,6 +8,7 @@ const SHELL = [
   `./index.html?release=${RELEASE}`,
   `./styles.css?release=${RELEASE}`,
   `./app.js?release=${RELEASE}`,
+  `./card-viewer.js?release=${RELEASE}`,
   `./manifest.webmanifest?release=${RELEASE}`,
   `./icon.svg?release=${RELEASE}`,
   `./icon-192.png?release=${RELEASE}`,
@@ -20,6 +21,7 @@ const SHELL = [
   `./makkah/styles.css?release=${RELEASE}`,
   `./makkah/app.js?release=${RELEASE}`,
   `./live/index.html?release=${RELEASE}`,
+  `./media/index.html?release=${RELEASE}`,
   `./explore/index.html?release=${RELEASE}`,
   `./explore/styles.css?release=${RELEASE}`,
   `./explore/app.js?release=${RELEASE}`
@@ -147,6 +149,13 @@ async function offlineNavigationFallback(url) {
   const isLive = url.pathname.endsWith("/live/") || url.pathname.endsWith("/live/index.html");
   if (isLive) {
     return (await caches.match(`./live/index.html?release=${RELEASE}`)) ||
+      (await caches.match(`./index.html?release=${RELEASE}`)) ||
+      (await caches.match("./"));
+  }
+
+  const isMedia = url.pathname.endsWith("/media/") || url.pathname.endsWith("/media/index.html");
+  if (isMedia) {
+    return (await caches.match(`./media/index.html?release=${RELEASE}`)) ||
       (await caches.match(`./index.html?release=${RELEASE}`)) ||
       (await caches.match("./"));
   }
