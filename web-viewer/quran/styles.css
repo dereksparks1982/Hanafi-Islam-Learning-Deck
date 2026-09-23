@@ -31,7 +31,7 @@ footer {
   margin-inline: auto;
 }
 
-.reader-header { padding: 2rem 0 1.25rem; }
+.reader-header { padding: calc(2rem + env(safe-area-inset-top, 0px)) 0 1.25rem; }
 .header-row,
 .source-heading-row,
 .page-controls,
@@ -87,7 +87,7 @@ h2 { margin: .1rem 0 0; }
 
 .reader-toolbar {
   position: sticky;
-  top: 0;
+  top: env(safe-area-inset-top, 0px);
   z-index: 5;
   display: grid;
   gap: .8rem;
@@ -211,7 +211,7 @@ button:disabled { opacity: .42; cursor: not-allowed; }
 }
 footer {
   border-top: 1px solid var(--line);
-  padding: 1rem 0 3rem;
+  padding: 1rem 0 calc(3rem + env(safe-area-inset-bottom, 0px));
   color: var(--muted);
   font-size: .9rem;
 }
@@ -226,7 +226,7 @@ footer {
 
 @media (max-width: 520px) {
   .reader-header, main, footer { width: min(100% - 1rem, 920px); }
-  .reader-header { padding-top: 1rem; }
+  .reader-header { padding-top: calc(1rem + env(safe-area-inset-top, 0px)); }
   .header-row { align-items: flex-start; }
   .reader-toolbar { border-radius: 12px; }
   .page-controls { font-size: .86rem; }
