@@ -7,6 +7,7 @@ const SHELL = [
   "./",
   `./index.html?release=${RELEASE}`,
   `./styles.css?release=${RELEASE}`,
+  `./mobile-background.css?rev=20260923mobile1`,
   `./app.js?release=${RELEASE}`,
   `./card-viewer.js?release=${RELEASE}`,
   `./manifest.webmanifest?release=${RELEASE}`,
