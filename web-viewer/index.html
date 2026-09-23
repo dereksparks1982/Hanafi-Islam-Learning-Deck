@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Amarante&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?release=v2.0&rev=20260923site">
   <link rel="stylesheet" href="city-picker.css?rev=20260922a">
-  <link rel="stylesheet" href="home-branding.css?rev=20260923a">
+  <link rel="stylesheet" href="home-branding.css?rev=20260923b">
 </head>
 <body id="top">
   <header class="app-header home-header">
@@ -49,6 +49,17 @@
         <li>Tap <strong>Add</strong>.</li>
       </ol>
       <span>The Hanafi Learning Deck icon will then appear on your Home Screen and open like an app. No App Store is required.</span>
+    </aside>
+
+    <aside id="androidInstallHint" hidden aria-label="Android installation instructions" style="margin-top:1rem;padding:1rem 1.1rem;border:1px solid rgba(216,181,96,.28);border-radius:16px;background:rgba(255,255,255,.04);color:#f7f1df;line-height:1.55;">
+      <strong style="display:block;margin-bottom:.45rem;color:#d8b560;">Put the Hanafi Learning Deck on your Android Home Screen</strong>
+      <ol style="margin:.25rem 0 .6rem;padding-left:1.35rem;">
+        <li>Open this Web App in <strong>Chrome</strong>.</li>
+        <li>Tap Chrome’s <strong>⋮</strong> menu.</li>
+        <li>Tap <strong>Install app</strong> or <strong>Add to Home screen</strong>.</li>
+        <li>Tap <strong>Install</strong> or <strong>Add</strong> to confirm.</li>
+      </ol>
+      <span>The Hanafi Learning Deck icon will then appear on your Home Screen and open like an app. No Play Store is required.</span>
     </aside>
 
     <p id="status" class="status" role="status" aria-live="polite">Checking offline library…</p>
@@ -154,8 +165,10 @@
     (() => {
       const ua = navigator.userAgent || "";
       const isiOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      const isAndroid = /Android/i.test(ua);
       const standalone = navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches;
       if (isiOS && !standalone) document.getElementById("iosInstallHint").hidden = false;
+      if (isAndroid && !standalone) document.getElementById("androidInstallHint").hidden = false;
     })();
   </script>
   <script src="app.js?release=v2.0" defer></script>
