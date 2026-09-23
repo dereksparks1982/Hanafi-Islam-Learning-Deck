@@ -442,3 +442,55 @@ footer {
   .card-link { padding: .4rem; border-radius: 12px; }
   .card-viewer-bar { align-items: flex-start; flex-direction: column; }
 }
+
+
+/* Approved fixed home background: exact uploaded artwork, page content scrolls over it. */
+body#top {
+  background-color: #03130e;
+  background-image: url("assets/hanafi-home-background-approved.png?rev=20260923b");
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Keep the approved side lantern/border artwork visible at normal 100% browser zoom. */
+@media (min-width: 900px) {
+  body#top .app-header,
+  body#top main,
+  body#top footer {
+    width: min(960px, calc(100% - 3rem));
+  }
+
+  body#top h1 {
+    font-size: clamp(2.15rem, 4vw, 3.55rem);
+  }
+
+  body#top .intro {
+    font-size: .98rem;
+    line-height: 1.5;
+  }
+
+  body#top .actions {
+    gap: .6rem;
+    margin-top: 1.2rem;
+  }
+
+  body#top button,
+  body#top .action-link {
+    padding: .68rem 1rem;
+  }
+
+  body#top .prayer-panel {
+    padding: 1rem;
+  }
+
+  body#top .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: .8rem;
+  }
+
+  body#top .card-link {
+    padding: .5rem;
+  }
+}
