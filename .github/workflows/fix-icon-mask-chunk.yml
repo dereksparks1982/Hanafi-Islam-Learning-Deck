@@ -1,0 +1,41 @@
+name: Fix icon mask chunk
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/fix-icon-mask-chunk.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Replace only mask chunk one
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, re
+          p=Path('.github/workflows/upload-approved-transparent-icon.yml')
+          text=p.read_text()
+          good='eNrt3d1um0oYQFHe/6VdqWkcSNxI/sEwe9a6PBdHLeCtb2awuywAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAT7hcLi4C0K6czAHtyMkcEI+cygHtyMkcEI+czAEqBzBw5GQOiEdO5oB45GQOiEdO5oB65WQOaEdO5YB25GQOiEdO5oB65WQOaEdO5YB25GQOiEdO5oB45GQOiEdO5oB45GQOqFdO5oB25GQOiEdO5YB25GQOiEdO5oB45GQOiEdO5oB45GQOiEdO5oB45GQOiEdO5oB45GQOiEdO5oB45GQOiEdO5oB45GQOiEdO5oB45GQOiEdO5oB45GQOiEdO5oB45GQOiEdO5oB45GQOiEdO5oB243QOyEdO5YB25HQOqEdO5oB45GQOaDdO5oB65HQOqEdO5oB45GQOaDdO5oB65HQOqEdO5oB243QOyEdO5oB242QOqEdO54B442QOqEdO54B442QOiDdO54B85HQOiDdO5oB443QOyEdO54B443QOqDdO5oB443QOqDdO54B643QOqDdO54B643QOqDdO54B643QOqDdO54B643QOyEdO54B443QOiCdO54B843QOqDdO54B644QOyDdO54B44nQOyDdO54B643QORO4ic4DG6RygcToHaJzMASKnc4DG6RwgcjIHGqdzgMjpHKBxMgeInMwBGqdzgMjpHKBxMgcih8yBxukcIHIyB4iczgEaJ3OAyMkcIHIyByKHzoHIyRwgcjIHaJzMASInc4DI6RwgcjIHIofMgcjJHCByMgeInMwBIidzgMjJHCByMgcih8yByCFzIHIyB4iczAEiJ3OAyMkcIHIyByKHyoHIIXMgcjIHiJzMASonc4DIyRwgcjIHIofKgcohcyByMgeInMwBIqdygMrJHCByMgcqh8yByKFyIHLIHIiczAEqp3KAyMkcIHIyByqHyoHIIXMgcsgcqJzKASInc4DKqRwgcjIHKofMgcihcqByyByInMoBIidzgMqpHKByMgci'
+          assert len(good)==1000, len(good)
+          assert hashlib.sha256(good.encode()).hexdigest()=='ba614a470ee0395333afd7577c3699635f900c8b1bf65009b7e0ad53ef34dc3d'
+          head,rest=text.split('chunks = [',1)
+          old=re.search(r"'([A-Za-z0-9+/=]+)'",rest)
+          assert old and len(old.group(1))==1024
+          rest=rest[:old.start(1)]+good+rest[old.end(1):]
+          p.write_text(head+'chunks = ['+rest)
+          PY
+          git config user.name "Abdullāh ibn al-Malik al-Jazzār"
+          git config user.email "dereksparks1982@gmail.com"
+          git add -- .github/workflows/upload-approved-transparent-icon.yml
+          test "$(git diff --cached --name-only | wc -l)" -eq 1
+          git commit -m "Correct transparent icon mask chunk"
+          git push origin HEAD:main
