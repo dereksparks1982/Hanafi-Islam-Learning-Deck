@@ -1,0 +1,49 @@
+name: Upload approved Hanafi icon exact
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/upload-approved-icon-exact.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Download and verify exact approved icon
+        shell: bash
+        run: |
+          set -euo pipefail
+          dest="web-viewer/assets/hanafi-learning-deck-icon-approved.png"
+          tmp="${dest}.download"
+          mkdir -p "$(dirname "$dest")"
+          curl --fail --location --silent --show-error 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-2598-81f5-8378-c4bdc5a4437b/raw?se=2026-09-23T19%3A23%3A22Z&sp=r&sv=2026-02-06&sr=b&scid=1490269a-19f4-5922-a0ce-cea1a724604a&skoid=c36a4874-d531-4a8d-99fc-7da0d9143d9c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-23T14%3A32%3A09Z&ske=2026-09-24T14%3A32%3A09Z&sks=b&skv=2026-02-06&sig=/uL%2B7gTGtEH9KZTkm5wnHo%2B7Cz7SO6t%2BsuEIVyJpnQU%3D' -o "$tmp"
+          test "$(wc -c < "$tmp" | tr -d ' ')" = "2218182"
+          test "$(sha256sum "$tmp" | awk '{print $1}')" = "980b7ce4e145331918cc896f92d50ba6f4287e3ead1dbd24f519f68c61279a58"
+          file "$tmp" | grep -q 'PNG image data, 1254 x 1254'
+          mv "$tmp" "$dest"
+          echo "PASS exact approved icon verified"
+
+      - name: Commit only approved icon
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Abdullāh ibn al-Malik al-Jazzār"
+          git config user.email "dereksparks1982@gmail.com"
+          git add -- web-viewer/assets/hanafi-learning-deck-icon-approved.png
+          if git diff --cached --quiet; then
+            echo "PASS repository already contains the exact approved icon"
+            exit 0
+          fi
+          test "$(git diff --cached --name-only | wc -l)" -eq 1
+          test "$(git diff --cached --name-only)" = "web-viewer/assets/hanafi-learning-deck-icon-approved.png"
+          git commit -m "Install approved transparent Hanafi icon"
+          git push origin HEAD:main
