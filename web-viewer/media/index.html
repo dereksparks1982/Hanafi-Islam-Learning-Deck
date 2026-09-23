@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#0b3d2e">
   <meta name="description" content="Islamic media in the Hanafi Learning Deck Web App.">
-  <title>The Message (1976) · Hanafi Learning Deck</title>
+  <title>Media · Hanafi Learning Deck</title>
   <link rel="icon" href="../assets/hanafi-learning-deck-icon-approved.png?rev=20260923a" type="image/png" sizes="1254x1254">
   <link rel="apple-touch-icon" href="../assets/hanafi-learning-deck-icon-approved.png?rev=20260923a">
   <link rel="stylesheet" href="../styles.css?release=v2.0&rev=20260923site">
@@ -13,6 +13,10 @@
     .media-main{width:min(1180px,calc(100% - 2rem));margin:0 auto 3rem}
     .media-header-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     .media-release{color:#d8b560;font-weight:700}
+    .media-tabs{display:flex;gap:.65rem;flex-wrap:wrap;margin:1rem 0 0}
+    .media-category{margin-top:1.5rem;scroll-margin-top:1rem}
+    .media-category-heading{margin:.1rem 0 .35rem}
+    .media-category-intro{margin:.2rem 0 1rem;color:#d8d2c2;line-height:1.6}
     .media-panel{margin-top:1.5rem;padding:1rem;border:1px solid rgba(216,181,96,.28);border-radius:20px;background:rgba(255,255,255,.04)}
     .media-controls-row{display:flex;gap:.65rem;flex-wrap:wrap;align-items:center;margin:0 0 1rem}
     .media-controls-label{color:#d8d2c2;font-weight:700}
@@ -56,89 +60,102 @@
       <a class="secondary action-link" href="../">← Web App</a>
       <span class="media-release">v2.0</span>
     </div>
-    <p class="eyebrow">Media</p>
-    <h1>The Message (1976)</h1>
-    <p class="intro">Choose the English or original Arabic version, then choose an available quality.</p>
+    <p class="eyebrow">Hanafi Learning Deck</p>
+    <h1>Media</h1>
+    <p class="intro">Video and audio resources gathered in one place for study, listening, and Islamic cultural material.</p>
+    <nav class="media-tabs" aria-label="Media sections">
+      <a class="secondary action-link" href="#video">Video</a>
+      <a class="secondary action-link" href="#audio">Audio</a>
+    </nav>
   </header>
 
   <main class="media-main">
-    <section class="media-panel" aria-label="The Message 1976 video player">
-      <div class="media-controls-row">
-        <span class="media-controls-label">Language</span>
-        <div class="media-language-switch" aria-label="Choose film version">
-          <button id="englishVersion" class="secondary media-language-button" type="button" aria-pressed="true">English</button>
-          <button id="arabicVersion" class="secondary media-language-button" type="button" aria-pressed="false" lang="ar" dir="rtl">العربية</button>
+    <section id="video" class="media-category" aria-labelledby="videoHeading">
+      <p class="eyebrow">Video</p>
+      <h2 id="videoHeading" class="media-category-heading">Video</h2>
+      <p class="media-category-intro">Films, documentaries, lectures, and other visual material. The current library begins with <em>The Message</em> (1976).</p>
+
+      <section class="media-panel" aria-label="The Message 1976 video player">
+        <div class="media-controls-row">
+          <span class="media-controls-label">Language</span>
+          <div class="media-language-switch" aria-label="Choose film version">
+            <button id="englishVersion" class="secondary media-language-button" type="button" aria-pressed="true">English</button>
+            <button id="arabicVersion" class="secondary media-language-button" type="button" aria-pressed="false" lang="ar" dir="rtl">العربية</button>
+          </div>
         </div>
-      </div>
 
-      <div class="media-controls-row">
-        <span class="media-controls-label">Quality</span>
-        <div id="qualitySwitch" class="media-quality-switch" aria-label="Choose video quality"></div>
-      </div>
+        <div class="media-controls-row">
+          <span class="media-controls-label">Quality</span>
+          <div id="qualitySwitch" class="media-quality-switch" aria-label="Choose video quality"></div>
+        </div>
 
-      <div id="mediaPlayer" class="media-player">
-        <iframe
-          id="driveFrame"
-          src="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/preview"
-          title="The Message (1976) · English version · 720p"
-          allow="autoplay; fullscreen"
-          allowfullscreen
-          loading="eager">
-        </iframe>
-      </div>
+        <div id="mediaPlayer" class="media-player">
+          <iframe
+            id="driveFrame"
+            src="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/preview"
+            title="The Message (1976) · English version · 720p"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+            loading="eager">
+          </iframe>
+        </div>
 
-      <button id="exitFullscreenButton" class="media-exit-fullscreen" type="button" hidden>Exit full screen</button>
+        <button id="exitFullscreenButton" class="media-exit-fullscreen" type="button" hidden>Exit full screen</button>
 
-      <div class="media-player-actions">
-        <button id="fullscreenButton" class="secondary" type="button" hidden>Full screen</button>
-        <a id="driveFallback" class="secondary action-link" href="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing" target="_blank" rel="noopener noreferrer">Open selected copy in Google Drive</a>
-      </div>
-      <p id="mediaStatus" class="media-status" role="status" aria-live="polite">English · 720p selected.</p>
-      <p id="mediaNote" class="media-note">Video is streamed from Google Drive. If the embedded player does not load properly, use the separate Google Drive link above.</p>
+        <div class="media-player-actions">
+          <button id="fullscreenButton" class="secondary" type="button" hidden>Full screen</button>
+          <a id="driveFallback" class="secondary action-link" href="https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing" target="_blank" rel="noopener noreferrer">Open selected copy in Google Drive</a>
+        </div>
+        <p id="mediaStatus" class="media-status" role="status" aria-live="polite">English · 720p selected.</p>
+        <p id="mediaNote" class="media-note">Video is streamed from Google Drive. If the embedded player does not load properly, use the separate Google Drive link above.</p>
+      </section>
+
+      <section class="media-info" aria-labelledby="filmInfoHeading">
+        <p class="eyebrow">Film information</p>
+        <h2 id="filmInfoHeading">The Message / الرسالة</h2>
+        <p><em>The Message</em> is a historical epic directed and produced by <strong>Moustapha Akkad</strong> about the beginnings of Islam. Akkad made separate English- and Arabic-language productions with different principal casts rather than simply dubbing one version into the other. Prophet Muhammad ﷺ is not directly depicted or voiced in the film.</p>
+
+        <div class="media-facts">
+          <div class="media-fact">
+            <strong>English version · 720p</strong>
+            <span><em>The Message</em> · about 2h 57m · Anthony Quinn, Irene Papas, Michael Ansara</span>
+          </div>
+          <div class="media-fact">
+            <strong>Arabic version · 480p / 360p</strong>
+            <span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · Arabic subtitles are visible in the project copies</span>
+          </div>
+          <div class="media-fact">
+            <strong>Director / producer</strong>
+            <span>Moustapha Akkad</span>
+          </div>
+          <div class="media-fact">
+            <strong>Music</strong>
+            <span>Maurice Jarre · Academy Award nominee for Original Score</span>
+          </div>
+        </div>
+
+        <h3>Study note</h3>
+        <p>This is a historical drama and should be treated as a companion to study, not as Qur'an, hadith, a fatwa, or a substitute for a properly sourced study of the Seerah. Dramatic dialogue and presentation should not be treated as primary religious evidence.</p>
+
+        <h3>Sources and further information</h3>
+        <ul class="media-sources">
+          <li><a href="https://www.imdb.com/title/tt0074896/" target="_blank" rel="noopener noreferrer">IMDb · English version</a></li>
+          <li><a href="https://www.imdb.com/title/tt0075143/" target="_blank" rel="noopener noreferrer">IMDb · Arabic version / Al-Risalah</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/The_Message_%281976_film%29" target="_blank" rel="noopener noreferrer">Wikipedia · The Message (1976 film)</a></li>
+          <li><a href="https://www.oscars.org/oscars/ceremonies/1978" target="_blank" rel="noopener noreferrer">Academy Awards · 50th Academy Awards (1978)</a></li>
+          <li><a href="https://www.tcm.com/articles/489585/mohammed-messenger-from-god-aka-the-message" target="_blank" rel="noopener noreferrer">Turner Classic Movies · film history article</a></li>
+          <li><a href="https://www.youtube.com/watch?v=DDNe5VXwa78" target="_blank" rel="noopener noreferrer">Arabic 360p copy provenance · original YouTube source used for this project copy</a></li>
+          <li><a href="https://www.youtube.com/watch?v=68tXNyXu3WA" target="_blank" rel="noopener noreferrer">Arabic 480p copy provenance · original YouTube source used for this project copy</a></li>
+        </ul>
+      </section>
     </section>
 
-    <section class="media-info" aria-labelledby="filmInfoHeading">
-      <p class="eyebrow">Film information</p>
-      <h2 id="filmInfoHeading">The Message / الرسالة</h2>
-      <p><em>The Message</em> is a historical epic directed and produced by <strong>Moustapha Akkad</strong> about the beginnings of Islam. Akkad made separate English- and Arabic-language productions with different principal casts rather than simply dubbing one version into the other. Prophet Muhammad ﷺ is not directly depicted or voiced in the film.</p>
+    <section id="audio" class="media-category media-info" aria-labelledby="audioHeading">
+      <p class="eyebrow">Audio</p>
+      <h2 id="audioHeading">Audio</h2>
+      <p>Arabic listening, music, recitation, spoken material, and other audio resources will live here so they remain easy to find.</p>
 
-      <div class="media-facts">
-        <div class="media-fact">
-          <strong>English version · 720p</strong>
-          <span><em>The Message</em> · about 2h 57m · Anthony Quinn, Irene Papas, Michael Ansara</span>
-        </div>
-        <div class="media-fact">
-          <strong>Arabic version · 480p / 360p</strong>
-          <span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · Arabic subtitles are visible in the project copies</span>
-        </div>
-        <div class="media-fact">
-          <strong>Director / producer</strong>
-          <span>Moustapha Akkad</span>
-        </div>
-        <div class="media-fact">
-          <strong>Music</strong>
-          <span>Maurice Jarre · Academy Award nominee for Original Score</span>
-        </div>
-      </div>
-
-      <h3>Study note</h3>
-      <p>This is a historical drama and should be treated as a companion to study, not as Qur'an, hadith, a fatwa, or a substitute for a properly sourced study of the Seerah. Dramatic dialogue and presentation should not be treated as primary religious evidence.</p>
-
-      <h3>Sources and further information</h3>
-      <ul class="media-sources">
-        <li><a href="https://www.imdb.com/title/tt0074896/" target="_blank" rel="noopener noreferrer">IMDb · English version</a></li>
-        <li><a href="https://www.imdb.com/title/tt0075143/" target="_blank" rel="noopener noreferrer">IMDb · Arabic version / Al-Risalah</a></li>
-        <li><a href="https://en.wikipedia.org/wiki/The_Message_%281976_film%29" target="_blank" rel="noopener noreferrer">Wikipedia · The Message (1976 film)</a></li>
-        <li><a href="https://www.oscars.org/oscars/ceremonies/1978" target="_blank" rel="noopener noreferrer">Academy Awards · 50th Academy Awards (1978)</a></li>
-        <li><a href="https://www.tcm.com/articles/489585/mohammed-messenger-from-god-aka-the-message" target="_blank" rel="noopener noreferrer">Turner Classic Movies · film history article</a></li>
-        <li><a href="https://www.youtube.com/watch?v=DDNe5VXwa78" target="_blank" rel="noopener noreferrer">Arabic 360p copy provenance · original YouTube source used for this project copy</a></li>
-        <li><a href="https://www.youtube.com/watch?v=68tXNyXu3WA" target="_blank" rel="noopener noreferrer">Arabic 480p copy provenance · original YouTube source used for this project copy</a></li>
-      </ul>
-    </section>
-
-    <section class="media-info" aria-labelledby="arabicListeningHeading">
-      <p class="eyebrow">Arabic listening</p>
-      <h2 id="arabicListeningHeading">Alexander Guitar · Arabic performances</h2>
+      <h3>Alexander Guitar · Arabic performances</h3>
       <p>An external YouTube search for Alexander Guitar videos matching “Arabic,” included as an additional listening and cultural-media resource.</p>
       <p><a href="https://www.youtube.com/@AlexanderGuitar/search?query=arabic" target="_blank" rel="noopener noreferrer">Browse Alexander Guitar · Arabic search on YouTube</a></p>
     </section>
