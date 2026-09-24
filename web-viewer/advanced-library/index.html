@@ -37,6 +37,8 @@
       color: #f0dfad;
     }
 
+    body.library-viewer-open { overflow: hidden; }
+
     main {
       position: relative;
       min-height: 100dvh;
@@ -234,6 +236,107 @@
       white-space: nowrap;
     }
 
+    .library-viewer[hidden] { display: none !important; }
+
+    .library-viewer {
+      position: fixed;
+      inset: 0;
+      z-index: 2147483000;
+      display: grid;
+      place-items: center;
+      padding:
+        max(12px, env(safe-area-inset-top))
+        max(12px, env(safe-area-inset-right))
+        max(12px, env(safe-area-inset-bottom))
+        max(12px, env(safe-area-inset-left));
+      background: rgba(0, 7, 5, .88);
+      backdrop-filter: blur(7px) saturate(.7);
+      -webkit-backdrop-filter: blur(7px) saturate(.7);
+    }
+
+    .library-viewer-panel {
+      width: min(1180px, 96vw);
+      height: min(94dvh, 980px);
+      min-height: 320px;
+      display: grid;
+      grid-template-rows: 52px 1fr;
+      overflow: hidden;
+      border: 1px solid rgba(219, 177, 82, .7);
+      border-radius: 10px;
+      background: #070e0a;
+      box-shadow:
+        0 30px 90px rgba(0,0,0,.72),
+        inset 0 0 0 1px rgba(255,231,168,.05);
+    }
+
+    .library-viewer-bar {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 0 8px 0 18px;
+      border-bottom: 1px solid rgba(216,174,80,.42);
+      background:
+        linear-gradient(180deg, rgba(54,85,58,.45), rgba(8,29,21,.76)),
+        #0a1d15;
+      box-shadow: inset 0 1px 0 rgba(255,225,150,.08);
+    }
+
+    .library-viewer-title {
+      min-width: 0;
+      overflow: hidden;
+      color: #e5c675;
+      font-size: clamp(.8rem, 1.5vw, 1rem);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .library-viewer-close {
+      width: 40px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(218,177,84,.48);
+      border-radius: 6px;
+      color: #efd68f;
+      background: rgba(9,38,27,.82);
+      font: 400 1.65rem/1 Georgia, serif;
+      cursor: pointer;
+    }
+
+    .library-viewer-close:hover,
+    .library-viewer-close:focus-visible {
+      background: rgba(21,72,51,.95);
+      border-color: #e0bb60;
+      outline: none;
+    }
+
+    .library-viewer-content {
+      min-height: 0;
+      position: relative;
+      background: #141811;
+    }
+
+    .library-pdf-frame,
+    .library-video-frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #e9e2cf;
+    }
+
+    .library-video-frame {
+      object-fit: contain;
+      background: #000;
+    }
+
+    .library-pdf-frame[hidden],
+    .library-video-frame[hidden] { display: none !important; }
+
     @media (max-width: 760px) {
       body {
         background-attachment: scroll;
@@ -252,6 +355,16 @@
         width: min(190px, 46vw);
         bottom: clamp(158px, 28vh, 240px);
       }
+
+      .library-viewer {
+        padding: max(5px, env(safe-area-inset-top)) max(5px, env(safe-area-inset-right)) max(5px, env(safe-area-inset-bottom)) max(5px, env(safe-area-inset-left));
+      }
+
+      .library-viewer-panel {
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+      }
     }
 
     @media (max-height: 520px) and (orientation: landscape) {
@@ -263,6 +376,7 @@
         width: 116px;
         bottom: 130px;
       }
+      .library-viewer-panel { grid-template-rows: 44px 1fr; }
     }
   </style>
 </head>
@@ -281,6 +395,7 @@
           type="button"
           data-book-id="the-green-book"
           data-title="The Green Book"
+          data-kind="pdf"
           data-cover="books/the-green-book-cover.png"
           data-src="books/the-green-book.pdf"
           aria-label="The Green Book by Muammar Al Qaddafi"
@@ -295,22 +410,40 @@
     </section>
   </main>
 
+  <section id="libraryViewer" class="library-viewer" hidden aria-modal="true" role="dialog" aria-labelledby="libraryViewerTitle">
+    <div class="library-viewer-panel">
+      <header class="library-viewer-bar">
+        <div id="libraryViewerTitle" class="library-viewer-title">Library Reader</div>
+        <button id="libraryViewerClose" class="library-viewer-close" type="button" aria-label="Close reader">×</button>
+      </header>
+      <div class="library-viewer-content">
+        <iframe id="libraryPdfFrame" class="library-pdf-frame" title="Book reader" hidden></iframe>
+        <video id="libraryVideoFrame" class="library-video-frame" controls playsinline hidden></video>
+      </div>
+    </div>
+  </section>
+
   <script>
     (() => {
       "use strict";
 
       const shelf = document.getElementById("libraryShelf");
-      const emptyNote = document.getElementById("shelfEmptyNote");
       const preview = document.getElementById("bookPreview");
       const previewImage = document.getElementById("bookPreviewImage");
+      const viewer = document.getElementById("libraryViewer");
+      const viewerTitle = document.getElementById("libraryViewerTitle");
+      const viewerClose = document.getElementById("libraryViewerClose");
+      const pdfFrame = document.getElementById("libraryPdfFrame");
+      const videoFrame = document.getElementById("libraryVideoFrame");
       let selectedBook = null;
       let lastTouchBook = null;
       let lastTouchAt = 0;
+      let openedBook = null;
 
       const books = () => Array.from(shelf.querySelectorAll(".library-book"));
 
       const showCover = book => {
-        if (!book || !book.dataset.cover) return;
+        if (!book || !book.dataset.cover || !viewer.hidden) return;
         books().forEach(item => item.classList.toggle("is-selected", item === book));
         selectedBook = book;
         previewImage.src = book.dataset.cover;
@@ -324,6 +457,46 @@
         selectedBook = null;
         preview.classList.remove("is-visible");
         preview.setAttribute("aria-hidden", "true");
+      };
+
+      const closeViewer = () => {
+        if (viewer.hidden) return;
+        viewer.hidden = true;
+        document.body.classList.remove("library-viewer-open");
+        pdfFrame.hidden = true;
+        pdfFrame.removeAttribute("src");
+        videoFrame.pause();
+        videoFrame.hidden = true;
+        videoFrame.removeAttribute("src");
+        videoFrame.load();
+        const focusTarget = openedBook;
+        openedBook = null;
+        if (focusTarget) requestAnimationFrame(() => focusTarget.focus({ preventScroll: true }));
+      };
+
+      const openViewer = book => {
+        if (!book || !book.dataset.src) return;
+        hideCover();
+        openedBook = book;
+        viewerTitle.textContent = book.dataset.title || "Library Reader";
+        const kind = book.dataset.kind || "pdf";
+
+        if (kind === "video") {
+          pdfFrame.hidden = true;
+          pdfFrame.removeAttribute("src");
+          videoFrame.src = book.dataset.src;
+          videoFrame.hidden = false;
+        } else {
+          videoFrame.pause();
+          videoFrame.hidden = true;
+          videoFrame.removeAttribute("src");
+          pdfFrame.src = `${book.dataset.src}#view=FitH`;
+          pdfFrame.hidden = false;
+        }
+
+        viewer.hidden = false;
+        document.body.classList.add("library-viewer-open");
+        requestAnimationFrame(() => viewerClose.focus({ preventScroll: true }));
       };
 
       const openBook = book => {
@@ -349,6 +522,7 @@
       });
 
       shelf.addEventListener("click", event => {
+        if (!viewer.hidden) return;
         const book = event.target.closest(".library-book");
         if (!book) return;
         showCover(book);
@@ -362,7 +536,7 @@
       });
 
       shelf.addEventListener("pointerup", event => {
-        if (event.pointerType === "mouse") return;
+        if (event.pointerType === "mouse" || !viewer.hidden) return;
         const book = event.target.closest(".library-book");
         if (!book) return;
         const now = Date.now();
@@ -377,17 +551,37 @@
         showCover(book);
       });
 
+      document.addEventListener("library:open-book", event => {
+        const book = event.target.closest?.(".library-book");
+        if (book) openViewer(book);
+      });
+
+      viewerClose.addEventListener("click", closeViewer);
+
+      viewer.addEventListener("click", event => {
+        if (event.target === viewer) closeViewer();
+      });
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !viewer.hidden) {
+          event.preventDefault();
+          closeViewer();
+        }
+      });
+
       document.addEventListener("click", event => {
+        if (!viewer.hidden) return;
         if (event.target.closest(".library-book") || event.target.closest(".book-preview")) return;
         hideCover();
       });
 
       window.HanafiLibraryShelf = {
         shelf,
-        emptyNote,
         showCover,
         hideCover,
-        openBook
+        openBook,
+        openViewer,
+        closeViewer
       };
     })();
   </script>
