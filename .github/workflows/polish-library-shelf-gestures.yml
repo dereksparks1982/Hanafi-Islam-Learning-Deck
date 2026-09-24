@@ -1,0 +1,254 @@
+name: Polish Restricted Library Shelf Gestures
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/polish-library-shelf-gestures.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  polish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Patch shelf interaction semantics only
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('web-viewer/advanced-library/index.html')
+          text = path.read_text()
+          start = text.rfind('  <script>\n    (() => {')
+          end = text.rfind('  </script>')
+          if start < 0 or end < 0 or end <= start:
+              raise SystemExit('library interaction script block not found')
+
+          replacement = r'''  <script>
+    (() => {
+      "use strict";
+
+      const shelf = document.getElementById("libraryShelf");
+      const preview = document.getElementById("bookPreview");
+      const previewImage = document.getElementById("bookPreviewImage");
+      const viewer = document.getElementById("libraryViewer");
+      const viewerTitle = document.getElementById("libraryViewerTitle");
+      const viewerClose = document.getElementById("libraryViewerClose");
+      const pdfFrame = document.getElementById("libraryPdfFrame");
+      const videoFrame = document.getElementById("libraryVideoFrame");
+      let pinnedBook = null;
+      let hoverBook = null;
+      let lastTouchBook = null;
+      let lastTouchAt = 0;
+      let openedBook = null;
+
+      const books = () => Array.from(shelf.querySelectorAll(".library-book"));
+
+      const paintCover = book => {
+        if (!book || !book.dataset.cover || !viewer.hidden) return;
+        previewImage.src = book.dataset.cover;
+        previewImage.alt = `${book.dataset.title || "Book"} cover`;
+        preview.classList.add("is-visible");
+        preview.setAttribute("aria-hidden", "false");
+      };
+
+      const hidePreview = () => {
+        preview.classList.remove("is-visible");
+        preview.setAttribute("aria-hidden", "true");
+      };
+
+      const syncPinnedState = () => {
+        books().forEach(item => item.classList.toggle("is-selected", item === pinnedBook));
+      };
+
+      const previewBook = book => {
+        hoverBook = book;
+        paintCover(book);
+      };
+
+      const pinCover = book => {
+        if (!book) return;
+        pinnedBook = book;
+        hoverBook = null;
+        syncPinnedState();
+        paintCover(book);
+      };
+
+      const restorePinnedCover = () => {
+        hoverBook = null;
+        if (pinnedBook) paintCover(pinnedBook);
+        else hidePreview();
+      };
+
+      const hideCover = () => {
+        pinnedBook = null;
+        hoverBook = null;
+        syncPinnedState();
+        hidePreview();
+      };
+
+      const closeViewer = () => {
+        if (viewer.hidden) return;
+        viewer.hidden = true;
+        document.body.classList.remove("library-viewer-open");
+        pdfFrame.hidden = true;
+        pdfFrame.removeAttribute("src");
+        videoFrame.pause();
+        videoFrame.hidden = true;
+        videoFrame.removeAttribute("src");
+        videoFrame.load();
+        const focusTarget = openedBook;
+        openedBook = null;
+        if (focusTarget) requestAnimationFrame(() => focusTarget.focus({ preventScroll: true }));
+      };
+
+      const openViewer = book => {
+        if (!book || !book.dataset.src) return;
+        hideCover();
+        openedBook = book;
+        viewerTitle.textContent = book.dataset.title || "Library Reader";
+        const kind = book.dataset.kind || "pdf";
+
+        if (kind === "video") {
+          pdfFrame.hidden = true;
+          pdfFrame.removeAttribute("src");
+          videoFrame.src = book.dataset.src;
+          videoFrame.hidden = false;
+        } else {
+          videoFrame.pause();
+          videoFrame.hidden = true;
+          videoFrame.removeAttribute("src");
+          pdfFrame.src = `${book.dataset.src}#view=FitH`;
+          pdfFrame.hidden = false;
+        }
+
+        viewer.hidden = false;
+        document.body.classList.add("library-viewer-open");
+        requestAnimationFrame(() => viewerClose.focus({ preventScroll: true }));
+      };
+
+      const openBook = book => {
+        if (!book) return;
+        book.dispatchEvent(new CustomEvent("library:open-book", { bubbles: true, detail: { id: book.dataset.bookId } }));
+      };
+
+      shelf.addEventListener("wheel", event => {
+        if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+        if (shelf.scrollWidth <= shelf.clientWidth) return;
+        event.preventDefault();
+        shelf.scrollLeft += event.deltaY;
+      }, { passive: false });
+
+      shelf.addEventListener("mouseover", event => {
+        if (!viewer.hidden) return;
+        const book = event.target.closest(".library-book");
+        if (book) previewBook(book);
+      });
+
+      shelf.addEventListener("mouseout", event => {
+        if (!viewer.hidden) return;
+        const book = event.target.closest(".library-book");
+        if (!book) return;
+        const nextBook = event.relatedTarget?.closest?.(".library-book");
+        if (nextBook === book) return;
+        restorePinnedCover();
+      });
+
+      shelf.addEventListener("focusin", event => {
+        if (!viewer.hidden) return;
+        const book = event.target.closest(".library-book");
+        if (book) previewBook(book);
+      });
+
+      shelf.addEventListener("focusout", event => {
+        if (!viewer.hidden) return;
+        const book = event.target.closest(".library-book");
+        if (!book) return;
+        const nextBook = event.relatedTarget?.closest?.(".library-book");
+        if (nextBook === book) return;
+        restorePinnedCover();
+      });
+
+      shelf.addEventListener("click", event => {
+        if (!viewer.hidden) return;
+        const book = event.target.closest(".library-book");
+        if (!book) return;
+        pinCover(book);
+      });
+
+      shelf.addEventListener("dblclick", event => {
+        const book = event.target.closest(".library-book");
+        if (!book) return;
+        event.preventDefault();
+        openBook(book);
+      });
+
+      shelf.addEventListener("pointerup", event => {
+        if (event.pointerType === "mouse" || !viewer.hidden) return;
+        const book = event.target.closest(".library-book");
+        if (!book) return;
+        const now = Date.now();
+        if (lastTouchBook === book && now - lastTouchAt < 360) {
+          lastTouchBook = null;
+          lastTouchAt = 0;
+          openBook(book);
+          return;
+        }
+        lastTouchBook = book;
+        lastTouchAt = now;
+        pinCover(book);
+      });
+
+      document.addEventListener("library:open-book", event => {
+        const book = event.target.closest?.(".library-book");
+        if (book) openViewer(book);
+      });
+
+      viewerClose.addEventListener("click", closeViewer);
+
+      viewer.addEventListener("click", event => {
+        if (event.target === viewer) closeViewer();
+      });
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !viewer.hidden) {
+          event.preventDefault();
+          closeViewer();
+        }
+      });
+
+      document.addEventListener("click", event => {
+        if (!viewer.hidden) return;
+        if (event.target.closest(".library-book") || event.target.closest(".book-preview")) return;
+        hideCover();
+      });
+
+      window.HanafiLibraryShelf = {
+        shelf,
+        previewBook,
+        pinCover,
+        hideCover,
+        openBook,
+        openViewer,
+        closeViewer
+      };
+    })();
+  </script>'''
+
+          path.write_text(text[:start] + replacement + text[end + len('  </script>'):])
+          PY
+
+      - name: Commit polish and remove workflow
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add web-viewer/advanced-library/index.html
+          git rm .github/workflows/polish-library-shelf-gestures.yml
+          git commit -m 'Polish restricted library shelf gestures'
+          git push
