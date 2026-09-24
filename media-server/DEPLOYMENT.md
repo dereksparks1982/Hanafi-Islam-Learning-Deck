@@ -1,170 +1,142 @@
-# Hanafi Nougat Media Core
+# Hanafi media server integration
 
-This directory contains the small HTTP media-serving layer extracted from the Nougat Media Plus web-player design. It intentionally excludes the Nougat desktop UI, Jellyfin integration, games, console runtime, Live TV, P2P, crawler, security center, AI components, and other application features.
+The Hanafi web app reuses only the server work already completed in **Nougat Media Plus**. It does not import the Nougat desktop UI, Games, Console, Live TV, World TV, Search, crawler, P2P, AI, security center, radio, emulators, or the rest of the application.
 
-## What it provides
-
-- Direct HTTP video delivery with byte-range requests for seeking.
-- Stable media IDs so the web app never needs filesystem paths.
-- External subtitle delivery as WebVTT.
-- Automatic conversion of configured `.srt` subtitle files to WebVTT in memory.
-- CORS headers for the Hanafi Learning Deck GitHub Pages origin.
-- A small health endpoint for deployment checks.
-- Loopback-only binding by default so TLS can be handled by a reverse proxy such as Caddy.
-
-## Build
-
-Ubuntu/Debian requirements:
-
-```bash
-sudo apt install build-essential cmake curl
-cmake -S media-server -B build/media-server -DCMAKE_BUILD_TYPE=Release
-cmake --build build/media-server --parallel
-```
-
-The executable is:
+## Architecture
 
 ```text
-build/media-server/hanafi-nougat-media-server
+Hanafi GitHub Pages web player
+        |
+        | HTTPS
+        v
+saxondesktop / Nginx
+        |
+        | loopback :8097
+        v
+Hanafi Jellyfin bridge
+        |
+        | loopback :8098
+        v
+Nougat integrated Jellyfin 10.11.11
+        |
+        v
+/home/dereksparks1982/Videos/Hosted
 ```
 
-## Quick local deployment
+The movies remain on `saxondesktop`. GitHub Pages contains the interface and stable media IDs, not the movie files.
 
-From the repository root, the local deployment helper builds the server, installs the executable, copies the current manifest into `/etc/hanafi-media`, installs the systemd unit, starts it, and performs local health/catalog checks:
+## What is reused from Nougat
 
-```bash
-bash media-server/deploy/install-local.sh
+The deployment uses the accepted Nougat server layout rather than installing a second Jellyfin stack:
+
+- integrated Jellyfin runtime under `components/jellyfin/runtime/jellyfin/jellyfin`;
+- backend port `127.0.0.1:8098`;
+- Nougat server data at `~/.local/share/reddmedia/server/data`;
+- Nougat server configuration at `~/.config/reddmedia/server`;
+- Nougat cache and log directories;
+- Nougat private Jellyfin client session at `~/.config/reddmedia/server/client.json`;
+- browser-compatible H.264/AAC delivery through Jellyfin, including transcoding when needed;
+- the existing Nougat principle that Jellyfin itself stays private rather than being exposed directly to the Internet.
+
+The Hanafi bridge exposes only items listed in `media.tsv.example`. A visitor cannot use it as a general Jellyfin browser.
+
+## Current stable media IDs
+
+The web app uses these IDs instead of filesystem paths:
+
+```text
+message-en-720
+message-en-1080-hardsubs
+risalah-ar-1080
+risalah-ar-1080-hardsubs
+risalah-ar-480
+risalah-ar-360
+lion-desert-1981
+ten-commandments-1923
 ```
 
-After the service is running, the fuller smoke test checks every configured media ID for HTTP byte-range support and verifies SRT-to-WebVTT subtitle conversion:
-
-```bash
-bash media-server/deploy/smoke-test.sh
-```
-
-To test a deployed HTTPS endpoint later:
-
-```bash
-bash media-server/deploy/smoke-test.sh https://media.example.com
-```
-
-Replace the example hostname only after a real media hostname has been chosen and configured.
-
-## Current media library
-
-The current movie library on `saxondesktop` is stored outside Git at:
+The manifest maps those IDs to the existing files under:
 
 ```text
 /home/dereksparks1982/Videos/Hosted
 ```
 
-The repository contains no movie files. `media.tsv.example` maps stable public IDs to the current local filenames. Copy it to the private runtime manifest:
+`risalah-ar-1080` also maps the separate English `.srt`; the bridge converts SRT to WebVTT for the browser.
+
+## Hanafi bridge endpoints
+
+```text
+GET  /nougat/v1/health
+GET  /nougat/v1/catalog
+GET  /nougat/v1/media?id=<stable-id>
+GET  /nougat/v1/transcode?id=<stable-id>
+GET  /nougat/v1/subtitle?id=<stable-id>
+HEAD /nougat/v1/...
+OPTIONS /nougat/v1/...
+```
+
+The public bridge listens on loopback port `8097`. Jellyfin remains on loopback port `8098`.
+
+## Deployment on saxondesktop
+
+The expected Nougat checkout is:
+
+```text
+/home/dereksparks1982/DKLab/Projects/Nougat Media Plus
+```
+
+From a checkout of this Hanafi repository, run:
 
 ```bash
-sudo install -d -m 0755 /etc/hanafi-media
-sudo cp media-server/media.tsv.example /etc/hanafi-media/media.tsv
+bash media-server/deploy/enable-jellyfin-public.sh
 ```
 
-The format is tab-separated:
+The script does the following and nothing from the unrelated Nougat feature set:
+
+1. Uses Nougat's existing integrated Jellyfin runtime. If the runtime has not been extracted yet, it runs Nougat's existing `tools/build_integrated_jellyfin_v15.sh` helper.
+2. Reuses the accepted Nougat Jellyfin data/config/cache/log directories and private session.
+3. Keeps Jellyfin private on `127.0.0.1:8098`.
+4. Installs the small Hanafi bridge on `127.0.0.1:8097`.
+5. Installs the Hanafi manifest without moving or copying the movies.
+6. Places Nginx in front of the bridge for HTTPS.
+7. Requests a trusted certificate directly for the machine's public IP, so no purchased domain or rented media host is required.
+8. Prints `PUBLIC_BASE_URL=https://<public-ip>` when the path is ready.
+
+The deployment script does **not** modify or commit the Hanafi Git repository. After the printed public URL passes testing, `web-viewer/media/nougat-config.js` can be pointed at it separately.
+
+## Why HTTPS is still necessary
+
+The Hanafi web app itself is served over HTTPS by GitHub Pages. Browsers block an HTTPS page from loading an ordinary HTTP movie stream as active mixed content. The HTTPS layer therefore protects the connection between the visitor's browser and `saxondesktop`; it is not a second hosting service.
+
+The current deployment uses a certificate issued directly to the public IP. Let’s Encrypt made public IP-address certificates generally available in 2026. These IP certificates are short-lived, so automated renewal is required.
+
+## Runtime files installed on saxondesktop
 
 ```text
-id    absolute-media-path    MIME-type    optional-subtitle-path
-```
-
-Current stable IDs are:
-
-- `message-en-720`
-- `message-en-1080-hardsubs`
-- `risalah-ar-1080`
-- `risalah-ar-1080-hardsubs`
-- `risalah-ar-480`
-- `risalah-ar-360`
-- `lion-desert-1981`
-- `ten-commandments-1923`
-
-`risalah-ar-1080` uses the no-subtitle Arabic 1080p video with the separate English `.srt`. The server converts that subtitle file to browser-compatible WebVTT in memory. The hard-subbed 1080p copies remain separate IDs because their English subtitles are already burned into the picture.
-
-If a listed file is not present yet, that ID will return a clean 404 instead of exposing a filesystem path.
-
-## Runtime settings
-
-Environment variables:
-
-```text
-HANAFI_MEDIA_BIND          default: 127.0.0.1
-HANAFI_MEDIA_PORT          default: 8096
-HANAFI_MEDIA_MANIFEST      default: media.tsv
-HANAFI_MEDIA_CORS_ORIGIN   default: https://dereksparks1982.github.io
-```
-
-Example:
-
-```bash
-HANAFI_MEDIA_MANIFEST=/etc/hanafi-media/media.tsv \
-./hanafi-nougat-media-server
-```
-
-## Endpoints
-
-```text
-GET /nougat/v1/health
-GET /nougat/v1/catalog
-GET /nougat/v1/media?id=<stable-id>
-GET /nougat/v1/subtitle?id=<stable-id>
-```
-
-`HEAD` is supported for the same routes. `OPTIONS` is supported for browser CORS preflight.
-
-Example range request:
-
-```bash
-curl -i -H 'Range: bytes=0-1048575' \
-  'http://127.0.0.1:8096/nougat/v1/media?id=risalah-ar-1080'
-```
-
-A valid range returns HTTP `206 Partial Content`, `Accept-Ranges: bytes`, and `Content-Range`.
-
-## systemd
-
-`deploy/hanafi-nougat-media.service.example` runs the server as `dereksparks1982` so it can read the existing library without copying gigabytes into another directory. The service keeps the home directory read-only and explicitly treats the Hosted library and runtime configuration as read-only.
-
-Intended runtime layout:
-
-```text
-/usr/local/bin/hanafi-nougat-media-server
+/usr/local/bin/hanafi-jellyfin-bridge
+/usr/local/bin/hanafi-nougat-jellyfin-ensure
 /etc/hanafi-media/media.tsv
-/home/dereksparks1982/Videos/Hosted/<movie folders>
+/etc/hanafi-media/jellyfin.env
+/etc/hanafi-media/public-base-url
+/etc/systemd/system/hanafi-nougat-jellyfin.service
+/etc/systemd/system/hanafi-jellyfin-bridge.service
+/etc/nginx/sites-available/hanafi-jellyfin
 ```
 
-The media files remain where they already are.
+No movie file is installed into `/etc`, `/usr`, GitHub, or another host.
 
-## Public HTTPS
+## Validation gate
 
-The GitHub Pages app is HTTPS, so a plain HTTP media URL would be blocked by browsers as mixed content. Keep the C++ service on `127.0.0.1:8096` and expose it through HTTPS.
-
-`deploy/Caddyfile.example` is the reverse-proxy template. The remaining deployment-specific value is the real public media hostname. Once that hostname points to this server and ports 80/443 are reachable, Caddy can obtain TLS and proxy requests to the local Nougat service.
-
-The server itself does not need root privileges and should not bind directly to ports 80 or 443.
-
-## Migration gate
-
-Do **not** remove the live Google Drive fallback until the HTTPS media hostname is reachable and these checks pass:
+Before enabling the public Web App configuration, verify:
 
 ```text
-/nougat/v1/health                                  returns 200
-/nougat/v1/media?id=message-en-720                 supports byte ranges
-/nougat/v1/media?id=message-en-1080-hardsubs       supports byte ranges when the file exists
-/nougat/v1/media?id=risalah-ar-1080                supports byte ranges
-/nougat/v1/subtitle?id=risalah-ar-1080             returns WEBVTT
-/nougat/v1/media?id=lion-desert-1981               supports byte ranges
-/nougat/v1/media?id=ten-commandments-1923          supports byte ranges
+/nougat/v1/health                                  -> HTTP 200
+/nougat/v1/catalog                                 -> mapped items report ready
+/nougat/v1/media?id=message-en-720                 -> playable
+/nougat/v1/media?id=risalah-ar-1080                -> playable/transcoded as needed
+/nougat/v1/subtitle?id=risalah-ar-1080             -> WEBVTT
+/nougat/v1/media?id=lion-desert-1981               -> playable
+/nougat/v1/media?id=ten-commandments-1923          -> playable
 ```
 
-After those checks pass:
-
-1. put the HTTPS media origin into `web-viewer/media/nougat-config.js`;
-2. set `enabled: true`;
-3. verify playback and seeking from GitHub Pages on desktop and mobile;
-4. remove the Drive iframe, Drive IDs, and Drive fallback code from the Media page.
-
-At that point normal movie playback is direct Hanafi/Nougat streaming and does not require Google login or a Google media embed.
+Only after those checks pass should `web-viewer/media/nougat-config.js` be enabled with the printed `PUBLIC_BASE_URL`.
