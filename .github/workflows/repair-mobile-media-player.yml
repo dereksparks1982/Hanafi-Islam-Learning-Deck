@@ -1,0 +1,99 @@
+name: Repair mobile media player
+
+on:
+  push:
+    paths:
+      - '.github/workflows/repair-mobile-media-player.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Restore full-size native mobile video player
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('web-viewer/media/index.html')
+          text = path.read_text()
+
+          def replace_once(old, new, label):
+              global text
+              if old not in text:
+                  raise SystemExit(f'Missing expected block: {label}')
+              text = text.replace(old, new, 1)
+
+          replace_once(
+              '    .media-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}',
+              '    .media-player iframe,.media-player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}\n    .media-player video{display:block;object-fit:contain}',
+              'player css')
+
+          replace_once(
+              '    /* iPhone/iPad: give the Google player a desktop-sized internal viewport, then scale it down. */\n    .media-player.ios-drive-stage iframe{inset:auto;width:1024px;height:576px;transform-origin:top left;z-index:1}\n    .media-player.ios-drive-fullscreen{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border-radius:0;z-index:2147483000;background:#000}\n    body.ios-media-fullscreen{overflow:hidden;overscroll-behavior:none}\n    .media-exit-fullscreen{position:fixed;z-index:2147483647;top:calc(env(safe-area-inset-top,0px) + .75rem);right:calc(env(safe-area-inset-right,0px) + .75rem);padding:.75rem 1rem;border:1px solid rgba(216,181,96,.8);border-radius:999px;background:#0b3d2e;color:#fff;font-weight:800;box-shadow:0 4px 18px rgba(0,0,0,.55);pointer-events:auto}',
+              '    /* Mobile: use the native video element in-page; our wrapper handles full-screen so iOS and Android behave the same. */\n    .media-player.mobile-video-fullscreen{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border-radius:0;z-index:2147483000;background:#000}\n    body.mobile-media-fullscreen{overflow:hidden;overscroll-behavior:none}\n    .media-exit-fullscreen{position:fixed;z-index:2147483647;top:calc(env(safe-area-inset-top,0px) + .75rem);right:calc(env(safe-area-inset-right,0px) + .75rem);padding:.75rem 1rem;border:1px solid rgba(216,181,96,.8);border-radius:999px;background:#0b3d2e;color:#fff;font-weight:800;box-shadow:0 4px 18px rgba(0,0,0,.55);pointer-events:auto}',
+              'ios css block')
+
+          iframe_end = '''          </iframe>'''
+          video_markup = '''          </iframe>\n          <video\n            id="mediaVideo"\n            controls\n            playsinline\n            webkit-playsinline\n            preload="metadata"\n            controlslist="nodownload"\n            hidden\n            title="The Message (1976) · English version · 720p">\n            <source id="mediaSource" src="https://drive.usercontent.google.com/download?id=14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW&amp;export=download&amp;confirm=t" type="video/mp4">\n            Your browser does not support HTML5 video.\n          </video>'''
+          replace_once(iframe_end, video_markup, 'video markup insertion')
+
+          replace_once(
+              '            "720p": {\n              preview:',
+              '            "720p": {\n              fileId: "14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW",\n              preview:',
+              'english file id')
+          replace_once(
+              '            "480p": {\n              preview:',
+              '            "480p": {\n              fileId: "1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO",\n              preview:',
+              'arabic 480 file id')
+          replace_once(
+              '            "360p": {\n              preview:',
+              '            "360p": {\n              fileId: "1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN",\n              preview:',
+              'arabic 360 file id')
+
+          replace_once(
+              '      const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);\n      const mediaPlayer = document.getElementById("mediaPlayer");\n      const driveFrame = document.getElementById("driveFrame");',
+              '      const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);\n      const isAndroid = /Android/i.test(ua);\n      const isMobile = isIOS || isAndroid;\n      const mediaPlayer = document.getElementById("mediaPlayer");\n      const driveFrame = document.getElementById("driveFrame");\n      const video = document.getElementById("mediaVideo");\n      const source = document.getElementById("mediaSource");',
+              'mobile detection and video refs')
+
+          replace_once('      let iosFullscreen = false;', '      let mobileFullscreen = false;', 'fullscreen state')
+          replace_once('        if (showVideo && isIOS) window.setTimeout(sizeIOSDriveFrame, 0);', '', 'tab resize hook')
+
+          replace_once(
+              '      function currentSelection() {\n        return versions[selectedLanguage].qualities[selectedQuality];\n      }',
+              '      function currentSelection() {\n        return versions[selectedLanguage].qualities[selectedQuality];\n      }\n\n      function streamUrl(fileId) {\n        return `https://drive.usercontent.google.com/download?id=${encodeURIComponent(fileId)}&export=download&confirm=t`;\n      }',
+              'stream url helper')
+
+          load_pattern = re.compile(r'      function loadSelection\(\) \{.*?\n      \}\n\n      function selectLanguage', re.S)
+          load_replacement = '''      function loadSelection() {\n        const version = versions[selectedLanguage];\n        const selected = currentSelection();\n        fallback.href = selected.view;\n        mediaStatus.textContent = `${version.label} · ${selectedQuality} selected.`;\n\n        if (!isMobile) {\n          driveFrame.src = selected.preview;\n          driveFrame.title = selected.title;\n          return;\n        }\n\n        source.src = streamUrl(selected.fileId);\n        video.title = selected.title;\n        video.load();\n      }\n\n      function selectLanguage'''
+          text, count = load_pattern.subn(load_replacement, text, count=1)
+          if count != 1:
+              raise SystemExit('Could not replace loadSelection')
+
+          mobile_pattern = re.compile(r'      function sizeIOSDriveFrame\(\) \{.*?\n      \}\n\n      function setIOSFullscreen\(active\) \{.*?\n      \}\n\n      if \(isIOS\) \{.*?\n      \}', re.S)
+          mobile_replacement = '''      function setMobileFullscreen(active) {\n        if (!isMobile) return;\n        mobileFullscreen = active;\n        mediaPlayer.classList.toggle("mobile-video-fullscreen", active);\n        document.body.classList.toggle("mobile-media-fullscreen", active);\n        exitFullscreenButton.hidden = !active;\n        fullscreenButton.textContent = active ? "Exit full screen" : "Full screen";\n      }\n\n      if (isMobile) {\n        driveFrame.hidden = true;\n        video.hidden = false;\n        fullscreenButton.hidden = false;\n        mediaNote.innerHTML = "On iPhone and Android, the movie uses the phone's native video player so the picture fills the full player box. <strong>Full screen</strong> expands that same player to the whole viewport, and <strong>Exit full screen</strong> returns to the page. The separate Google Drive link remains the fallback if streaming has trouble.";\n        loadSelection();\n        video.addEventListener("error", () => {\n          mediaStatus.textContent = "The selected copy could not stream in the mobile player. Use the Google Drive link above as the fallback.";\n        });\n      }'''
+          text, count = mobile_pattern.subn(mobile_replacement, text, count=1)
+          if count != 1:
+              raise SystemExit('Could not replace iOS scaling block')
+
+          replace_once(
+              '      fullscreenButton.addEventListener("click", () => setIOSFullscreen(!iosFullscreen));\n      exitFullscreenButton.addEventListener("click", () => setIOSFullscreen(false));',
+              '      fullscreenButton.addEventListener("click", () => setMobileFullscreen(!mobileFullscreen));\n      exitFullscreenButton.addEventListener("click", () => setMobileFullscreen(false));',
+              'fullscreen handlers')
+
+          path.write_text(text)
+          PY
+      - name: Commit repair
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web-viewer/media/index.html
+          git diff --cached --check
+          git commit -m "Repair mobile Media video sizing"
+          git push origin main
