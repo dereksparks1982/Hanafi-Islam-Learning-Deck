@@ -1,0 +1,4 @@
+build/
+media.tsv
+*.pid
+*.log
