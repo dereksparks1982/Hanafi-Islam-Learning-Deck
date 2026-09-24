@@ -25,37 +25,56 @@ jobs:
           path = Path('web-viewer/media/index.html')
           text = path.read_text()
 
-          old = '''        arabic: {
-          label: "العربية",
+          arabic_marker = '        arabic: {'
+          default_marker = '          defaultQuality: "1080p · No subtitles",'
+          quality_marker = '          qualities: {'
+          rogue_marker = '"1080p · No subtitles": {'
+          title_marker = 'title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"'
+          source_id = '1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9'
 
-            "1080p · No subtitles": {
+          if text.count(arabic_marker) != 1:
+              raise SystemExit('Arabic version object is not unique; refusing to patch.')
+          if text.count(default_marker) != 1:
+              raise SystemExit('Arabic 1080p default marker is not unique; refusing to patch.')
+          if text.count(title_marker) != 1 or text.count(source_id) != 2:
+              raise SystemExit('Arabic 1080p source markers are not exactly as expected; refusing to patch.')
 
-              preview: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview",
+          arabic_start = text.index(arabic_marker)
+          default_pos = text.index(default_marker, arabic_start)
+          rogue_pos = text.index(rogue_marker, arabic_start, default_pos)
+          title_pos = text.index(title_marker, rogue_pos, default_pos)
+          close_pos = text.index('},', title_pos) + 2
+          rogue_line_start = text.rfind('\n', arabic_start, rogue_pos) + 1
+          rogue_line_end = text.find('\n', close_pos)
+          if rogue_line_end == -1:
+              raise SystemExit('Could not locate rogue 1080p block ending; refusing to patch.')
+          rogue_line_end += 1
 
-              view: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/view?usp=sharing",
+          # Remove only the misplaced 1080p property block.
+          text = text[:rogue_line_start] + text[rogue_line_end:]
 
-              title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"
+          # Insert the same source inside the Arabic qualities object.
+          arabic_start = text.index(arabic_marker)
+          qualities_pos = text.index(quality_marker, arabic_start)
+          insert_pos = text.find('\n', qualities_pos) + 1
+          block = (
+              '            "1080p · No subtitles": {\n'
+              '              preview: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview",\n'
+              '              view: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/view?usp=sharing",\n'
+              '              title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"\n'
+              '            },\n'
+          )
+          text = text[:insert_pos] + block + text[insert_pos:]
 
-            },
-          defaultQuality: "1080p · No subtitles",
-          qualities: {
-            "480p": {'''
+          # State assertions before writing.
+          arabic_start = text.index(arabic_marker)
+          default_pos = text.index(default_marker, arabic_start)
+          qualities_pos = text.index(quality_marker, default_pos)
+          q1080_pos = text.index(rogue_marker, qualities_pos)
+          q480_pos = text.index('"480p": {', q1080_pos)
+          if not (arabic_start < default_pos < qualities_pos < q1080_pos < q480_pos):
+              raise SystemExit('Arabic quality ordering is not valid; refusing to write.')
 
-          new = '''        arabic: {
-          label: "العربية",
-          defaultQuality: "1080p · No subtitles",
-          qualities: {
-            "1080p · No subtitles": {
-              preview: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview",
-              view: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/view?usp=sharing",
-              title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"
-            },
-            "480p": {'''
-
-          if text.count(old) != 1:
-              raise SystemExit(f'Expected malformed Arabic source block matched {text.count(old)} times; refusing to patch.')
-
-          text = text.replace(old, new, 1)
           path.write_text(text)
           PY
 
@@ -65,7 +84,7 @@ jobs:
           grep -F 'const baseWidth = 1024;' web-viewer/media/index.html
           grep -F 'driveFrame.style.transform = `scale(${scale})`;' web-viewer/media/index.html
           grep -F 'defaultQuality: "1080p · No subtitles",' web-viewer/media/index.html
-          grep -A6 -F 'qualities: {' web-viewer/media/index.html | grep -F '"1080p · No subtitles": {'
+          grep -F '"1080p · No subtitles": {' web-viewer/media/index.html
 
       - name: Commit repaired source data
         run: |
