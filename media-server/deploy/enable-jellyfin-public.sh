@@ -152,6 +152,7 @@ server {
 }
 EOF
 
+sudo rm -f /etc/nginx/sites-enabled/default
 sudo ln -sf "$NGINX_FILE" "$NGINX_LINK"
 sudo nginx -t
 sudo systemctl enable --now nginx
