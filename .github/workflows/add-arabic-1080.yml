@@ -25,29 +25,22 @@ jobs:
           path = Path('web-viewer/media/index.html')
           text = path.read_text()
 
-          old_fact = '''          <div class="media-fact">
-            <strong>Arabic version · 480p / 360p</strong>
-            <span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · Arabic subtitles are visible in the project copies</span>
-          </div>'''
-          new_fact = '''          <div class="media-fact">
-            <strong>Arabic version · 1080p / 480p / 360p</strong>
-            <span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · 1080p no-subtitles copy included for Arabic listening study; older project copies remain available</span>
-          </div>'''
+          old_heading = '<strong>Arabic version · 480p / 360p</strong>'
+          new_heading = '<strong>Arabic version · 1080p / 480p / 360p</strong>'
 
-          old_versions = '''        arabic: {
-          label: "العربية",
-          defaultQuality: "480p",
-          qualities: {
-            "480p": {
+          old_desc = '<span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · Arabic subtitles are visible in the project copies</span>'
+          new_desc = '<span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · 1080p no-subtitles copy included for Arabic listening study; older project copies remain available</span>'
+
+          old_default = 'defaultQuality: "480p",'
+          new_default = 'defaultQuality: "1080p · No subtitles",'
+
+          old_480 = '''            "480p": {
               preview: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/preview",
               view: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/view?usp=sharing",
               title: "Al-Risalah (1976) · Arabic version · 480p"
             },'''
-          new_versions = '''        arabic: {
-          label: "العربية",
-          defaultQuality: "1080p · No subtitles",
-          qualities: {
-            "1080p · No subtitles": {
+
+          new_480 = '''            "1080p · No subtitles": {
               preview: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview",
               view: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/view?usp=sharing",
               title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"
@@ -58,13 +51,20 @@ jobs:
               title: "Al-Risalah (1976) · Arabic version · 480p"
             },'''
 
-          if text.count(old_fact) != 1:
-              raise SystemExit('Expected Arabic media fact block not found exactly once; refusing to patch.')
-          if text.count(old_versions) != 1:
-              raise SystemExit('Expected Arabic versions block not found exactly once; refusing to patch.')
+          checks = [
+              (old_heading, 'Arabic fact heading'),
+              (old_desc, 'Arabic fact description'),
+              (old_default, 'Arabic default quality'),
+              (old_480, 'Arabic 480p source block'),
+          ]
+          for needle, label in checks:
+              if text.count(needle) != 1:
+                  raise SystemExit(f'{label} did not match exactly once; refusing to patch.')
 
-          text = text.replace(old_fact, new_fact, 1)
-          text = text.replace(old_versions, new_versions, 1)
+          text = text.replace(old_heading, new_heading, 1)
+          text = text.replace(old_desc, new_desc, 1)
+          text = text.replace(old_default, new_default, 1)
+          text = text.replace(old_480, new_480, 1)
           path.write_text(text)
           PY
 
