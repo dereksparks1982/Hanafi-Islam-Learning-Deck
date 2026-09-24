@@ -1,0 +1,25 @@
+[Unit]
+Description=Hanafi Nougat Media Core
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=hanafi-media
+Group=hanafi-media
+WorkingDirectory=/etc/hanafi-media
+Environment=HANAFI_MEDIA_BIND=127.0.0.1
+Environment=HANAFI_MEDIA_PORT=8096
+Environment=HANAFI_MEDIA_MANIFEST=/etc/hanafi-media/media.tsv
+Environment=HANAFI_MEDIA_CORS_ORIGIN=https://dereksparks1982.github.io
+ExecStart=/usr/local/bin/hanafi-nougat-media-server
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadOnlyPaths=/srv/hanafi-media /etc/hanafi-media
+
+[Install]
+WantedBy=multi-user.target
