@@ -5,8 +5,15 @@
 #
 # Keep the IDs stable. The web app refers to these IDs, while the actual files
 # can be moved by editing only the paths below.
+#
+# Runtime deployment does not require the movies to be stored in Git. These
+# /srv paths are examples; the private runtime manifest may point directly at
+# the actual hosted-library paths on the media machine.
 
 message-en-720	/srv/hanafi-media/the-message-1976-english-720p.mp4	video/mp4	
+message-en-1080-hardsubs	/srv/hanafi-media/the-message-1976-english-1080p-hardsubs.mp4	video/mp4	
 risalah-ar-1080	/srv/hanafi-media/al-risalah-1976-arabic-1080p.mp4	video/mp4	/srv/hanafi-media/al-risalah-1976-arabic-english.srt
 risalah-ar-480	/srv/hanafi-media/al-risalah-1976-arabic-480p.mp4	video/mp4	
 risalah-ar-360	/srv/hanafi-media/al-risalah-1976-arabic-360p.mp4	video/mp4	
+lion-desert-1981	/srv/hanafi-media/lion-of-the-desert-1981.mp4	video/mp4	
+ten-commandments-1923	/srv/hanafi-media/the-ten-commandments-1923.mp4	video/mp4	
