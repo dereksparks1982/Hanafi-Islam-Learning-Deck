@@ -41,7 +41,8 @@
     .media-back-top{margin:1.5rem 0 0}
     [hidden]{display:none!important}
 
-    /* iPhone/iPad: keep the normal responsive Drive iframe; only the wrapper expands for full screen. */
+    /* iPhone/iPad: give the Google player a desktop-sized internal viewport, then scale it down. */
+    .media-player.ios-drive-stage iframe{inset:auto;width:1024px;height:576px;transform-origin:top left;z-index:1}
     .media-player.ios-drive-fullscreen{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border-radius:0;z-index:2147483000;background:#000}
     body.ios-media-fullscreen{overflow:hidden;overscroll-behavior:none}
     .media-exit-fullscreen{position:fixed;z-index:2147483647;top:calc(env(safe-area-inset-top,0px) + .75rem);right:calc(env(safe-area-inset-right,0px) + .75rem);padding:.75rem 1rem;border:1px solid rgba(216,181,96,.8);border-radius:999px;background:#0b3d2e;color:#fff;font-weight:800;box-shadow:0 4px 18px rgba(0,0,0,.55);pointer-events:auto}
@@ -233,6 +234,7 @@
         audioSection.hidden = showVideo;
         videoTab.setAttribute("aria-selected", String(showVideo));
         audioTab.setAttribute("aria-selected", String(!showVideo));
+        if (showVideo && isIOS) window.setTimeout(sizeIOSDriveFrame, 0);
       }
 
       function currentSelection() {
@@ -260,6 +262,7 @@
         driveFrame.title = selected.title;
         fallback.href = selected.view;
         mediaStatus.textContent = `${version.label} · ${selectedQuality} selected.`;
+        if (isIOS) window.setTimeout(sizeIOSDriveFrame, 0);
       }
 
       function selectLanguage(language) {
@@ -280,6 +283,23 @@
         loadSelection();
       }
 
+      function sizeIOSDriveFrame() {
+        if (!isIOS) return;
+        const baseWidth = 1024;
+        const baseHeight = 576;
+        const width = iosFullscreen ? window.innerWidth : mediaPlayer.clientWidth;
+        const height = iosFullscreen ? window.innerHeight : mediaPlayer.clientHeight;
+        const scale = iosFullscreen ? Math.min(width / baseWidth, height / baseHeight) : width / baseWidth;
+        const left = Math.max(0, (width - baseWidth * scale) / 2);
+        const top = Math.max(0, (height - baseHeight * scale) / 2);
+
+        driveFrame.style.width = `${baseWidth}px`;
+        driveFrame.style.height = `${baseHeight}px`;
+        driveFrame.style.left = `${left}px`;
+        driveFrame.style.top = `${top}px`;
+        driveFrame.style.transform = `scale(${scale})`;
+      }
+
       function setIOSFullscreen(active) {
         if (!isIOS) return;
         iosFullscreen = active;
@@ -287,11 +307,16 @@
         document.body.classList.toggle("ios-media-fullscreen", active);
         exitFullscreenButton.hidden = !active;
         fullscreenButton.textContent = active ? "Exit full screen" : "Full screen";
+        window.setTimeout(sizeIOSDriveFrame, 0);
       }
 
       if (isIOS) {
+        mediaPlayer.classList.add("ios-drive-stage");
         fullscreenButton.hidden = false;
-        mediaNote.innerHTML = "On iPhone and iPad, the Google Drive player uses the same responsive player as desktop. <strong>Full screen</strong> expands that player to the whole browser viewport, and the fixed <strong>Exit full screen</strong> button returns to the page. The separate Google Drive link remains the fallback if streaming has trouble.";
+        mediaNote.innerHTML = "On iPhone and iPad, the Google Drive player is rendered in a desktop-sized frame and scaled to fit so its controls remain reachable. <strong>Full screen</strong> expands the player to the whole browser viewport, and the fixed <strong>Exit full screen</strong> button returns to the page. The separate Google Drive link remains the fallback if streaming has trouble.";
+        window.addEventListener("resize", sizeIOSDriveFrame);
+        window.addEventListener("orientationchange", () => window.setTimeout(sizeIOSDriveFrame, 150));
+        window.setTimeout(sizeIOSDriveFrame, 0);
       }
 
       videoTab.addEventListener("click", () => showMediaSection("video"));

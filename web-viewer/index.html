@@ -22,6 +22,19 @@
   <style>
     #setNav.card-layout-pending,
     #library.card-layout-pending { visibility: hidden; }
+
+    .home-devotion {
+      width: min(860px, 100%);
+      margin: 1.15rem auto 1.35rem;
+      padding: 1rem 1.15rem;
+      text-align: center;
+      border-top: 1px solid rgba(216,181,96,.32);
+      border-bottom: 1px solid rgba(216,181,96,.32);
+    }
+    .home-devotion h2 { margin: 0 0 .55rem; color: #f3d989; font-size: clamp(1.55rem, 4vw, 2.2rem); line-height: 1.5; }
+    .home-devotion p { margin: .4rem 0; line-height: 1.65; }
+    .home-devotion-arabic { margin-top: .85rem !important; color: #f7f1df; font-size: clamp(1.1rem, 3vw, 1.45rem); line-height: 1.8 !important; }
+    .home-devotion-intention { margin-top: .9rem !important; }
   </style>
 </head>
 <body id="top">
@@ -30,6 +43,15 @@
     <div class="home-branding">
       <img class="home-brand-icon" src="assets/hanafi-learning-deck-icon-approved.png?rev=20260923a" alt="Hanafi Learning Deck emblem">
       <h1 class="home-brand-title">Hanafi Learning Deck</h1>
+    <section class="home-devotion" aria-labelledby="homeBismillah">
+      <h2 id="homeBismillah" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h2>
+      <p><strong>Bismillāhir-Raḥmānir-Raḥīm</strong></p>
+      <p><em>In the name of Allah, the Most Compassionate, the Most Merciful.</em></p>
+      <p class="home-devotion-arabic" lang="ar" dir="rtl"><strong>الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَىٰ رَسُولِ اللَّهِ</strong></p>
+      <p><strong>Al-ḥamdu lillāhi Rabbil-ʿālamīn, waṣ-ṣalātu was-salāmu ʿalā Rasūlillāh.</strong></p>
+      <p><em>All praise belongs to Allah, Lord of the worlds, and peace and blessings be upon the Messenger of Allah ﷺ.</em></p>
+      <p class="home-devotion-intention">This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement. <strong>Āmīn.</strong></p>
+    </section>
       <p class="home-tagline">Carry your deck with you.</p>
       <p class="intro">Browse the current card library online, open the Qur'an Reader, explore holy places, check local prayer times, or use the Live Madrasas & Masjids directory for Makkah Live and other broadcasts.</p>
     </div>
