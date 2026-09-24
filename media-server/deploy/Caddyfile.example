@@ -1,0 +1,15 @@
+# Replace media.example.com with the hostname that will serve the Hanafi media.
+# Caddy obtains and renews the TLS certificate automatically when DNS points
+# that hostname at this server and ports 80/443 are reachable.
+
+media.example.com {
+    encode zstd gzip
+
+    reverse_proxy 127.0.0.1:8096
+
+    header {
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+        -Server
+    }
+}
