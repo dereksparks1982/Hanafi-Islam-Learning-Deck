@@ -1,0 +1,44 @@
+name: Import Restricted Library Green Book Assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/import-green-book-library-assets.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  import-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Download and verify exact library assets
+        env:
+          PDF_URL_B64: 'aHR0cHM6Ly9zZG1udHByZWFzdHVzMi5vYWl1c2VyY29udGVudC5jb20vZmlsZXMvMDAwMDAwMDAtMDgyYy04MWY2LWJkYmMtNmYyMDE3MTczNGU4L3Jhdz9zZT0yMDI2LTA5LTI0VDA1JTNBMTQlM0E1Mlomc3A9ciZzdj0yMDI2LTAyLTA2JnNyPWImc2NpZD0wYzdhNzBjMS0wOTE4LTVmNGMtODk3NS01YTVlNzRmMGEzNDEmc2tvaWQ9YzM2YTQ4NzQtZDUzMS00YThkLTk5ZmMtN2RhMGQ5MTQzZDljJnNrdGlkPWE0OGNjYTU2LWU2ZGEtNDg0ZS1hODE0LTljODQ5NjUyYmNiMyZza3Q9MjAyNi0wOS0yM1QxOSUzQTEyJTNBNDRaJnNrZT0yMDI2LTA5LTI0VDE5JTNBMTIlM0E0NFomc2tzPWImc2t2PTIwMjYtMDItMDYmc2lnPWxuRWtOZWlsZk9tQWl4ZVpGb0slMkJzVzZMbmxlaVR2VUtQQTU2NkdvTVJsSSUzRA=='
+          COVER_URL_B64: 'aHR0cHM6Ly9zZG1udHByZWFzdHVzMi5vYWl1c2VyY29udGVudC5jb20vZmlsZXMvMDAwMDAwMDAtZDdmOC04MWY2LWJiYTMtYTNhZGE4MGU3MDhiL3Jhdz9zZT0yMDI2LTA5LTI0VDA1JTNBMTUlM0EwMlomc3A9ciZzdj0yMDI2LTAyLTA2JnNyPWImc2NpZD0yNmE5Njk3Mi00ZGM4LTU5MmUtOTJiYS00ZmNhMjE0NDY2NTMmc2tvaWQ9YzM2YTQ4NzQtZDUzMS00YThkLTk5ZmMtN2RhMGQ5MTQzZDljJnNrdGlkPWE0OGNjYTU2LWU2ZGEtNDg0ZS1hODE0LTljODQ5NjUyYmNiMyZza3Q9MjAyNi0wOS0yM1QyMCUzQTEzJTNBMDFaJnNrZT0yMDI2LTA5LTI0VDIwJTNBMTMlM0EwMVomc2tzPWImc2t2PTIwMjYtMDItMDYmc2lnPWJESSUyQk5jLzFZdk1ETXBoRWFkUnZPSlp4YjFLVnFhcDBmMFNGWUdpYTJMYyUzRA=='
+        run: |
+          set -euo pipefail
+          mkdir -p web-viewer/advanced-library/books
+          PDF_URL="$(printf '%s' "$PDF_URL_B64" | base64 -d)"
+          COVER_URL="$(printf '%s' "$COVER_URL_B64" | base64 -d)"
+          curl -L --fail --retry 3 --retry-delay 2 "$PDF_URL" -o web-viewer/advanced-library/books/the-green-book.pdf
+          curl -L --fail --retry 3 --retry-delay 2 "$COVER_URL" -o web-viewer/advanced-library/books/the-green-book-cover.png
+          test "$(stat -c%s web-viewer/advanced-library/books/the-green-book.pdf)" = "285364"
+          test "$(stat -c%s web-viewer/advanced-library/books/the-green-book-cover.png)" = "253744"
+          echo 'e8f22f930af65000d54c34d8cb7e93947887e2b01d8c2bbe042ec99b88f2a4f4  web-viewer/advanced-library/books/the-green-book.pdf' | sha256sum -c -
+          echo '0ced2718c5cb806cec964a64683816039463cd4212174c96d9b0cf99ca54d1f3  web-viewer/advanced-library/books/the-green-book-cover.png' | sha256sum -c -
+
+      - name: Commit exact assets and remove importer
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add web-viewer/advanced-library/books/the-green-book.pdf web-viewer/advanced-library/books/the-green-book-cover.png
+          git rm .github/workflows/import-green-book-library-assets.yml
+          git commit -m 'Add Green Book to restricted library collection'
+          git push
