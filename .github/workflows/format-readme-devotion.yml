@@ -1,0 +1,86 @@
+name: Format README Devotion
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/format-readme-devotion.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  format-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Format README devotional opening only
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('README.md')
+          text = path.read_text()
+
+          old = '''<h1 align="center">Hanafi Learning Deck v2.0</h1>
+
+<div align="center">
+
+## بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+
+**Bismillāhir-Raḥmānir-Raḥīm**  
+*In the name of Allah, the Most Compassionate, the Most Merciful.*
+
+**الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَىٰ رَسُولِ اللَّهِ**  
+**Al-ḥamdu lillāhi Rabbil-ʿālamīn, waṣ-ṣalātu was-salāmu ʿalā Rasūlillāh.**  
+*All praise belongs to Allah, Lord of the worlds, and peace and blessings be upon the Messenger of Allah ﷺ.*
+
+This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement. **Āmīn.**
+
+</div>'''
+
+          new = '''<h1 align="center">Hanafi Learning Deck v2.0</h1>
+
+<div align="center">
+
+<p dir="rtl"><strong>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</strong></p>
+<p><strong>Bismillāhir-Raḥmānir-Raḥīm</strong></p>
+<p><em>In the name of Allah, the Most Compassionate, the Most Merciful.</em></p>
+
+<br>
+
+<p dir="rtl"><strong>الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَىٰ رَسُولِ اللَّهِ</strong></p>
+<p><strong>Al-ḥamdu lillāhi Rabbil-ʿālamīn, waṣ-ṣalātu was-salāmu ʿalā Rasūlillāh.</strong></p>
+<p><em>All praise belongs to Allah, Lord of the worlds, and peace and blessings be upon the Messenger of Allah ﷺ.</em></p>
+
+<br>
+
+<p dir="rtl"><strong>يُقَامُ هَذَا الْمَشْرُوعُ ابْتِغَاءَ مَرْضَاةِ اللَّهِ وَنَشْرِ الْعِلْمِ النَّافِعِ. نَسْأَلُ اللَّهَ أَنْ يَتَقَبَّلَ مَا فِيهِ مِنَ الصَّوَابِ وَالنَّفْعِ، وَأَنْ يَغْفِرَ مَا فِيهِ مِنَ الْخَطَإِ، وَأَنْ يَهْدِيَ إِلَى مُوَاصَلَةِ تَصْحِيحِهِ وَتَحْسِينِهِ. آمِين.</strong></p>
+<p><strong>Yuqāmu hādhā al-mashrūʿu ibtighāʾa marḍāti Allāhi wa-nashri al-ʿilmi al-nāfiʿ. Nasʾalu Allāha an yataqabbala mā fīhi mina al-ṣawābi wa-al-nafʿi, wa-an yaghfira mā fīhi mina al-khaṭaʾi, wa-an yahdiya ilā muwāṣalati taṣḥīḥihi wa-taḥsīnihi. Āmīn.</strong></p>
+<p><em>This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement. <strong>Āmīn.</strong></em></p>
+
+</div>'''
+
+          if text.count(old) != 1:
+              raise SystemExit(f'Expected README opening matched {text.count(old)} times; refusing to change anything.')
+
+          path.write_text(text.replace(old, new, 1))
+          PY
+
+      - name: Verify heading separation
+        run: |
+          grep -F '<h1 align="center">Hanafi Learning Deck v2.0</h1>' README.md
+          ! grep -F '## بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ' README.md
+          grep -F '<p dir="rtl"><strong>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</strong></p>' README.md
+          grep -F 'يُقَامُ هَذَا الْمَشْرُوعُ' README.md
+
+      - name: Commit README only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git commit -m 'Match README devotional opening to Home'
+          git push
