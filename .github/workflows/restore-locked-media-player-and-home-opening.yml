@@ -1,0 +1,213 @@
+name: Restore locked Media player and Home opening
+
+on:
+  push:
+    paths:
+      - .github/workflows/restore-locked-media-player-and-home-opening.yml
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Apply exact approved changes
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          # ---------- MEDIA: restore the exact known-good iPhone Drive player behavior ----------
+          media_path = Path('web-viewer/media/index.html')
+          media = media_path.read_text(encoding='utf-8')
+
+          replacements = []
+
+          replacements.append((
+          '''    /* iPhone/iPad: keep the normal responsive Drive iframe; only the wrapper expands for full screen. */
+              .media-player.ios-drive-fullscreen{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border-radius:0;z-index:2147483000;background:#000}
+          ''',
+          '''    /* iPhone/iPad: give the Google player a desktop-sized internal viewport, then scale it down. */
+              .media-player.ios-drive-stage iframe{inset:auto;width:1024px;height:576px;transform-origin:top left;z-index:1}
+              .media-player.ios-drive-fullscreen{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border-radius:0;z-index:2147483000;background:#000}
+          '''))
+
+          replacements.append((
+          '''        videoTab.setAttribute("aria-selected", String(showVideo));
+                  audioTab.setAttribute("aria-selected", String(!showVideo));
+                }
+          ''',
+          '''        videoTab.setAttribute("aria-selected", String(showVideo));
+                  audioTab.setAttribute("aria-selected", String(!showVideo));
+                  if (showVideo && isIOS) window.setTimeout(sizeIOSDriveFrame, 0);
+                }
+          '''))
+
+          replacements.append((
+          '''        fallback.href = selected.view;
+                  mediaStatus.textContent = `${version.label} · ${selectedQuality} selected.`;
+                }
+          ''',
+          '''        fallback.href = selected.view;
+                  mediaStatus.textContent = `${version.label} · ${selectedQuality} selected.`;
+                  if (isIOS) window.setTimeout(sizeIOSDriveFrame, 0);
+                }
+          '''))
+
+          replacements.append((
+          '''      function setIOSFullscreen(active) {
+                  if (!isIOS) return;
+                  iosFullscreen = active;
+                  mediaPlayer.classList.toggle("ios-drive-fullscreen", active);
+                  document.body.classList.toggle("ios-media-fullscreen", active);
+                  exitFullscreenButton.hidden = !active;
+                  fullscreenButton.textContent = active ? "Exit full screen" : "Full screen";
+                }
+          ''',
+          '''      function sizeIOSDriveFrame() {
+                  if (!isIOS) return;
+                  const baseWidth = 1024;
+                  const baseHeight = 576;
+                  const width = iosFullscreen ? window.innerWidth : mediaPlayer.clientWidth;
+                  const height = iosFullscreen ? window.innerHeight : mediaPlayer.clientHeight;
+                  const scale = iosFullscreen ? Math.min(width / baseWidth, height / baseHeight) : width / baseWidth;
+                  const left = Math.max(0, (width - baseWidth * scale) / 2);
+                  const top = Math.max(0, (height - baseHeight * scale) / 2);
+
+                  driveFrame.style.width = `${baseWidth}px`;
+                  driveFrame.style.height = `${baseHeight}px`;
+                  driveFrame.style.left = `${left}px`;
+                  driveFrame.style.top = `${top}px`;
+                  driveFrame.style.transform = `scale(${scale})`;
+                }
+
+                function setIOSFullscreen(active) {
+                  if (!isIOS) return;
+                  iosFullscreen = active;
+                  mediaPlayer.classList.toggle("ios-drive-fullscreen", active);
+                  document.body.classList.toggle("ios-media-fullscreen", active);
+                  exitFullscreenButton.hidden = !active;
+                  fullscreenButton.textContent = active ? "Exit full screen" : "Full screen";
+                  window.setTimeout(sizeIOSDriveFrame, 0);
+                }
+          '''))
+
+          replacements.append((
+          '''      if (isIOS) {
+                  fullscreenButton.hidden = false;
+                  mediaNote.innerHTML = "On iPhone and iPad, the Google Drive player uses the same responsive player as desktop. <strong>Full screen</strong> expands that player to the whole browser viewport, and the fixed <strong>Exit full screen</strong> button returns to the page. The separate Google Drive link remains the fallback if streaming has trouble.";
+                }
+          ''',
+          '''      if (isIOS) {
+                  mediaPlayer.classList.add("ios-drive-stage");
+                  fullscreenButton.hidden = false;
+                  mediaNote.innerHTML = "On iPhone and iPad, the Google Drive player is rendered in a desktop-sized frame and scaled to fit so its controls remain reachable. <strong>Full screen</strong> expands the player to the whole browser viewport, and the fixed <strong>Exit full screen</strong> button returns to the page. The separate Google Drive link remains the fallback if streaming has trouble.";
+                  window.addEventListener("resize", sizeIOSDriveFrame);
+                  window.addEventListener("orientationchange", () => window.setTimeout(sizeIOSDriveFrame, 150));
+                  window.setTimeout(sizeIOSDriveFrame, 0);
+                }
+          '''))
+
+          for old, new in replacements:
+              count = media.count(old)
+              if count != 1:
+                  raise SystemExit(f'Media assertion failed: expected exactly one match, found {count}')
+              media = media.replace(old, new, 1)
+
+          # Guardrails: keep current v2.1 page and keep Message source block removed.
+          if '<span class="media-release">v2.1</span>' not in media:
+              raise SystemExit('Media assertion failed: v2.1 marker missing')
+          if '<h3>Sources and further information</h3>' in media:
+              raise SystemExit('Media assertion failed: Message sources block unexpectedly present')
+          if 'ios-drive-stage iframe' not in media or 'function sizeIOSDriveFrame()' not in media:
+              raise SystemExit('Media assertion failed: known-good player code not restored')
+
+          media_path.write_text(media, encoding='utf-8')
+
+          # ---------- HOME: add devotional opening without moving or duplicating the version ----------
+          home_path = Path('web-viewer/index.html')
+          home = home_path.read_text(encoding='utf-8')
+
+          style_old = '''    #setNav.card-layout-pending,
+              #library.card-layout-pending { visibility: hidden; }
+          '''
+          style_new = '''    #setNav.card-layout-pending,
+              #library.card-layout-pending { visibility: hidden; }
+
+              .home-devotion {
+                width: min(860px, 100%);
+                margin: 1.15rem auto 1.35rem;
+                padding: 1rem 1.15rem;
+                text-align: center;
+                border-top: 1px solid rgba(216,181,96,.32);
+                border-bottom: 1px solid rgba(216,181,96,.32);
+              }
+              .home-devotion h2 {
+                margin: 0 0 .55rem;
+                color: #f3d989;
+                font-size: clamp(1.55rem, 4vw, 2.2rem);
+                line-height: 1.5;
+              }
+              .home-devotion p { margin: .4rem 0; line-height: 1.65; }
+              .home-devotion .home-devotion-arabic {
+                margin-top: .85rem;
+                color: #f7f1df;
+                font-size: clamp(1.1rem, 3vw, 1.45rem);
+                line-height: 1.8;
+              }
+              .home-devotion .home-devotion-intention { margin-top: .9rem; }
+          '''
+          if home.count(style_old) != 1:
+              raise SystemExit(f'Home style assertion failed: expected one match, found {home.count(style_old)}')
+          home = home.replace(style_old, style_new, 1)
+
+          title_old = '''      <h1 class="home-brand-title">Hanafi Learning Deck</h1>
+              <p class="home-tagline">Carry your deck with you.</p>
+          '''
+          title_new = '''      <h1 class="home-brand-title">Hanafi Learning Deck</h1>
+              <section class="home-devotion" aria-labelledby="homeBismillah">
+                <h2 id="homeBismillah" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h2>
+                <p><strong>Bismillāhir-Raḥmānir-Raḥīm</strong></p>
+                <p><em>In the name of Allah, the Most Compassionate, the Most Merciful.</em></p>
+                <p class="home-devotion-arabic" lang="ar" dir="rtl"><strong>الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَىٰ رَسُولِ اللَّهِ</strong></p>
+                <p><strong>Al-ḥamdu lillāhi Rabbil-ʿālamīn, waṣ-ṣalātu was-salāmu ʿalā Rasūlillāh.</strong></p>
+                <p><em>All praise belongs to Allah, Lord of the worlds, and peace and blessings be upon the Messenger of Allah ﷺ.</em></p>
+                <p class="home-devotion-intention">This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement. <strong>Āmīn.</strong></p>
+              </section>
+              <p class="home-tagline">Carry your deck with you.</p>
+          '''
+          if home.count(title_old) != 1:
+              raise SystemExit(f'Home title assertion failed: expected one match, found {home.count(title_old)}')
+          home = home.replace(title_old, title_new, 1)
+
+          if home.count('<span class="home-version">v2.1</span>') != 1:
+              raise SystemExit('Home assertion failed: existing v2.1 marker moved, missing, or duplicated')
+          if 'Hanafi Learning Deck v2.0' in home or '[svg]' in home:
+              raise SystemExit('Home assertion failed: copy/paste artifact detected')
+
+          home_path.write_text(home, encoding='utf-8')
+          PY
+
+      - name: Verify exact scope
+        shell: bash
+        run: |
+          git diff --check
+          changed="$(git diff --name-only)"
+          printf '%s\n' "$changed"
+          test "$changed" = $'web-viewer/index.html\nweb-viewer/media/index.html'
+
+      - name: Commit approved build
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web-viewer/index.html web-viewer/media/index.html
+          git commit -m "Lock known-good Media player and add Home invocation"
+          git push origin HEAD:main
