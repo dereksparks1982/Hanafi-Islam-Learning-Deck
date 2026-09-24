@@ -25,9 +25,9 @@ TEN="$HOSTED_ROOT/The Ten Commandments"
 
 EN_720="$AL_RISALAH/The Message (1976).nosubs.mp4"
 EN_1080="$AL_RISALAH/The.Message.1976.English.1080p.hardsubs.mp4"
-AR_1080="$AL_RISALAH/The.Message.1976.1080p.BluRay.x264.AAC5.1.arabic.englishsubs.mp4"
+AR_1080="$AL_RISALAH/The.Message.1976.1080p.WEB-DL.DD5.1.H264.nosubs.mkv"
 AR_1080_SRT="$AL_RISALAH/The.Message.1976.1080p.BluRay.x264.AAC5.1.englishsubs.srt"
-AR_1080_HARDSUBS="$AL_RISALAH/The.Message.1976.1080p.WEB-DL.DD5.1.H264.nosubs.mkv"
+AR_1080_HARDSUBS="$AL_RISALAH/The.Message.1976.1080p.BluRay.x264.AAC5.1.arabic.englishsubs.mp4"
 AR_480="$AL_RISALAH/Al-Risalah-1976-Arabic-480p.english.subs.mp4"
 AR_360="$AL_RISALAH/Al-Risalah-1976-Arabic.360p.nosubs.mp4"
 LION_1981="$LION/Lion-of-the-Desert-1981.nosubs.mp4"
@@ -37,6 +37,7 @@ required=(
   "$EN_720"
   "$AR_1080"
   "$AR_1080_SRT"
+  "$AR_1080_HARDSUBS"
   "$AR_480"
   "$AR_360"
   "$LION_1981"
@@ -65,10 +66,8 @@ umask 077
   if [[ -f "$EN_1080" ]]; then
     printf 'message-en-1080-hardsubs\t%s\tvideo/mp4\t\n' "$EN_1080"
   fi
-  printf 'risalah-ar-1080\t%s\tvideo/mp4\t%s\n' "$AR_1080" "$AR_1080_SRT"
-  if [[ -f "$AR_1080_HARDSUBS" ]]; then
-    printf 'risalah-ar-1080-hardsubs\t%s\tvideo/x-matroska\t\n' "$AR_1080_HARDSUBS"
-  fi
+  printf 'risalah-ar-1080\t%s\tvideo/x-matroska\t%s\n' "$AR_1080" "$AR_1080_SRT"
+  printf 'risalah-ar-1080-hardsubs\t%s\tvideo/mp4\t\n' "$AR_1080_HARDSUBS"
   printf 'risalah-ar-480\t%s\tvideo/mp4\t\n' "$AR_480"
   printf 'risalah-ar-360\t%s\tvideo/mp4\t\n' "$AR_360"
   printf 'lion-desert-1981\t%s\tvideo/mp4\t\n' "$LION_1981"
@@ -131,7 +130,7 @@ check_range() {
 check_range message-en-720
 if [[ -f "$EN_1080" ]]; then check_range message-en-1080-hardsubs; fi
 check_range risalah-ar-1080
-if [[ -f "$AR_1080_HARDSUBS" ]]; then check_range risalah-ar-1080-hardsubs; fi
+check_range risalah-ar-1080-hardsubs
 check_range risalah-ar-480
 check_range risalah-ar-360
 check_range lion-desert-1981
