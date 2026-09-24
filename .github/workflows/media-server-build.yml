@@ -1,0 +1,71 @@
+name: Nougat Media Server Build
+
+on:
+  push:
+    paths:
+      - 'media-server/**'
+      - '.github/workflows/media-server-build.yml'
+  pull_request:
+    paths:
+      - 'media-server/**'
+      - '.github/workflows/media-server-build.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S media-server -B build/media-server -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build/media-server --parallel
+
+      - name: Create smoke-test media
+        run: |
+          mkdir -p build/media-server/test-media
+          printf '0123456789abcdefghijklmnopqrstuvwxyz' > build/media-server/test-media/sample.mp4
+          cat > build/media-server/test-media/sample.srt <<'EOF'
+          1
+          00:00:00,000 --> 00:00:02,000
+          Test subtitle
+          EOF
+          printf 'sample\t%s\tvideo/mp4\t%s\n' \
+            "$PWD/build/media-server/test-media/sample.mp4" \
+            "$PWD/build/media-server/test-media/sample.srt" \
+            > build/media-server/media.tsv
+
+      - name: Start server
+        run: |
+          cd build/media-server
+          HANAFI_MEDIA_MANIFEST="$PWD/media.tsv" ./hanafi-nougat-media-server > server.log 2>&1 &
+          echo $! > server.pid
+          for i in {1..20}; do
+            if curl --fail --silent http://127.0.0.1:8096/nougat/v1/health >/dev/null; then
+              exit 0
+            fi
+            sleep 0.25
+          done
+          cat server.log
+          exit 1
+
+      - name: Test health, range, and subtitles
+        run: |
+          curl --fail --silent http://127.0.0.1:8096/nougat/v1/health | grep -q 'Nougat Media Core'
+          test "$(curl --fail --silent -H 'Range: bytes=5-9' 'http://127.0.0.1:8096/nougat/v1/media?id=sample')" = '56789'
+          curl --fail --silent 'http://127.0.0.1:8096/nougat/v1/subtitle?id=sample' | grep -q '^WEBVTT'
+          curl --fail --silent 'http://127.0.0.1:8096/nougat/v1/subtitle?id=sample' | grep -q '00:00:00.000 --> 00:00:02.000'
+
+      - name: Stop server
+        if: always()
+        run: |
+          if [ -f build/media-server/server.pid ]; then
+            kill "$(cat build/media-server/server.pid)" 2>/dev/null || true
+          fi
+          if [ -f build/media-server/server.log ]; then
+            cat build/media-server/server.log
+          fi
