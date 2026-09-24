@@ -1,0 +1,12 @@
+# Hanafi Nougat Media Core manifest
+#
+# Format, tab-separated:
+# id<TAB>absolute media path<TAB>MIME type<TAB>optional subtitle path
+#
+# Keep the IDs stable. The web app refers to these IDs, while the actual files
+# can be moved by editing only the paths below.
+
+message-en-720	/srv/hanafi-media/the-message-1976-english-720p.mp4	video/mp4	
+risalah-ar-1080	/srv/hanafi-media/al-risalah-1976-arabic-1080p.mp4	video/mp4	/srv/hanafi-media/al-risalah-1976-arabic-english.srt
+risalah-ar-480	/srv/hanafi-media/al-risalah-1976-arabic-480p.mp4	video/mp4	
+risalah-ar-360	/srv/hanafi-media/al-risalah-1976-arabic-360p.mp4	video/mp4	
