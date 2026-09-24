@@ -11,20 +11,38 @@
     }
   </script>
   <style>
+    :root {
+      color-scheme: dark;
+      --library-gold: #d9b45f;
+      --library-gold-soft: #b18b43;
+      --library-ink: #06110d;
+      --library-wood: #25170e;
+      --library-wood-dark: #100a06;
+    }
+
     * { box-sizing: border-box; }
-    html, body { min-height: 100%; }
+    html, body { width: 100%; min-height: 100%; }
     html { background: #03130e; }
     body {
       margin: 0;
       min-height: 100dvh;
+      overflow: hidden;
       background-color: #03130e;
       background-image: url("../assets/hanafi-advanced-library-background-approved.png?rev=20260924a");
       background-position: center center;
       background-repeat: no-repeat;
       background-size: cover;
       background-attachment: fixed;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #f0dfad;
     }
-    main { min-height: 100dvh; }
+
+    main {
+      position: relative;
+      min-height: 100dvh;
+      isolation: isolate;
+    }
+
     .visually-hidden {
       position: absolute;
       width: 1px;
@@ -36,14 +54,340 @@
       white-space: nowrap;
       border: 0;
     }
-    @media (hover: none) and (pointer: coarse) {
-      body { background-attachment: scroll; }
+
+    .book-preview {
+      position: fixed;
+      left: 50%;
+      bottom: clamp(180px, 29vh, 330px);
+      width: min(235px, 30vw);
+      aspect-ratio: 2 / 3;
+      z-index: 30;
+      transform: translate(-50%, 18px) scale(.96);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease, transform .22s ease;
+      filter: drop-shadow(0 26px 30px rgba(0,0,0,.66));
+    }
+
+    .book-preview.is-visible {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+    }
+
+    .book-preview img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 1px solid rgba(223, 186, 91, .68);
+      border-radius: 3px 8px 8px 3px;
+      background: #17120a;
+      box-shadow:
+        inset 8px 0 10px rgba(0,0,0,.26),
+        0 0 0 2px rgba(50,31,14,.74),
+        0 18px 42px rgba(0,0,0,.52);
+    }
+
+    .library-shelf-shell {
+      position: fixed;
+      left: 50%;
+      bottom: max(2.2vh, env(safe-area-inset-bottom));
+      width: min(1120px, 86vw);
+      height: clamp(170px, 22vh, 240px);
+      z-index: 20;
+      transform: translateX(-50%);
+      display: grid;
+      grid-template-rows: 1fr 22px;
+      perspective: 900px;
+      filter: drop-shadow(0 20px 30px rgba(0,0,0,.55));
+    }
+
+    .library-shelf-scroll {
+      position: relative;
+      display: flex;
+      align-items: end;
+      gap: 3px;
+      width: 100%;
+      min-width: 0;
+      padding: 24px 30px 7px;
+      overflow-x: auto;
+      overflow-y: visible;
+      scrollbar-width: none;
+      overscroll-behavior-inline: contain;
+      scroll-behavior: smooth;
+      touch-action: pan-x;
+      -webkit-overflow-scrolling: touch;
+      background:
+        linear-gradient(90deg, rgba(3,11,8,.36), transparent 8% 92%, rgba(3,11,8,.36)),
+        linear-gradient(180deg, rgba(6,18,13,.12), rgba(5,12,9,.38));
+      border-inline: 1px solid rgba(199,152,65,.15);
+    }
+
+    .library-shelf-scroll::-webkit-scrollbar { display: none; }
+
+    .library-shelf-scroll::before,
+    .library-shelf-scroll::after {
+      content: "";
+      flex: 0 0 18px;
+      height: 1px;
+    }
+
+    .library-shelf-plank {
+      position: relative;
+      border: 1px solid rgba(215,168,76,.52);
+      border-radius: 2px 2px 8px 8px;
+      background:
+        linear-gradient(180deg, rgba(224,178,91,.16), transparent 18%),
+        repeating-linear-gradient(94deg, rgba(255,255,255,.018) 0 2px, transparent 2px 17px),
+        linear-gradient(180deg, #3c2514, #1a0f08 58%, #0b0704);
+      box-shadow:
+        inset 0 1px 0 rgba(255,217,130,.26),
+        inset 0 -5px 9px rgba(0,0,0,.58),
+        0 6px 12px rgba(0,0,0,.48);
+    }
+
+    .library-shelf-plank::after {
+      content: "";
+      position: absolute;
+      left: 2%;
+      right: 2%;
+      top: 5px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(226,181,89,.5), transparent);
+    }
+
+    .library-book {
+      --book-h: 150px;
+      --book-w: 42px;
+      --book-lean: 0deg;
+      position: relative;
+      flex: 0 0 var(--book-w);
+      width: var(--book-w);
+      height: var(--book-h);
+      padding: 0;
+      margin: 0;
+      border: 0;
+      outline: 0;
+      cursor: pointer;
+      appearance: none;
+      color: #dfc078;
+      background: transparent;
+      transform-origin: 50% 100%;
+      transform: rotate(var(--book-lean)) translateY(0);
+      transition: transform .15s ease, filter .15s ease;
+      touch-action: manipulation;
+    }
+
+    .library-book:hover,
+    .library-book:focus-visible,
+    .library-book.is-selected {
+      transform: rotate(0deg) translateY(-10px);
+      z-index: 5;
+      filter: brightness(1.12);
+    }
+
+    .book-spine {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid rgba(211,168,81,.55);
+      border-radius: 3px 3px 1px 1px;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.35), transparent 18% 73%, rgba(255,220,137,.08) 75%, rgba(0,0,0,.22)),
+        linear-gradient(180deg, rgba(255,219,130,.07), transparent 12% 88%, rgba(0,0,0,.36)),
+        var(--book-color, #234c39);
+      box-shadow:
+        inset 4px 0 7px rgba(0,0,0,.28),
+        inset -2px 0 4px rgba(255,230,161,.05),
+        1px 3px 6px rgba(0,0,0,.45);
+    }
+
+    .book-spine::before,
+    .book-spine::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      height: 1px;
+      background: rgba(221,178,84,.72);
+      box-shadow: 0 2px 0 rgba(0,0,0,.38);
+    }
+
+    .book-spine::before { top: 12px; }
+    .book-spine::after { bottom: 12px; }
+
+    .book-spine-title {
+      max-height: calc(100% - 38px);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      overflow: hidden;
+      color: #e0bd6c;
+      font-size: clamp(.55rem, .72vw, .72rem);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 2px #000;
+      white-space: nowrap;
+    }
+
+    .shelf-empty-note {
+      margin: auto;
+      align-self: center;
+      color: rgba(220,190,122,.62);
+      font-size: .78rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      text-shadow: 0 2px 5px #000;
+      user-select: none;
+    }
+
+    @media (max-width: 760px) {
+      body {
+        background-attachment: scroll;
+        background-position: center center;
+      }
+
+      .library-shelf-shell {
+        width: 94vw;
+        height: clamp(150px, 24vh, 205px);
+        bottom: max(1vh, env(safe-area-inset-bottom));
+      }
+
+      .library-shelf-scroll { padding-inline: 18px; }
+
+      .book-preview {
+        width: min(190px, 46vw);
+        bottom: clamp(158px, 28vh, 240px);
+      }
+    }
+
+    @media (max-height: 520px) and (orientation: landscape) {
+      .library-shelf-shell {
+        height: 135px;
+        width: 90vw;
+      }
+      .book-preview {
+        width: 116px;
+        bottom: 130px;
+      }
     }
   </style>
 </head>
 <body>
   <main aria-labelledby="libraryTitle">
     <h1 id="libraryTitle" class="visually-hidden">Advanced Learner Library</h1>
+
+    <figure id="bookPreview" class="book-preview" aria-hidden="true">
+      <img id="bookPreviewImage" alt="">
+    </figure>
+
+    <section class="library-shelf-shell" aria-label="Library shelf">
+      <div id="libraryShelf" class="library-shelf-scroll" tabindex="0">
+        <span id="shelfEmptyNote" class="shelf-empty-note">The first volume is being catalogued</span>
+      </div>
+      <div class="library-shelf-plank" aria-hidden="true"></div>
+    </section>
   </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const shelf = document.getElementById("libraryShelf");
+      const emptyNote = document.getElementById("shelfEmptyNote");
+      const preview = document.getElementById("bookPreview");
+      const previewImage = document.getElementById("bookPreviewImage");
+      let selectedBook = null;
+      let lastTouchBook = null;
+      let lastTouchAt = 0;
+
+      const books = () => Array.from(shelf.querySelectorAll(".library-book"));
+
+      const showCover = book => {
+        if (!book || !book.dataset.cover) return;
+        books().forEach(item => item.classList.toggle("is-selected", item === book));
+        selectedBook = book;
+        previewImage.src = book.dataset.cover;
+        previewImage.alt = `${book.dataset.title || "Book"} cover`;
+        preview.classList.add("is-visible");
+        preview.setAttribute("aria-hidden", "false");
+      };
+
+      const hideCover = () => {
+        books().forEach(item => item.classList.remove("is-selected"));
+        selectedBook = null;
+        preview.classList.remove("is-visible");
+        preview.setAttribute("aria-hidden", "true");
+      };
+
+      const openBook = book => {
+        if (!book) return;
+        book.dispatchEvent(new CustomEvent("library:open-book", { bubbles: true, detail: { id: book.dataset.bookId } }));
+      };
+
+      shelf.addEventListener("wheel", event => {
+        if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+        if (shelf.scrollWidth <= shelf.clientWidth) return;
+        event.preventDefault();
+        shelf.scrollLeft += event.deltaY;
+      }, { passive: false });
+
+      shelf.addEventListener("mouseover", event => {
+        const book = event.target.closest(".library-book");
+        if (book) showCover(book);
+      });
+
+      shelf.addEventListener("focusin", event => {
+        const book = event.target.closest(".library-book");
+        if (book) showCover(book);
+      });
+
+      shelf.addEventListener("click", event => {
+        const book = event.target.closest(".library-book");
+        if (!book) return;
+        showCover(book);
+      });
+
+      shelf.addEventListener("dblclick", event => {
+        const book = event.target.closest(".library-book");
+        if (!book) return;
+        event.preventDefault();
+        openBook(book);
+      });
+
+      shelf.addEventListener("pointerup", event => {
+        if (event.pointerType === "mouse") return;
+        const book = event.target.closest(".library-book");
+        if (!book) return;
+        const now = Date.now();
+        if (lastTouchBook === book && now - lastTouchAt < 360) {
+          lastTouchBook = null;
+          lastTouchAt = 0;
+          openBook(book);
+          return;
+        }
+        lastTouchBook = book;
+        lastTouchAt = now;
+        showCover(book);
+      });
+
+      document.addEventListener("click", event => {
+        if (event.target.closest(".library-book") || event.target.closest(".book-preview")) return;
+        hideCover();
+      });
+
+      window.HanafiLibraryShelf = {
+        shelf,
+        emptyNote,
+        showCover,
+        hideCover,
+        openBook
+      };
+    })();
+  </script>
 </body>
 </html>
