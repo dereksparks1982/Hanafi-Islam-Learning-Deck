@@ -96,12 +96,12 @@ body#top > .home-lantern-glow {
 
 body#top > .home-lantern-glow-left {
   left: 1.6vw;
-  animation: hanafiLanternFlickerLeft 3.9s steps(1, end) infinite;
+  animation: hanafiLanternFlickerLeft 11.8s ease-in-out infinite;
 }
 
 body#top > .home-lantern-glow-right {
   right: 1.6vw;
-  animation: hanafiLanternFlickerRight 4.7s steps(1, end) infinite;
+  animation: hanafiLanternFlickerRight 13.4s ease-in-out infinite;
 }
 
 body#top > header,
@@ -112,25 +112,21 @@ body#top > footer {
 }
 
 @keyframes hanafiLanternFlickerLeft {
-  0%, 100% { opacity: .24; transform: scale(.98); }
-  8% { opacity: .33; transform: scale(1.02); }
-  17% { opacity: .27; transform: scale(.995); }
-  29% { opacity: .38; transform: scale(1.035); }
-  43% { opacity: .29; transform: scale(1.005); }
-  57% { opacity: .35; transform: scale(1.025); }
-  71% { opacity: .25; transform: scale(.99); }
-  86% { opacity: .31; transform: scale(1.015); }
+  0%, 100% { opacity: .27; transform: scale(1); }
+  16% { opacity: .30; transform: scale(1.006); }
+  32% { opacity: .26; transform: scale(.997); }
+  49% { opacity: .31; transform: scale(1.01); }
+  66% { opacity: .28; transform: scale(1.003); }
+  83% { opacity: .30; transform: scale(1.007); }
 }
 
 @keyframes hanafiLanternFlickerRight {
-  0%, 100% { opacity: .31; transform: scale(1.01); }
-  11% { opacity: .25; transform: scale(.99); }
-  24% { opacity: .36; transform: scale(1.03); }
-  39% { opacity: .28; transform: scale(1.005); }
-  52% { opacity: .34; transform: scale(1.02); }
-  66% { opacity: .23; transform: scale(.985); }
-  79% { opacity: .37; transform: scale(1.035); }
-  91% { opacity: .27; transform: scale(1); }
+  0%, 100% { opacity: .29; transform: scale(1.004); }
+  14% { opacity: .27; transform: scale(.998); }
+  31% { opacity: .31; transform: scale(1.009); }
+  47% { opacity: .28; transform: scale(1.002); }
+  64% { opacity: .30; transform: scale(1.007); }
+  81% { opacity: .26; transform: scale(.997); }
 }
 
 @media (prefers-reduced-motion: reduce) {
