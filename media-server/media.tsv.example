@@ -3,17 +3,17 @@
 # Format, tab-separated:
 # id<TAB>absolute media path<TAB>MIME type<TAB>optional subtitle path
 #
-# Keep the IDs stable. The web app refers to these IDs, while the actual files
-# can be moved by editing only the paths below.
+# Current media library root on saxondesktop:
+# /home/dereksparks1982/Videos/Hosted
 #
-# Runtime deployment does not require the movies to be stored in Git. These
-# /srv paths are examples; the private runtime manifest may point directly at
-# the actual hosted-library paths on the media machine.
+# Keep IDs stable. The web app refers to IDs, never filesystem paths.
+# Copy this file to /etc/hanafi-media/media.tsv for runtime use.
 
-message-en-720	/srv/hanafi-media/the-message-1976-english-720p.mp4	video/mp4	
-message-en-1080-hardsubs	/srv/hanafi-media/the-message-1976-english-1080p-hardsubs.mp4	video/mp4	
-risalah-ar-1080	/srv/hanafi-media/al-risalah-1976-arabic-1080p.mp4	video/mp4	/srv/hanafi-media/al-risalah-1976-arabic-english.srt
-risalah-ar-480	/srv/hanafi-media/al-risalah-1976-arabic-480p.mp4	video/mp4	
-risalah-ar-360	/srv/hanafi-media/al-risalah-1976-arabic-360p.mp4	video/mp4	
-lion-desert-1981	/srv/hanafi-media/lion-of-the-desert-1981.mp4	video/mp4	
-ten-commandments-1923	/srv/hanafi-media/the-ten-commandments-1923.mp4	video/mp4	
+message-en-720	/home/dereksparks1982/Videos/Hosted/Al-Risalah/The Message (1976).nosubs.mp4	video/mp4	
+message-en-1080-hardsubs	/home/dereksparks1982/Videos/Hosted/Al-Risalah/The.Message.1976.English.1080p.hardsubs.mp4	video/mp4	
+risalah-ar-1080	/home/dereksparks1982/Videos/Hosted/Al-Risalah/The.Message.1976.1080p.WEB-DL.DD5.1.H264.nosubs.mkv	video/x-matroska	/home/dereksparks1982/Videos/Hosted/Al-Risalah/The.Message.1976.1080p.BluRay.x264.AAC5.1.englishsubs.srt
+risalah-ar-1080-hardsubs	/home/dereksparks1982/Videos/Hosted/Al-Risalah/The.Message.1976.1080p.BluRay.x264.AAC5.1.arabic.englishsubs.mp4	video/mp4	
+risalah-ar-480	/home/dereksparks1982/Videos/Hosted/Al-Risalah/Al-Risalah-1976-Arabic-480p.english.subs.mp4	video/mp4	
+risalah-ar-360	/home/dereksparks1982/Videos/Hosted/Al-Risalah/Al-Risalah-1976-Arabic.360p.nosubs.mp4	video/mp4	
+lion-desert-1981	/home/dereksparks1982/Videos/Hosted/Lion of The Desert/Lion-of-the-Desert-1981.nosubs.mp4	video/mp4	
+ten-commandments-1923	/home/dereksparks1982/Videos/Hosted/The Ten Commandments/The Ten Commandments (1923).mp4	video/mp4	
