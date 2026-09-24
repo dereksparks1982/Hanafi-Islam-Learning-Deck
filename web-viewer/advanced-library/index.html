@@ -57,39 +57,6 @@
       border: 0;
     }
 
-    .book-preview {
-      position: fixed;
-      left: 50%;
-      bottom: clamp(180px, 29vh, 330px);
-      width: min(235px, 30vw);
-      aspect-ratio: 2 / 3;
-      z-index: 30;
-      transform: translate(-50%, 18px) scale(.96);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .18s ease, transform .22s ease;
-      filter: drop-shadow(0 26px 30px rgba(0,0,0,.66));
-    }
-
-    .book-preview.is-visible {
-      opacity: 1;
-      transform: translate(-50%, 0) scale(1);
-    }
-
-    .book-preview img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border: 1px solid rgba(223, 186, 91, .68);
-      border-radius: 3px 8px 8px 3px;
-      background: #17120a;
-      box-shadow:
-        inset 8px 0 10px rgba(0,0,0,.26),
-        0 0 0 2px rgba(50,31,14,.74),
-        0 18px 42px rgba(0,0,0,.52);
-    }
-
     .library-shelf-shell {
       position: fixed;
       left: 50%;
@@ -161,6 +128,7 @@
     .library-book {
       --book-h: 150px;
       --book-w: 42px;
+      --cover-w: calc(var(--book-h) * .67);
       --book-lean: 0deg;
       position: relative;
       flex: 0 0 var(--book-w);
@@ -175,17 +143,22 @@
       color: #dfc078;
       background: transparent;
       transform-origin: 50% 100%;
-      transform: rotate(var(--book-lean)) translateY(0);
-      transition: transform .15s ease, filter .15s ease;
+      transform: rotate(var(--book-lean));
+      transition: transform .2s ease, filter .2s ease;
       touch-action: manipulation;
+      perspective: 760px;
+      overflow: visible;
     }
 
-    .library-book:hover,
-    .library-book:focus-visible,
+    .library-book:focus-visible .book-spine {
+      outline: 2px solid #e2bd64;
+      outline-offset: 2px;
+    }
+
     .library-book.is-selected {
-      transform: rotate(0deg) translateY(-10px);
-      z-index: 5;
-      filter: brightness(1.12);
+      z-index: 15;
+      transform: rotate(0deg) translateY(-6px);
+      filter: brightness(1.04);
     }
 
     .book-spine {
@@ -195,6 +168,7 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      z-index: 3;
       border: 1px solid rgba(211,168,81,.55);
       border-radius: 3px 3px 1px 1px;
       background:
@@ -205,6 +179,12 @@
         inset 4px 0 7px rgba(0,0,0,.28),
         inset -2px 0 4px rgba(255,230,161,.05),
         1px 3px 6px rgba(0,0,0,.45);
+      transition: opacity .18s ease, filter .18s ease;
+    }
+
+    .library-book.is-selected .book-spine {
+      opacity: .42;
+      filter: brightness(.82);
     }
 
     .book-spine::before,
@@ -234,6 +214,41 @@
       text-transform: uppercase;
       text-shadow: 0 1px 2px rgba(0,0,0,.62);
       white-space: nowrap;
+    }
+
+    .book-cover {
+      position: absolute;
+      left: calc(var(--book-w) * .48);
+      bottom: 0;
+      width: var(--cover-w);
+      height: var(--book-h);
+      z-index: 4;
+      transform-origin: 0 50%;
+      transform: rotateY(-89deg);
+      opacity: 0;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      transition: transform .36s cubic-bezier(.2,.75,.25,1), opacity .16s ease;
+      pointer-events: none;
+      filter: drop-shadow(14px 18px 15px rgba(0,0,0,.44));
+    }
+
+    .library-book.is-selected .book-cover {
+      transform: rotateY(0deg);
+      opacity: 1;
+    }
+
+    .book-cover img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 1px solid rgba(222,181,80,.72);
+      border-radius: 2px 7px 7px 2px;
+      background: #17120a;
+      box-shadow:
+        inset 7px 0 8px rgba(0,0,0,.2),
+        0 0 0 1px rgba(43,27,12,.7);
     }
 
     .library-viewer[hidden] { display: none !important; }
@@ -351,11 +366,6 @@
 
       .library-shelf-scroll { padding-inline: 18px; }
 
-      .book-preview {
-        width: min(190px, 46vw);
-        bottom: clamp(158px, 28vh, 240px);
-      }
-
       .library-viewer {
         padding: max(5px, env(safe-area-inset-top)) max(5px, env(safe-area-inset-right)) max(5px, env(safe-area-inset-bottom)) max(5px, env(safe-area-inset-left));
       }
@@ -372,10 +382,6 @@
         height: 135px;
         width: 90vw;
       }
-      .book-preview {
-        width: 116px;
-        bottom: 130px;
-      }
       .library-viewer-panel { grid-template-rows: 44px 1fr; }
     }
   </style>
@@ -383,10 +389,6 @@
 <body>
   <main aria-labelledby="libraryTitle">
     <h1 id="libraryTitle" class="visually-hidden">Advanced Learner Library</h1>
-
-    <figure id="bookPreview" class="book-preview" aria-hidden="true">
-      <img id="bookPreviewImage" alt="">
-    </figure>
 
     <section class="library-shelf-shell" aria-label="Library shelf">
       <div id="libraryShelf" class="library-shelf-scroll" tabindex="0">
@@ -396,13 +398,16 @@
           data-book-id="the-green-book"
           data-title="The Green Book"
           data-kind="pdf"
-          data-cover="books/the-green-book-cover.png"
           data-src="books/the-green-book.pdf"
           aria-label="The Green Book by Muammar Al Qaddafi"
+          aria-pressed="false"
           style="--book-h:158px; --book-w:46px; --book-lean:-1deg; --book-color:#c2a53b; --spine-text:#113425;"
         >
           <span class="book-spine">
             <span class="book-spine-title">The Green Book</span>
+          </span>
+          <span class="book-cover" aria-hidden="true">
+            <img src="books/the-green-book-cover.png" alt="">
           </span>
         </button>
       </div>
@@ -428,8 +433,6 @@
       "use strict";
 
       const shelf = document.getElementById("libraryShelf");
-      const preview = document.getElementById("bookPreview");
-      const previewImage = document.getElementById("bookPreviewImage");
       const viewer = document.getElementById("libraryViewer");
       const viewerTitle = document.getElementById("libraryViewerTitle");
       const viewerClose = document.getElementById("libraryViewerClose");
@@ -442,21 +445,13 @@
 
       const books = () => Array.from(shelf.querySelectorAll(".library-book"));
 
-      const showCover = book => {
-        if (!book || !book.dataset.cover || !viewer.hidden) return;
-        books().forEach(item => item.classList.toggle("is-selected", item === book));
-        selectedBook = book;
-        previewImage.src = book.dataset.cover;
-        previewImage.alt = `${book.dataset.title || "Book"} cover`;
-        preview.classList.add("is-visible");
-        preview.setAttribute("aria-hidden", "false");
-      };
-
-      const hideCover = () => {
-        books().forEach(item => item.classList.remove("is-selected"));
-        selectedBook = null;
-        preview.classList.remove("is-visible");
-        preview.setAttribute("aria-hidden", "true");
+      const setSelectedBook = book => {
+        selectedBook = book || null;
+        books().forEach(item => {
+          const selected = item === selectedBook;
+          item.classList.toggle("is-selected", selected);
+          item.setAttribute("aria-pressed", selected ? "true" : "false");
+        });
       };
 
       const closeViewer = () => {
@@ -476,7 +471,7 @@
 
       const openViewer = book => {
         if (!book || !book.dataset.src) return;
-        hideCover();
+        setSelectedBook(null);
         openedBook = book;
         viewerTitle.textContent = book.dataset.title || "Library Reader";
         const kind = book.dataset.kind || "pdf";
@@ -511,21 +506,11 @@
         shelf.scrollLeft += event.deltaY;
       }, { passive: false });
 
-      shelf.addEventListener("mouseover", event => {
-        const book = event.target.closest(".library-book");
-        if (book) showCover(book);
-      });
-
-      shelf.addEventListener("focusin", event => {
-        const book = event.target.closest(".library-book");
-        if (book) showCover(book);
-      });
-
       shelf.addEventListener("click", event => {
         if (!viewer.hidden) return;
         const book = event.target.closest(".library-book");
         if (!book) return;
-        showCover(book);
+        setSelectedBook(book);
       });
 
       shelf.addEventListener("dblclick", event => {
@@ -548,7 +533,7 @@
         }
         lastTouchBook = book;
         lastTouchAt = now;
-        showCover(book);
+        setSelectedBook(book);
       });
 
       document.addEventListener("library:open-book", event => {
@@ -571,14 +556,13 @@
 
       document.addEventListener("click", event => {
         if (!viewer.hidden) return;
-        if (event.target.closest(".library-book") || event.target.closest(".book-preview")) return;
-        hideCover();
+        if (event.target.closest(".library-book")) return;
+        setSelectedBook(null);
       });
 
       window.HanafiLibraryShelf = {
         shelf,
-        showCover,
-        hideCover,
+        setSelectedBook,
         openBook,
         openViewer,
         closeViewer
