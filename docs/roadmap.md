@@ -185,6 +185,51 @@ Planned reader development includes, over time:
 
 Arabic source text must never be silently altered. Source/provenance rules live in the Qur'an documentation and legal/source policy.
 
+## Open Library and Restricted Library
+
+The project is planned to have a normal **Open Library** and a separate **Restricted Library**. Both should use the same bookshelf interaction model so the restricted area does not become a technically separate or inferior reader.
+
+Planned shelf behavior:
+
+- books sit spine-out, side-by-side on shelves;
+- mouse wheel scrolls a shelf horizontally on desktop;
+- touch swipe scrolls the same shelf on phones and tablets;
+- hovering a book can reveal its cover;
+- a single click or tap turns that actual book outward so the cover faces the reader;
+- clicking elsewhere returns it spine-first;
+- double-click or double-tap opens the selected book in a full-screen reader over the library while the room behind it is dimmed;
+- the reader should support page navigation, zoom, and close controls;
+- closing the reader returns the user to the same shelf and horizontal scroll position they left.
+
+The **Open Library** can provide full readable copies of unrestricted religious, historical, and reference works. A full Bible is an identified candidate for this area.
+
+The **Restricted Library** uses the same reader behavior but places an explicit warning/gate before restricted material. Current restricted candidates include **Kabbalah-related/esoteric works** and **Mein Kampf**. The exact treatment of the **Talmud** remains a content-classification decision rather than being automatically restricted merely because it is a Jewish religious text.
+
+Restriction should be based on the character of the material and the project's content policy, not the ethnicity or religion associated with a text.
+
+## Zakat & Sadaqah giving directory
+
+The existing Zakat & Sadaqah area is intended to become a curated **card-based giving directory**, not a plain list of links.
+
+Target size is roughly **a dozen charity cards**. Each organization should have its own card containing:
+
+- organization name;
+- a clear type/status badge such as **Zakat accepted**, **Sadaqah / general charity**, **Humanitarian charity**, or **Project support · Not Zakat**;
+- a short plain-language explanation of what the organization does;
+- what donations generally support;
+- Zakat status only when the organization itself explicitly provides a Zakat route;
+- a direct donation link; and
+- a separate learn-more/source link where useful.
+
+Cards should be grouped under clear section headings so a user knows what kind of giving they are making before leaving the Hanafi Learning Deck:
+
+1. **Zakat-Eligible Muslim Charities**
+2. **Muslim Sadaqah & Community Support**
+3. **General Humanitarian Charities**
+4. **Support Hanafi Learning Deck** — voluntary project support, explicitly not presented as Zakat
+
+**UNRWA** and **St. Jude Children's Research Hospital** are identified candidates for the directory, with St. Jude belonging in the general humanitarian section rather than being represented as a Muslim or Zakat organization. Additional organizations should be verified before their cards are published.
+
 ## Prayer tools after v2.1
 
 The local prayer-time system is already implemented in the Web App with selectable calculation methods and Hanafi ʿAṣr.
