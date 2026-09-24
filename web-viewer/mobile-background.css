@@ -6,6 +6,56 @@ html {
   text-size-adjust: 100%;
 }
 
+/* Keep the site-wide lantern glow behind page content without changing the
+   approved background image itself. */
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .22;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(ellipse 8.5vw 16vh at 5.8vw 24vh,
+      rgba(255,244,177,.58) 0,
+      rgba(255,196,78,.34) 28%,
+      rgba(235,122,28,.14) 55%,
+      rgba(235,122,28,0) 76%),
+    radial-gradient(ellipse 8.5vw 16vh at calc(100vw - 5.8vw) 24vh,
+      rgba(255,244,177,.58) 0,
+      rgba(255,196,78,.34) 28%,
+      rgba(235,122,28,.14) 55%,
+      rgba(235,122,28,0) 76%);
+  animation: hanafiSiteLanternDrift 12.8s ease-in-out infinite;
+}
+
+/* Home already has two separately timed lantern overlays. Do not double them. */
+body:has(> .home-lantern-glow)::after {
+  content: none;
+}
+
+@keyframes hanafiSiteLanternDrift {
+  0%, 100% { opacity: .21; filter: brightness(.98); }
+  18% { opacity: .23; filter: brightness(1.01); }
+  37% { opacity: .20; filter: brightness(.99); }
+  56% { opacity: .24; filter: brightness(1.02); }
+  76% { opacity: .22; filter: brightness(1); }
+  91% { opacity: .21; filter: brightness(.99); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none;
+    opacity: .21;
+  }
+}
+
 /* Phones and touch-first mobile devices use one shared fixed background layer. */
 @media (max-width: 760px), (hover: none) and (pointer: coarse) {
   html {
@@ -13,8 +63,6 @@ html {
   }
 
   body {
-    position: relative;
-    isolation: isolate;
     min-height: 100dvh;
     background-color: #03130e !important;
     background-image: none !important;
@@ -51,6 +99,10 @@ html {
     background-size: auto 100%, 100% 100%;
     background-position: center top, center top;
   }
+
+  body::after {
+    display: none;
+  }
 }
 
 /* Landscape: keep the lanterns and full side frame visible while filling the viewport. */
@@ -59,5 +111,19 @@ html {
   body::before {
     background-size: 100% 100%, 100% 100%;
     background-position: center top, center top;
+  }
+
+  body::after {
+    background:
+      radial-gradient(ellipse 11vw 28vh at 7vw 27vh,
+        rgba(255,244,177,.56) 0,
+        rgba(255,196,78,.32) 28%,
+        rgba(235,122,28,.13) 55%,
+        rgba(235,122,28,0) 76%),
+      radial-gradient(ellipse 11vw 28vh at calc(100vw - 7vw) 27vh,
+        rgba(255,244,177,.56) 0,
+        rgba(255,196,78,.32) 28%,
+        rgba(235,122,28,.13) 55%,
+        rgba(235,122,28,0) 76%);
   }
 }
