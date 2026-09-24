@@ -1,6 +1,23 @@
 (() => {
   "use strict";
 
+  const actions = document.querySelector(".actions");
+  if (actions) {
+    const actionLinks = Array.from(actions.querySelectorAll("a.action-link"));
+    const legalLink = actionLinks.find(link => link.textContent.trim() === "Legal");
+    if (legalLink) legalLink.href = "legal/";
+
+    const existingCharity = actionLinks.find(link => link.textContent.trim() === "Charity");
+    if (!existingCharity) {
+      const charityLink = document.createElement("a");
+      charityLink.className = "secondary action-link";
+      charityLink.href = "charity/";
+      charityLink.textContent = "Charity";
+      const aboutLink = actionLinks.find(link => link.textContent.trim() === "About");
+      actions.insertBefore(charityLink, aboutLink || actions.querySelector("button") || null);
+    }
+  }
+
   const trigger = document.querySelector(".home-brand-icon");
   if (!trigger) return;
 
