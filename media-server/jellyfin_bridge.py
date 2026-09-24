@@ -2,6 +2,7 @@
 import json
 import mimetypes
 import os
+import subprocess
 import sys
 import threading
 import urllib.error
@@ -10,9 +11,11 @@ import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-# Thin public bridge over the server work already built into Nougat Media Plus.
-# Nougat keeps Jellyfin private on loopback:8098; this service exposes only the
-# small manifest selected for the Hanafi Learning Deck web player.
+# Small public media bridge extracted from Nougat Media Plus server work.
+# Jellyfin stays private on loopback:8098. The manifest is authoritative for
+# the small Hanafi library, so playback still works when Jellyfin has not yet
+# indexed those exact paths. Browser-friendly files use Nougat-style byte-range
+# delivery; incompatible containers fall back to local FFmpeg transcoding.
 BIND = os.environ.get('HANAFI_MEDIA_BIND', '127.0.0.1')
 PORT = int(os.environ.get('HANAFI_MEDIA_PORT', '8097'))
 MANIFEST = os.environ.get('HANAFI_MEDIA_MANIFEST', '/etc/hanafi-media/media.tsv')
@@ -22,6 +25,7 @@ TOKEN_OVERRIDE = os.environ.get('HANAFI_JELLYFIN_TOKEN', '').strip()
 NOUGAT_CLIENT_STATE = os.path.expanduser(
     os.environ.get('HANAFI_NOUGAT_CLIENT_STATE', '~/.config/reddmedia/server/client.json')
 )
+FFMPEG = os.environ.get('HANAFI_FFMPEG', '/usr/bin/ffmpeg')
 
 
 def jellyfin_token():
@@ -62,6 +66,63 @@ def parse_manifest(path):
     return items
 
 
+def extension_lower(path):
+    return os.path.splitext(path)[1].lower()
+
+
+def browser_direct_preferred(path):
+    return extension_lower(path) in {'.mp4', '.m4v', '.webm', '.ogv', '.ogg'}
+
+
+def media_content_type(path, configured=''):
+    if configured:
+        return configured
+    extension = extension_lower(path)
+    return {
+        '.mp4': 'video/mp4',
+        '.m4v': 'video/mp4',
+        '.webm': 'video/webm',
+        '.ogv': 'video/ogg',
+        '.ogg': 'video/ogg',
+        '.mov': 'video/quicktime',
+        '.mkv': 'video/x-matroska',
+        '.avi': 'video/x-msvideo',
+        '.ts': 'video/mp2t',
+        '.m2ts': 'video/mp2t',
+    }.get(extension, 'application/octet-stream')
+
+
+def parse_range(value, size):
+    if not value:
+        return None
+    if not value.startswith('bytes=') or ',' in value or size <= 0:
+        return False
+    spec = value[6:]
+    if '-' not in spec:
+        return False
+    first_text, last_text = spec.split('-', 1)
+    try:
+        if not first_text:
+            if not last_text:
+                return False
+            suffix = int(last_text)
+            if suffix <= 0:
+                return False
+            count = min(suffix, size)
+            return size - count, size - 1
+        first = int(first_text)
+        if first < 0 or first >= size:
+            return False
+        if not last_text:
+            return first, size - 1
+        last = int(last_text)
+        if last < first:
+            return False
+        return first, min(last, size - 1)
+    except ValueError:
+        return False
+
+
 class State:
     def __init__(self):
         self.items = parse_manifest(MANIFEST)
@@ -70,10 +131,7 @@ class State:
     def request_json(self, path):
         token = jellyfin_token()
         if not token:
-            raise RuntimeError(
-                'Nougat Jellyfin session is unavailable; expected its private client state at '
-                + NOUGAT_CLIENT_STATE
-            )
+            raise RuntimeError('Nougat Jellyfin session is unavailable')
         req = urllib.request.Request(
             JELLYFIN_URL + path,
             headers={
@@ -91,21 +149,25 @@ class State:
             'IncludeItemTypes': 'Movie,Video',
             'Limit': '10000',
         })
-        payload = self.request_json('/Items?' + query)
+        try:
+            payload = self.request_json('/Items?' + query)
+        except Exception:
+            payload = {'Items': []}
+
         by_path = {}
         for item in payload.get('Items', []):
             path = item.get('Path')
             if path:
                 by_path[os.path.normcase(os.path.normpath(path))] = item
 
-        resolved = 0
+        indexed = 0
         with self.lock:
             for entry in self.items.values():
                 match = by_path.get(os.path.normcase(os.path.normpath(entry['path'])))
                 entry['jellyfin'] = match
                 if match:
-                    resolved += 1
-        return resolved
+                    indexed += 1
+        return indexed
 
     def get(self, media_id):
         with self.lock:
@@ -114,15 +176,18 @@ class State:
 
     def all_public(self):
         with self.lock:
-            return [
-                {
+            result = []
+            for value in self.items.values():
+                local_ready = os.path.isfile(value['path'])
+                result.append({
                     'id': value['id'],
                     'type': value['content_type'],
                     'subtitles': bool(value['subtitle_path']),
-                    'ready': bool(value['jellyfin']),
-                }
-                for value in self.items.values()
-            ]
+                    'ready': local_ready or bool(value['jellyfin']),
+                    'local': local_ready,
+                    'jellyfinIndexed': bool(value['jellyfin']),
+                })
+            return result
 
 
 STATE = State()
@@ -139,7 +204,8 @@ def vtt_from_srt(text):
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = 'Hanafi-Nougat-Jellyfin'
+    server_version = 'Hanafi-Nougat-Media'
+    protocol_version = 'HTTP/1.1'
 
     def log_message(self, fmt, *args):
         sys.stderr.write('%s - - [%s] %s\n' % (
@@ -152,7 +218,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Headers', 'Range, Content-Type')
         self.send_header(
             'Access-Control-Expose-Headers',
-            'Accept-Ranges, Content-Range, Content-Length'
+            'Accept-Ranges, Content-Range, Content-Length, X-Hanafi-Stream-Mode'
         )
         self.send_header('Vary', 'Origin')
 
@@ -163,15 +229,20 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Length', str(len(body)))
         self.send_header('Cache-Control', 'no-store')
         self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('Connection', 'close')
         self.cors()
         self.end_headers()
         if not head:
             self.wfile.write(body)
+        self.close_connection = True
 
     def do_OPTIONS(self):
         self.send_response(204)
+        self.send_header('Content-Length', '0')
+        self.send_header('Connection', 'close')
         self.cors()
         self.end_headers()
+        self.close_connection = True
 
     def do_HEAD(self):
         self.handle_request(head=True)
@@ -185,34 +256,35 @@ class Handler(BaseHTTPRequestHandler):
         media_id = params.get('id', [''])[0]
 
         if parsed.path == '/nougat/v1/health':
-            try:
-                resolved = STATE.refresh()
-                self.json_response(200, {
-                    'ok': True,
-                    'product': 'Hanafi Learning Deck',
-                    'service': 'Nougat integrated Jellyfin bridge',
-                    'backend': '127.0.0.1:8098',
-                    'resolved': resolved,
-                    'total': len(STATE.items),
-                }, head)
-            except Exception as exc:
-                self.json_response(503, {'ok': False, 'error': str(exc)}, head)
+            indexed = STATE.refresh()
+            items = STATE.all_public()
+            available = sum(1 for item in items if item['ready'])
+            self.json_response(200 if available else 503, {
+                'ok': available > 0,
+                'product': 'Hanafi Learning Deck',
+                'service': 'Nougat extracted media server',
+                'backend': '127.0.0.1:8098',
+                'available': available,
+                'jellyfinIndexed': indexed,
+                'total': len(items),
+            }, head)
             return
 
         if parsed.path == '/nougat/v1/catalog':
-            try:
-                STATE.refresh()
-            except Exception:
-                pass
+            STATE.refresh()
             self.json_response(200, {
                 'ok': True,
-                'service': 'Nougat integrated Jellyfin bridge',
+                'service': 'Nougat extracted media server',
                 'items': STATE.all_public(),
             }, head)
             return
 
-        if parsed.path in ('/nougat/v1/media', '/nougat/v1/transcode'):
-            self.stream_media(media_id, head)
+        if parsed.path == '/nougat/v1/media':
+            self.stream_media(media_id, head, force_transcode=False)
+            return
+
+        if parsed.path == '/nougat/v1/transcode':
+            self.stream_media(media_id, head, force_transcode=True)
             return
 
         if parsed.path == '/nougat/v1/subtitle':
@@ -224,55 +296,184 @@ class Handler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-Type', 'text/plain; charset=utf-8')
             self.send_header('Content-Length', str(len(body)))
+            self.send_header('Connection', 'close')
             self.end_headers()
             if not head:
                 self.wfile.write(body)
+            self.close_connection = True
             return
 
         self.json_response(404, {'ok': False, 'error': 'Unknown route.'}, head)
 
-    def ensure_item(self, media_id):
+    def stream_media(self, media_id, head, force_transcode=False):
         item = STATE.get(media_id)
         if not item:
-            return None, 'Unknown media id.'
+            self.json_response(404, {'ok': False, 'error': 'Unknown media id.'}, head)
+            return
+
+        path = item['path']
+        if os.path.isfile(path):
+            if force_transcode or not browser_direct_preferred(path):
+                self.stream_ffmpeg(item, head)
+            else:
+                self.stream_local_file(item, head)
+            return
+
         if not item.get('jellyfin'):
-            try:
-                STATE.refresh()
-            except Exception as exc:
-                return None, f'Jellyfin lookup failed: {exc}'
+            STATE.refresh()
             item = STATE.get(media_id)
-        if not item or not item.get('jellyfin'):
-            return None, 'This mapped file is not currently indexed by Jellyfin.'
-        return item, ''
-
-    def stream_media(self, media_id, head):
-        item, error = self.ensure_item(media_id)
-        if error:
-            status = 404 if (
-                'not currently indexed' in error or error == 'Unknown media id.'
-            ) else 502
-            self.json_response(status, {'ok': False, 'error': error}, head)
+        if item and item.get('jellyfin'):
+            self.stream_jellyfin(item, head)
             return
 
+        self.json_response(404, {
+            'ok': False,
+            'error': 'The selected media file is unavailable on saxondesktop.',
+        }, head)
+
+    def stream_local_file(self, item, head):
+        path = item['path']
+        try:
+            size = os.path.getsize(path)
+        except OSError:
+            self.json_response(404, {'ok': False, 'error': 'Media file is unavailable.'}, head)
+            return
+
+        parsed = parse_range(self.headers.get('Range', ''), size)
+        if parsed is False:
+            self.send_response(416)
+            self.send_header('Content-Range', f'bytes */{size}')
+            self.send_header('Content-Length', '0')
+            self.send_header('Connection', 'close')
+            self.cors()
+            self.end_headers()
+            self.close_connection = True
+            return
+
+        if parsed is None:
+            first, last = 0, max(size - 1, 0)
+            status = 200
+        else:
+            first, last = parsed
+            status = 206
+        length = 0 if size == 0 else last - first + 1
+
+        self.send_response(status)
+        self.send_header('Content-Type', media_content_type(path, item.get('content_type', '')))
+        self.send_header('Content-Length', str(length))
+        self.send_header('Accept-Ranges', 'bytes')
+        self.send_header('Cache-Control', 'private, max-age=0')
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('X-Hanafi-Stream-Mode', 'nougat-byte-range')
+        if status == 206:
+            self.send_header('Content-Range', f'bytes {first}-{last}/{size}')
+        self.send_header('Connection', 'close')
+        self.cors()
+        self.end_headers()
+
+        if not head and length:
+            try:
+                with open(path, 'rb') as fh:
+                    fh.seek(first)
+                    remaining = length
+                    while remaining > 0:
+                        chunk = fh.read(min(256 * 1024, remaining))
+                        if not chunk:
+                            break
+                        self.wfile.write(chunk)
+                        remaining -= len(chunk)
+            except (OSError, BrokenPipeError, ConnectionResetError):
+                pass
+        self.close_connection = True
+
+    def stream_ffmpeg(self, item, head):
+        if not os.path.isfile(FFMPEG) or not os.access(FFMPEG, os.X_OK):
+            self.json_response(503, {'ok': False, 'error': 'FFmpeg is unavailable.'}, head)
+            return
+
+        if head:
+            self.send_response(200)
+            self.send_header('Content-Type', 'video/mp4')
+            self.send_header('Cache-Control', 'no-store')
+            self.send_header('X-Hanafi-Stream-Mode', 'nougat-ffmpeg')
+            self.send_header('Connection', 'close')
+            self.cors()
+            self.end_headers()
+            self.close_connection = True
+            return
+
+        command = [
+            FFMPEG,
+            '-nostdin', '-hide_banner', '-loglevel', 'error',
+            '-i', item['path'],
+            '-map', '0:v:0?', '-map', '0:a:0?', '-sn',
+            '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23',
+            '-pix_fmt', 'yuv420p',
+            '-c:a', 'aac', '-b:a', '160k',
+            '-movflags', '+frag_keyframe+empty_moov+default_base_moof',
+            '-f', 'mp4', 'pipe:1',
+        ]
+        try:
+            process = subprocess.Popen(
+                command,
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                start_new_session=True,
+            )
+        except OSError as exc:
+            self.json_response(500, {'ok': False, 'error': f'Could not start FFmpeg: {exc}'}, head)
+            return
+
+        self.send_response(200)
+        self.send_header('Content-Type', 'video/mp4')
+        self.send_header('Transfer-Encoding', 'chunked')
+        self.send_header('Cache-Control', 'no-store')
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('X-Hanafi-Stream-Mode', 'nougat-ffmpeg')
+        self.send_header('Connection', 'close')
+        self.cors()
+        self.end_headers()
+
+        try:
+            assert process.stdout is not None
+            while True:
+                chunk = process.stdout.read(64 * 1024)
+                if not chunk:
+                    break
+                self.wfile.write(f'{len(chunk):X}\r\n'.encode('ascii'))
+                self.wfile.write(chunk)
+                self.wfile.write(b'\r\n')
+                self.wfile.flush()
+            self.wfile.write(b'0\r\n\r\n')
+            self.wfile.flush()
+        except (BrokenPipeError, ConnectionResetError, OSError):
+            try:
+                process.terminate()
+            except OSError:
+                pass
+        finally:
+            if process.stdout:
+                process.stdout.close()
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait()
+        self.close_connection = True
+
+    def stream_jellyfin(self, item, head):
         token = jellyfin_token()
-        if not token:
-            self.json_response(503, {'ok': False, 'error': 'Nougat Jellyfin session is unavailable.'}, head)
-            return
-
-        jellyfin_item = item['jellyfin']
+        jellyfin_item = item.get('jellyfin') or {}
         item_id = jellyfin_item.get('Id')
-        if not item_id:
-            self.json_response(502, {'ok': False, 'error': 'Jellyfin item has no ID.'}, head)
+        if not token or not item_id:
+            self.json_response(503, {'ok': False, 'error': 'Nougat Jellyfin session is unavailable.'}, head)
             return
 
         media_source_id = ''
         sources = jellyfin_item.get('MediaSources') or []
         if sources:
             media_source_id = sources[0].get('Id') or ''
-
-        # This is the same browser-compatibility role Nougat already performs:
-        # let Jellyfin stream-copy when possible and transcode to H.264/AAC MP4
-        # when the source format is not directly browser-friendly.
         query = {
             'static': 'false',
             'VideoCodec': 'h264',
@@ -287,7 +488,6 @@ class Handler(BaseHTTPRequestHandler):
         }
         if media_source_id:
             query['MediaSourceId'] = media_source_id
-
         target = (
             f"{JELLYFIN_URL}/Videos/{urllib.parse.quote(item_id)}/stream.mp4?"
             f"{urllib.parse.urlencode(query)}"
@@ -297,34 +497,24 @@ class Handler(BaseHTTPRequestHandler):
             headers['Range'] = self.headers['Range']
         if self.headers.get('If-Range'):
             headers['If-Range'] = self.headers['If-Range']
-
-        request = urllib.request.Request(
-            target,
-            method='HEAD' if head else 'GET',
-            headers=headers,
-        )
+        request = urllib.request.Request(target, method='HEAD' if head else 'GET', headers=headers)
         try:
             upstream = urllib.request.urlopen(request, timeout=60)
         except urllib.error.HTTPError as exc:
             upstream = exc
         except Exception as exc:
-            self.json_response(502, {
-                'ok': False,
-                'error': f'Jellyfin stream failed: {exc}',
-            }, head)
+            self.json_response(502, {'ok': False, 'error': f'Jellyfin stream failed: {exc}'}, head)
             return
 
         try:
             self.send_response(upstream.status)
-            for name in (
-                'Content-Type', 'Content-Length', 'Content-Range',
-                'Accept-Ranges', 'ETag', 'Last-Modified'
-            ):
+            for name in ('Content-Type', 'Content-Length', 'Content-Range', 'Accept-Ranges', 'ETag', 'Last-Modified'):
                 value = upstream.headers.get(name)
                 if value:
                     self.send_header(name, value)
             self.send_header('Cache-Control', 'no-store')
             self.send_header('X-Content-Type-Options', 'nosniff')
+            self.send_header('X-Hanafi-Stream-Mode', 'jellyfin')
             self.send_header('Connection', 'close')
             self.cors()
             self.end_headers()
@@ -334,8 +524,11 @@ class Handler(BaseHTTPRequestHandler):
                     if not chunk:
                         break
                     self.wfile.write(chunk)
+        except (BrokenPipeError, ConnectionResetError, OSError):
+            pass
         finally:
             upstream.close()
+        self.close_connection = True
 
     def stream_subtitle(self, media_id, head):
         item = STATE.get(media_id)
@@ -357,25 +550,22 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Type', 'text/vtt; charset=utf-8')
         self.send_header('Content-Length', str(len(body)))
         self.send_header('Cache-Control', 'public, max-age=3600')
+        self.send_header('Connection', 'close')
         self.cors()
         self.end_headers()
         if not head:
             self.wfile.write(body)
+        self.close_connection = True
 
 
 def main():
-    try:
-        resolved = STATE.refresh()
-        print(
-            f'Nougat Jellyfin bridge resolved {resolved}/{len(STATE.items)} manifest items.',
-            flush=True,
-        )
-    except Exception as exc:
-        print(
-            f'Bridge started but initial Nougat/Jellyfin catalog refresh failed: {exc}',
-            file=sys.stderr,
-            flush=True,
-        )
+    indexed = STATE.refresh()
+    available = sum(1 for item in STATE.all_public() if item['ready'])
+    print(
+        f'Hanafi/Nougat media bridge ready: {available}/{len(STATE.items)} files available, '
+        f'{indexed} currently indexed by Jellyfin.',
+        flush=True,
+    )
     server = ThreadingHTTPServer((BIND, PORT), Handler)
     print(f'Hanafi media bridge listening on http://{BIND}:{PORT}', flush=True)
     server.serve_forever()
