@@ -5,52 +5,17 @@ REPO_ROOT="${1:-$PWD}"
 MEDIA_ROOT="/home/dereksparks1982/Videos/Hosted"
 BUILD_DIR="$REPO_ROOT/build/media-server"
 SERVER_BIN="$BUILD_DIR/hanafi-nougat-media-server"
-MANIFEST_SOURCE="$REPO_ROOT/media-server/media.tsv.example"
+PRIVATE_MANIFEST="$HOME/.config/hanafi-media/media.tsv"
 SERVICE_SOURCE="$REPO_ROOT/media-server/deploy/hanafi-nougat-media.service.example"
+CONFIGURE_SCRIPT="$REPO_ROOT/media-server/deploy/configure-hosted-library.sh"
 
-required_files=(
-  "$MEDIA_ROOT/Al-Risalah/The Message (1976).nosubs.mp4"
-  "$MEDIA_ROOT/Al-Risalah/The.Message.1976.1080p.WEB-DL.DD5.1.H264.nosubs.mkv"
-  "$MEDIA_ROOT/Al-Risalah/The.Message.1976.1080p.BluRay.x264.AAC5.1.englishsubs.srt"
-  "$MEDIA_ROOT/Al-Risalah/The.Message.1976.1080p.BluRay.x264.AAC5.1.arabic.englishsubs.mp4"
-  "$MEDIA_ROOT/Al-Risalah/Al-Risalah-1976-Arabic-480p.english.subs.mp4"
-  "$MEDIA_ROOT/Al-Risalah/Al-Risalah-1976-Arabic.360p.nosubs.mp4"
-  "$MEDIA_ROOT/Lion of The Desert/Lion-of-the-Desert-1981.nosubs.mp4"
-  "$MEDIA_ROOT/The Ten Commandments/The Ten Commandments (1923).mp4"
-)
+printf 'Preparing Hanafi Nougat Media Core against %s...\n' "$MEDIA_ROOT"
+HOSTED_ROOT="$MEDIA_ROOT" MANIFEST_PATH="$PRIVATE_MANIFEST" bash "$CONFIGURE_SCRIPT"
 
-optional_english_1080="$MEDIA_ROOT/Al-Risalah/The.Message.1976.English.1080p.hardsubs.mp4"
-
-printf 'Checking Hosted media library...\n'
-missing=0
-for file in "${required_files[@]}"; do
-  if [[ -f "$file" ]]; then
-    printf '  OK  %s\n' "$file"
-  else
-    printf '  MISSING  %s\n' "$file" >&2
-    missing=1
-  fi
-done
-
-if [[ -f "$optional_english_1080" ]]; then
-  printf '  OK  %s\n' "$optional_english_1080"
-else
-  printf '  OPTIONAL NOT PRESENT  %s\n' "$optional_english_1080"
-fi
-
-if (( missing != 0 )); then
-  printf '\nRequired Hosted files are missing. Nothing was installed.\n' >&2
-  exit 2
-fi
-
-printf '\nBuilding Hanafi Nougat Media Core...\n'
-cmake -S "$REPO_ROOT/media-server" -B "$BUILD_DIR" -DCMAKE_BUILD_TYPE=Release
-cmake --build "$BUILD_DIR" --parallel
-
-printf '\nInstalling runtime files...\n'
+printf '\nInstalling server binary and runtime manifest...\n'
 sudo install -m 0755 "$SERVER_BIN" /usr/local/bin/hanafi-nougat-media-server
 sudo install -d -m 0755 /etc/hanafi-media
-sudo install -m 0644 "$MANIFEST_SOURCE" /etc/hanafi-media/media.tsv
+sudo install -m 0644 "$PRIVATE_MANIFEST" /etc/hanafi-media/media.tsv
 sudo install -m 0644 "$SERVICE_SOURCE" /etc/systemd/system/hanafi-nougat-media.service
 
 printf '\nStarting service...\n'
@@ -76,4 +41,5 @@ curl --fail --silent --show-error \
   | grep '^WEBVTT$'
 
 printf '\nLocal Nougat media service is installed and responding on 127.0.0.1:8096.\n'
-printf 'Public HTTPS still requires the real media hostname before the Web App can switch away from Drive.\n'
+printf 'Movies remain in %s; they are not copied into Git or /srv.\n' "$MEDIA_ROOT"
+printf 'Public HTTPS still requires the real media hostname before the Web App can enable the backend.\n'
