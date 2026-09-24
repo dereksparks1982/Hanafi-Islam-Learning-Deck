@@ -17,7 +17,7 @@ jobs:
         with:
           ref: main
 
-      - name: Add Arabic 1080p no-subtitles copy without touching player logic
+      - name: Repair Arabic 1080p source placement only
         run: |
           python3 - <<'PY'
           from pathlib import Path
@@ -25,56 +25,49 @@ jobs:
           path = Path('web-viewer/media/index.html')
           text = path.read_text()
 
-          replacements = [
-              ('<strong>Arabic version · 480p / 360p</strong>',
-               '<strong>Arabic version · 1080p / 480p / 360p</strong>',
-               'Arabic fact heading'),
-              ('<span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · Arabic subtitles are visible in the project copies</span>',
-               '<span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · 1080p no-subtitles copy included for Arabic listening study; older project copies remain available</span>',
-               'Arabic fact description'),
-              ('defaultQuality: "480p",',
-               'defaultQuality: "1080p · No subtitles",',
-               'Arabic default quality'),
-          ]
+          old = '''        arabic: {
+          label: "العربية",
 
-          for old, new, label in replacements:
-              if text.count(old) != 1:
-                  raise SystemExit(f'{label} did not match exactly once; refusing to patch.')
-              text = text.replace(old, new, 1)
+            "1080p · No subtitles": {
 
-          marker = '"480p": {'
-          if text.count(marker) != 1:
-              raise SystemExit(f'Arabic 480p marker matched {text.count(marker)} times; refusing to patch.')
+              preview: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview",
 
-          marker_pos = text.index(marker)
-          nearby = text[marker_pos:marker_pos + 700]
-          expected_id = '1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO'
-          if expected_id not in nearby:
-              raise SystemExit('Arabic 480p marker is not the expected Drive source; refusing to patch.')
+              view: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/view?usp=sharing",
 
-          line_start = text.rfind('\n', 0, marker_pos) + 1
-          indent = text[line_start:marker_pos]
-          child = indent + '  '
-          block = (
-              f'{indent}"1080p · No subtitles": {{\n'
-              f'{child}preview: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview",\n'
-              f'{child}view: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/view?usp=sharing",\n'
-              f'{child}title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"\n'
-              f'{indent}}},\n'
-          )
-          text = text[:line_start] + block + text[line_start:]
+              title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"
+
+            },
+          defaultQuality: "1080p · No subtitles",
+          qualities: {
+            "480p": {'''
+
+          new = '''        arabic: {
+          label: "العربية",
+          defaultQuality: "1080p · No subtitles",
+          qualities: {
+            "1080p · No subtitles": {
+              preview: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview",
+              view: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/view?usp=sharing",
+              title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"
+            },
+            "480p": {'''
+
+          if text.count(old) != 1:
+              raise SystemExit(f'Expected malformed Arabic source block matched {text.count(old)} times; refusing to patch.')
+
+          text = text.replace(old, new, 1)
           path.write_text(text)
           PY
 
-      - name: Verify player implementation remains locked
+      - name: Verify Media player remains locked and 1080p is selectable
         run: |
           grep -F '.media-player.ios-drive-stage iframe{inset:auto;width:1024px;height:576px;transform-origin:top left;z-index:1}' web-viewer/media/index.html
           grep -F 'const baseWidth = 1024;' web-viewer/media/index.html
           grep -F 'driveFrame.style.transform = `scale(${scale})`;' web-viewer/media/index.html
-          grep -F '1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview' web-viewer/media/index.html
           grep -F 'defaultQuality: "1080p · No subtitles",' web-viewer/media/index.html
+          grep -A6 -F 'qualities: {' web-viewer/media/index.html | grep -F '"1080p · No subtitles": {'
 
-      - name: Commit narrow Media data update
+      - name: Commit repaired source data
         run: |
           if git diff --quiet -- web-viewer/media/index.html; then
             echo 'No Media changes produced.'
@@ -83,5 +76,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add web-viewer/media/index.html
-          git commit -m 'Add Arabic 1080p no-subtitles Message copy'
+          git commit -m 'Fix Arabic 1080p source placement'
           git push
