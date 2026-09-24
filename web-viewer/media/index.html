@@ -24,7 +24,8 @@
     .media-language-switch,.media-quality-switch{display:flex;gap:.65rem;flex-wrap:wrap;align-items:center}
     .media-language-button[aria-pressed="true"],.media-quality-button[aria-pressed="true"]{background:#d8b560;color:#172017;border-color:#d8b560}
     .media-player{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#000}
-    .media-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+    .media-player iframe,.media-player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+    .media-player video{object-fit:contain}
     .media-player-actions{display:flex;gap:.65rem;flex-wrap:wrap;align-items:center;margin:.85rem 0 0}
     .media-note{margin:.8rem .1rem .1rem;color:#d8d2c2;line-height:1.6}
     .media-note a,.media-info a{color:#d8b560}
@@ -41,7 +42,7 @@
     .media-back-top{margin:1.5rem 0 0}
     [hidden]{display:none!important}
 
-    /* iPhone/iPad: give the Google player a desktop-sized internal viewport, then scale it down. */
+    /* iPhone/iPad Drive fallback only: desktop-sized internal viewport scaled to fit. */
     .media-player.ios-drive-stage iframe{inset:auto;width:1024px;height:576px;transform-origin:top left;z-index:1}
     .media-player.ios-drive-fullscreen{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border-radius:0;z-index:2147483000;background:#000}
     body.ios-media-fullscreen{overflow:hidden;overscroll-behavior:none}
@@ -101,6 +102,14 @@
             allowfullscreen
             loading="eager">
           </iframe>
+          <video
+            id="nougatVideo"
+            controls
+            playsinline
+            preload="metadata"
+            crossorigin="anonymous"
+            hidden>
+          </video>
         </div>
 
         <button id="exitFullscreenButton" class="media-exit-fullscreen" type="button" hidden>Exit full screen</button>
@@ -171,6 +180,8 @@
     <p><strong>No advertising. Islam is not for sale.</strong> No account, no paywall, and no behavioral tracking by the Hanafi Learning Deck.</p>
   </footer>
 
+  <script src="nougat-config.js?rev=20260924a"></script>
+  <script src="nougat-backend.js?rev=20260924a"></script>
   <script>
     (() => {
       const versions = {
@@ -181,43 +192,55 @@
             "720p": {
               preview: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/preview",
               view: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing",
+              nougatId: "message-en-720",
+              subtitles: false,
               title: "The Message (1976) · English version · 720p"
             }
           }
         },
         arabic: {
           label: "العربية",
-
           defaultQuality: "1080p · No subtitles",
           qualities: {
             "1080p · No subtitles": {
               preview: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview",
               view: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/view?usp=sharing",
+              nougatId: "risalah-ar-1080",
+              subtitles: false,
               title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"
             },
             "1080p · Subtitles": {
               preview: "https://drive.google.com/file/d/1kmUlt9ODJimtMaLePk3B35K89-4nNwW7/preview",
               view: "https://drive.google.com/file/d/1kmUlt9ODJimtMaLePk3B35K89-4nNwW7/view?usp=sharing",
+              nougatId: "risalah-ar-1080",
+              subtitles: true,
               title: "Al-Risalah (1976) · Arabic version · 1080p · English subtitles via CC"
             },
             "480p": {
               preview: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/preview",
               view: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/view?usp=sharing",
+              nougatId: "risalah-ar-480",
+              subtitles: false,
               title: "Al-Risalah (1976) · Arabic version · 480p"
             },
             "360p": {
               preview: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/preview",
               view: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/view?usp=sharing",
+              nougatId: "risalah-ar-360",
+              subtitles: false,
               title: "Al-Risalah (1976) · Arabic version · 360p"
             }
           }
         }
       };
 
+      const nougat = window.HanafiNougatBackend;
+      const useNougat = Boolean(nougat && nougat.enabled());
       const ua = navigator.userAgent || "";
       const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
       const mediaPlayer = document.getElementById("mediaPlayer");
       const driveFrame = document.getElementById("driveFrame");
+      const nougatVideo = document.getElementById("nougatVideo");
       const fallback = document.getElementById("driveFallback");
       const fullscreenButton = document.getElementById("fullscreenButton");
       const exitFullscreenButton = document.getElementById("exitFullscreenButton");
@@ -245,7 +268,7 @@
         audioSection.hidden = showVideo;
         videoTab.setAttribute("aria-selected", String(showVideo));
         audioTab.setAttribute("aria-selected", String(!showVideo));
-        if (showVideo && isIOS) window.setTimeout(sizeIOSDriveFrame, 0);
+        if (showVideo && isIOS && !useNougat) window.setTimeout(sizeIOSDriveFrame, 0);
       }
 
       function currentSelection() {
@@ -266,12 +289,45 @@
         });
       }
 
+      function configureNougatCaptions(selected) {
+        nougatVideo.querySelectorAll("track").forEach(track => track.remove());
+        if (!selected.subtitles) return;
+        const track = document.createElement("track");
+        track.kind = "captions";
+        track.label = "English";
+        track.srclang = "en";
+        track.src = nougat.subtitleUrl(selected.nougatId);
+        track.default = true;
+        nougatVideo.appendChild(track);
+      }
+
       function loadSelection() {
         const version = versions[selectedLanguage];
         const selected = currentSelection();
+
+        if (useNougat) {
+          driveFrame.hidden = true;
+          nougatVideo.hidden = false;
+          nougatVideo.pause();
+          configureNougatCaptions(selected);
+          nougatVideo.src = nougat.mediaUrl(selected.nougatId);
+          nougatVideo.setAttribute("aria-label", selected.title);
+          nougatVideo.load();
+          fallback.href = nougat.mediaUrl(selected.nougatId);
+          fallback.textContent = "Open selected direct stream";
+          mediaNote.innerHTML = selected.subtitles
+            ? "Video is streamed by the Nougat Media Core. Use the player’s <strong>CC</strong> control for the external English subtitle track."
+            : "Video is streamed directly by the Nougat Media Core with byte-range seeking.";
+          mediaStatus.textContent = `${version.label} · ${selectedQuality} selected.`;
+          return;
+        }
+
+        nougatVideo.hidden = true;
+        driveFrame.hidden = false;
         driveFrame.src = selected.preview;
         driveFrame.title = selected.title;
         fallback.href = selected.view;
+        fallback.textContent = "Open selected copy in Google Drive";
         mediaStatus.textContent = `${version.label} · ${selectedQuality} selected.`;
         if (isIOS) window.setTimeout(sizeIOSDriveFrame, 0);
       }
@@ -295,7 +351,7 @@
       }
 
       function sizeIOSDriveFrame() {
-        if (!isIOS) return;
+        if (!isIOS || useNougat) return;
         const baseWidth = 1024;
         const baseHeight = 576;
         const width = iosFullscreen ? window.innerWidth : mediaPlayer.clientWidth;
@@ -312,7 +368,7 @@
       }
 
       function setIOSFullscreen(active) {
-        if (!isIOS) return;
+        if (!isIOS || useNougat) return;
         iosFullscreen = active;
         mediaPlayer.classList.toggle("ios-drive-fullscreen", active);
         document.body.classList.toggle("ios-media-fullscreen", active);
@@ -321,7 +377,7 @@
         window.setTimeout(sizeIOSDriveFrame, 0);
       }
 
-      if (isIOS) {
+      if (isIOS && !useNougat) {
         mediaPlayer.classList.add("ios-drive-stage");
         fullscreenButton.hidden = false;
         mediaNote.innerHTML = "On iPhone and iPad, the Google Drive player is rendered in a desktop-sized frame and scaled to fit so its controls remain reachable. <strong>Full screen</strong> expands the player to the whole browser viewport, and the fixed <strong>Exit full screen</strong> button returns to the page. The separate Google Drive link remains the fallback if streaming has trouble.";
@@ -339,6 +395,7 @@
 
       showMediaSection("video");
       renderQualityButtons();
+      if (useNougat) loadSelection();
     })();
   </script>
 </body>
