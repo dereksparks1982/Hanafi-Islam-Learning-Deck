@@ -10,6 +10,7 @@ const SHELL = [
   `./mobile-background.css?rev=20260923mobile2`,
   `./app.js?release=${RELEASE}`,
   `./card-viewer.js?release=${RELEASE}`,
+  `./secret-library-trigger.js?rev=20260924b`,
   `./manifest.webmanifest?release=${RELEASE}`,
   `./assets/hanafi-learning-deck-icon-approved.png?rev=20260923a`,
   `./quran/index.html?release=${RELEASE}`,
@@ -23,7 +24,10 @@ const SHELL = [
   `./media/index.html?release=${RELEASE}`,
   `./explore/index.html?release=${RELEASE}`,
   `./explore/styles.css?release=${RELEASE}`,
-  `./explore/app.js?release=${RELEASE}`
+  `./explore/app.js?release=${RELEASE}`,
+  `./about/index.html?release=${RELEASE}`,
+  `./legal/index.html?release=${RELEASE}`,
+  `./charity/index.html?release=${RELEASE}`
 ];
 
 self.addEventListener("install", event => {
@@ -132,39 +136,23 @@ self.addEventListener("message", event => {
 });
 
 async function offlineNavigationFallback(url) {
-  const isQuran = url.pathname.endsWith("/quran/") || url.pathname.endsWith("/quran/index.html");
-  if (isQuran) {
-    return (await caches.match(`./quran/index.html?release=${RELEASE}`)) ||
-      (await caches.match(`./index.html?release=${RELEASE}`)) ||
-      (await caches.match("./"));
-  }
+  const routes = [
+    ["quran", `./quran/index.html?release=${RELEASE}`],
+    ["makkah", `./makkah/index.html?release=${RELEASE}`],
+    ["live", `./live/index.html?release=${RELEASE}`],
+    ["media", `./media/index.html?release=${RELEASE}`],
+    ["explore", `./explore/index.html?release=${RELEASE}`],
+    ["about", `./about/index.html?release=${RELEASE}`],
+    ["legal", `./legal/index.html?release=${RELEASE}`],
+    ["charity", `./charity/index.html?release=${RELEASE}`]
+  ];
 
-  const isMakkah = url.pathname.endsWith("/makkah/") || url.pathname.endsWith("/makkah/index.html");
-  if (isMakkah) {
-    return (await caches.match(`./makkah/index.html?release=${RELEASE}`)) ||
-      (await caches.match(`./index.html?release=${RELEASE}`)) ||
-      (await caches.match("./"));
-  }
-
-  const isLive = url.pathname.endsWith("/live/") || url.pathname.endsWith("/live/index.html");
-  if (isLive) {
-    return (await caches.match(`./live/index.html?release=${RELEASE}`)) ||
-      (await caches.match(`./index.html?release=${RELEASE}`)) ||
-      (await caches.match("./"));
-  }
-
-  const isMedia = url.pathname.endsWith("/media/") || url.pathname.endsWith("/media/index.html");
-  if (isMedia) {
-    return (await caches.match(`./media/index.html?release=${RELEASE}`)) ||
-      (await caches.match(`./index.html?release=${RELEASE}`)) ||
-      (await caches.match("./"));
-  }
-
-  const isExplore = url.pathname.endsWith("/explore/") || url.pathname.endsWith("/explore/index.html");
-  if (isExplore) {
-    return (await caches.match(`./explore/index.html?release=${RELEASE}`)) ||
-      (await caches.match(`./index.html?release=${RELEASE}`)) ||
-      (await caches.match("./"));
+  for (const [route, cachedPath] of routes) {
+    if (url.pathname.endsWith(`/${route}/`) || url.pathname.endsWith(`/${route}/index.html`)) {
+      return (await caches.match(cachedPath)) ||
+        (await caches.match(`./index.html?release=${RELEASE}`)) ||
+        (await caches.match("./"));
+    }
   }
 
   return (await caches.match(`./index.html?release=${RELEASE}`)) || (await caches.match("./"));
