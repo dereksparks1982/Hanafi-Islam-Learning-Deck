@@ -1,11 +1,11 @@
 (() => {
   "use strict";
 
-  // The live site stays on its existing backend until an HTTPS Nougat Media
-  // Core hostname is deployed and verified. At migration time, set enabled to
-  // true and replace the empty baseUrl with that HTTPS origin.
+  // Direct self-hosted media gateway on saxondesktop.
+  // The Hanafi web player keeps the public UI; Nougat's integrated Jellyfin
+  // backend provides the media stream from the owner's local library.
   window.HANAFI_NOUGAT_MEDIA = Object.freeze({
-    enabled: false,
-    baseUrl: ""
+    enabled: true,
+    baseUrl: "https://97.201.65.144"
   });
 })();
