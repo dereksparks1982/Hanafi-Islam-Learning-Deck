@@ -12,8 +12,7 @@ jobs:
   repair:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
@@ -24,22 +23,26 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
 
-          # ---------- MEDIA: restore the exact known-good iPhone Drive player behavior ----------
-          media_path = Path('web-viewer/media/index.html')
-          media = media_path.read_text(encoding='utf-8')
+          def replace_once(text, old, new, label):
+              n = text.count(old)
+              if n != 1:
+                  raise SystemExit(f'{label}: expected exactly one match, found {n}')
+              return text.replace(old, new, 1)
 
-          replacements = []
+          # Restore the exact previously accepted iPhone Drive-player behavior.
+          p = Path('web-viewer/media/index.html')
+          s = p.read_text(encoding='utf-8')
 
-          replacements.append((
+          s = replace_once(s,
           '''    /* iPhone/iPad: keep the normal responsive Drive iframe; only the wrapper expands for full screen. */
               .media-player.ios-drive-fullscreen{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border-radius:0;z-index:2147483000;background:#000}
           ''',
           '''    /* iPhone/iPad: give the Google player a desktop-sized internal viewport, then scale it down. */
               .media-player.ios-drive-stage iframe{inset:auto;width:1024px;height:576px;transform-origin:top left;z-index:1}
               .media-player.ios-drive-fullscreen{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border-radius:0;z-index:2147483000;background:#000}
-          '''))
+          ''', 'Media CSS')
 
-          replacements.append((
+          s = replace_once(s,
           '''        videoTab.setAttribute("aria-selected", String(showVideo));
                   audioTab.setAttribute("aria-selected", String(!showVideo));
                 }
@@ -48,9 +51,9 @@ jobs:
                   audioTab.setAttribute("aria-selected", String(!showVideo));
                   if (showVideo && isIOS) window.setTimeout(sizeIOSDriveFrame, 0);
                 }
-          '''))
+          ''', 'Media tab resize')
 
-          replacements.append((
+          s = replace_once(s,
           '''        fallback.href = selected.view;
                   mediaStatus.textContent = `${version.label} · ${selectedQuality} selected.`;
                 }
@@ -59,9 +62,9 @@ jobs:
                   mediaStatus.textContent = `${version.label} · ${selectedQuality} selected.`;
                   if (isIOS) window.setTimeout(sizeIOSDriveFrame, 0);
                 }
-          '''))
+          ''', 'Media selection resize')
 
-          replacements.append((
+          s = replace_once(s,
           '''      function setIOSFullscreen(active) {
                   if (!isIOS) return;
                   iosFullscreen = active;
@@ -97,9 +100,9 @@ jobs:
                   fullscreenButton.textContent = active ? "Exit full screen" : "Full screen";
                   window.setTimeout(sizeIOSDriveFrame, 0);
                 }
-          '''))
+          ''', 'Media sizing function')
 
-          replacements.append((
+          s = replace_once(s,
           '''      if (isIOS) {
                   fullscreenButton.hidden = false;
                   mediaNote.innerHTML = "On iPhone and iPad, the Google Drive player uses the same responsive player as desktop. <strong>Full screen</strong> expands that player to the whole browser viewport, and the fixed <strong>Exit full screen</strong> button returns to the page. The separate Google Drive link remains the fallback if streaming has trouble.";
@@ -113,32 +116,23 @@ jobs:
                   window.addEventListener("orientationchange", () => window.setTimeout(sizeIOSDriveFrame, 150));
                   window.setTimeout(sizeIOSDriveFrame, 0);
                 }
-          '''))
+          ''', 'Media iOS init')
 
-          for old, new in replacements:
-              count = media.count(old)
-              if count != 1:
-                  raise SystemExit(f'Media assertion failed: expected exactly one match, found {count}')
-              media = media.replace(old, new, 1)
+          if '<span class="media-release">v2.1</span>' not in s:
+              raise SystemExit('Media v2.1 marker missing')
+          if '<h3>Sources and further information</h3>' in s:
+              raise SystemExit('Message sources block unexpectedly present')
+          p.write_text(s, encoding='utf-8')
 
-          # Guardrails: keep current v2.1 page and keep Message source block removed.
-          if '<span class="media-release">v2.1</span>' not in media:
-              raise SystemExit('Media assertion failed: v2.1 marker missing')
-          if '<h3>Sources and further information</h3>' in media:
-              raise SystemExit('Media assertion failed: Message sources block unexpectedly present')
-          if 'ios-drive-stage iframe' not in media or 'function sizeIOSDriveFrame()' not in media:
-              raise SystemExit('Media assertion failed: known-good player code not restored')
+          # Add the devotional opening to Home. Existing v2.1 stays untouched at far right.
+          p = Path('web-viewer/index.html')
+          s = p.read_text(encoding='utf-8')
 
-          media_path.write_text(media, encoding='utf-8')
-
-          # ---------- HOME: add devotional opening without moving or duplicating the version ----------
-          home_path = Path('web-viewer/index.html')
-          home = home_path.read_text(encoding='utf-8')
-
-          style_old = '''    #setNav.card-layout-pending,
+          s = replace_once(s,
+          '''    #setNav.card-layout-pending,
               #library.card-layout-pending { visibility: hidden; }
-          '''
-          style_new = '''    #setNav.card-layout-pending,
+          ''',
+          '''    #setNav.card-layout-pending,
               #library.card-layout-pending { visibility: hidden; }
 
               .home-devotion {
@@ -149,29 +143,13 @@ jobs:
                 border-top: 1px solid rgba(216,181,96,.32);
                 border-bottom: 1px solid rgba(216,181,96,.32);
               }
-              .home-devotion h2 {
-                margin: 0 0 .55rem;
-                color: #f3d989;
-                font-size: clamp(1.55rem, 4vw, 2.2rem);
-                line-height: 1.5;
-              }
+              .home-devotion h2 { margin: 0 0 .55rem; color: #f3d989; font-size: clamp(1.55rem, 4vw, 2.2rem); line-height: 1.5; }
               .home-devotion p { margin: .4rem 0; line-height: 1.65; }
-              .home-devotion .home-devotion-arabic {
-                margin-top: .85rem;
-                color: #f7f1df;
-                font-size: clamp(1.1rem, 3vw, 1.45rem);
-                line-height: 1.8;
-              }
-              .home-devotion .home-devotion-intention { margin-top: .9rem; }
-          '''
-          if home.count(style_old) != 1:
-              raise SystemExit(f'Home style assertion failed: expected one match, found {home.count(style_old)}')
-          home = home.replace(style_old, style_new, 1)
+              .home-devotion-arabic { margin-top: .85rem !important; color: #f7f1df; font-size: clamp(1.1rem, 3vw, 1.45rem); line-height: 1.8 !important; }
+              .home-devotion-intention { margin-top: .9rem !important; }
+          ''', 'Home devotional style')
 
-          title_old = '''      <h1 class="home-brand-title">Hanafi Learning Deck</h1>
-              <p class="home-tagline">Carry your deck with you.</p>
-          '''
-          title_new = '''      <h1 class="home-brand-title">Hanafi Learning Deck</h1>
+          opening = '''      <h1 class="home-brand-title">Hanafi Learning Deck</h1>
               <section class="home-devotion" aria-labelledby="homeBismillah">
                 <h2 id="homeBismillah" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h2>
                 <p><strong>Bismillāhir-Raḥmānir-Raḥīm</strong></p>
@@ -180,19 +158,14 @@ jobs:
                 <p><strong>Al-ḥamdu lillāhi Rabbil-ʿālamīn, waṣ-ṣalātu was-salāmu ʿalā Rasūlillāh.</strong></p>
                 <p><em>All praise belongs to Allah, Lord of the worlds, and peace and blessings be upon the Messenger of Allah ﷺ.</em></p>
                 <p class="home-devotion-intention">This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement. <strong>Āmīn.</strong></p>
-              </section>
-              <p class="home-tagline">Carry your deck with you.</p>
-          '''
-          if home.count(title_old) != 1:
-              raise SystemExit(f'Home title assertion failed: expected one match, found {home.count(title_old)}')
-          home = home.replace(title_old, title_new, 1)
+              </section>'''
+          s = replace_once(s, '      <h1 class="home-brand-title">Hanafi Learning Deck</h1>', opening, 'Home title')
 
-          if home.count('<span class="home-version">v2.1</span>') != 1:
-              raise SystemExit('Home assertion failed: existing v2.1 marker moved, missing, or duplicated')
-          if 'Hanafi Learning Deck v2.0' in home or '[svg]' in home:
-              raise SystemExit('Home assertion failed: copy/paste artifact detected')
-
-          home_path.write_text(home, encoding='utf-8')
+          if s.count('<span class="home-version">v2.1</span>') != 1:
+              raise SystemExit('Home v2.1 marker moved, missing, or duplicated')
+          if 'Hanafi Learning Deck v2.0' in s or '[svg]' in s:
+              raise SystemExit('Copy/paste artifact detected')
+          p.write_text(s, encoding='utf-8')
           PY
 
       - name: Verify exact scope
