@@ -2,16 +2,21 @@
 
 <div align="center">
 
-## بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+<p dir="rtl"><strong>بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</strong></p>
+<p><strong>Bismillāhir-Raḥmānir-Raḥīm</strong></p>
+<p>In the name of Allah, the Most Compassionate, the Most Merciful.</p>
 
-**Bismillāhir-Raḥmānir-Raḥīm**  
-*In the name of Allah, the Most Compassionate, the Most Merciful.*
+<br>
 
-**الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَىٰ رَسُولِ اللَّهِ**  
-**Al-ḥamdu lillāhi Rabbil-ʿālamīn, waṣ-ṣalātu was-salāmu ʿalā Rasūlillāh.**  
-*All praise belongs to Allah, Lord of the worlds, and peace and blessings be upon the Messenger of Allah ﷺ.*
+<p dir="rtl"><strong>الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَىٰ رَسُولِ اللَّهِ</strong></p>
+<p><strong>Al-ḥamdu lillāhi Rabbil-ʿālamīn, waṣ-ṣalātu was-salāmu ʿalā Rasūlillāh.</strong></p>
+<p>All praise belongs to Allah, Lord of the worlds, and peace and blessings be upon the Messenger of Allah ﷺ.</p>
 
-This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement. **Āmīn.**
+<br>
+
+<p dir="rtl"><strong>يُقَامُ هَذَا الْمَشْرُوعُ ابْتِغَاءَ مَرْضَاةِ اللَّهِ وَنَشْرِ الْعِلْمِ النَّافِعِ. نَسْأَلُ اللَّهَ أَنْ يَتَقَبَّلَ مَا فِيهِ مِنَ الصَّوَابِ وَالنَّفْعِ، وَأَنْ يَغْفِرَ مَا فِيهِ مِنَ الْخَطَإِ، وَأَنْ يَهْدِيَ إِلَى مُوَاصَلَةِ تَصْحِيحِهِ وَتَحْسِينِهِ. آمِين.</strong></p>
+<p><strong>Yuqāmu hādhā al-mashrūʿu ibtighāʾa marḍāti Allāhi wa-nashri al-ʿilmi al-nāfiʿ. Nasʾalu Allāha an yataqabbala mā fīhi mina al-ṣawābi wa-al-nafʿi, wa-an yaghfira mā fīhi mina al-khaṭaʾi, wa-an yahdiya ilā muwāṣalati taṣḥīḥihi wa-taḥsīnihi. Āmīn.</strong></p>
+<p>This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement. <strong>Āmīn.</strong></p>
 
 </div>
 
