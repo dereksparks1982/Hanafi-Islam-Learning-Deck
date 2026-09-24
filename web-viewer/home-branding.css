@@ -26,6 +26,9 @@ body#top .home-brand-icon {
   height: auto;
   margin: 0 auto .45rem;
   object-fit: contain;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 body#top .home-brand-title {
@@ -67,6 +70,75 @@ body#top h2,
 body#top h3 {
   font-family: "Amarante", Georgia, "Times New Roman", serif;
   font-weight: 400;
+}
+
+/* The lantern art stays untouched. These are only soft light overlays placed above
+   the approved background and behind Home content. */
+body#top > .home-lantern-glow {
+  position: fixed;
+  top: 13vh;
+  width: clamp(105px, 11vw, 185px);
+  height: clamp(170px, 20vw, 310px);
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  opacity: .28;
+  filter: blur(15px);
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(ellipse at 50% 48%,
+      rgba(255,244,177,.64) 0,
+      rgba(255,196,78,.42) 15%,
+      rgba(235,122,28,.19) 38%,
+      rgba(235,122,28,0) 70%);
+  transform-origin: 50% 48%;
+}
+
+body#top > .home-lantern-glow-left {
+  left: 1.6vw;
+  animation: hanafiLanternFlickerLeft 3.9s steps(1, end) infinite;
+}
+
+body#top > .home-lantern-glow-right {
+  right: 1.6vw;
+  animation: hanafiLanternFlickerRight 4.7s steps(1, end) infinite;
+}
+
+body#top > header,
+body#top > main,
+body#top > footer {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes hanafiLanternFlickerLeft {
+  0%, 100% { opacity: .24; transform: scale(.98); }
+  8% { opacity: .33; transform: scale(1.02); }
+  17% { opacity: .27; transform: scale(.995); }
+  29% { opacity: .38; transform: scale(1.035); }
+  43% { opacity: .29; transform: scale(1.005); }
+  57% { opacity: .35; transform: scale(1.025); }
+  71% { opacity: .25; transform: scale(.99); }
+  86% { opacity: .31; transform: scale(1.015); }
+}
+
+@keyframes hanafiLanternFlickerRight {
+  0%, 100% { opacity: .31; transform: scale(1.01); }
+  11% { opacity: .25; transform: scale(.99); }
+  24% { opacity: .36; transform: scale(1.03); }
+  39% { opacity: .28; transform: scale(1.005); }
+  52% { opacity: .34; transform: scale(1.02); }
+  66% { opacity: .23; transform: scale(.985); }
+  79% { opacity: .37; transform: scale(1.035); }
+  91% { opacity: .27; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body#top > .home-lantern-glow-left,
+  body#top > .home-lantern-glow-right {
+    animation: none;
+    opacity: .27;
+  }
 }
 
 /* The three primary prayer-clock values share one clear visual weight. */
@@ -138,6 +210,12 @@ body#top .home-patreon-icon {
     background-size: auto;
     background-attachment: scroll;
   }
+
+  /* Portrait deliberately crops the lanterns from the approved artwork, so the
+     separate flame glow must disappear with them. */
+  body#top > .home-lantern-glow {
+    display: none;
+  }
 }
 
 /* Phone landscape: there is enough width to show the lantern frame again. */
@@ -151,6 +229,12 @@ body#top .home-patreon-icon {
     background-repeat: no-repeat, no-repeat;
     background-size: 100% auto, auto;
     background-attachment: scroll;
+  }
+
+  body#top > .home-lantern-glow {
+    top: 10vh;
+    width: clamp(80px, 11vw, 130px);
+    height: clamp(120px, 19vw, 210px);
   }
 }
 
