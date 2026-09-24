@@ -224,25 +224,14 @@
       writing-mode: vertical-rl;
       transform: rotate(180deg);
       overflow: hidden;
-      color: #e0bd6c;
+      color: var(--spine-text, #e0bd6c);
       font-size: clamp(.55rem, .72vw, .72rem);
       font-weight: 600;
       line-height: 1;
       letter-spacing: .08em;
       text-transform: uppercase;
-      text-shadow: 0 1px 2px #000;
+      text-shadow: 0 1px 2px rgba(0,0,0,.62);
       white-space: nowrap;
-    }
-
-    .shelf-empty-note {
-      margin: auto;
-      align-self: center;
-      color: rgba(220,190,122,.62);
-      font-size: .78rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      text-shadow: 0 2px 5px #000;
-      user-select: none;
     }
 
     @media (max-width: 760px) {
@@ -287,7 +276,20 @@
 
     <section class="library-shelf-shell" aria-label="Library shelf">
       <div id="libraryShelf" class="library-shelf-scroll" tabindex="0">
-        <span id="shelfEmptyNote" class="shelf-empty-note">The first volume is being catalogued</span>
+        <button
+          class="library-book"
+          type="button"
+          data-book-id="the-green-book"
+          data-title="The Green Book"
+          data-cover="books/the-green-book-cover.png"
+          data-src="books/the-green-book.pdf"
+          aria-label="The Green Book by Muammar Al Qaddafi"
+          style="--book-h:158px; --book-w:46px; --book-lean:-1deg; --book-color:#c2a53b; --spine-text:#113425;"
+        >
+          <span class="book-spine">
+            <span class="book-spine-title">The Green Book</span>
+          </span>
+        </button>
       </div>
       <div class="library-shelf-plank" aria-hidden="true"></div>
     </section>
