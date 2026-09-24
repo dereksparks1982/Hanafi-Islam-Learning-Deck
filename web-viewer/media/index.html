@@ -24,8 +24,7 @@
     .media-language-switch,.media-quality-switch{display:flex;gap:.65rem;flex-wrap:wrap;align-items:center}
     .media-language-button[aria-pressed="true"],.media-quality-button[aria-pressed="true"]{background:#d8b560;color:#172017;border-color:#d8b560}
     .media-player{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#000}
-    .media-player iframe,.media-player video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
-    .media-player video{display:block;object-fit:contain}
+    .media-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
     .media-player-actions{display:flex;gap:.65rem;flex-wrap:wrap;align-items:center;margin:.85rem 0 0}
     .media-note{margin:.8rem .1rem .1rem;color:#d8d2c2;line-height:1.6}
     .media-note a,.media-info a{color:#d8b560}
@@ -42,9 +41,10 @@
     .media-back-top{margin:1.5rem 0 0}
     [hidden]{display:none!important}
 
-    /* Mobile: use the native video element in-page; our wrapper handles full-screen so iOS and Android behave the same. */
-    .media-player.mobile-video-fullscreen{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border-radius:0;z-index:2147483000;background:#000}
-    body.mobile-media-fullscreen{overflow:hidden;overscroll-behavior:none}
+    /* iPhone/iPad: give the Google player a desktop-sized internal viewport, then scale it down. */
+    .media-player.ios-drive-stage iframe{inset:auto;width:1024px;height:576px;transform-origin:top left;z-index:1}
+    .media-player.ios-drive-fullscreen{position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;aspect-ratio:auto;border-radius:0;z-index:2147483000;background:#000}
+    body.ios-media-fullscreen{overflow:hidden;overscroll-behavior:none}
     .media-exit-fullscreen{position:fixed;z-index:2147483647;top:calc(env(safe-area-inset-top,0px) + .75rem);right:calc(env(safe-area-inset-right,0px) + .75rem);padding:.75rem 1rem;border:1px solid rgba(216,181,96,.8);border-radius:999px;background:#0b3d2e;color:#fff;font-weight:800;box-shadow:0 4px 18px rgba(0,0,0,.55);pointer-events:auto}
 
     @media(max-width:700px){
@@ -101,18 +101,6 @@
             allowfullscreen
             loading="eager">
           </iframe>
-          <video
-            id="mediaVideo"
-            controls
-            playsinline
-            webkit-playsinline
-            preload="metadata"
-            controlslist="nodownload"
-            hidden
-            title="The Message (1976) · English version · 720p">
-            <source id="mediaSource" src="https://drive.usercontent.google.com/download?id=14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW&amp;export=download&amp;confirm=t" type="video/mp4">
-            Your browser does not support HTML5 video.
-          </video>
         </div>
 
         <button id="exitFullscreenButton" class="media-exit-fullscreen" type="button" hidden>Exit full screen</button>
@@ -202,7 +190,6 @@
           defaultQuality: "720p",
           qualities: {
             "720p": {
-              fileId: "14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW",
               preview: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/preview",
               view: "https://drive.google.com/file/d/14EGWOjxr0a8ck8leIXdfBPXBIQY7yQkW/view?usp=sharing",
               title: "The Message (1976) · English version · 720p"
@@ -214,13 +201,11 @@
           defaultQuality: "480p",
           qualities: {
             "480p": {
-              fileId: "1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO",
               preview: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/preview",
               view: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/view?usp=sharing",
               title: "Al-Risalah (1976) · Arabic version · 480p"
             },
             "360p": {
-              fileId: "1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN",
               preview: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/preview",
               view: "https://drive.google.com/file/d/1aQTonzadJL55H9rw_RhBEo-FAMK0kAvN/view?usp=sharing",
               title: "Al-Risalah (1976) · Arabic version · 360p"
@@ -231,12 +216,8 @@
 
       const ua = navigator.userAgent || "";
       const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-      const isAndroid = /Android/i.test(ua);
-      const isMobile = isIOS || isAndroid;
       const mediaPlayer = document.getElementById("mediaPlayer");
       const driveFrame = document.getElementById("driveFrame");
-      const video = document.getElementById("mediaVideo");
-      const source = document.getElementById("mediaSource");
       const fallback = document.getElementById("driveFallback");
       const fullscreenButton = document.getElementById("fullscreenButton");
       const exitFullscreenButton = document.getElementById("exitFullscreenButton");
@@ -252,7 +233,7 @@
 
       let selectedLanguage = "english";
       let selectedQuality = versions.english.defaultQuality;
-      let mobileFullscreen = false;
+      let iosFullscreen = false;
 
       function setPressed(button, active) {
         button.setAttribute("aria-pressed", String(active));
@@ -264,15 +245,11 @@
         audioSection.hidden = showVideo;
         videoTab.setAttribute("aria-selected", String(showVideo));
         audioTab.setAttribute("aria-selected", String(!showVideo));
-
+        if (showVideo && isIOS) window.setTimeout(sizeIOSDriveFrame, 0);
       }
 
       function currentSelection() {
         return versions[selectedLanguage].qualities[selectedQuality];
-      }
-
-      function streamUrl(fileId) {
-        return `https://drive.usercontent.google.com/download?id=${encodeURIComponent(fileId)}&export=download&confirm=t`;
       }
 
       function renderQualityButtons() {
@@ -292,18 +269,11 @@
       function loadSelection() {
         const version = versions[selectedLanguage];
         const selected = currentSelection();
+        driveFrame.src = selected.preview;
+        driveFrame.title = selected.title;
         fallback.href = selected.view;
         mediaStatus.textContent = `${version.label} · ${selectedQuality} selected.`;
-
-        if (!isMobile) {
-          driveFrame.src = selected.preview;
-          driveFrame.title = selected.title;
-          return;
-        }
-
-        source.src = streamUrl(selected.fileId);
-        video.title = selected.title;
-        video.load();
+        if (isIOS) window.setTimeout(sizeIOSDriveFrame, 0);
       }
 
       function selectLanguage(language) {
@@ -324,30 +294,46 @@
         loadSelection();
       }
 
-      function setMobileFullscreen(active) {
-        if (!isMobile) return;
-        mobileFullscreen = active;
-        mediaPlayer.classList.toggle("mobile-video-fullscreen", active);
-        document.body.classList.toggle("mobile-media-fullscreen", active);
-        exitFullscreenButton.hidden = !active;
-        fullscreenButton.textContent = active ? "Exit full screen" : "Full screen";
+      function sizeIOSDriveFrame() {
+        if (!isIOS) return;
+        const baseWidth = 1024;
+        const baseHeight = 576;
+        const width = iosFullscreen ? window.innerWidth : mediaPlayer.clientWidth;
+        const height = iosFullscreen ? window.innerHeight : mediaPlayer.clientHeight;
+        const scale = iosFullscreen ? Math.min(width / baseWidth, height / baseHeight) : width / baseWidth;
+        const left = Math.max(0, (width - baseWidth * scale) / 2);
+        const top = Math.max(0, (height - baseHeight * scale) / 2);
+
+        driveFrame.style.width = `${baseWidth}px`;
+        driveFrame.style.height = `${baseHeight}px`;
+        driveFrame.style.left = `${left}px`;
+        driveFrame.style.top = `${top}px`;
+        driveFrame.style.transform = `scale(${scale})`;
       }
 
-      if (isMobile) {
-        driveFrame.hidden = true;
-        video.hidden = false;
+      function setIOSFullscreen(active) {
+        if (!isIOS) return;
+        iosFullscreen = active;
+        mediaPlayer.classList.toggle("ios-drive-fullscreen", active);
+        document.body.classList.toggle("ios-media-fullscreen", active);
+        exitFullscreenButton.hidden = !active;
+        fullscreenButton.textContent = active ? "Exit full screen" : "Full screen";
+        window.setTimeout(sizeIOSDriveFrame, 0);
+      }
+
+      if (isIOS) {
+        mediaPlayer.classList.add("ios-drive-stage");
         fullscreenButton.hidden = false;
-        mediaNote.innerHTML = "On iPhone and Android, the movie uses the phone's native video player so the picture fills the full player box. <strong>Full screen</strong> expands that same player to the whole viewport, and <strong>Exit full screen</strong> returns to the page. The separate Google Drive link remains the fallback if streaming has trouble.";
-        loadSelection();
-        video.addEventListener("error", () => {
-          mediaStatus.textContent = "The selected copy could not stream in the mobile player. Use the Google Drive link above as the fallback.";
-        });
+        mediaNote.innerHTML = "On iPhone and iPad, the Google Drive player is rendered in a desktop-sized frame and scaled to fit so its controls remain reachable. <strong>Full screen</strong> expands the player to the whole browser viewport, and the fixed <strong>Exit full screen</strong> button returns to the page. The separate Google Drive link remains the fallback if streaming has trouble.";
+        window.addEventListener("resize", sizeIOSDriveFrame);
+        window.addEventListener("orientationchange", () => window.setTimeout(sizeIOSDriveFrame, 150));
+        window.setTimeout(sizeIOSDriveFrame, 0);
       }
 
       videoTab.addEventListener("click", () => showMediaSection("video"));
       audioTab.addEventListener("click", () => showMediaSection("audio"));
-      fullscreenButton.addEventListener("click", () => setMobileFullscreen(!mobileFullscreen));
-      exitFullscreenButton.addEventListener("click", () => setMobileFullscreen(false));
+      fullscreenButton.addEventListener("click", () => setIOSFullscreen(!iosFullscreen));
+      exitFullscreenButton.addEventListener("click", () => setIOSFullscreen(false));
       englishButton.addEventListener("click", () => selectLanguage("english"));
       arabicButton.addEventListener("click", () => selectLanguage("arabic"));
 
