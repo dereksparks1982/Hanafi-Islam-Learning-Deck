@@ -1,0 +1,71 @@
+name: Add Arabic 1080 Subtitle Option
+
+on:
+  push:
+    paths:
+      - '.github/workflows/add-arabic-1080-subtitles-option.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add subtitle-enabled Arabic 1080p option
+        shell: python
+        run: |
+          from pathlib import Path
+
+          path = Path('web-viewer/media/index.html')
+          text = path.read_text(encoding='utf-8')
+
+          old = '''            "1080p · No subtitles": {
+              preview: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview",
+              view: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/view?usp=sharing",
+              title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"
+            },
+            "480p": {'''
+
+          new = '''            "1080p · No subtitles": {
+              preview: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview",
+              view: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/view?usp=sharing",
+              title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"
+            },
+            "1080p · Subtitles": {
+              preview: "https://drive.google.com/file/d/1kmUlt9ODJimtMaLePk3B35K89-4nNwW7/preview",
+              view: "https://drive.google.com/file/d/1kmUlt9ODJimtMaLePk3B35K89-4nNwW7/view?usp=sharing",
+              title: "Al-Risalah (1976) · Arabic version · 1080p · English subtitles via CC"
+            },
+            "480p": {'''
+
+          if old not in text:
+              raise SystemExit('Expected Arabic 1080p quality block not found; refusing to guess.')
+          text = text.replace(old, new, 1)
+
+          old_fact = '''<strong>Arabic version · 1080p / 480p / 360p</strong>'''
+          new_fact = '''<strong>Arabic version · 1080p subtitles / 1080p no subtitles / 480p / 360p</strong>'''
+          if old_fact not in text:
+              raise SystemExit('Expected Arabic media fact heading not found; refusing to guess.')
+          text = text.replace(old_fact, new_fact, 1)
+
+          old_desc = '''1080p no-subtitles copy included for Arabic listening study; older project copies remain available'''
+          new_desc = '''1080p copies are available with optional English captions through the player CC control or without subtitles for Arabic listening study; older project copies remain available'''
+          if old_desc not in text:
+              raise SystemExit('Expected Arabic media description not found; refusing to guess.')
+          text = text.replace(old_desc, new_desc, 1)
+
+          path.write_text(text, encoding='utf-8')
+
+      - name: Commit patch and remove one-time workflow
+        run: |
+          rm -f .github/workflows/add-arabic-1080-subtitles-option.yml
+          git config user.name "Abdullāh ibn al-Malik al-Jazzār"
+          git config user.email "dereksparks1982@gmail.com"
+          git add web-viewer/media/index.html .github/workflows/add-arabic-1080-subtitles-option.yml
+          git commit -m "Add Arabic 1080p subtitle alternative"
+          git push
