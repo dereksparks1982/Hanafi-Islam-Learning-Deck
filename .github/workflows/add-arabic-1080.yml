@@ -1,0 +1,88 @@
+name: Add Arabic 1080p Media Copy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/add-arabic-1080.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch-media:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Add Arabic 1080p no-subtitles copy without touching player logic
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('web-viewer/media/index.html')
+          text = path.read_text()
+
+          old_fact = '''          <div class="media-fact">
+            <strong>Arabic version · 480p / 360p</strong>
+            <span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · Arabic subtitles are visible in the project copies</span>
+          </div>'''
+          new_fact = '''          <div class="media-fact">
+            <strong>Arabic version · 1080p / 480p / 360p</strong>
+            <span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · 1080p no-subtitles copy included for Arabic listening study; older project copies remain available</span>
+          </div>'''
+
+          old_versions = '''        arabic: {
+          label: "العربية",
+          defaultQuality: "480p",
+          qualities: {
+            "480p": {
+              preview: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/preview",
+              view: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/view?usp=sharing",
+              title: "Al-Risalah (1976) · Arabic version · 480p"
+            },'''
+          new_versions = '''        arabic: {
+          label: "العربية",
+          defaultQuality: "1080p · No subtitles",
+          qualities: {
+            "1080p · No subtitles": {
+              preview: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview",
+              view: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/view?usp=sharing",
+              title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"
+            },
+            "480p": {
+              preview: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/preview",
+              view: "https://drive.google.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/view?usp=sharing",
+              title: "Al-Risalah (1976) · Arabic version · 480p"
+            },'''
+
+          if text.count(old_fact) != 1:
+              raise SystemExit('Expected Arabic media fact block not found exactly once; refusing to patch.')
+          if text.count(old_versions) != 1:
+              raise SystemExit('Expected Arabic versions block not found exactly once; refusing to patch.')
+
+          text = text.replace(old_fact, new_fact, 1)
+          text = text.replace(old_versions, new_versions, 1)
+          path.write_text(text)
+          PY
+
+      - name: Verify player implementation remains locked
+        run: |
+          grep -F '.media-player.ios-drive-stage iframe{inset:auto;width:1024px;height:576px;transform-origin:top left;z-index:1}' web-viewer/media/index.html
+          grep -F 'const baseWidth = 1024;' web-viewer/media/index.html
+          grep -F 'driveFrame.style.transform = `scale(${scale})`;' web-viewer/media/index.html
+          grep -F '1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview' web-viewer/media/index.html
+
+      - name: Commit narrow Media data update
+        run: |
+          if git diff --quiet -- web-viewer/media/index.html; then
+            echo 'No Media changes produced.'
+            exit 1
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add web-viewer/media/index.html
+          git commit -m 'Add Arabic 1080p no-subtitles Message copy'
+          git push
