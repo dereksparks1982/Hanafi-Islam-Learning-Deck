@@ -14,16 +14,9 @@ Active branch:
 
 `main`
 
-Current published checkpoint:
+Current accepted and published checkpoint:
 
-`v1.9`
-
-Next reserved development cycles:
-
-- `v2.0` — **Live Madrasas**
-- `v2.1` — **Adhan playback**
-
-These reservations are roadmap decisions, not automatic authorization to start either build.
+`v2.1`
 
 The old `feature/quran-reader` and `gh-pages` workflow assumptions are obsolete. Current work is maintained directly on `main`, and the Web App is deployed through the current GitHub Pages workflow.
 
@@ -43,7 +36,8 @@ Use these user-facing names:
 - **Tor Mirror** = `.onion` version
 - **Qur'an Reader** = page-based reader/book system
 - **Holy Places Explorer** = CesiumJS geographic study surface
-- **Media** = project media area introduced in v1.9
+- **Media** = project media area
+- **Advanced Learner Library / Secret Library** = restricted advanced-study area under active development
 
 The source directory remains `web-viewer/`, but user-facing documentation should call it the **Web App**.
 
@@ -55,37 +49,39 @@ Tor Mirror:
 
 `http://hanafiiix6xddzpmjxbpns5svgoujdnjwf3ky4a72rzai5mumxm4mzqd.onion/`
 
-## v1.9 closed — The Message (1976)
+## v2.1 accepted-state protections
 
-**v1.9 is officially closed and is the current published checkpoint.** Later source-quality improvements to *The Message* do not automatically reopen the release.
+The current accepted state is the baseline for new work.
+
+- The Home page carries the canonical visible version marker, currently **v2.1**.
+- The approved Home background and app emblem remain accepted assets.
+- The devotional opening on Home is intended to present each invocation in the order **Arabic → transliteration → English meaning**. Arabic is gold and the block should use a consistent typographic system.
+- The Media / *The Message* player is **locked**. Do not alter its accepted desktop iframe behavior, iPhone/iPad scaling workaround, full-screen handling, Exit-full-screen handling, or sizing while doing unrelated work.
+- The *The Message* source/provenance block was intentionally removed because the maintainer cannot account for the provenance of every project copy and does not want to imply certainty that is not available.
+- Future Media additions go around the accepted player rather than through it unless the maintainer explicitly requests a player change.
+
+## Media — The Message (1976)
 
 Current Media page:
 
 `https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/`
 
-Completed for v1.9:
+Implemented:
 
 - English production of *The Message* (1976) through Google Drive embedded playback;
 - separately filmed Arabic production **الرسالة / Al-Risalah (1976)**;
 - **English / العربية** selection;
-- current English project copy at **720p**;
-- current Arabic standard copy at **360p**, with Arabic audio and Arabic subtitles burned into the picture;
-- current Arabic alternate presentation at **480p**, with Arabic audio and English subtitles burned into the picture;
-- the 480p Arabic alternate also contains additional explanatory text at the beginning and additional chanting/opening material, so it is not conceptually just a higher-resolution duplicate of the 360p copy;
-- all three current project copies available through the public Media page;
+- multiple project copies selectable through the page;
 - direct Google Drive fallback follows the selected copy;
 - desktop Google Drive embedded playback retained because it works correctly;
-- iPhone/iPad-specific layout and page-level full-screen workaround added so the Drive player remains usable on mobile, including a separate **Exit full screen** control;
+- iPhone/iPad-specific player layout and page-level full-screen workaround retained because it is required for correct mobile control placement and usability;
+- a separate **Exit full screen** control on the mobile workaround;
 - film information and study note;
-- IMDb links for both productions;
-- Wikipedia, Academy Awards, Turner Classic Movies, and Arabic-source provenance links;
-- legal/source wording distinguishing project-created integration from third-party film/player content;
-- root README reconciled to the v1.9 published checkpoint and opening duʿā ends with **Āmīn**;
-- card-library sections made independently collapsible with local remembered state.
+- Video / Audio Media tabs.
 
-The current UI remains intentionally simple. The project may later refine Arabic edition-versus-quality labeling, add better source copies, or replace existing copies when genuinely better material is found. Those improvements are future Media maintenance unless explicitly assigned to a new release.
+The accepted player code is now considered fragile and locked. Do not replace the iPhone-specific implementation with a superficially cleaner responsive iframe implementation: that regression previously moved Google Drive controls to the wrong place and broke accepted behavior.
 
-External subtitle files were not integrated into the current Google Drive embedded player. The current copies rely on subtitles already burned into the picture where present.
+External subtitle files are not integrated into the current Google Drive embedded player. Current copies rely on subtitles already present in the video where applicable.
 
 ## Media-player attribution
 
@@ -101,21 +97,34 @@ All five card-set sections in the Web App are independently collapsible.
 
 The browser remembers the open/closed state locally. Clicking a card-set navigation control should reopen the destination set when needed.
 
-## v2.0 reservation — Live Madrasas
+## Advanced Learner Library / Secret Library
 
-**v2.0 is reserved for Live Madrasas.**
+This is an approved direction now entering implementation.
 
-The intended direction is a dedicated way to discover and watch useful live or regularly broadcast madrasa teaching with clear source identity, attribution, useful study labels, and sensible fallback behavior when feeds are offline.
+Purpose:
 
-Exact sources, interface, and implementation remain subject to explicit maintainer approval.
+- provide a separate environment for advanced, difficult, controversial, comparative, or research-oriented material;
+- keep the ordinary learning path inviting and uncluttered;
+- preserve the same source and review discipline used elsewhere in the project.
 
-## v2.1 reservation — Adhan playback
+Visual direction:
 
-**v2.1 is reserved for adhan playback.**
+- emerald, black-green, and gold scholarly library environment;
+- Islamic arches and geometric lattice;
+- bookshelves and stacked classical books;
+- hanging lanterns;
+- writing desk details such as ink, quill, scrolls, or manuscripts where appropriate;
+- visually related to the main Hanafi Learning Deck identity, but recognizably its own deeper library space;
+- the **locked gate** appears over the library environment;
+- after a correct research key, the gate disappears and the user remains in the same library environment rather than being sent to an unrelated generic page.
 
-The existing prayer-time system already calculates local prayer times. v2.1 should focus on actually playing the adhan at the appropriate times while handling browser/PWA background limits honestly.
+Secrecy rule:
 
-Exact audio, scheduling behavior, controls, and implementation remain subject to explicit maintainer approval.
+- public docs may name and describe the Advanced Learner Library;
+- public docs must **not publish the hidden access gesture, click/tap count, research key, or equivalent unlock secret** unless the maintainer explicitly orders publication;
+- source code necessarily contains client-side implementation details and is not a security boundary. The feature is an easter-egg/research gate, not protection for sensitive personal or confidential data.
+
+Current implementation work is authorized for the hidden access path, gate, unlocked shell, and supporting visuals. Content population remains a separate future task unless specifically approved.
 
 ## Prayer tools already implemented
 
@@ -214,7 +223,8 @@ Retained on the roadmap:
 - deeper Arabic literacy where it directly supports Qur'an/fiqh study;
 - qualified imam/scholar review;
 - Islamic Ruins & Lost Cities;
-- future educational games, with **Caravan Crossing** as the first selected game concept.
+- future educational games, with **Caravan Crossing** as the first selected game concept;
+- Advanced Learner Library content after its access shell and visual environment are accepted.
 
 ## Documentation / project management
 
@@ -233,7 +243,8 @@ Core rules:
 - no claim of ownership over the Qur'an itself;
 - project-created original material is licensed CC BY-NC-SA 4.0 only where the project has the right to license it;
 - third-party films, photos, recordings, translations, datasets, libraries, and services retain their own status/terms;
-- source provenance should be preserved;
+- source provenance should be preserved where provenance is actually known;
+- do not invent or imply provenance for a project copy when it cannot be reliably accounted for;
 - Media embedding/hosting does not make a third-party film project property;
 - the contemporary Shariah disagreement over intellectual property is documented rather than hidden;
 - the project remains noncommercial and free of advertising, subscriptions, paywalls, and behavioral tracking by the Hanafi Learning Deck.
