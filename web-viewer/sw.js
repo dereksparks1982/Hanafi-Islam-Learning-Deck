@@ -1,4 +1,4 @@
-const RELEASE = "v2.0";
+const RELEASE = "v2.1";
 const CACHE_PREFIX = "hanafi-deck-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}`;
 const CARD_CACHE = `${CACHE_PREFIX}cards-${RELEASE}`;
@@ -7,7 +7,7 @@ const SHELL = [
   "./",
   `./index.html?release=${RELEASE}`,
   `./styles.css?release=${RELEASE}`,
-  `./mobile-background.css?rev=20260923mobile1`,
+  `./mobile-background.css?rev=20260923mobile2`,
   `./app.js?release=${RELEASE}`,
   `./card-viewer.js?release=${RELEASE}`,
   `./manifest.webmanifest?release=${RELEASE}`,
@@ -108,7 +108,8 @@ async function cacheCards(urls, source, mode = "download") {
 
 self.addEventListener("message", event => {
   const data = event.data || {};
-  if (data.release && data.release !== RELEASE) return;
+  /* Accept v2.0 messages during the one-time installed-app handoff to v2.1. */
+  if (data.release && data.release !== RELEASE && data.release !== "v2.0") return;
 
   if (data.type === "CACHE_CARDS" && Array.isArray(data.urls)) {
     event.waitUntil(cacheCards(data.urls, event.source, "download"));
@@ -190,8 +191,8 @@ self.addEventListener("fetch", event => {
 
   if (url.origin !== self.location.origin) return;
 
-  /* Mobile background CSS is network-first so installed iOS/Android apps do not stay
-     stuck on an older cached layout rule after a styling repair. */
+  /* Mobile background CSS is always network-first so installed iOS/Android apps
+     wait for the current framing rules instead of painting an older cached copy. */
   if (url.pathname.endsWith("/mobile-background.css")) {
     event.respondWith((async () => {
       const cache = await caches.open(SHELL_CACHE);
@@ -231,9 +232,9 @@ self.addEventListener("fetch", event => {
     return;
   }
 
+  /* App shell assets are network-first. Cache is fallback only, never first paint. */
   event.respondWith((async () => {
     const cached = await caches.match(event.request);
-    if (cached) return cached;
     try {
       const response = await fetch(event.request, { cache:"no-cache" });
       if (response.ok && /\.(?:svg|css|js|json|webmanifest)$/i.test(url.pathname)) {
@@ -242,7 +243,7 @@ self.addEventListener("fetch", event => {
       }
       return response;
     } catch {
-      return Response.error();
+      return cached || Response.error();
     }
   })());
 });
