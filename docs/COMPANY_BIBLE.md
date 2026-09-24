@@ -25,6 +25,16 @@ Before changing the project, establish the exact requested scope.
 - Make one controlled change or approved group of closely related changes at a time.
 - Failed or rejected candidates are not new baselines.
 - Do not silently replace an approved asset with a new interpretation.
+- Once a fragile or device-specific implementation has been accepted and the maintainer marks it as locked, future work must go around it rather than through it unless the maintainer explicitly reopens that implementation.
+
+### Locked Media player
+
+The current **Media / The Message** player is an accepted locked implementation.
+
+- Do not refactor, normalize, simplify, restyle, replace, or otherwise alter its player sizing, iframe handling, mobile scaling, fullscreen handling, or Exit-full-screen behavior during unrelated Media or site work.
+- Desktop and iPhone/iPad behavior may intentionally use different implementation details where that is required for correct playback and controls.
+- New Media content should be added around the accepted player rather than by rewriting the player.
+- The player is changed only when the maintainer explicitly requests a player change.
 
 For the **Important Places of the Muslim World** expansion, the rule is especially strict:
 
@@ -32,7 +42,7 @@ For the **Important Places of the Muslim World** expansion, the rule is especial
 2. Show it to the maintainer before publication.
 3. The maintainer screens the wording, image choice, layout, border, and overall visual quality.
 4. Only an explicitly approved card is added to GitHub.
-5. Move to the next card only after the previous one is accepted.
+5. Move to the next card only after the previous card is accepted.
 
 ## 4. Exact approved assets stay exact
 
@@ -59,7 +69,9 @@ Binary images that already exist as final files should be uploaded directly as G
 - Version numbers change only with explicit maintainer authorization.
 - Every visible version surface must agree after an approved version change.
 - A rejected candidate does not advance the version.
-- Current checkpoint: **v1.6**, beginning the Important Places expansion with approved Card 1, Lal Masjid.
+- Current accepted Web App checkpoint: **v2.1**.
+- The Home page is the canonical user-facing version display. Interior pages do not need visible version labels unless the maintainer specifically wants them.
+- Internal release/cache identifiers may still exist where technically required, but they must not silently advance the public version.
 
 ## 7. Repository organization
 
@@ -69,6 +81,16 @@ Binary images that already exist as final files should be uploaded directly as G
 - Scholarly/source material stays in the audit/source files and expansion-specific source notes.
 - Temporary workflows used for one-time repository operations must be removed after the successful operation.
 - Do not leave unrelated files, experiments, or temporary artifacts in the repository.
+
+### Restricted / Secret Library documentation
+
+The Web App may contain a restricted advanced-study library intended for serious research material.
+
+- Public documentation may describe its purpose, content standards, and maintenance rules.
+- Public documentation must **not disclose the hidden access gesture, click/tap count, research key, or equivalent unlocking secret** unless the maintainer explicitly orders that information published.
+- The locked gate and the unlocked library are separate UI states over the same approved library environment.
+- Unlocking removes the gate UI; it should not replace the library environment with an unrelated page.
+- Restricted content still follows the same source, attribution, Hanafi-methodology, and review rules as the rest of the project.
 
 ## 8. Validation before claiming success
 
