@@ -14,10 +14,10 @@
   <link rel="apple-touch-icon" href="assets/hanafi-learning-deck-icon-approved.png?rev=20260923a">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amarante&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amarante&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?release=v2.1&rev=20260923site">
   <link rel="stylesheet" href="city-picker.css?rev=20260922a">
-  <link rel="stylesheet" href="home-branding.css?rev=20260923c">
+  <link rel="stylesheet" href="home-branding.css?rev=20260923d">
   <link rel="stylesheet" href="mobile-background.css?rev=20260923mobile2">
   <style>
     #setNav.card-layout-pending,
@@ -30,28 +30,66 @@
       text-align: center;
       border-top: 1px solid rgba(216,181,96,.32);
       border-bottom: 1px solid rgba(216,181,96,.32);
+      font-family: "Noto Sans Arabic", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    .home-devotion h2 { margin: 0 0 .55rem; color: #f3d989; font-size: clamp(1.55rem, 4vw, 2.2rem); line-height: 1.5; }
-    .home-devotion p { margin: .4rem 0; line-height: 1.65; }
-    .home-devotion-arabic { margin-top: .85rem !important; color: #f7f1df; font-size: clamp(1.1rem, 3vw, 1.45rem); line-height: 1.8 !important; }
-    .home-devotion-intention { margin-top: .9rem !important; }
+    .home-devotion h2,
+    .home-devotion p {
+      font-family: inherit !important;
+    }
+    .home-devotion h2 {
+      margin: 0 0 .35rem;
+      color: #f3d989;
+      font-size: clamp(1.55rem, 4vw, 2.2rem);
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    .home-devotion p {
+      margin: .32rem 0;
+      line-height: 1.65;
+      font-style: normal;
+    }
+    .home-devotion-arabic {
+      margin-top: .85rem !important;
+      color: #f3d989;
+      font-size: clamp(1.35rem, 3vw, 1.75rem);
+      font-weight: 600;
+      line-height: 1.8 !important;
+    }
+    .home-devotion-translit {
+      color: #f7f1df;
+      font-weight: 600;
+    }
+    .home-devotion-meaning {
+      color: #f7f1df;
+      font-weight: 400;
+    }
+    .home-devotion-intention {
+      margin-top: .95rem !important;
+      color: #f7f1df;
+      font-weight: 400;
+    }
   </style>
 </head>
 <body id="top">
+  <div class="home-lantern-glow home-lantern-glow-left" aria-hidden="true"></div>
+  <div class="home-lantern-glow home-lantern-glow-right" aria-hidden="true"></div>
+
   <header class="app-header home-header">
     <span class="home-version">v2.1</span>
     <div class="home-branding">
       <img class="home-brand-icon" src="assets/hanafi-learning-deck-icon-approved.png?rev=20260923a" alt="Hanafi Learning Deck emblem">
       <h1 class="home-brand-title">Hanafi Learning Deck</h1>
-    <section class="home-devotion" aria-labelledby="homeBismillah">
-      <h2 id="homeBismillah" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h2>
-      <p><strong>Bismillāhir-Raḥmānir-Raḥīm</strong></p>
-      <p><em>In the name of Allah, the Most Compassionate, the Most Merciful.</em></p>
-      <p class="home-devotion-arabic" lang="ar" dir="rtl"><strong>الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَىٰ رَسُولِ اللَّهِ</strong></p>
-      <p><strong>Al-ḥamdu lillāhi Rabbil-ʿālamīn, waṣ-ṣalātu was-salāmu ʿalā Rasūlillāh.</strong></p>
-      <p><em>All praise belongs to Allah, Lord of the worlds, and peace and blessings be upon the Messenger of Allah ﷺ.</em></p>
-      <p class="home-devotion-intention">This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement. <strong>Āmīn.</strong></p>
-    </section>
+      <section class="home-devotion" aria-labelledby="homeBismillah">
+        <h2 id="homeBismillah" class="home-devotion-arabic" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h2>
+        <p class="home-devotion-translit">Bismillāhir-Raḥmānir-Raḥīm</p>
+        <p class="home-devotion-meaning">In the name of Allah, the Most Compassionate, the Most Merciful.</p>
+
+        <p class="home-devotion-arabic" lang="ar" dir="rtl">الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَىٰ رَسُولِ اللَّهِ</p>
+        <p class="home-devotion-translit">Al-ḥamdu lillāhi Rabbil-ʿālamīn, waṣ-ṣalātu was-salāmu ʿalā Rasūlillāh.</p>
+        <p class="home-devotion-meaning">All praise belongs to Allah, Lord of the worlds, and peace and blessings be upon the Messenger of Allah ﷺ.</p>
+
+        <p class="home-devotion-intention">This project is undertaken seeking the pleasure of Allah and the spread of beneficial knowledge. May Allah accept what is correct and beneficial in it, forgive its errors, and guide its continued correction and improvement. <strong>Āmīn.</strong></p>
+      </section>
       <p class="home-tagline">Carry your deck with you.</p>
       <p class="intro">Browse the current card library online, open the Qur'an Reader, explore holy places, check local prayer times, or use the Live Madrasas & Masjids directory for Makkah Live and other broadcasts.</p>
     </div>
@@ -202,6 +240,7 @@
       if (isAndroid && !standalone) document.getElementById("androidInstallHint").hidden = false;
     })();
   </script>
+  <script src="secret-library-trigger.js?rev=20260923a" defer></script>
   <script src="app.js?release=v2.1" defer></script>
   <script src="city-picker.js?rev=20260922a" defer></script>
   <script src="card-set-collapse.js?rev=20260923d" defer></script>
