@@ -21,52 +21,48 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          import re
 
           path = Path('web-viewer/media/index.html')
           text = path.read_text()
 
-          old_heading = '<strong>Arabic version · 480p / 360p</strong>'
-          new_heading = '<strong>Arabic version · 1080p / 480p / 360p</strong>'
+          replacements = [
+              ('<strong>Arabic version · 480p / 360p</strong>',
+               '<strong>Arabic version · 1080p / 480p / 360p</strong>',
+               'Arabic fact heading'),
+              ('<span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · Arabic subtitles are visible in the project copies</span>',
+               '<span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · 1080p no-subtitles copy included for Arabic listening study; older project copies remain available</span>',
+               'Arabic fact description'),
+              ('defaultQuality: "480p",',
+               'defaultQuality: "1080p · No subtitles",',
+               'Arabic default quality'),
+          ]
 
-          old_desc = '<span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · Arabic subtitles are visible in the project copies</span>'
-          new_desc = '<span><span lang="ar" dir="rtl">الرسالة</span> / <em>Al-Risalah</em> · about 3h 27m · Abdallah Gheith, Mona Wassef · 1080p no-subtitles copy included for Arabic listening study; older project copies remain available</span>'
-
-          old_default = 'defaultQuality: "480p",'
-          new_default = 'defaultQuality: "1080p · No subtitles",'
-
-          for needle, label in [
-              (old_heading, 'Arabic fact heading'),
-              (old_desc, 'Arabic fact description'),
-              (old_default, 'Arabic default quality'),
-          ]:
-              if text.count(needle) != 1:
+          for old, new, label in replacements:
+              if text.count(old) != 1:
                   raise SystemExit(f'{label} did not match exactly once; refusing to patch.')
+              text = text.replace(old, new, 1)
 
-          pattern_480 = re.compile(
-              r'(?P<indent>\s*)"480p"\s*:\s*\{\s*'
-              r'preview\s*:\s*"https://drive\.google\.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/preview",\s*'
-              r'view\s*:\s*"https://drive\.google\.com/file/d/1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO/view\?usp=sharing",\s*'
-              r'title\s*:\s*"Al-Risalah \(1976\) · Arabic version · 480p"\s*\},'
-          )
-          matches = list(pattern_480.finditer(text))
-          if len(matches) != 1:
-              raise SystemExit(f'Arabic 480p source block matched {len(matches)} times; refusing to patch.')
+          marker = '"480p": {'
+          if text.count(marker) != 1:
+              raise SystemExit(f'Arabic 480p marker matched {text.count(marker)} times; refusing to patch.')
 
-          indent = matches[0].group('indent')
+          marker_pos = text.index(marker)
+          nearby = text[marker_pos:marker_pos + 700]
+          expected_id = '1Z9eyOrXjrdKEHjt3_sL_up7rR1V-zzyO'
+          if expected_id not in nearby:
+              raise SystemExit('Arabic 480p marker is not the expected Drive source; refusing to patch.')
+
+          line_start = text.rfind('\n', 0, marker_pos) + 1
+          indent = text[line_start:marker_pos]
           child = indent + '  '
-          block_1080 = (
+          block = (
               f'{indent}"1080p · No subtitles": {{\n'
               f'{child}preview: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/preview",\n'
               f'{child}view: "https://drive.google.com/file/d/1fWyfniNFtsGuZenL7oO7mtQmLMTaZhh9/view?usp=sharing",\n'
               f'{child}title: "Al-Risalah (1976) · Arabic version · 1080p · No subtitles"\n'
               f'{indent}}},\n'
           )
-
-          text = text.replace(old_heading, new_heading, 1)
-          text = text.replace(old_desc, new_desc, 1)
-          text = text.replace(old_default, new_default, 1)
-          text = text[:matches[0].start()] + block_1080 + text[matches[0].start():]
+          text = text[:line_start] + block + text[line_start:]
           path.write_text(text)
           PY
 
