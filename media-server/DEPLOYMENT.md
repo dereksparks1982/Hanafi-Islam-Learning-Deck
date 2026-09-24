@@ -17,7 +17,7 @@ This directory contains the small HTTP media-serving layer extracted from the No
 Ubuntu/Debian requirements:
 
 ```bash
-sudo apt install build-essential cmake
+sudo apt install build-essential cmake curl
 cmake -S media-server -B build/media-server -DCMAKE_BUILD_TYPE=Release
 cmake --build build/media-server --parallel
 ```
@@ -27,6 +27,28 @@ The executable is:
 ```text
 build/media-server/hanafi-nougat-media-server
 ```
+
+## Quick local deployment
+
+From the repository root, the local deployment helper builds the server, installs the executable, copies the current manifest into `/etc/hanafi-media`, installs the systemd unit, starts it, and performs local health/catalog checks:
+
+```bash
+bash media-server/deploy/install-local.sh
+```
+
+After the service is running, the fuller smoke test checks every configured media ID for HTTP byte-range support and verifies SRT-to-WebVTT subtitle conversion:
+
+```bash
+bash media-server/deploy/smoke-test.sh
+```
+
+To test a deployed HTTPS endpoint later:
+
+```bash
+bash media-server/deploy/smoke-test.sh https://media.example.com
+```
+
+Replace the example hostname only after a real media hostname has been chosen and configured.
 
 ## Current media library
 
@@ -104,7 +126,7 @@ A valid range returns HTTP `206 Partial Content`, `Accept-Ranges: bytes`, and `C
 
 ## systemd
 
-`deploy/hanafi-nougat-media.service.example` now runs the server as `dereksparks1982` so it can read the existing library without copying gigabytes into another directory. The service keeps the home directory read-only and explicitly treats the Hosted library and runtime configuration as read-only.
+`deploy/hanafi-nougat-media.service.example` runs the server as `dereksparks1982` so it can read the existing library without copying gigabytes into another directory. The service keeps the home directory read-only and explicitly treats the Hosted library and runtime configuration as read-only.
 
 Intended runtime layout:
 
