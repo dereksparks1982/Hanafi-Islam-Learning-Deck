@@ -23,9 +23,9 @@
     enabled,
     healthUrl: () => route("/nougat/v1/health"),
     catalogUrl: () => route("/nougat/v1/catalog"),
-    // Force Nougat's FFmpeg compatibility path so source-container or codec
-    // differences never reach the browser. The bridge outputs H.264/AAC MP4.
-    mediaUrl: id => route("/nougat/v1/transcode", id),
+    // Browser playback uses seekable MP4 delivery. Incompatible source files
+    // are prepared once on saxondesktop into browser-compatible H.264/AAC MP4.
+    mediaUrl: id => route("/nougat/v1/media", id),
     subtitleUrl: id => route("/nougat/v1/subtitle", id)
   });
 })();
