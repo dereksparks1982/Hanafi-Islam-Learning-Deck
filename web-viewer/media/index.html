@@ -75,7 +75,7 @@
   </footer>
 
   <script src="nougat-config.js?rev=20260924b"></script>
-  <script src="nougat-backend.js?rev=20260924b"></script>
+  <script src="nougat-backend.js?rev=20260924c"></script>
   <script>
     (() => {
       const films = {
@@ -83,15 +83,15 @@
           label: "The Message / Al-Risalah",
           heading: "The Message / Al-Risalah (1976)",
           info: "Separate English- and Arabic-language productions are kept as distinct project copies. The film is historical drama and should be used as a companion to sourced study, not as primary religious evidence.",
-          source: "The English 1080p hard-subbed project copy has a recorded public source link. Other source fields stay blank when provenance has not been recorded.",
+          source: "The English 1080p project copy has a recorded public source link. Other source fields stay blank when provenance has not been recorded.",
           sourceLink: "https://www.youtube.com/watch?v=mdiViGvY5xQ",
           copies: [
-            {label:"English · 1080p · hard English subtitles",id:"message-en-1080-hardsubs"},
+            {label:"English · 1080p",id:"message-en-1080-hardsubs"},
             {label:"English · 720p",id:"message-en-720"},
-            {label:"Arabic · 1080p · no subtitles",id:"risalah-ar-1080"},
-            {label:"Arabic · 1080p · English CC",id:"risalah-ar-1080",captions:true},
-            {label:"Arabic · 1080p · hard English subtitles",id:"risalah-ar-1080-hardsubs"},
-            {label:"Arabic · 480p · hard English subtitles",id:"risalah-ar-480"},
+            {label:"Arabic · 1080p · WEB-DL · no subtitles",id:"risalah-ar-1080"},
+            {label:"Arabic · 1080p · WEB-DL · English CC",id:"risalah-ar-1080",captions:true},
+            {label:"Arabic · 1080p · BluRay · English CC",id:"risalah-ar-1080-hardsubs",captions:true},
+            {label:"Arabic · 480p · English subtitles",id:"risalah-ar-480"},
             {label:"Arabic · 360p",id:"risalah-ar-360"}
           ]
         },
@@ -159,6 +159,12 @@
         video.querySelectorAll("track").forEach(track => track.remove());
       }
 
+      function showEnglishSubtitles() {
+        for (const textTrack of video.textTracks) {
+          textTrack.mode = "showing";
+        }
+      }
+
       function loadCopy() {
         const film = films[filmKey];
         const copy = film.copies[copyIndex];
@@ -183,11 +189,12 @@
 
         if (copy.captions) {
           const track = document.createElement("track");
-          track.kind = "captions";
+          track.kind = "subtitles";
           track.label = "English";
           track.srclang = "en";
           track.src = nougat.subtitleUrl(copy.id);
           track.default = true;
+          track.addEventListener("load", showEnglishSubtitles, {once:true});
           video.appendChild(track);
         }
 
@@ -195,7 +202,12 @@
         video.hidden = false;
         placeholder.hidden = true;
         video.load();
-        status.textContent = `${copy.label} · self-hosted through Nougat Media Core.`;
+        if (copy.captions) {
+          video.addEventListener("loadedmetadata", showEnglishSubtitles, {once:true});
+        }
+        status.textContent = copy.captions
+          ? `${copy.label} · external English subtitles enabled.`
+          : `${copy.label} · self-hosted through Nougat Media Core.`;
       }
 
       function render() {
