@@ -1,20 +1,22 @@
 # Project Documentation
 
-This folder is the home for the Hanafi Learning Deck's development, legal, planning, and operating documents.
+This folder is the home for the Hanafi Learning Deck's development, legal, planning, release, and operating documents.
 
 The project began as a small personal card set and has grown into a broader Hanafi Islamic learning project. Documentation is treated as part of the build itself so important source, legal, design, review, deployment, and recovery decisions are not lost between development sessions.
 
 ## Start here
 
-- [`CURRENT_HANDOFF.md`](CURRENT_HANDOFF.md) — **current recovery point**: repository state, current release, Web App surfaces, Tor mirror, Qur'an Reader, prayer tools, Media, Live, and exact project direction.
+- [`CURRENT_HANDOFF.md`](CURRENT_HANDOFF.md) — **current recovery point**: accepted release, Web App surfaces, Media architecture, server state, Advanced Learner Library rules, and next-work boundaries.
+- [`V2.1_CLOSEOUT.md`](V2.1_CLOSEOUT.md) — detailed record of what was accepted and closed in v2.1.
 - [`COMPANY_BIBLE.md`](COMPANY_BIBLE.md) — governing rules for changes to this repository.
-- [`roadmap.md`](roadmap.md) — current checkpoint, approved direction, and longer-term expansion plans.
-- [`LEGAL_AND_SOURCE_POLICY.md`](LEGAL_AND_SOURCE_POLICY.md) — Qur'an/source/copyright policy, third-party material rules, and the documented Shariah disagreement over intellectual property.
+- [`roadmap.md`](roadmap.md) — current checkpoint and longer-term plans. Roadmap entries are not automatic build authorization.
+- [`LEGAL_AND_SOURCE_POLICY.md`](LEGAL_AND_SOURCE_POLICY.md) — Qur'an/source/copyright policy, third-party material rules, Media/self-hosting distinctions, and the documented Shariah disagreement over intellectual property.
 - [`changelog.md`](changelog.md) — release/checkpoint history.
-- [`build-notes.md`](build-notes.md) — technical notes and solved build/repair procedures.
+- [`build-notes.md`](build-notes.md) — technical notes and solved build/repair/deployment procedures.
 - [`main-deck-continuation.md`](main-deck-continuation.md) — concept plan for future Main Deck continuation focused on everyday Islamic expressions and when to use them.
-- [`digital-learning-roadmap.md`](digital-learning-roadmap.md) — digital study direction for the installable Web App, review tools, Arabic learning, spaced repetition, QR/deep links, classroom use, and other features.
+- [`digital-learning-roadmap.md`](digital-learning-roadmap.md) — broader digital-learning direction.
 - [`../quran/README.md`](../quran/README.md) — Qur'an Reader architecture, source plan, and page-by-page construction rules.
+- [`../media-server/DEPLOYMENT.md`](../media-server/DEPLOYMENT.md) — current self-hosted Hanafi/Nougat Media deployment architecture.
 
 ## Content and scholarly review
 
@@ -28,35 +30,40 @@ The separation is intentional:
 
 - `docs/` records **how the project is governed, built, licensed, planned, resumed, deployed, and maintained**;
 - audit/source files record **what the educational material teaches and why particular claims are supported**;
-- the Qur'an Reader documentation records **which textual sources are used, how they are verified, and how the reader is assembled**.
+- Qur'an Reader documentation records **which textual sources are used, how they are verified, and how the reader is assembled**;
+- `media-server/` records **how the self-hosted media path is deployed and tested**.
 
 ## Current documentation checkpoint
 
-Published baseline: **v2.0**
+Published baseline: **v2.1 — closed**
 
 Active branch: **`main`**
 
-**v2.0 is closed.** It added the Live Madrasas & Masjids discovery surface and completed the current Web App release cycle.
+No later public version number has been assigned.
 
-The next development cycle is **v2.1 — Font Identity & Web App UI overhaul**. Planned work includes the new Hanafi Learning Deck visual identity, richer Web App styling, display-font experimentation, redesigned controls, improved desktop information density, more prominent prayer information, card-to-study links where appropriate, and the planned Advanced Learner Library interface. These roadmap items still require the normal explicit approval gate before implementation.
+The v2.1 closeout preserves the following accepted state:
 
-Adhan playback remains future work and is no longer assigned to v2.1.
-
-At this checkpoint the project documentation should preserve:
-
-- the **209-card library across five independent sets**;
-- the installable/offline **Web App**;
+- **209 cards across five independent sets**;
+- installable/offline-capable **Web App**;
+- approved v2.1 Hanafi visual identity, Home background, mobile background treatment, and Amarante display-heading treatment;
 - local prayer calculations with **Hanafi ʿAṣr**;
-- the page-by-page **Qur'an Reader**;
+- page-by-page **Qur'an Reader**;
 - **Makkah Live & Prayer Clock**;
-- the Cesium-based **Holy Places Explorer**;
-- the **Media** section;
-- the **Live Madrasas & Masjids** directory introduced for v2.0;
-- the `.onion` **Tor Mirror** as an alternate deployment of the same `main` project;
-- automatic Tor-mirror checks from GitHub `main` through the host-side systemd timer;
-- the dedicated legal/copyright/source policy;
-- future Islamic Ruins & Lost Cities work;
-- future educational game concepts;
+- Cesium-based **Holy Places Explorer**;
+- v2.0 **Live** directory retained;
+- **About**, **Legal**, and **Charity** Web App areas;
+- gated **Advanced Learner Library** shell, with its hidden unlock details intentionally omitted from public documentation;
+- self-hosted **Media** architecture using the Hanafi bridge and selected Nougat/Jellyfin backend work;
+- the accepted **DK Media single-player Web player**, with one video element and library-driven source switching;
+- external subtitle support for one configured sidecar subtitle per media item, including SRT-to-WebVTT conversion;
+- `.onion` **Tor Mirror** as an alternate deployment of the same `main` project;
+- Tor-mirror update tooling;
+- dedicated legal/copyright/source policy;
+- reusable media-server build/smoke-test workflow;
 - the normal approval gate for every new build or substantial change.
 
-If context is lost, **read `CURRENT_HANDOFF.md` before doing anything else**.
+The old Google Drive iframe Media implementation is historical and must not be described as the current player.
+
+The additional Arabic/English hard-sub temporary copy being downloaded during v2.1 closeout is not part of the closed manifest. It remains later Media work after the completed file is confirmed and the maintainer authorizes its addition.
+
+If context is lost, **read `CURRENT_HANDOFF.md` and `V2.1_CLOSEOUT.md` before doing anything else**.
