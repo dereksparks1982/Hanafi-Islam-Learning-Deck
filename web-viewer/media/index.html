@@ -153,6 +153,10 @@
         }
       ];
 
+      if (localStorage.getItem("hanafi-dk-media:volume") === null) {
+        localStorage.setItem("hanafi-dk-media:volume", "100");
+      }
+
       const player = new window.DKMediaWebPlayer({
         backend: window.HanafiNougatBackend,
         library,
