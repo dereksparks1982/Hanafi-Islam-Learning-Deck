@@ -1,5 +1,17 @@
 # Changelog
 
+## v2.2 — Media library and player refinement — closed
+
+- Closed and accepted on 2026-09-25.
+- Established the film-first poster-card/list Media library and dedicated film pages.
+- Grouped The Message English and Urdu editions under one film while keeping Al-Risalah as its distinct Arabic production.
+- Expanded the current library to Al-Risalah, Lion of the Desert, The Message, and The Ten Commandments (1923).
+- Added IndexedDB artwork caching, film-specific artwork sources, and per-film crop/position handling.
+- Corrected Al-Risalah artwork separation, Lion of the Desert framing, and The Ten Commandments artwork resolution.
+- Refined the DK Media player to centered **<< / ^ / >>** transport, 10-second rewind/forward, wheel volume, fullscreen custom controls, and inactivity hiding without a separate center-screen Play overlay.
+- Assigned **v2.3** as the next planned build, beginning with a Plex-inspired Media artwork/metadata manager plan.
+
+
 ## v2.1 — Web App identity, advanced library, and self-hosted Media — closed
 
 - **Officially closed v2.1** as the current accepted and published checkpoint on 2026-09-25.
