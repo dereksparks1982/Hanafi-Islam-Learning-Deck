@@ -37,7 +37,6 @@ The project is now larger than the printed deck. Current implemented study and p
 - the page-based **Qur'an Reader** foundation with Surah al-Fatihah implemented as the first construction page;
 - the v2.0 **Live** discovery area for madrasas, masjids, and Islamic live resources;
 - dedicated **About**, **Legal**, and **Charity** areas;
-- the gated **Advanced Learner Library** shell;
 - the v2.1 self-hosted **Media** path using the Hanafi bridge and selected Nougat/Jellyfin backend work;
 - the accepted **DK Media single-player Web player**;
 - one optional external subtitle path per media item, including SRT-to-WebVTT conversion.
@@ -67,7 +66,6 @@ Published v2.0 work includes:
 - v2.0 Web App navigation/version/offline-shell closeout across current major surfaces;
 - Tor mirror updater hardening.
 
-## v2.1 — Web App identity, Advanced Learner Library, and self-hosted Media — closed
 
 **v2.1 is officially closed.**
 
@@ -78,7 +76,6 @@ Accepted v2.1 work includes:
 - Amarante display typography for the approved Home title/heading treatment;
 - current Home branding, density, devotional presentation, and v2.1 visual family;
 - About, Legal, and Charity surface consolidation;
-- gated Advanced Learner Library shell and approved library environment without publishing its hidden unlock details;
 - replacement of the old Google Drive Media path with a self-hosted architecture from GitHub Pages through Nginx to the Hanafi bridge and selected Nougat/Jellyfin server work;
 - public media access through stable manifest IDs rather than exposing filesystem paths or the Jellyfin interface;
 - byte-range local delivery, local fallback, FFmpeg/Jellyfin compatibility paths, health/catalog endpoints, and SRT-to-WebVTT subtitle conversion;
@@ -208,9 +205,7 @@ Planned reader development includes, over time:
 
 Arabic source text must never be silently altered. Source/provenance rules live in the Qur'an documentation and legal/source policy.
 
-## Open Library and Advanced / Restricted Library
 
-The gated **Advanced Learner Library** shell now exists. Future content and reader behavior remain subject to explicit approval.
 
 The longer-term library direction can continue toward a shared bookshelf/reader model for open and advanced material:
 
@@ -225,7 +220,6 @@ The **Open Library** can provide full readable copies of unrestricted religious,
 
 Advanced/restricted treatment should be based on the character of material and project content policy, not the ethnicity or religion associated with a text.
 
-The hidden Advanced Learner Library access gesture/key is intentionally not documented in public roadmap text.
 
 ## Zakat, Sadaqah, and Charity directory
 

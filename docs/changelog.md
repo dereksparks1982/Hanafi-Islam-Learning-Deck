@@ -7,7 +7,6 @@
 - Kept the Home page as the canonical visible `v2.1` version surface.
 - Added/consolidated dedicated **About**, **Legal**, and **Charity** areas and redirected older Contact/Zakat routes into the current structure.
 - Kept voluntary Patreon project support in the Charity context rather than on the Home page, and did not present project support as Zakat.
-- Established the gated **Advanced Learner Library** shell and approved library environment while intentionally keeping its hidden access gesture/key out of public documentation.
 - Replaced the old Google Drive iframe Media architecture with a self-hosted path from GitHub Pages through HTTPS/Nginx to the Hanafi media bridge and the selected Nougat/Jellyfin backend work on the maintainer's own computer.
 - Kept movie payloads off GitHub and exposed only manifest-listed stable media IDs through the Hanafi bridge.
 - Reused useful Nougat server work including HTTP byte-range delivery, local-file fallback, Jellyfin integration, FFmpeg H.264/AAC fallback, health/catalog endpoints, and SRT-to-WebVTT subtitle conversion.

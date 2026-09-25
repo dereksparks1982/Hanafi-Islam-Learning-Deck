@@ -86,16 +86,6 @@ Binary images that already exist as final files should be uploaded directly as G
 - Temporary workflows used for one-time repository operations must be removed after the successful operation.
 - Do not leave unrelated files, experiments, or temporary artifacts in the repository.
 
-### Restricted / Secret Library documentation
-
-The Web App may contain a restricted advanced-study library intended for serious research material.
-
-- Public documentation may describe its purpose, content standards, and maintenance rules.
-- Public documentation must **not disclose the hidden access gesture, click/tap count, research key, or equivalent unlocking secret** unless the maintainer explicitly orders that information published.
-- The locked gate and the unlocked library are separate UI states over the same approved library environment.
-- Unlocking removes the gate UI; it should not replace the library environment with an unrelated page.
-- Restricted content still follows the same source, attribution, Hanafi-methodology, and review rules as the rest of the project.
-
 ## 8. Validation before claiming success
 
 Before saying a repository change is complete:

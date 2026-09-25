@@ -6,7 +6,6 @@ The project began as a small personal card set and has grown into a broader Hana
 
 ## Start here
 
-- [`CURRENT_HANDOFF.md`](CURRENT_HANDOFF.md) — **current recovery point**: accepted release, Web App surfaces, Media architecture, server state, Advanced Learner Library rules, and next-work boundaries.
 - [`V2.1_CLOSEOUT.md`](V2.1_CLOSEOUT.md) — detailed record of what was accepted and closed in v2.1.
 - [`COMPANY_BIBLE.md`](COMPANY_BIBLE.md) — governing rules for changes to this repository.
 - [`roadmap.md`](roadmap.md) — current checkpoint and longer-term plans. Roadmap entries are not automatic build authorization.
@@ -52,7 +51,6 @@ The v2.1 closeout preserves the following accepted state:
 - Cesium-based **Holy Places Explorer**;
 - v2.0 **Live** directory retained;
 - **About**, **Legal**, and **Charity** Web App areas;
-- gated **Advanced Learner Library** shell, with its hidden unlock details intentionally omitted from public documentation;
 - self-hosted **Media** architecture using the Hanafi bridge and selected Nougat/Jellyfin backend work;
 - the accepted **DK Media single-player Web player**, with one video element and library-driven source switching;
 - external subtitle support for one configured sidecar subtitle per media item, including SRT-to-WebVTT conversion;

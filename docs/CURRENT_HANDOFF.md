@@ -56,7 +56,6 @@ User-facing names:
 - **Holy Places Explorer** = CesiumJS geographic study surface
 - **Media** = self-hosted project media area
 - **Live** = madrasas, masjids, and Islamic live/discovery area
-- **Advanced Learner Library** = gated advanced-study library
 - **Charity** = giving/support directory
 - **About** and **Legal** = project information and legal/contact surfaces
 
@@ -186,13 +185,10 @@ Known operational design:
 
 The router destination was corrected during testing and *The Ten Commandments* successfully played through the public path. Do not reopen the old Safari/Range diagnosis unless a new playback failure actually occurs.
 
-## Advanced Learner Library
 
 The gated advanced-study library shell is implemented.
 
-Public documentation may describe the purpose and standards of the library, but **must not publish the hidden access gesture, count, key, or equivalent unlock secret** unless the maintainer explicitly orders that disclosure.
 
-The gate and unlocked library remain different states of the same approved library environment.
 
 ## Charity / support
 

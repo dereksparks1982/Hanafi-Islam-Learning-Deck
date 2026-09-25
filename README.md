@@ -72,7 +72,6 @@ The current project includes:
 - the **Live** directory for madrasas, masjids, and Islamic live/discovery resources;
 - a self-hosted **Media** system using one DK Media-based browser player;
 - **About**, **Legal**, and **Charity** areas;
-- the gated **Advanced Learner Library** shell;
 - the normal GitHub Pages Web App plus a Tor mirror of the same current project.
 
 The long-term relationship between these parts is increasingly:
@@ -368,18 +367,6 @@ Media deployment documentation:
 
 [`media-server/DEPLOYMENT.md`](media-server/DEPLOYMENT.md)
 
-## Advanced Learner Library
-
-v2.1 established the gated **Advanced Learner Library** shell and its approved library environment.
-
-It is intended for more advanced/restricted study material and uses a separate locked/unlocked interface state.
-
-The hidden access gesture, count, key, or equivalent unlocking secret is intentionally **not published in the public documentation**.
-
-The gate is an access/discovery layer, not a claim that browser-side content is a high-security vault.
-
-Future books and library behavior remain subject to the normal approval process.
-
 ## Charity, support, About, and Legal
 
 v2.1 added or consolidated dedicated Web App areas for:
@@ -455,7 +442,6 @@ Current future directions include:
 - card-to-Qur'an/place/live/media/source relationships;
 - Important Places cards one at a time through the established approval process;
 - Main Deck continuation around Everyday Islamic Speech;
-- future Advanced Learner Library additions;
 - future prayer/audio work such as adhan playback when explicitly authorized;
 - better authenticated Media source copies;
 - the Arabic production of *The Message* as a separate media entry once an approved completed source is ready;
