@@ -18,7 +18,7 @@ Current accepted and published checkpoint:
 
 **v2.2 — closed**
 
-The maintainer has assigned **v2.3** as the next planned build. Its first planned Media scope is the artwork/metadata manager in `V2.3_MEDIA_ARTWORK_PLAN.md`. Do not implement additional v2.3 scope without explicit authorization.
+The maintainer explicitly authorized starting **v2.3** on 2026-09-25. Active scope is the Media artwork/metadata manager in `V2.3_MEDIA_ARTWORK_PLAN.md`. The first implementation is now on `main`: shared artwork-manager core, Edit artwork entry points, Commons search, manual URL/local image selection, crop/position controls, IndexedDB persistence/locking, and Reset to Automatic. Do not broaden v2.3 beyond this approved scope without authorization.
 
 Detailed release record:
 
