@@ -1,8 +1,10 @@
 # Hanafi Learning Deck — Roadmap
 
-## Current published checkpoint: v1.9
+## Current published checkpoint: v2.1 — closed
 
-The next reserved development cycle is **v2.0 — Live Madrasas**. Reservation on the roadmap is not automatic permission to begin implementation.
+**v2.1 is the current accepted and published checkpoint.** No later public version number has been assigned.
+
+A future release number begins only when the maintainer explicitly authorizes and names it. Roadmap entries are plans, not automatic permission to build them.
 
 The project currently contains **209 cards across five independent sets**:
 
@@ -14,13 +16,17 @@ The project currently contains **209 cards across five independent sets**:
 
 The project remains a **Hanafi study aid pending qualified imam/scholar review**. A full manual audit remains part of the work.
 
-All current development is kept on **`main`**. The old feature-branch / `gh-pages` planning language is obsolete. GitHub Pages is built from the current `main` Web App workflow.
+All current development is kept on **`main`**. GitHub Pages is built from the current `main` Web App workflow. The Tor mirror is an alternate deployment of the same current project rather than a separate development branch.
+
+Detailed v2.1 closeout record:
+
+[`V2.1_CLOSEOUT.md`](V2.1_CLOSEOUT.md)
 
 ## What is already working
 
-The project is now larger than the printed deck. Current implemented study surfaces include:
+The project is now larger than the printed deck. Current implemented study and project surfaces include:
 
-- the installable **Web App**;
+- the installable/offline-capable **Web App**;
 - the 209-card library with independently collapsible card-set sections;
 - offline card caching/update support where the browser permits it;
 - local prayer-time calculation with **Hanafi ʿAṣr**;
@@ -29,66 +35,83 @@ The project is now larger than the printed deck. Current implemented study surfa
 - the **Holy Places Explorer** using CesiumJS;
 - Tor Browser compatibility for the Explorer after removing unnecessary depth-buffer picking behavior;
 - the page-based **Qur'an Reader** foundation with Surah al-Fatihah implemented as the first construction page;
-- the **Media** area introduced and published in v1.9.
+- the v2.0 **Live** discovery area for madrasas, masjids, and Islamic live resources;
+- dedicated **About**, **Legal**, and **Charity** areas;
+- the gated **Advanced Learner Library** shell;
+- the v2.1 self-hosted **Media** path using the Hanafi bridge and selected Nougat/Jellyfin backend work;
+- the accepted **DK Media single-player Web player**;
+- one optional external subtitle path per media item, including SRT-to-WebVTT conversion.
 
-The Tor mirror is an alternate access path to the same project, not a separate development branch.
+## v1.9 — Media: The Message (1976) — historical closed checkpoint
 
-## v1.9 — Media: The Message (1976) — closed
+**v1.9 is officially closed.** It established the first Media entry using a Google Drive iframe player and separate English/Arabic copy choices.
 
-**v1.9 is officially closed.** Its deliberately narrow job was to establish the first Media entry cleanly before the Media area grows further.
+That Google Drive architecture is now **historical**. It was replaced during v2.1 by the self-hosted Hanafi/Nougat backend and DK Media Web player.
 
-Published v1.9 work includes:
+The v1.9 work remains part of project history because it established the first usable Media surface, mobile lessons, film-study framing, source/provenance discipline, and the distinction between the project interface and third-party film content.
 
-- English production of *The Message* (1976) streamed through Google Drive;
-- separately filmed Arabic production **الرسالة / Al-Risalah (1976)**;
-- **English / العربية** selection on the Media page;
-- current English project copy at **720p**;
-- Arabic standard project copy at **360p**, with Arabic audio and Arabic subtitles burned into the picture;
-- Arabic alternate presentation at **480p**, with Arabic audio and English subtitles burned into the picture;
-- recognition that the 480p Arabic alternate is not merely a higher-resolution duplicate because it contains additional explanatory text at the beginning and additional chanting/opening material;
-- direct Google Drive fallback for the selected copy;
-- iPhone/iPad-specific layout and page-level full-screen handling for the Google Drive embedded player;
-- film information and a clear study note distinguishing historical drama from Qur'an, hadith, fiqh, and sourced Seerah;
-- links to relevant film-information sources and Arabic-copy provenance;
-- README and handoff documentation reconciled to the published v1.9 checkpoint;
-- legal/source policy updated to cover films, external hosting, Google Drive playback, source provenance, and the distinction between project-created integration and third-party media;
-- VLC/Nougat attribution wording kept accurate: the current Hanafi Media page uses a Google Drive embed and does **not** bundle VLC/libVLC.
+## v2.0 — Live Madrasas, Masjids & Islamic discovery — closed
 
-Better copies of *The Message* may be found and added later. Improving source quality, replacing a copy, or refining edition-versus-quality labeling is future Media maintenance unless explicitly assigned to a later release.
+**v2.0 is officially closed.**
 
-## v2.0 — Live Madrasas
+The release established a dedicated Live area instead of mixing live study resources into unrelated pages.
 
-**v2.0 is reserved for Live Madrasas.**
+Published v2.0 work includes:
 
-The goal is to create a dedicated way to discover and watch useful live or regularly broadcast madrasa teaching without mixing that work into v1.9.
-
-Planned considerations include:
-
-- verified madrasa identity and location;
-- public live or scheduled teaching feeds;
-- clear source links and attribution;
-- useful labels such as live video, audio, lesson, Qur'an, fiqh, Arabic, or other study categories where appropriate;
-- reliable fallbacks when a stream is offline;
+- **Madrasas** group for useful live/regular teaching resources;
+- **Masjids** group, including Masjid al-Haram through the Makkah page and selected mosque resources;
+- **Islamic TV & discovery** group;
+- source links and clear separation between project curation and external content;
 - no advertising inserted by the Hanafi Learning Deck;
-- links back into relevant cards, Qur'an pages, places, or sources when there is a genuine study relationship.
+- continued rule that a remote mosque livestream is a viewing/study resource and does not make a remote viewer part of the local congregational prayer;
+- v2.0 Web App navigation/version/offline-shell closeout across current major surfaces;
+- Tor mirror updater hardening.
 
-The exact interface and source list remain subject to the normal approval gate.
+## v2.1 — Web App identity, Advanced Learner Library, and self-hosted Media — closed
 
-## v2.1 — Adhan playing
+**v2.1 is officially closed.**
 
-**v2.1 is reserved for adhan playback.**
+Accepted v2.1 work includes:
 
-The existing prayer-time system already calculates local prayer times and countdowns. v2.1 should focus on actually playing the adhan at the appropriate prayer times while documenting platform limits honestly.
+- approved Hanafi Learning Deck icon and Home background;
+- corrected mobile background treatment;
+- Amarante display typography for the approved Home title/heading treatment;
+- current Home branding, density, devotional presentation, and v2.1 visual family;
+- About, Legal, and Charity surface consolidation;
+- gated Advanced Learner Library shell and approved library environment without publishing its hidden unlock details;
+- replacement of the old Google Drive Media path with a self-hosted architecture from GitHub Pages through Nginx to the Hanafi bridge and selected Nougat/Jellyfin server work;
+- public media access through stable manifest IDs rather than exposing filesystem paths or the Jellyfin interface;
+- byte-range local delivery, local fallback, FFmpeg/Jellyfin compatibility paths, health/catalog endpoints, and SRT-to-WebVTT subtitle conversion;
+- DK Media as the behavioral/design base for the Hanafi browser player;
+- exactly **one video player total**, with the library/media selector switching that one player's source;
+- Play/Pause, −10 seconds, +30 seconds, seek/time display, volume, speed, fullscreen, keyboard controls, remembered preferences, and resume state;
+- one optional external sidecar subtitle per media item, exposed as an on/off subtitle choice;
+- Tor/deployment improvements and reusable media-server build/smoke-test tooling;
+- cleanup of obsolete one-time workflows at closeout.
 
-Planned work includes:
+Current checked-in Media test IDs at v2.1 closeout are:
 
-- user-controlled adhan enable/disable;
-- local prayer-time integration;
-- appropriate handling of Fajr versus other prayers if separate audio is used;
-- volume/playback controls;
-- selected human adhan recording with clear provenance and permission/licensing information;
-- investigation of the most reliable background/native scheduling path available;
-- honest fallback behavior where browsers or PWAs cannot guarantee closed-app playback.
+```text
+ten-commandments-1923
+the-message-1976-english
+```
+
+The temporary Arabic/English hard-sub *The Message* copy that was still downloading when v2.1 closed is **not** part of the closed manifest. It remains later Media work after the completed file is confirmed and explicitly authorized.
+
+Multiple named external sidecar subtitle tracks per single media item remain a future enhancement. v2.1 supports one optional sidecar subtitle path per item.
+
+## Future Media work
+
+Possible later Media work includes:
+
+- replacing temporary test/YouTube project copies with better authenticated editions when the maintainer chooses;
+- adding the completed Arabic production as a separate media item because its audio/performance is genuinely different from the English production;
+- attaching downloaded sidecar subtitles to clean video masters rather than keeping duplicate video encodes solely for subtitle differences;
+- extending the manifest/catalog/player to support multiple named external subtitle tracks such as English and Arabic on one media item;
+- adding further religious/historical media one item at a time;
+- maintaining the one-player DK Media architecture rather than adding a separate player per title.
+
+No future Media item is authorized merely by appearing here.
 
 ## Unified card-to-content relationships
 
@@ -185,56 +208,56 @@ Planned reader development includes, over time:
 
 Arabic source text must never be silently altered. Source/provenance rules live in the Qur'an documentation and legal/source policy.
 
-## Open Library and Restricted Library
+## Open Library and Advanced / Restricted Library
 
-The project is planned to have a normal **Open Library** and a separate **Restricted Library**. Both should use the same bookshelf interaction model so the restricted area does not become a technically separate or inferior reader.
+The gated **Advanced Learner Library** shell now exists. Future content and reader behavior remain subject to explicit approval.
 
-Planned shelf behavior:
+The longer-term library direction can continue toward a shared bookshelf/reader model for open and advanced material:
 
 - books sit spine-out, side-by-side on shelves;
-- mouse wheel scrolls a shelf horizontally on desktop;
-- touch swipe scrolls the same shelf on phones and tablets;
-- hovering a book can reveal its cover;
-- a single click or tap turns that actual book outward so the cover faces the reader;
-- clicking elsewhere returns it spine-first;
-- double-click or double-tap opens the selected book in a full-screen reader over the library while the room behind it is dimmed;
-- the reader should support page navigation, zoom, and close controls;
-- closing the reader returns the user to the same shelf and horizontal scroll position they left.
+- mouse wheel can scroll a shelf horizontally on desktop;
+- touch swipe can scroll the same shelf on phones and tablets;
+- hovering or selecting a book can reveal/turn out its cover;
+- opening a book can use a full-screen reader over the library environment;
+- reader state should return the user to the same shelf/position after closing.
 
-The **Open Library** can provide full readable copies of unrestricted religious, historical, and reference works. A full Bible is an identified candidate for this area.
+The **Open Library** can provide full readable copies of unrestricted religious, historical, and reference works where source status permits.
 
-The **Restricted Library** uses the same reader behavior but places an explicit warning/gate before restricted material. Current restricted candidates include **Kabbalah-related/esoteric works** and **Mein Kampf**. The exact treatment of the **Talmud** remains a content-classification decision rather than being automatically restricted merely because it is a Jewish religious text.
+Advanced/restricted treatment should be based on the character of material and project content policy, not the ethnicity or religion associated with a text.
 
-Restriction should be based on the character of the material and the project's content policy, not the ethnicity or religion associated with a text.
+The hidden Advanced Learner Library access gesture/key is intentionally not documented in public roadmap text.
 
-## Zakat & Sadaqah giving directory
+## Zakat, Sadaqah, and Charity directory
 
-The existing Zakat & Sadaqah area is intended to become a curated **card-based giving directory**, not a plain list of links.
+The Web App now has a dedicated Charity area. Future refinement can continue toward a curated card-based giving directory.
 
-Target size is roughly **a dozen charity cards**. Each organization should have its own card containing:
-
-- organization name;
-- a clear type/status badge such as **Zakat accepted**, **Sadaqah / general charity**, **Humanitarian charity**, or **Project support · Not Zakat**;
-- a short plain-language explanation of what the organization does;
-- what donations generally support;
-- Zakat status only when the organization itself explicitly provides a Zakat route;
-- a direct donation link; and
-- a separate learn-more/source link where useful.
-
-Cards should be grouped under clear section headings so a user knows what kind of giving they are making before leaving the Hanafi Learning Deck:
+Useful grouping remains:
 
 1. **Zakat-Eligible Muslim Charities**
 2. **Muslim Sadaqah & Community Support**
 3. **General Humanitarian Charities**
 4. **Support Hanafi Learning Deck** — voluntary project support, explicitly not presented as Zakat
 
-**UNRWA** and **St. Jude Children's Research Hospital** are identified candidates for the directory, with St. Jude belonging in the general humanitarian section rather than being represented as a Muslim or Zakat organization. Additional organizations should be verified before their cards are published.
+Each organization should have a clear status/category, short explanation, donation link, and learn-more/source link where useful. Zakat status should be asserted only when the organization itself provides a clear Zakat route.
 
-## Prayer tools after v2.1
+**UNRWA** and **St. Jude Children's Research Hospital** remain identified directory candidates, with St. Jude belonging in the general humanitarian section rather than being represented as a Muslim or Zakat organization. Additional organizations should be verified before publication.
+
+## Future prayer-tool and audio work
 
 The local prayer-time system is already implemented in the Web App with selectable calculation methods and Hanafi ʿAṣr.
 
-After the dedicated v2.1 adhan work, later prayer improvements can include continued comparison against trusted local timetables and refinements to platform-specific scheduling as needed.
+Future prayer/audio work may include:
+
+- user-controlled adhan enable/disable;
+- integration with calculated local prayer times;
+- appropriate handling of Fajr versus other prayers where separate audio is used;
+- selected human adhan recording with clear provenance/permission information;
+- browser/PWA/native scheduling investigation;
+- truthful fallback behavior where a platform cannot guarantee playback while the app is closed;
+- continued comparison against trusted local timetables;
+- platform-specific scheduling refinements.
+
+**Adhan playback is not assigned to v2.1 or to any later version number at this time.**
 
 Local prayer calculations must remain separate from the Makkah live-page clock.
 
@@ -390,7 +413,7 @@ Core rules include:
 - source provenance and version information should be preserved;
 - the documented contemporary Shariah disagreement over intellectual-property rights is acknowledged rather than hidden;
 - public-domain, permissively licensed, or openly redistributable sources are preferred when they meet the scholarly standard;
-- third-party media does not become project property because it is hosted, embedded, linked, or presented inside project-created UI;
+- third-party media does not become project property because it is hosted, self-hosted, embedded, linked, or presented inside project-created UI;
 - the core project remains free of advertising, subscriptions, behavioral tracking, and commercial paywalls.
 
 The repository's CC BY-NC-SA license applies to project-created material only to the extent the project has the right to license it.
