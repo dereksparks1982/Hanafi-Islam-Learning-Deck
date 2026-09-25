@@ -313,45 +313,32 @@ Nougat's tactical/military desktop Player UI, Games, Live TV, World TV, Search, 
 
 ### Current Media library
 
-At the v2.1 closeout the checked-in test library contains:
+The current Media interface uses a **film-first streaming-library layout** rather than exposing individual media files as top-level choices.
 
-- **The Ten Commandments (1923)** - self-hosted test copy;
-- **The Message (1976)** - English, no-subtitle temporary YouTube test copy.
+Current films:
 
-Current stable IDs:
+- **Al-Risalah (1976)** - Arabic production with English hard subtitles and an external English subtitle sidecar;
+- **Lion of the Desert (1981)** - English;
+- **The Message (1976)** - English and Urdu editions;
+- **The Ten Commandments (1923)** - self-hosted copy.
+
+The Media home page supports both **poster-card view** and a **compact list view**. Both open the same dedicated page for the selected film. Individual film pages contain the accepted single DK Media player, available editions, film information, ratings where available, and external reference/source links.
+
+Movie artwork is not stored as a poster collection in this repository. The browser resolves artwork from metadata, stores the fetched image in the device's **IndexedDB artwork cache**, and reuses the local cached copy on later visits. A per-film cache key allows artwork to be deliberately refreshed later without changing the media payload.
+
+Current stable media IDs:
 
 ```text
-ten-commandments-1923
+al-risala-1976-arabic-english-hardsubs
+lion-of-the-desert-1981
 the-message-1976-english
+the-message-1976-urdu
+ten-commandments-1923
 ```
 
-The current English *The Message* test source is:
+The English and Urdu copies of *The Message* are editions of the same film page rather than duplicate library cards. *Al-Risalah* remains a distinct film entry because it is the separately filmed Arabic production.
 
-`https://www.youtube.com/watch?v=vUAOCnIN1kE`
-
-It is being used as a temporary project copy while the Media system is built and tested.
-
-### The Message - current source plan
-
-The Media plan for *The Message* is now simpler than the older v1.9 arrangement.
-
-The English and Arabic productions are genuinely different filmed performances, so they can remain separate media entries because their **audio/performance differs**, not because subtitles differ.
-
-The planned long-term source set is:
-
-- a better/authenticated **1080p English production** obtained by the maintainer;
-- a better/authenticated **1080p Arabic production** obtained by the maintainer;
-- downloaded external subtitle files attached to those clean masters where practical.
-
-This avoids keeping multiple copies of the same video solely because one has subtitles and another does not.
-
-A temporary low-quality Arabic/English hard-sub copy from:
-
-`https://www.youtube.com/watch?v=68tXNyXu3WA`
-
-was being downloaded when v2.1 was closed. That copy contains English subtitles over Arabic speech and Arabic subtitles over English speech burned into the picture. **It is not part of the closed v2.1 Media manifest yet.** It should only be added after the completed final file exists and later Media work is explicitly authorized.
-
-The older Google Drive 720p/360p/480p set described in historical v1.9 documentation is no longer the current Media library and should not be mistaken for the current state.
+The movie files remain self-hosted on the maintainer's computer and are delivered through the existing Hanafi bridge / Nougat-integrated Jellyfin backend. GitHub does not contain the movie payloads.
 
 ### External subtitles
 
