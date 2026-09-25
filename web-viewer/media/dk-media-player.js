@@ -214,14 +214,17 @@
       off.textContent = "Off";
       this.subtitleSelect.appendChild(off);
 
-      const subtitles = catalogItem && Array.isArray(catalogItem.subtitles)
-        ? catalogItem.subtitles.filter(track => track.ready !== false)
-        : [];
+      let subtitles = [];
+      if (catalogItem && Array.isArray(catalogItem.subtitles)) {
+        subtitles = catalogItem.subtitles.filter(track => track.ready !== false);
+      } else if (catalogItem && catalogItem.subtitles === true) {
+        subtitles = [{ label: "Subtitles", language: "und", ready: true }];
+      }
 
       subtitles.forEach((subtitle, index) => {
         const trackElement = document.createElement("track");
         trackElement.kind = "subtitles";
-        trackElement.src = this.backend.subtitleUrl(mediaId, subtitle.track);
+        trackElement.src = this.backend.subtitleUrl(mediaId);
         trackElement.srclang = subtitle.language || "und";
         trackElement.label = subtitle.label || `Subtitles ${index + 1}`;
         this.video.appendChild(trackElement);
