@@ -34,6 +34,9 @@ The **v2.1 DK Media single-player Web implementation** is the accepted Media-pla
 - The Media page uses **one video player total**. Media choices switch the source loaded into that single player; separate stacked players are not the accepted design.
 - **DK Media Player** is the behavioral/design base for the browser player. The Web App reimplements the useful player behavior in HTML/CSS/JavaScript rather than embedding the desktop Python/libVLC application.
 - Preserve the accepted single-player structure, media selector, seek timeline, play/pause, rewind/forward controls, volume, speed, fullscreen, keyboard controls, resume state, and external-subtitle on/off behavior unless the maintainer explicitly requests a player change.
+- The maintainer explicitly reopened the player controls on 2026-09-25. The project-standard transport language follows Nougat: **<<  <  ^  >  >>**, with **^** meaning Play rather than the conventional triangle. The current movie player exposes the applicable **<< / ^ / >>** controls and uses 10-second rewind/forward jumps.
+- Mouse wheel over the video-player surface, including the volume control, adjusts volume in 5% steps. Dragging the volume slider remains supported but is not the only volume input.
+- The player pointer auto-hides after 3 seconds of inactivity while over the player. In fullscreen, the pointer and custom control overlay auto-hide after 3 seconds and return when the pointer moves. Fullscreen retains the project's custom control surface.
 - **Nougat Media Plus** is used only for useful server/media infrastructure. Its desktop military/tactical player UI is not the Hanafi Media-player design.
 - Jellyfin remains backend infrastructure and is not exposed as the user-facing Hanafi player.
 - Future Media additions should normally be added to the library/manifest and fed into the accepted single player rather than creating new player instances.
