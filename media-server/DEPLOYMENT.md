@@ -1,11 +1,13 @@
 # Hanafi media server integration
 
-The Hanafi web app reuses only the server work already completed in **Nougat Media Plus**. It does not import the Nougat desktop UI, Games, Console, Live TV, World TV, Search, crawler, P2P, AI, security center, radio, emulators, or the rest of the application.
+The Hanafi Web App reuses only the server/media infrastructure needed from **Nougat Media Plus**. It does not import the Nougat desktop UI, Games, Console, Live TV, World TV, Search, crawler, P2P, AI, security center, radio, emulators, tactical Player UI, or the rest of the application.
+
+The visible browser player is the v2.1 **DK Media single-player Web implementation**. Nougat/Jellyfin stays underneath it as backend infrastructure.
 
 ## Architecture
 
 ```text
-Hanafi GitHub Pages web player
+Hanafi GitHub Pages Web App
         |
         | HTTPS
         v
@@ -13,17 +15,25 @@ saxondesktop / Nginx
         |
         | loopback :8097
         v
-Hanafi Jellyfin bridge
+Hanafi media bridge
         |
         | loopback :8098
         v
 Nougat integrated Jellyfin 10.11.11
         |
         v
-/home/dereksparks1982/Videos/Hosted
+local Hosted media files
 ```
 
 The movies remain on `saxondesktop`. GitHub Pages contains the interface and stable media IDs, not the movie files.
+
+## Player boundary
+
+The v2.1 Media page uses exactly **one browser `<video>` element**.
+
+The media selector changes the source loaded into that one player. New titles should be added to the library/manifest and fed into the same player rather than creating another player panel.
+
+The Web player carries forward useful DK Media behavior such as Play/Pause, seeking, rewind/forward, volume, speed, fullscreen, keyboard controls, remembered preferences, resume state, and external-subtitle selection.
 
 ## What is reused from Nougat
 
@@ -35,33 +45,44 @@ The deployment uses the accepted Nougat server layout rather than installing a s
 - Nougat server configuration at `~/.config/reddmedia/server`;
 - Nougat cache and log directories;
 - Nougat private Jellyfin client session at `~/.config/reddmedia/server/client.json`;
-- browser-compatible H.264/AAC delivery through Jellyfin, including transcoding when needed;
-- the existing Nougat principle that Jellyfin itself stays private rather than being exposed directly to the Internet.
+- browser-compatible H.264/AAC delivery/transcoding where needed;
+- the principle that Jellyfin itself stays private rather than being exposed directly to the Internet;
+- HTTP Range delivery concepts and local-file fallback used by the narrow Hanafi bridge.
 
-The Hanafi bridge exposes only items listed in `media.tsv.example`. A visitor cannot use it as a general Jellyfin browser.
+The Hanafi bridge exposes only items listed in the installed manifest. A visitor cannot use it as a general Jellyfin browser.
 
-## Current stable media IDs
+## Current v2.1 stable media IDs
 
-The web app uses these IDs instead of filesystem paths:
+At v2.1 closeout the checked-in example manifest contains exactly these current test entries:
 
 ```text
-message-en-720
-message-en-1080-hardsubs
-risalah-ar-1080
-risalah-ar-1080-hardsubs
-risalah-ar-480
-risalah-ar-360
-lion-desert-1981
 ten-commandments-1923
+the-message-1976-english
 ```
 
-The manifest maps those IDs to the existing files under:
+The English *The Message* test entry maps to:
 
 ```text
-/home/dereksparks1982/Videos/Hosted
+/home/dereksparks1982/Videos/Hosted/Al-Risalah/The.Message.1976.YouTube.mp4
 ```
 
-`risalah-ar-1080` also maps the separate English `.srt`; the bridge converts SRT to WebVTT for the browser.
+The Ten Commandments test entry currently maps to the prepared browser-compatible cache path recorded in `media.tsv.example`.
+
+The additional temporary Arabic/English hard-sub *The Message* copy that was still downloading when v2.1 closed is **not** part of this manifest. Do not add a `.part` file or infer a final filename from an incomplete download.
+
+## Manifest format
+
+The current manifest is tab-separated:
+
+```text
+id<TAB>absolute media path<TAB>MIME type<TAB>optional subtitle path
+```
+
+The fourth field is one optional sidecar subtitle file for that media item.
+
+Current v2.1 therefore supports **one optional external subtitle path per media item**. Multiple named sidecar subtitle tracks per one media item are not yet part of the manifest/catalog format.
+
+If the configured subtitle is `.srt`, the bridge converts it to WebVTT for browser playback.
 
 ## Hanafi bridge endpoints
 
@@ -75,7 +96,29 @@ HEAD /nougat/v1/...
 OPTIONS /nougat/v1/...
 ```
 
-The public bridge listens on loopback port `8097`. Jellyfin remains on loopback port `8098`.
+The Hanafi bridge listens on loopback port `8097`. Jellyfin remains on loopback port `8098`.
+
+### Direct local delivery
+
+For browser-direct media, the bridge provides seekable byte-range delivery and returns the appropriate `Content-Range`, `Content-Length`, and `Accept-Ranges` behavior.
+
+This path is preferred when the local file is already suitable for browser playback.
+
+### Compatibility/transcode delivery
+
+For incompatible containers or a forced transcode route, the bridge can use FFmpeg/Jellyfin to produce browser-compatible H.264/AAC MP4 delivery.
+
+Jellyfin remains a backend helper, not the public Web interface.
+
+### Subtitle delivery
+
+```text
+/nougat/v1/subtitle?id=<stable-id>
+```
+
+When the configured sidecar is SRT, the bridge converts comma timestamp separators to WebVTT form and serves `text/vtt` to the browser.
+
+The DK Media Web player then exposes the configured subtitle as an on/off selection.
 
 ## Deployment on saxondesktop
 
@@ -85,32 +128,42 @@ The expected Nougat checkout is:
 /home/dereksparks1982/DKLab/Projects/Nougat Media Plus
 ```
 
-From a checkout of this Hanafi repository, run:
+From a checkout of this Hanafi repository, the established deployment helper is:
 
 ```bash
 bash media-server/deploy/enable-jellyfin-public.sh
 ```
 
-The script does the following and nothing from the unrelated Nougat feature set:
+The helper is designed to:
 
-1. Uses Nougat's existing integrated Jellyfin runtime. If the runtime has not been extracted yet, it runs Nougat's existing `tools/build_integrated_jellyfin_v15.sh` helper.
-2. Reuses the accepted Nougat Jellyfin data/config/cache/log directories and private session.
-3. Keeps Jellyfin private on `127.0.0.1:8098`.
-4. Installs the small Hanafi bridge on `127.0.0.1:8097`.
-5. Installs the Hanafi manifest without moving or copying the movies.
-6. Places Nginx in front of the bridge for HTTPS.
-7. Requests a trusted certificate directly for the machine's public IP, so no purchased domain or rented media host is required.
-8. Prints `PUBLIC_BASE_URL=https://<public-ip>` when the path is ready.
+1. use Nougat's existing integrated Jellyfin runtime;
+2. reuse the accepted Nougat Jellyfin data/config/cache/log directories and private session;
+3. keep Jellyfin private on `127.0.0.1:8098`;
+4. install the small Hanafi bridge on `127.0.0.1:8097`;
+5. install the Hanafi manifest without moving or copying the movies into GitHub;
+6. place Nginx in front of the bridge for HTTPS;
+7. use the configured certificate/public endpoint;
+8. expose the resulting public base URL for the Web App configuration.
 
-The deployment script does **not** modify or commit the Hanafi Git repository. After the printed public URL passes testing, `web-viewer/media/nougat-config.js` can be pointed at it separately.
+The deployment helper does **not** authorize a GitHub version change and does not make unrelated Nougat features part of Hanafi.
 
-## Why HTTPS is still necessary
+## Why HTTPS is necessary
 
-The Hanafi web app itself is served over HTTPS by GitHub Pages. Browsers block an HTTPS page from loading an ordinary HTTP movie stream as active mixed content. The HTTPS layer therefore protects the connection between the visitor's browser and `saxondesktop`; it is not a second hosting service.
+The Hanafi Web App itself is served over HTTPS by GitHub Pages. A secure page cannot reliably load ordinary insecure HTTP active media. Nginx therefore provides the HTTPS front end for the connection from a visitor's browser to `saxondesktop`.
 
-The current deployment uses a certificate issued directly to the public IP. Letâ€™s Encrypt made public IP-address certificates generally available in 2026. These IP certificates are short-lived, so automated renewal is required.
+The HTTPS layer is transport for the user's own server. It is not a separate rented media host.
+
+## Current network fact preserved from v2.1 validation
+
+During v2.1 testing, the media services themselves were healthy but public playback failed until the router destination was corrected to the machine's actual reserved LAN address.
+
+After the router destination was corrected, the public Web App successfully played *The Ten Commandments* through the self-hosted path.
+
+Future troubleshooting should therefore diagnose current routing, server state, and HTTP evidence rather than assuming a codec/Safari failure from old symptoms.
 
 ## Runtime files installed on saxondesktop
+
+The established deployment can use files such as:
 
 ```text
 /usr/local/bin/hanafi-jellyfin-bridge
@@ -123,20 +176,26 @@ The current deployment uses a certificate issued directly to the public IP. Letâ
 /etc/nginx/sites-available/hanafi-jellyfin
 ```
 
-No movie file is installed into `/etc`, `/usr`, GitHub, or another host.
+No movie file is installed into `/etc`, `/usr`, GitHub, or another media host by this deployment.
 
 ## Validation gate
 
-Before enabling the public Web App configuration, verify:
+For the current v2.1 manifest, useful checks are:
 
 ```text
-/nougat/v1/health                                  -> HTTP 200
-/nougat/v1/catalog                                 -> mapped items report ready
-/nougat/v1/media?id=message-en-720                 -> playable
-/nougat/v1/media?id=risalah-ar-1080                -> playable/transcoded as needed
-/nougat/v1/subtitle?id=risalah-ar-1080             -> WEBVTT
-/nougat/v1/media?id=lion-desert-1981               -> playable
-/nougat/v1/media?id=ten-commandments-1923          -> playable
+/nougat/v1/health                                      -> HTTP 200 when mapped media is available
+/nougat/v1/catalog                                     -> current mapped items report ready
+/nougat/v1/media?id=ten-commandments-1923              -> playable and seekable
+/nougat/v1/media?id=the-message-1976-english            -> playable and seekable
+/nougat/v1/subtitle?id=<item-with-configured-subtitle>  -> WEBVTT
 ```
 
-Only after those checks pass should `web-viewer/media/nougat-config.js` be enabled with the printed `PUBLIC_BASE_URL`.
+A subtitle endpoint returning 404 for a media item with no configured subtitle is expected behavior, not a server failure.
+
+Only completed final media files should be added to the installed manifest. Never point a stable ID at an in-progress `.part` download.
+
+## Persistent CI
+
+`.github/workflows/media-server-build.yml` is a reusable persistent workflow. It builds the standalone media-server component and smoke-tests health, HTTP Range behavior, and SRT-to-WebVTT subtitle conversion.
+
+Obsolete one-time Media repair workflows were removed during the v2.1 closeout.
