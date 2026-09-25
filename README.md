@@ -1,4 +1,4 @@
-<h1 align="center">Hanafi Learning Deck v2.0</h1>
+<h1 align="center">Hanafi Learning Deck v2.1</h1>
 
 <div align="center">
 
@@ -24,13 +24,13 @@ A growing, printable, offline-capable, and mobile-friendly library for learning 
 
 This project began with a simple problem: a learner can find thousands of isolated answers online and still struggle to find a clear path through them. The Hanafi Learning Deck tries to turn that maze into something a person can actually study, review, print, carry on a phone, verify against sources, and return to every day.
 
-> **Current published checkpoint:** **v2.0**
+> **Current published checkpoint:** **v2.1**
 >
-> **Next development cycle:** **v2.1 — Font Identity & Web App UI overhaul**
+> **v2.1 status:** **closed and accepted**
+>
+> **Next public version:** **not assigned**
 >
 > **Published card library:** **209 cards across five independent sets**
->
-> **v2.0 status:** **closed — Live Madrasas, Masjids & Islamic live discovery**
 >
 > **Status:** educational study aid, still undergoing full manual audit and pending qualified imam/scholar review.
 
@@ -51,6 +51,7 @@ Everything currently being developed is kept on **`main`**. You should not need 
 - **Open Live:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/live/
 - **Qur'an Reader source and review notes:** [`quran/README.md`](quran/README.md)
 - **Qur'an transliteration standard:** [`quran/transliteration-rules.md`](quran/transliteration-rules.md)
+- **v2.1 closeout:** [`docs/V2.1_CLOSEOUT.md`](docs/V2.1_CLOSEOUT.md)
 - **Project roadmap:** [`docs/roadmap.md`](docs/roadmap.md)
 - **Legal and source policy:** [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md)
 - **Contact:** [`CONTACT.md`](CONTACT.md) or **hanaficards@proton.me**
@@ -63,7 +64,7 @@ The project did not begin as an attempt to build an Islamic reference library. I
 
 The scope changed naturally as the study became more serious. Early questions led to the discovery that Sunni jurisprudence is preserved through multiple established legal schools. Rather than mix rulings without realizing it, the project adopted a consistent **Hanafi** framework. That decision led from simple answers into fiqh, source comparison, Arabic terminology, Qur'an and hadith references, legal reasoning, the history of the madhhab, and the need to distinguish a ruling from the evidence and method behind it.
 
-The result is now much more than a deck. The cards remain the project's foundation, but the wider system now includes an installable **Web App**, a Tor Mirror, a page-based Qur'an Reader, local Hanafi prayer-time tools, Makkah live broadcasting, a Cesium-based Holy Places Explorer, a Media section, and the v2.0 Live directory for madrasas, masjids, and Islamic live discovery. Future parts are intended to connect rather than sit as unrelated tools.
+The result is now much more than a deck. The cards remain the project's foundation, but the wider system now includes an installable **Web App**, a Tor Mirror, a page-based Qur'an Reader, local Hanafi prayer-time tools, Makkah live broadcasting, a Cesium-based Holy Places Explorer, the Live directory, a self-hosted Media area, About/Legal/Charity surfaces, and a gated Advanced Learner Library. Future parts are intended to connect rather than sit as unrelated tools.
 
 The long-term pattern is increasingly:
 
@@ -79,10 +80,10 @@ You do not need to know Arabic, Islamic law, or mosque etiquette to begin. Islam
 
 A good first path through the project is:
 
-1. **Card 1 — Allah**
-2. **Card 4 — The Shahada**
-3. **Card 3 — What Is the Hanafi School?**
-4. **Card 34 — Surah al-Fatiha**
+1. **Card 1 - Allah**
+2. **Card 4 - The Shahada**
+3. **Card 3 - What Is the Hanafi School?**
+4. **Card 34 - Surah al-Fatiha**
 
 From there, the deck opens outward into prayer, purification, remembrance, fasting, travel, illness, sacred places, Arabic, the Names of Allah, and the history and geography of the Muslim world.
 
@@ -106,7 +107,7 @@ The repository contains **209 cards across five independent sets**:
 | Arabic Alphabet Expansion | complete current set | 28 |
 | Important Places of the Muslim World | **in progress** | **3** |
 
-The Main Deck count includes the unnumbered-on-artwork Card 00 frontispiece followed by numbered Cards 1–146. Each expansion starts at Card 1 and keeps its own numbering.
+The Main Deck count includes the unnumbered-on-artwork Card 00 frontispiece followed by numbered Cards 1-146. Each expansion starts at Card 1 and keeps its own numbering.
 
 In the Web App, each card set can now be **collapsed or expanded independently** so the 209-card library does not require scrolling through every card merely to reach another set. The browser remembers the open/closed state locally.
 
@@ -139,8 +140,10 @@ The Web App has grown beyond a card viewer. Current major areas include:
 - the Qur'an Reader foundation;
 - Makkah Live & Prayer Clock;
 - the Holy Places Explorer;
-- Media, beginning with *The Message* (1976);
 - the v2.0 Live directory for madrasas, masjids, and Islamic live discovery;
+- the v2.1 self-hosted Media area with one DK Media-based browser player;
+- About, Legal, and Charity sections;
+- the gated Advanced Learner Library shell;
 - installable PWA/offline card support where the browser permits it.
 
 The source implementation directory is currently named `web-viewer/`, but the user-facing product is the **Web App**.
@@ -155,39 +158,29 @@ The Explorer concept and selected viewer patterns are adapted from Bilawal Sidhu
 
 Tor Browser compatibility is deliberately maintained. A Cesium failure caused by restricted depth-buffer/picking operations was fixed by removing depth-dependent behavior that the Explorer did not actually need rather than attempting to defeat Tor Browser's privacy restrictions.
 
-## v1.9 Media — The Message (1976) — closed
+## v1.9 Media - The Message (1976) - historical closed checkpoint
 
 The **v1.9 checkpoint is officially closed.** Its deliberately narrow job was to get *The Message* (1976) working cleanly in the Web App before expanding the Media section further.
 
-Current page:
+Current Media page:
 
 https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/
 
-The Media page currently exposes three project copies through Google Drive playback:
+At v1.9 the page used Google Drive playback and exposed three project copies:
 
 - **English production · 720p**;
-- **Arabic standard copy · 360p** — Arabic audio with Arabic subtitles burned into the picture;
-- **Arabic alternate presentation · 480p** — Arabic audio with English subtitles burned into the picture, additional explanatory text at the beginning, and additional chanting/opening material not present in the other two project copies.
+- **Arabic standard copy · 360p**, Arabic audio with Arabic subtitles burned into the picture;
+- **Arabic alternate presentation · 480p**, Arabic audio with English subtitles burned into the picture, additional explanatory text at the beginning, and additional chanting/opening material not present in the other two project copies.
 
-The 480p Arabic copy is therefore not treated conceptually as merely a higher-resolution duplicate of the 360p copy. The current page still keeps the interface intentionally simple, and the project can refine edition-versus-quality labeling later if useful.
-
-Desktop playback uses Google's embedded player. The iPhone/iPad presentation includes a mobile-specific layout/full-screen workaround so the embedded player remains usable, with a separate **Exit full screen** control and a direct **Open selected copy in Google Drive** fallback when embedded playback is troublesome.
+That Google Drive iframe architecture is now **historical**. It was replaced during v2.1 by the current self-hosted Hanafi Media path and DK Media Web player.
 
 The English production stars Anthony Quinn, Irene Papas, and Michael Ansara. The Arabic production, **الرسالة / Al-Risalah (1976)**, uses a different principal cast, including Abdallah Gheith and Mona Wassef.
 
-The Media page also records film information and links to IMDb entries for both productions, Wikipedia, the Academy Awards record, Turner Classic Movies, the Arabic project-copy source links, and an external Alexander Guitar Arabic-search listening resource.
-
 The film itself is a **third-party historical drama**. It is not Qur'an, hadith, a fatwa, or a substitute for Seerah study, and the Hanafi Learning Deck does not claim authorship or ownership of the film.
 
-Better source copies of *The Message* may be hunted down and added later. Improving source quality or replacing/adding a project copy does not by itself reopen the v1.9 checkpoint.
+Better source copies of *The Message* may be added later. Improving source quality or replacing/adding a project copy does not by itself reopen the v1.9 checkpoint.
 
-### Media-player attribution and VLC / Nougat
-
-The project's owner also develops separate **Nougat** media-player work. That player work and the Hanafi Learning Deck are owner-developed projects, while any VLC/libVLC components used by Nougat remain third-party VideoLAN technology under their own licensing terms.
-
-**The current Hanafi Learning Deck movie page does not bundle VLC or libVLC.** Its present film playback is a Google Drive embed. This distinction is deliberate so the README does not imply that project-created interface/integration code makes VLC, Google Drive, or the film itself project property. If Nougat/VLC playback is later incorporated directly into this Web App, the relevant VideoLAN/VLC attribution and license information must be carried with that integration.
-
-## v2.0 Live Madrasas, Masjids & Islamic discovery — closed
+## v2.0 Live Madrasas, Masjids & Islamic discovery - closed
 
 **v2.0 is officially closed.** The release established a dedicated Live area instead of mixing live study links into unrelated pages.
 
@@ -204,6 +197,70 @@ The published v2.0 Live area organizes current links into three groups:
 The Live area preserves the project's no-advertising principle: the Hanafi Learning Deck does not insert advertising, subscriptions, or behavioral tracking into the directory. External sites and platforms retain their own content, policies, and advertising behavior.
 
 A remote mosque livestream is treated as a viewing and study resource. It is not presented as making a remote viewer part of the local congregational prayer.
+
+## v2.1 Web App identity, Advanced Learner Library & self-hosted Media - closed
+
+**v2.1 is officially closed and is the current published checkpoint.**
+
+The release established the current Hanafi Web App visual family, including the approved project icon and Home background, corrected mobile background treatment, revised Home branding/density, and Amarante display typography for the approved title/heading treatment.
+
+It also added or consolidated the current About, Legal, Charity, and gated Advanced Learner Library surfaces. The hidden access mechanism for the Advanced Learner Library is intentionally not published in the public documentation.
+
+### DK Media single-player Web player
+
+The accepted Media design uses **one video player total**. Selecting another movie changes what that single player loads rather than creating a second player on the page.
+
+The browser player is based on the maintainer's separate **DK Media Player** project's simple player behavior. The Web implementation includes Play/Pause, rewind 10 seconds, forward 30 seconds, seeking, time display, volume, playback speed, fullscreen, keyboard controls, remembered preferences, per-title resume position, and selected-source information.
+
+The Web App does not embed DK Media's Python/Tkinter/libVLC desktop executable. It reimplements the useful player behavior around the browser's native video APIs.
+
+### Self-hosted Nougat Media Core
+
+The current Media path is:
+
+```text
+Hanafi GitHub Pages
+        |
+        | HTTPS
+        v
+saxondesktop / Nginx
+        |
+        | 127.0.0.1:8097
+        v
+Hanafi media bridge
+        |
+        | 127.0.0.1:8098
+        v
+Nougat integrated Jellyfin
+        |
+        v
+local Hosted media files
+```
+
+The movies remain on the maintainer's own computer. GitHub contains the Web interface, stable media IDs, server/bridge code, and deployment tooling, not the movie payloads.
+
+Useful Nougat server work is reused for byte-range delivery, local-file fallback, Jellyfin integration, compatibility/transcoding paths, health/catalog endpoints, and subtitle delivery. Nougat's tactical/military desktop Player UI and unrelated Nougat modules are not imported into Hanafi.
+
+The checked-in v2.1 manifest closes with two current test entries:
+
+- **The Ten Commandments (1923)**;
+- **The Message (1976) - English test copy**.
+
+The temporary Arabic/English hard-sub *The Message* copy that was still downloading when v2.1 closed is **not** part of the closed manifest.
+
+### External subtitles
+
+The v2.1 manifest supports one optional external subtitle file per media item. SRT subtitles are converted by the Hanafi bridge to browser-compatible WebVTT and can be switched on or off in the DK Media Web player.
+
+That allows one clean video master to be paired with a separate subtitle file instead of keeping another encoded video solely because the subtitles differ.
+
+Multiple named sidecar subtitle tracks per single media item are not claimed as a completed v2.1 feature. They remain a possible future extension.
+
+### Media attribution and third-party software
+
+The Hanafi Learning Deck does not claim ownership of third-party films merely because it self-hosts a project copy or provides the playback interface.
+
+The current browser player does **not** bundle VLC/libVLC. Third-party server and media components such as Jellyfin, FFmpeg, Nginx, and other external technologies retain their own identities and license terms. The detailed policy is maintained in [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md).
 
 ## Makkah Live & Prayer Clock
 
@@ -251,10 +308,10 @@ The **Hanafi Learning Deck** icon will then appear on the iPhone Home Screen and
 ## Downloads and collections
 
 - **Complete current repository ZIP:** https://github.com/dereksparks1982/Hanafi-Islam-Learning-Deck/archive/refs/heads/main.zip
-- **Main Deck, Cards 00–146:** [`cards/`](cards/)
-- **Sacred Places Expansion, Cards 1–19:** [`Sacred-Places-Expansion/`](Sacred-Places-Expansion/)
-- **99 Names of Allah, Cards 1–12:** [`99-Names-of-Allah-Expansion/`](99-Names-of-Allah-Expansion/)
-- **Arabic Alphabet, Cards 1–28:** [`Arabic-Alphabet-Expansion/`](Arabic-Alphabet-Expansion/)
+- **Main Deck, Cards 00-146:** [`cards/`](cards/)
+- **Sacred Places Expansion, Cards 1-19:** [`Sacred-Places-Expansion/`](Sacred-Places-Expansion/)
+- **99 Names of Allah, Cards 1-12:** [`99-Names-of-Allah-Expansion/`](99-Names-of-Allah-Expansion/)
+- **Arabic Alphabet, Cards 1-28:** [`Arabic-Alphabet-Expansion/`](Arabic-Alphabet-Expansion/)
 - **Important Places of the Muslim World:** [`Important-Places-Expansion/`](Important-Places-Expansion/)
 - **Printable main-deck sheets:** [`sheets/`](sheets/)
 - **Mobile-friendly view:** [`mobile-view/`](mobile-view/)
@@ -264,21 +321,21 @@ The **Hanafi Learning Deck** icon will then appear on the iPhone Home Screen and
 
 These external resources complement the deck and remain on their original creators' or organizations' sites:
 
-- **Hanafi salah / prayer tutorial playlist — Man prayer (Hanafi):** https://www.youtube.com/playlist?list=PLgfsDRXXIm95Ef1zHj3ui3iqSJHhTwrdc
-- **Arabic Alphabet Explained by an American — Language Simp:** https://www.youtube.com/watch?v=TLnr17rEFrQ&t=164s
-- **Arabic learning video — Language Simp (starts at 5:37):** https://www.youtube.com/watch?v=xBG1eVwH_wg&t=337s
+- **Hanafi salah / prayer tutorial playlist - Man prayer (Hanafi):** https://www.youtube.com/playlist?list=PLgfsDRXXIm95Ef1zHj3ui3iqSJHhTwrdc
+- **Arabic Alphabet Explained by an American - Language Simp:** https://www.youtube.com/watch?v=TLnr17rEFrQ&t=164s
+- **Arabic learning video - Language Simp (starts at 5:37):** https://www.youtube.com/watch?v=xBG1eVwH_wg&t=337s
 - **Kaʿbah / Masjid al-Haram live:** use the dedicated **Makkah Live & Prayer Clock** link in the Start here section above.
-- **Darul Ifta — Darul Uloom Deoband:** https://www.darulifta-deoband.com/
-- **Darul Iftaa Leicester — Institute of Islamic Jurisprudence:** https://daruliftaa.us/
-- **Darul Ifta Birmingham — Institute of Islamic Jurisprudence:** https://daruliftabirmingham.co.uk/
-- **SeekersGuidance — structured Hanafi study and courses:** https://seekersguidance.org/
-- **Qur'an reference — Quran.com:** https://quran.com/
-- **Hadith reference — Sunnah.com:** https://sunnah.com/
+- **Darul Ifta - Darul Uloom Deoband:** https://www.darulifta-deoband.com/
+- **Darul Iftaa Leicester - Institute of Islamic Jurisprudence:** https://daruliftaa.us/
+- **Darul Ifta Birmingham - Institute of Islamic Jurisprudence:** https://daruliftabirmingham.co.uk/
+- **SeekersGuidance - structured Hanafi study and courses:** https://seekersguidance.org/
+- **Qur'an reference - Quran.com:** https://quran.com/
+- **Hadith reference - Sunnah.com:** https://sunnah.com/
 - **Islamic Society of Wichita:** https://myisw.org/
 
 ## The five current card sets
 
-### Main Deck — Cards 00–146
+### Main Deck - Cards 00-146
 
 The main deck covers the practical backbone of everyday worship and Hanafi fiqh, including:
 
@@ -297,27 +354,27 @@ The main deck covers the practical backbone of everyday worship and Hanafi fiqh,
 - Qur'anic and Prophetic protection duʿās
 - daily remembrance and everyday duʿās
 
-### Sacred Places Expansion — Cards 1–19
+### Sacred Places Expansion - Cards 1-19
 
 A photographic expansion covering major sacred, Hajj, Madinah, Al-Aqsa, and Seerah-related places, including Masjid al-Haram, the Kaʿbah, Maqam Ibrahim, Zamzam, Safa and Marwah, Mina, ʿArafat, Muzdalifah, Masjid an-Nabawi, the Rawdah, Jannat al-Baqiʿ, Quba, Qiblatayn, Al-Masjid al-Aqsa, the Dome of the Rock, Cave Hira, Cave Thawr, and Mount Uhud.
 
-### 99 Names of Allah Expansion — Cards 1–12
+### 99 Names of Allah Expansion - Cards 1-12
 
 A compact study set containing all 99 traditional Names in groups of nine per card, with Arabic, transliteration, concise English study meanings, and source notes.
 
-### Arabic Alphabet Expansion — Cards 1–28
+### Arabic Alphabet Expansion - Cards 1-28
 
 One letter per card, built for a learner who wants more than a chart. Cards include pronunciation, mouth/articulation guidance, letter forms, joining behavior, example words, and warnings about common mistakes.
 
 Arabic literacy belongs here because it is a doorway into the Qur'an, hadith, fiqh, classical books, manuscripts, and Islamic scholarship in the language in which much of that tradition was written.
 
-### Important Places of the Muslim World — in progress
+### Important Places of the Muslim World - in progress
 
 This expansion covers places that matter to Muslim history, scholarship, culture, politics, or architecture **without automatically labeling those places sacred**.
 
-**Card 1: Lal Masjid — Islamabad, Pakistan**  
-**Card 2: Chinguetti Mosque — Chinguetti, Mauritania**  
-**Card 3: Abu Hanifa Mosque — Baghdad, Iraq**
+**Card 1: Lal Masjid - Islamabad, Pakistan**  
+**Card 2: Chinguetti Mosque - Chinguetti, Mauritania**  
+**Card 3: Abu Hanifa Mosque - Baghdad, Iraq**
 
 These cards are being built differently from the earlier sets. Because they depend heavily on photography, historical wording, Arabic, sourcing, and layout, **each card is reviewed individually before it is published**. There will be no unscreened bulk batch.
 
@@ -325,23 +382,22 @@ The next place is not considered approved merely because it appears on a candida
 
 ## Where the project goes next
 
-**v2.0 is officially closed and is the current published checkpoint.** The next development cycle is **v2.1 — Font Identity & Web App UI overhaul**.
+**v2.1 is officially closed and is the current published checkpoint. No later public version number has been assigned.**
 
-The v2.1 direction currently includes:
+Future work remains subject to the normal approval gate. Current directions include:
 
-- self-hosted **Amarante** as the first display-font experiment for titles and headers while keeping body text conservative;
-- the new Hanafi Learning Deck brand/icon identity and a richer decorative Web App surface while continuing to maintain the printer-friendly deck separately;
-- redesigned buttons and interface styling;
-- desktop density work so normal **100% browser zoom** feels closer to the comfortable information density currently seen when manually zooming out;
-- larger and more prominent prayer names and prayer times;
-- larger **Current period**, **Time until Fajr**, and **Next prayer time** labels;
-- prayer tiles linking into corresponding learning cards where appropriate;
-- the planned **Advanced Learner Library** hidden-study gate, opened from the project symbol rather than the release label;
-- continued card-to-content linking and page-by-page Qur'an Reader construction.
+- continued page-by-page Qur'an Reader construction;
+- card-to-Qur'an/place/live/media/source relationships;
+- Important Places cards one at a time through the established approval process;
+- continued Main Deck planning for Everyday Islamic Speech;
+- expansion of the Advanced Learner Library when specific material is approved;
+- future prayer/audio work such as adhan playback when explicitly authorized;
+- better authenticated Media source copies as they become available;
+- adding the Arabic production of *The Message* as a separate audio/performance edition when the completed source file is approved;
+- optional future expansion from one external subtitle sidecar to multiple named subtitle tracks;
+- continued scholarly/manual audit and qualified imam review.
 
-Adhan playback remains future prayer-tool work and is no longer assigned to v2.1.
-
-The full working plan is maintained in [`docs/roadmap.md`](docs/roadmap.md).
+The full working plan is maintained in [`docs/roadmap.md`](docs/roadmap.md). Roadmap entries are plans, not automatic permission to build them.
 
 ## Sourcing and corrections
 
@@ -365,12 +421,15 @@ The project is a **learning aid, not a fatwa service**. Personal or unusual case
 
 Development, legal, and operating notes live in [`docs/`](docs/):
 
-- [`docs/COMPANY_BIBLE.md`](docs/COMPANY_BIBLE.md) — project rules and approval gates
-- [`docs/roadmap.md`](docs/roadmap.md) — current and future direction
-- [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md) — Qur'an/source/copyright policy and the documented Shariah disagreement over intellectual property
-- [`CONTACT.md`](CONTACT.md) — project contact for scholarly, source, licensing, and legal correspondence
-- [`docs/changelog.md`](docs/changelog.md) — checkpoint history
-- [`docs/build-notes.md`](docs/build-notes.md) — technical notes
+- [`docs/COMPANY_BIBLE.md`](docs/COMPANY_BIBLE.md) - project rules and approval gates
+- [`docs/V2.1_CLOSEOUT.md`](docs/V2.1_CLOSEOUT.md) - accepted v2.1 release record and boundary
+- [`docs/CURRENT_HANDOFF.md`](docs/CURRENT_HANDOFF.md) - current recovery point for future work
+- [`docs/roadmap.md`](docs/roadmap.md) - current and future direction
+- [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md) - Qur'an/source/copyright policy and the documented Shariah disagreement over intellectual property
+- [`CONTACT.md`](CONTACT.md) - project contact for scholarly, source, licensing, and legal correspondence
+- [`docs/changelog.md`](docs/changelog.md) - checkpoint history
+- [`docs/build-notes.md`](docs/build-notes.md) - technical notes
+- [`media-server/DEPLOYMENT.md`](media-server/DEPLOYMENT.md) - current self-hosted Media deployment architecture
 
 Scholarly/source material remains separate in [`AUDIT_AND_SOURCES.md`](AUDIT_AND_SOURCES.md), [`IMAM_REVIEW_NOTES.md`](IMAM_REVIEW_NOTES.md), and source notes inside individual expansions.
 
@@ -391,7 +450,7 @@ The repository license applies only to material the project has the right to lic
 
 The project **does not claim authorship or ownership of the Qur'an**. The Arabic Qur'an is treated as revelation from Allah and as the controlling sacred source text. Human translations, transliterations, commentary, typography, software, recordings, photographs, films, datasets, and other editorial or technical works are separate layers that may carry their own authorship, attribution, contractual, or legal terms.
 
-Third-party media shown or linked through the Web App remains third-party material. Hosting, embedding, linking, or building a project interface around a film does not make the underlying film project-owned material. Likewise, third-party software or playback engines retain their own licenses and attribution even when integrated with project-created code or interface work.
+Third-party media shown, linked, or self-hosted through the Web App remains third-party material. Hosting, self-hosting, embedding, linking, or building a project interface around a film does not make the underlying film project-owned material. Likewise, third-party software or playback/server engines retain their own licenses and attribution even when integrated with project-created code or interface work.
 
 The complete source-handling policy, including the documented contemporary Shariah disagreement concerning intellectual property, is maintained in [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md). The repository license is maintained separately in [`LICENSE`](LICENSE).
 
@@ -403,4 +462,4 @@ A legal or rights claim should identify the exact material at issue, the person 
 
 ---
 
-**Hanafi Learning Deck · v2.0 published checkpoint**
+**Hanafi Learning Deck · v2.1 published checkpoint**
