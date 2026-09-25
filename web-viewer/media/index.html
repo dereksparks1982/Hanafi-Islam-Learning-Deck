@@ -34,20 +34,26 @@
   </header>
 
   <main class="media-main">
-    <section class="media-panel" aria-labelledby="playerHeading">
+    <section class="media-panel" aria-labelledby="tenCommandmentsHeading">
       <p class="eyebrow">Self-hosted test</p>
-      <h2 id="playerHeading">The Ten Commandments (1923)</h2>
+      <h2 id="tenCommandmentsHeading">The Ten Commandments (1923)</h2>
       <div class="media-player">
-        <video id="mediaVideo" controls playsinline preload="metadata" crossorigin="anonymous" hidden></video>
-        <div id="mediaPlaceholder" class="media-placeholder">Connecting to the Hanafi media server…</div>
+        <video id="tenCommandmentsVideo" controls playsinline preload="metadata" crossorigin="anonymous" hidden></video>
+        <div id="tenCommandmentsPlaceholder" class="media-placeholder">Connecting to the Hanafi media server…</div>
       </div>
-      <p id="mediaStatus" class="media-status" role="status" aria-live="polite"></p>
+      <p id="tenCommandmentsStatus" class="media-status" role="status" aria-live="polite"></p>
+      <p class="media-status">Source: <a href="https://www.youtube.com/watch?v=XLwq-SdJkic" target="_blank" rel="noopener noreferrer">YouTube</a>.</p>
     </section>
 
-    <section class="media-info" aria-labelledby="sourceHeading">
-      <p class="eyebrow">Source record</p>
-      <h2 id="sourceHeading">Project-copy provenance</h2>
-      <p>Source: <a href="https://www.youtube.com/watch?v=XLwq-SdJkic" target="_blank" rel="noopener noreferrer">YouTube source provided for this project copy</a>.</p>
+    <section class="media-panel" aria-labelledby="messageHeading">
+      <p class="eyebrow">English · no subtitles</p>
+      <h2 id="messageHeading">The Message (1976)</h2>
+      <div class="media-player">
+        <video id="messageVideo" controls playsinline preload="metadata" crossorigin="anonymous" hidden></video>
+        <div id="messagePlaceholder" class="media-placeholder">Connecting to the Hanafi media server…</div>
+      </div>
+      <p id="messageStatus" class="media-status" role="status" aria-live="polite"></p>
+      <p class="media-status">Source: <a href="https://www.youtube.com/watch?v=vUAOCnIN1kE" target="_blank" rel="noopener noreferrer">YouTube</a>.</p>
     </section>
   </main>
 
@@ -60,27 +66,45 @@
   <script>
     (() => {
       const nougat = window.HanafiNougatBackend;
-      const video = document.getElementById("mediaVideo");
-      const placeholder = document.getElementById("mediaPlaceholder");
-      const status = document.getElementById("mediaStatus");
-      const mediaId = "ten-commandments-1923";
 
-      if (!(nougat && nougat.enabled())) {
-        placeholder.textContent = "The public Hanafi media endpoint is currently disabled.";
-        status.textContent = "The Ten Commandments test copy is mapped but not being served.";
-        return;
+      function connectPlayer(videoId, placeholderId, statusId, mediaId, label) {
+        const video = document.getElementById(videoId);
+        const placeholder = document.getElementById(placeholderId);
+        const status = document.getElementById(statusId);
+
+        if (!(nougat && nougat.enabled())) {
+          placeholder.textContent = "The public Hanafi media endpoint is currently disabled.";
+          status.textContent = `${label} is mapped but not being served.`;
+          return;
+        }
+
+        video.src = nougat.mediaUrl(mediaId);
+        video.hidden = false;
+        placeholder.hidden = true;
+        video.load();
+        status.textContent = `${label} · self-hosted through Nougat Media Core.`;
+
+        video.addEventListener("error", () => {
+          const code = video.error ? video.error.code : 0;
+          status.textContent = `Playback error${code ? ` (media code ${code})` : ""}.`;
+        });
       }
 
-      video.src = nougat.mediaUrl(mediaId);
-      video.hidden = false;
-      placeholder.hidden = true;
-      video.load();
-      status.textContent = "The Ten Commandments (1923) · self-hosted through Nougat Media Core.";
+      connectPlayer(
+        "tenCommandmentsVideo",
+        "tenCommandmentsPlaceholder",
+        "tenCommandmentsStatus",
+        "ten-commandments-1923",
+        "The Ten Commandments (1923)"
+      );
 
-      video.addEventListener("error", () => {
-        const code = video.error ? video.error.code : 0;
-        status.textContent = `Playback error${code ? ` (media code ${code})` : ""}.`;
-      });
+      connectPlayer(
+        "messageVideo",
+        "messagePlaceholder",
+        "messageStatus",
+        "the-message-1976-english",
+        "The Message (1976) · English · no subtitles"
+      );
     })();
   </script>
 </body>
