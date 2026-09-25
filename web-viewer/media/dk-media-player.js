@@ -38,6 +38,8 @@
       this.speed = document.getElementById(options.speedId);
       this.fullscreenButton = document.getElementById(options.fullscreenButtonId);
       this.sourceLink = document.getElementById(options.sourceLinkId);
+      this.playerShell = this.video.closest(".dk-media-player") || this.video;
+      this.pointerHideTimer = null;
 
       this.populateLibrary();
       this.bindEvents();
@@ -59,8 +61,20 @@
       this.subtitleSelect.addEventListener("change", () => this.applySubtitleSelection());
       this.playButton.addEventListener("click", () => this.togglePlayback());
       this.rewindButton.addEventListener("click", () => this.seekRelative(-10));
-      this.forwardButton.addEventListener("click", () => this.seekRelative(30));
+      this.forwardButton.addEventListener("click", () => this.seekRelative(10));
       this.fullscreenButton.addEventListener("click", () => this.toggleFullscreen());
+
+      const adjustVolumeByWheel = event => {
+        event.preventDefault();
+        const direction = event.deltaY < 0 ? 1 : -1;
+        this.setVolume((this.video.volume * 100) + (direction * 5));
+        this.showPointerTemporarily();
+      };
+      this.playerShell.addEventListener("wheel", adjustVolumeByWheel, { passive: false });
+      this.playerShell.addEventListener("mousemove", () => this.showPointerTemporarily());
+      this.playerShell.addEventListener("mouseenter", () => this.showPointerTemporarily());
+      this.playerShell.addEventListener("mouseleave", () => this.clearPointerTimer());
+      document.addEventListener("fullscreenchange", () => this.showPointerTemporarily());
 
       this.timeline.addEventListener("input", () => {
         if (!Number.isFinite(this.video.duration) || this.video.duration <= 0) return;
@@ -68,10 +82,7 @@
       });
 
       this.volume.addEventListener("input", () => {
-        const value = Math.max(0, Math.min(100, Number(this.volume.value)));
-        this.video.volume = value / 100;
-        this.volumeLabel.textContent = `${Math.round(value)}%`;
-        localStorage.setItem(`${STORAGE_PREFIX}volume`, String(value));
+        this.setVolume(Number(this.volume.value));
       });
 
       this.speed.addEventListener("change", () => {
@@ -83,10 +94,10 @@
       this.video.addEventListener("click", () => this.togglePlayback());
       this.video.addEventListener("dblclick", () => this.toggleFullscreen());
       this.video.addEventListener("play", () => {
-        this.playButton.textContent = "Pause";
+        this.playButton.textContent = "||";
       });
       this.video.addEventListener("pause", () => {
-        this.playButton.textContent = "Play";
+        this.playButton.textContent = "^";
       });
       this.video.addEventListener("loadedmetadata", () => {
         this.restorePosition();
@@ -99,7 +110,7 @@
       });
       this.video.addEventListener("ended", () => {
         this.clearPosition();
-        this.playButton.textContent = "Play";
+        this.playButton.textContent = "^";
       });
       this.video.addEventListener("error", () => {
         const code = this.video.error ? this.video.error.code : 0;
@@ -118,12 +129,34 @@
           this.seekRelative(-10);
         } else if (event.key === "ArrowRight") {
           event.preventDefault();
-          this.seekRelative(30);
+          this.seekRelative(10);
         } else if (event.key.toLowerCase() === "f") {
           event.preventDefault();
           this.toggleFullscreen();
         }
       });
+    }
+
+    setVolume(value) {
+      const safe = Math.max(0, Math.min(100, Number(value)));
+      this.video.volume = safe / 100;
+      this.volume.value = String(Math.round(safe));
+      this.volumeLabel.textContent = `${Math.round(safe)}%`;
+      localStorage.setItem(`${STORAGE_PREFIX}volume`, String(Math.round(safe)));
+    }
+
+    clearPointerTimer() {
+      if (this.pointerHideTimer) window.clearTimeout(this.pointerHideTimer);
+      this.pointerHideTimer = null;
+      this.playerShell.classList.remove("dk-pointer-hidden");
+    }
+
+    showPointerTemporarily() {
+      if (this.pointerHideTimer) window.clearTimeout(this.pointerHideTimer);
+      this.playerShell.classList.remove("dk-pointer-hidden");
+      this.pointerHideTimer = window.setTimeout(() => {
+        this.playerShell.classList.add("dk-pointer-hidden");
+      }, 3000);
     }
 
     restoreGlobalPreferences() {
