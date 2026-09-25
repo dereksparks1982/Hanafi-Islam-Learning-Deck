@@ -3,11 +3,8 @@
 # Format, tab-separated:
 # id<TAB>absolute media path<TAB>MIME type<TAB>optional subtitle path
 #
-# Current media library root on saxondesktop:
-# /home/dereksparks1982/Videos/Hosted
-#
-# Keep IDs stable. The web app refers to IDs, never filesystem paths.
-# Copy this file to /etc/hanafi-media/media.tsv for runtime use.
-
 # Current single test item.
-ten-commandments-1923	/home/dereksparks1982/Videos/Hosted/The Ten Commandments/The Ten Commandments (1923).mp4	video/mp4	
+# The original source file remains untouched. The server exposes a browser-safe
+# H.264/AAC fast-start MP4 prepared in the local Hanafi media cache.
+
+ten-commandments-1923	/home/dereksparks1982/.cache/hanafi-media/ten-commandments-1923.mp4	video/mp4	
