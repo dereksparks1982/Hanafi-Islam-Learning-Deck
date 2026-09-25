@@ -258,6 +258,7 @@ The browser player is based on the maintainer's separate **DK Media Player** pro
 
 - Nougat-style transport symbols: **<<  <  ^  >  >>**, with **^** as the project-standard Play symbol;
 - current movie-player transport exposes **<< / ^ / >>** for rewind 10 seconds, play/pause, and forward 10 seconds;
+- a large centered **^** appears over a loaded movie whenever it is paused, including at a remembered resume frame; clicking it or the video surface starts playback, and the overlay disappears while playing;
 - keyboard left/right seek by 10 seconds;
 - fullscreen keeps the same custom control surface instead of falling back to a separate control scheme;
 - mouse pointer and fullscreen controls auto-hide after 3 seconds of inactivity over the player and return on pointer movement;
