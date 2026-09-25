@@ -327,6 +327,8 @@ Current films:
 
 The Media home page supports both **poster-card view** and a **compact list view**. Both open the same dedicated page for the selected film. Individual film pages contain the accepted single DK Media player, available editions, film information, ratings where available, and external reference/source links.
 
+Movie artwork metadata supports per-film source selection plus per-film crop/position adjustments, so differently framed poster sources can fill the card cleanly without changing every movie card.
+
 Movie artwork is not stored as a poster collection in this repository. The browser resolves artwork from metadata, stores the fetched image in the device's **IndexedDB artwork cache**, and reuses the local cached copy on later visits. A per-film cache key allows artwork to be deliberately refreshed later without changing the media payload.
 
 Current stable media IDs:
