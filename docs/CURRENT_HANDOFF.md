@@ -16,13 +16,13 @@ Active branch:
 
 Current accepted and published checkpoint:
 
-**v2.1 — closed**
+**v2.2 — closed**
 
-No later public version number is assigned. Do not invent or advance a version until the maintainer explicitly authorizes it.
+The maintainer has assigned **v2.3** as the next planned build. Its first planned Media scope is the artwork/metadata manager in `V2.3_MEDIA_ARTWORK_PLAN.md`. Do not implement additional v2.3 scope without explicit authorization.
 
 Detailed release record:
 
-[`V2.1_CLOSEOUT.md`](V2.1_CLOSEOUT.md)
+[`V2.2_CLOSEOUT.md`](V2.2_CLOSEOUT.md)
 
 The published card library remains **209 cards across five independent sets**:
 
