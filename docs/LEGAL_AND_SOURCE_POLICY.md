@@ -50,27 +50,58 @@ This policy records the project's religious and scholarly position. It is not a 
 
 The repository's **CC BY-NC-SA 4.0** license applies to original Hanafi Learning Deck material to the extent that the project has the right to license it.
 
-Third-party material does **not** automatically become CC BY-NC-SA merely because it is present in the repository, displayed in the Web App, embedded from another service, or linked from project documentation. A third-party text, translation, photograph, recording, film, dataset, software library, or other work may carry its own legal or attribution terms. Those terms should be recorded with the source whenever practical.
+Third-party material does **not** automatically become CC BY-NC-SA merely because it is present in the repository, displayed in the Web App, hosted or streamed through project infrastructure, embedded from another service, or linked from project documentation. A third-party text, translation, photograph, recording, film, dataset, software library, or other work may carry its own legal or attribution terms. Those terms should be recorded with the source whenever practical.
 
 The project does not claim authorship of externally created translations, photographs, films, recordings, historical documents, software libraries, or other source material.
 
-## Media and externally hosted content
+## Media, self-hosting, and external sources
 
-The Media area introduced in v1.9 distinguishes between the project's own interface/integration work and the media being viewed through it.
+The Media area distinguishes between:
 
-For *The Message* (1976) and **الرسالة / Al-Risalah (1976)**:
+1. the Hanafi Learning Deck's own interface/integration code;
+2. the maintainer's own DK Media and Nougat integration work used as technical infrastructure; and
+3. the underlying third-party films, recordings, sources, services, and software components.
 
-- the films are third-party works;
-- the Hanafi Learning Deck does not claim authorship or ownership of either film;
-- the project's CC BY-NC-SA license does not relicense the films;
-- the current Web App streams the selected copy through a **Google Drive embedded player** rather than bundling the movie into the GitHub repository;
-- source and provenance links should be retained where practical, including the source used for the Arabic project copy;
-- film information and historical notes should be clearly distinguished from Qur'an, hadith, fiqh, and other primary or scholarly religious sources;
-- inclusion in the Media area is for noncommercial study and presentation within the project and is not a declaration that the underlying film is public domain or otherwise free of third-party rights.
+The v1.9 Media release originally used a **Google Drive embedded player**. That is now historical. In v2.1 the accepted Media architecture moved to self-hosting from the maintainer's own machine through the Hanafi Web App, Nginx, the narrow Hanafi media bridge, and selected Nougat/Jellyfin backend infrastructure.
 
-External hosting or embedding does not make the hosting service, player technology, or media content project property. Google Drive, YouTube, IMDb, Wikipedia, the Academy of Motion Picture Arts and Sciences, Turner Classic Movies, and other external services or sources retain their own identities and applicable terms.
+The current architecture does **not** place movie files in the GitHub repository. GitHub contains the Web interface, stable media IDs, manifest examples, bridge/server code, and deployment tooling. The media payloads remain on the maintainer's local Hosted storage.
 
-The project's separate Nougat media-player work also remains distinct. If VLC/libVLC or other VideoLAN components are later incorporated directly into the Hanafi Learning Deck, VideoLAN/VLC attribution and the applicable license information must be included with that integration. The current v1.9 movie page does **not** bundle VLC or libVLC.
+For *The Message* (1976), **الرسالة / Al-Risalah (1976)**, *The Ten Commandments* (1923), and later third-party Media entries:
+
+- the underlying films remain third-party works unless a particular work's status is separately established;
+- the Hanafi Learning Deck does not claim authorship or ownership merely because it hosts, streams, indexes, or presents a project copy;
+- the project's CC BY-NC-SA license does not automatically relicense the underlying films;
+- hosting a copy on the maintainer's own machine rather than Google Drive does not itself change the legal or source status of the underlying film;
+- source/provenance information should be preserved where it is actually known;
+- the project should not invent provenance or imply certainty about a project copy when its provenance cannot be reliably accounted for;
+- film information and historical notes must remain distinct from Qur'an, hadith, fiqh, and other primary or scholarly religious sources;
+- inclusion in the Media area is not a declaration that a film is public domain or otherwise free of third-party rights.
+
+Temporary project copies from sources such as YouTube may be used during development/testing and should be identified as such where their source is known. Later replacement with a better or lawfully acquired edition does not convert the underlying film into project-owned material and should preserve whatever source/edition record is actually known.
+
+## Player, server, and third-party software attribution
+
+The current v2.1 browser player is a Hanafi Web implementation based on the maintainer's separate **DK Media Player** project's player behavior. It uses the browser's video APIs and does **not** embed the DK Media desktop Python/Tkinter/libVLC executable.
+
+Selected **Nougat Media Plus** server work is reused for media infrastructure, including the local backend/Jellyfin integration, HTTP delivery, transcoding/fallback concepts, and related deployment work. Nougat's desktop tactical/military Player UI is not the Hanafi Web player's interface.
+
+Third-party software retains its own identity and license terms. This includes, where used in the deployment path, components such as Jellyfin, FFmpeg, Nginx, Certbot/Let's Encrypt tooling, and any other external library or runtime.
+
+The current Hanafi Web player does **not** bundle VLC/libVLC merely because the separate DK Media desktop application and parts of Nougat may use VideoLAN technology. If VLC/libVLC is ever incorporated directly into the Hanafi Web App or distributed as part of a Hanafi package, the applicable VideoLAN attribution and license obligations must be documented for that integration.
+
+## External subtitles
+
+The v2.1 Media bridge can associate one optional external subtitle file with a media item. An SRT file is converted to WebVTT for browser playback.
+
+A downloaded or separately created subtitle remains its own work/source layer and should not be assumed to have the same authorship, provenance, or legal status as the video file it accompanies. Where subtitle provenance is known, it should be recorded rather than silently attributed to the film or project.
+
+This sidecar model is technically useful because one clean video master can be reused without creating another encoded copy solely to burn subtitles into the picture.
+
+## External sites and references
+
+External services and sources retain their own identities and applicable terms. Examples used or referenced by the project may include YouTube, Google Drive, IMDb, Wikipedia, the Academy of Motion Picture Arts and Sciences, Turner Classic Movies, charitable organizations, mapping/imagery providers, and other outside resources.
+
+Linking to, embedding from, citing, or replacing a service with self-hosted delivery does not make the external service's content project property.
 
 ## Qur'an source integrity
 
@@ -82,7 +113,7 @@ The project-created transliteration is a learning aid, not a replacement for the
 
 Scholarly corrections should be supported with a named source. Legal or source complaints should identify the specific work, passage, file, recording, film, image, dataset, or other material and the asserted right or term at issue.
 
-The project should answer such disputes transparently: identify what source was used, why it was selected, what attribution was provided, and whether the material should remain, be replaced, be independently recreated, or be removed.
+The project should answer such disputes transparently: identify what source was used where known, why it was selected, what attribution was provided, and whether the material should remain, be replaced, be independently recreated, or be removed.
 
 The goal is not to obscure provenance. The goal is to keep Islamic learning material free, traceable, reviewable, and as accurate as the project can make it.
 
