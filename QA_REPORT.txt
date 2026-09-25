@@ -24,3 +24,20 @@ PASS: title-bar operation preserves existing pixels below the detected header di
 PASS: printable sheets and contact sheets were rebuilt from the updated cards.
 PASS: Important Places Card 2, Chinguetti Mosque, was added from the exact approved/tested PNG bytes.
 NOTE: Arabic and transliteration labels remain subject to qualified Islamic/Arabic review.
+
+V2.1 CLOSEOUT — 2026-09-25
+PASS: maintainer explicitly accepted the current work and ordered v2.1 documentation/closeout.
+PASS: current public checkpoint remains v2.1; no later public version number is assigned.
+PASS: Company Bible records v2.1 as closed and locks the DK Media single-player Web implementation as the accepted Media-player baseline.
+PASS: Media page source contains one browser video player; media selection changes the source loaded into that player rather than stacking one player per title.
+PASS: DK Media Web controller provides Play/Pause, rewind/forward, seek/time display, volume, speed, fullscreen, keyboard controls, saved preferences, and per-title resume state.
+PASS: current checked-in manifest contains two v2.1 test IDs: ten-commandments-1923 and the-message-1976-english.
+PASS: Hanafi bridge retains seekable HTTP Range delivery for direct-compatible local media and compatibility/transcode fallbacks.
+PASS: bridge supports one optional external subtitle path per media item and converts configured SRT subtitles to WebVTT for browser playback.
+PASS: public self-hosted Media path was proven during v2.1 development after the router destination was corrected; The Ten Commandments played through the public Web App path.
+PASS: obsolete one-time Media/version repair workflows were removed during v2.1 closeout.
+PASS: persistent Web App deployment workflow and reusable media-server build/smoke-test workflow remain.
+PASS: root/project documentation is being reconciled from the historical Google Drive Media architecture to the accepted self-hosted DK Media/Nougat backend architecture.
+NOTE: the Arabic/English hard-sub temporary The Message copy was still downloading when v2.1 closed and is not part of the closed manifest.
+NOTE: multiple named external subtitle tracks per one media item are not implemented in closed v2.1; current support is one optional sidecar subtitle path per item.
+NOTE: no fresh claim is made here that every browser/device combination was re-tested at closeout. This record distinguishes maintainer acceptance and previously demonstrated server/public-path behavior from any later device-specific regression testing.
