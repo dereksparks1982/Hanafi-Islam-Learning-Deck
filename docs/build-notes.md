@@ -131,3 +131,86 @@ When the maintainer says an image is approved or says that nothing else should c
 - do not reinterpret the request.
 
 Verify first, transfer the approved binary, verify again.
+
+## v2.1 self-hosted Media path
+
+The v2.1 Media system replaced the old Google Drive iframe path with a self-hosted architecture built from selected Nougat Media Plus server work.
+
+Accepted flow:
+
+```text
+GitHub Pages Web App
+    -> HTTPS public endpoint
+    -> Nginx on saxondesktop
+    -> Hanafi bridge 127.0.0.1:8097
+    -> Nougat integrated Jellyfin 127.0.0.1:8098 when useful
+    -> local Hosted media files
+```
+
+### Solved deployment facts
+
+- Keep Jellyfin on loopback. Do not expose the Jellyfin UI directly.
+- The Hanafi bridge is the narrow public interface and only exposes manifest-listed IDs.
+- Nginx is the HTTPS front end because GitHub Pages cannot load insecure HTTP active media from an HTTPS page.
+- Direct-compatible local files use HTTP Range delivery so browser seeking works.
+- Incompatible media can fall back to FFmpeg/Jellyfin H.264/AAC MP4 delivery.
+- CORS is restricted to the Hanafi GitHub Pages origin.
+- The service can work even when Jellyfin has not indexed the exact file because the manifest/local-file path is authoritative.
+- The router must forward to the machine's **actual reserved LAN address**. During v2.1, playback failed until the router destination was corrected; after that correction the public stream played.
+
+Do not revive old Safari/codec theories when the evidence points to routing. Diagnose the current failure from current evidence first.
+
+## v2.1 DK Media Web player
+
+The browser player is based on the separate DK Media Player project, but it is a Web implementation rather than the desktop Python/libVLC executable.
+
+Accepted rules:
+
+- exactly **one** browser `<video>` element;
+- media selector changes the source loaded into that one player;
+- do not create one player per movie;
+- retain Play/Pause, −10 seconds, +30 seconds, seek, time display, volume, speed, fullscreen, keyboard controls, and resume behavior;
+- source information follows the selected media item;
+- useful Nougat backend work stays underneath the player but Nougat's tactical desktop player UI is not imported.
+
+The current player code lives in:
+
+`web-viewer/media/dk-media-player.js`
+
+## External subtitle handling
+
+Current v2.1 manifest format has one optional subtitle path per media item:
+
+```text
+id<TAB>absolute media path<TAB>MIME type<TAB>optional subtitle path
+```
+
+If the sidecar file is `.srt`, `jellyfin_bridge.py` converts timestamps to WebVTT form and serves it as `text/vtt` through:
+
+```text
+/nougat/v1/subtitle?id=<media-id>
+```
+
+The DK Media Web player exposes that configured subtitle as an **Off / Subtitles** choice.
+
+This is the preferred model when one clean video can be reused with a downloaded subtitle file. Do not create duplicate video files merely to burn in a subtitle unless there is another reason to preserve that edition.
+
+Multiple named sidecar subtitle tracks per single media item are not part of closed v2.1. Do not document or advertise them as complete until the server manifest/catalog format is actually extended.
+
+## Media download completion rule
+
+When `yt-dlp` is still downloading, do **not** add the target to the runtime manifest until the final file exists.
+
+A `.part` file is not a completed Media entry. Wait for the maintainer to confirm completion, then verify the exact final filename before adding it.
+
+This rule applies to the Arabic/English hard-sub temporary *The Message* copy that was still downloading when v2.1 was closed.
+
+## v2.1 closeout hygiene
+
+One-time workflows are temporary tools, not product files. The v2.1 closeout removed obsolete one-time workflows left from earlier repairs and old Google Drive Media experiments.
+
+Persistent workflows retained are the normal Pages deployment workflow and the reusable media-server build/smoke-test workflow.
+
+Detailed closeout record:
+
+[`V2.1_CLOSEOUT.md`](V2.1_CLOSEOUT.md)
