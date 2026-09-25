@@ -132,9 +132,8 @@ Current approved player behavior:
 - The current movie-page transport uses the applicable **<< / ^ / >>** controls.
 - **<<** seeks backward 10 seconds and **>>** seeks forward 10 seconds.
 - Keyboard Left/Right also seek 10 seconds.
-- When a movie is loaded but paused, including at a restored resume position, a **large centered ^ overlay** is shown over the video as the visual Play affordance.
-- Clicking the centered ^ starts playback. Clicking anywhere on the video also continues to toggle play/pause.
-- The centered ^ disappears while playing and returns whenever playback is paused or ends.
+- The **<< / ^ / >>** transport group is centered beneath the video in both normal and fullscreen layouts.
+- Do **not** place a separate Play/^ overlay over the video picture. The video surface itself remains clickable to toggle play/pause.
 - Mouse wheel anywhere over the player, including the volume control, changes volume in 5% steps. The slider can still be dragged.
 - The mouse pointer auto-hides after 3 seconds of inactivity over the player.
 - In fullscreen the same custom controls remain available; pointer and controls auto-hide after 3 seconds of inactivity and return on pointer movement.
