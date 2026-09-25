@@ -11,11 +11,16 @@
   <link rel="stylesheet" href="../version-position.css?rev=20260923a">
   <link rel="stylesheet" href="../mobile-background.css?rev=20260923mobile2">
   <style>
-    .media-main{width:min(900px,calc(100% - 2rem));margin:0 auto 3rem}
+    .media-main{width:min(1000px,calc(100% - 2rem));margin:0 auto 3rem}
     .media-header-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     .media-release{color:#d8b560;font-weight:700}
-    .media-panel{margin-top:1.25rem;padding:1.25rem;border:1px solid rgba(216,181,96,.28);border-radius:20px;background:rgba(255,255,255,.04)}
-    .media-panel p{color:#d8d2c2;line-height:1.65;margin:.5rem 0 0}
+    .media-panel,.media-info{margin-top:1.25rem;padding:1.25rem;border:1px solid rgba(216,181,96,.28);border-radius:20px;background:rgba(255,255,255,.04)}
+    .media-player{position:relative;width:100%;aspect-ratio:16/9;display:grid;place-items:center;overflow:hidden;border-radius:14px;background:#000}
+    .media-player video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+    .media-placeholder{max-width:680px;padding:1.2rem;color:#d8d2c2;line-height:1.6;text-align:center}
+    .media-status,.media-info p{color:#d8d2c2;line-height:1.65}
+    .media-info a{color:#d8b560}
+    [hidden]{display:none!important}
   </style>
 </head>
 <body id="top">
@@ -29,15 +34,54 @@
   </header>
 
   <main class="media-main">
-    <section class="media-panel" aria-labelledby="mediaStatusHeading">
-      <p class="eyebrow">Library status</p>
-      <h2 id="mediaStatusHeading">No media is currently listed</h2>
-      <p>The media library has been temporarily cleared while the project decides which copies to keep.</p>
+    <section class="media-panel" aria-labelledby="playerHeading">
+      <p class="eyebrow">Self-hosted test</p>
+      <h2 id="playerHeading">The Ten Commandments (1923)</h2>
+      <div class="media-player">
+        <video id="mediaVideo" controls playsinline preload="metadata" crossorigin="anonymous" hidden></video>
+        <div id="mediaPlaceholder" class="media-placeholder">Connecting to the Hanafi media server…</div>
+      </div>
+      <p id="mediaStatus" class="media-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="media-info" aria-labelledby="sourceHeading">
+      <p class="eyebrow">Source record</p>
+      <h2 id="sourceHeading">Project-copy provenance</h2>
+      <p>Source: <a href="https://www.youtube.com/watch?v=XLwq-SdJkic" target="_blank" rel="noopener noreferrer">YouTube source provided for this project copy</a>.</p>
     </section>
   </main>
 
   <footer>
     <p><strong>No advertising. Islam is not for sale.</strong> No account, no paywall, and no behavioral tracking by the Hanafi Learning Deck.</p>
   </footer>
+
+  <script src="nougat-config.js?rev=20260925a"></script>
+  <script src="nougat-backend.js?rev=20260924c"></script>
+  <script>
+    (() => {
+      const nougat = window.HanafiNougatBackend;
+      const video = document.getElementById("mediaVideo");
+      const placeholder = document.getElementById("mediaPlaceholder");
+      const status = document.getElementById("mediaStatus");
+      const mediaId = "ten-commandments-1923";
+
+      if (!(nougat && nougat.enabled())) {
+        placeholder.textContent = "The public Hanafi media endpoint is currently disabled.";
+        status.textContent = "The Ten Commandments test copy is mapped but not being served.";
+        return;
+      }
+
+      video.src = nougat.mediaUrl(mediaId);
+      video.hidden = false;
+      placeholder.hidden = true;
+      video.load();
+      status.textContent = "The Ten Commandments (1923) · self-hosted through Nougat Media Core.";
+
+      video.addEventListener("error", () => {
+        const code = video.error ? video.error.code : 0;
+        status.textContent = `Playback error${code ? ` (media code ${code})` : ""}.`;
+      });
+    })();
+  </script>
 </body>
 </html>
