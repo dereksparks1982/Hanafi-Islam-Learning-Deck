@@ -256,9 +256,12 @@ Selecting another title changes the media loaded into that one player. The page 
 
 The browser player is based on the maintainer's separate **DK Media Player** project's simple player behavior and currently includes:
 
-- Play/Pause;
-- rewind 10 seconds;
-- forward 30 seconds;
+- Nougat-style transport symbols: **<<  <  ^  >  >>**, with **^** as the project-standard Play symbol;
+- current movie-player transport exposes **<< / ^ / >>** for rewind 10 seconds, play/pause, and forward 10 seconds;
+- keyboard left/right seek by 10 seconds;
+- fullscreen keeps the same custom control surface instead of falling back to a separate control scheme;
+- mouse pointer and fullscreen controls auto-hide after 3 seconds of inactivity over the player and return on pointer movement;
+- mouse wheel over the player or volume control changes volume in 5% steps;
 - seek timeline and time display;
 - volume;
 - playback speed;
