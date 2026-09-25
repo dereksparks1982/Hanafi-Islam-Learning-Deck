@@ -29,12 +29,15 @@ Before changing the project, establish the exact requested scope.
 
 ### Locked Media player
 
-The current **Media / The Message** player is an accepted locked implementation.
+The **v2.1 DK Media single-player Web implementation** is the accepted Media-player baseline.
 
-- Do not refactor, normalize, simplify, restyle, replace, or otherwise alter its player sizing, iframe handling, mobile scaling, fullscreen handling, or Exit-full-screen behavior during unrelated Media or site work.
-- Desktop and iPhone/iPad behavior may intentionally use different implementation details where that is required for correct playback and controls.
-- New Media content should be added around the accepted player rather than by rewriting the player.
-- The player is changed only when the maintainer explicitly requests a player change.
+- The Media page uses **one video player total**. Media choices switch the source loaded into that single player; separate stacked players are not the accepted design.
+- **DK Media Player** is the behavioral/design base for the browser player. The Web App reimplements the useful player behavior in HTML/CSS/JavaScript rather than embedding the desktop Python/libVLC application.
+- Preserve the accepted single-player structure, media selector, seek timeline, play/pause, rewind/forward controls, volume, speed, fullscreen, keyboard controls, resume state, and external-subtitle on/off behavior unless the maintainer explicitly requests a player change.
+- **Nougat Media Plus** is used only for useful server/media infrastructure. Its desktop military/tactical player UI is not the Hanafi Media-player design.
+- Jellyfin remains backend infrastructure and is not exposed as the user-facing Hanafi player.
+- Future Media additions should normally be added to the library/manifest and fed into the accepted single player rather than creating new player instances.
+- The previous Google Drive iframe player and its old mobile iframe workaround are historical implementations and are no longer the accepted Media baseline.
 
 For the **Important Places of the Muslim World** expansion, the rule is especially strict:
 
@@ -70,6 +73,7 @@ Binary images that already exist as final files should be uploaded directly as G
 - Every visible version surface must agree after an approved version change.
 - A rejected candidate does not advance the version.
 - Current accepted Web App checkpoint: **v2.1**.
+- **v2.1 is closed.** No later public version number is assigned until the maintainer explicitly names one.
 - The Home page is the canonical user-facing version display. Interior pages do not need visible version labels unless the maintainer specifically wants them.
 - Internal release/cache identifiers may still exist where technically required, but they must not silently advance the public version.
 
