@@ -10,7 +10,6 @@ const SHELL = [
   `./mobile-background.css?rev=20260923mobile2`,
   `./app.js?release=${RELEASE}`,
   `./card-viewer.js?release=${RELEASE}`,
-  `./secret-library-trigger.js?rev=20260924b`,
   `./manifest.webmanifest?release=${RELEASE}`,
   `./assets/hanafi-learning-deck-icon-approved.png?rev=20260923a`,
   `./quran/index.html?release=${RELEASE}`,
