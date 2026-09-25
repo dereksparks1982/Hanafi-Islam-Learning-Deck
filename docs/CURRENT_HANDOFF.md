@@ -122,28 +122,25 @@ Important points:
 
 ### Accepted player
 
-The current accepted player is the **DK Media single-player Web implementation**.
+The current accepted player is the **DK Media single-player Web implementation**. The maintainer explicitly reopened its controls on **2026-09-25** to align interaction with Nougat conventions.
 
-There is exactly **one** `<video>` player. The media library selector changes what that one player loads.
+The Media home page is film-first: poster cards by default plus a compact list view. Both views open the same dedicated film page. Editions/languages are selected inside that page and feed exactly **one** `<video>` player.
 
-Accepted behavior includes:
+Current approved player behavior:
 
-- Play/Pause
-- −10 seconds
-- +30 seconds
-- seek timeline/time display
-- volume
-- speed
-- fullscreen
-- keyboard controls
-- remembered volume/speed
-- per-title resume position
-- selected-title/source information
-- external subtitle on/off when a subtitle file is configured
+- Nougat transport language is **<<  <  ^  >  >>**; **^ is Play** and must not be replaced with the conventional right-pointing triangle.
+- The current movie-page transport uses the applicable **<< / ^ / >>** controls.
+- **<<** seeks backward 10 seconds and **>>** seeks forward 10 seconds.
+- Keyboard Left/Right also seek 10 seconds.
+- When a movie is loaded but paused, including at a restored resume position, a **large centered ^ overlay** is shown over the video as the visual Play affordance.
+- Clicking the centered ^ starts playback. Clicking anywhere on the video also continues to toggle play/pause.
+- The centered ^ disappears while playing and returns whenever playback is paused or ends.
+- Mouse wheel anywhere over the player, including the volume control, changes volume in 5% steps. The slider can still be dragged.
+- The mouse pointer auto-hides after 3 seconds of inactivity over the player.
+- In fullscreen the same custom controls remain available; pointer and controls auto-hide after 3 seconds of inactivity and return on pointer movement.
+- Timeline/time display, playback speed, fullscreen, remembered volume/speed, per-title resume position and external subtitle selection remain supported.
 
-Do not return to stacked video players.
-
-Do not replace the DK Media player base with the Nougat tactical player unless explicitly ordered.
+Do not return to stacked video players. Do not restore +30-second seeking or textual `-10s / Play / +30s` transport buttons.
 
 ## Current Media manifest at v2.1 closeout
 
