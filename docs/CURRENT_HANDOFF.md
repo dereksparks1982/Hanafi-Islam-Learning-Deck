@@ -2,7 +2,7 @@
 
 ## Purpose of this file
 
-This document is the recovery point for the current development thread. It records the decisions that must survive if chat context is lost or work is resumed later.
+This document is the recovery point for the current development thread. Read it before resuming work after context loss.
 
 ## Repository state
 
@@ -16,9 +16,13 @@ Active branch:
 
 Current accepted and published checkpoint:
 
-`v2.1`
+**v2.1 — closed**
 
-The old `feature/quran-reader` and `gh-pages` workflow assumptions are obsolete. Current work is maintained directly on `main`, and the Web App is deployed through the current GitHub Pages workflow.
+No later public version number is assigned. Do not invent or advance a version until the maintainer explicitly authorizes it.
+
+Detailed release record:
+
+[`V2.1_CLOSEOUT.md`](V2.1_CLOSEOUT.md)
 
 The published card library remains **209 cards across five independent sets**:
 
@@ -28,18 +32,35 @@ The published card library remains **209 cards across five independent sets**:
 - Arabic Alphabet Expansion: 28
 - Important Places of the Muslim World: 3
 
+## Governing rules
+
+Read [`COMPANY_BIBLE.md`](COMPANY_BIBLE.md) before changing the repository.
+
+Critical rules:
+
+- discussion is not build authorization;
+- explicit maintainer approval defines scope;
+- **stop means stop**;
+- version changes require explicit authorization;
+- rejected candidates are not baselines;
+- the current accepted Media player is locked unless the maintainer explicitly reopens it;
+- temporary one-time workflows must be removed after use.
+
 ## Current product surfaces
 
-Use these user-facing names:
+User-facing names:
 
-- **Web App** = normal installable/offline GitHub Pages version
-- **Tor Mirror** = `.onion` version
+- **Web App** = normal GitHub Pages version
+- **Tor Mirror** = `.onion` mirror of the same current project
 - **Qur'an Reader** = page-based reader/book system
 - **Holy Places Explorer** = CesiumJS geographic study surface
-- **Media** = project media area
-- **Advanced Learner Library / Secret Library** = restricted advanced-study area under active development
+- **Media** = self-hosted project media area
+- **Live** = madrasas, masjids, and Islamic live/discovery area
+- **Advanced Learner Library** = gated advanced-study library
+- **Charity** = giving/support directory
+- **About** and **Legal** = project information and legal/contact surfaces
 
-The source directory remains `web-viewer/`, but user-facing documentation should call it the **Web App**.
+The implementation directory remains `web-viewer/`, but public documentation should call it the **Web App**.
 
 Public Web App:
 
@@ -49,84 +70,140 @@ Tor Mirror:
 
 `http://hanafiiix6xddzpmjxbpns5svgoujdnjwf3ky4a72rzai5mumxm4mzqd.onion/`
 
-## v2.1 accepted-state protections
+## v2.1 accepted visual state
 
-The current accepted state is the baseline for new work.
+v2.1 established the current Web App visual family.
 
-- The Home page carries the canonical visible version marker, currently **v2.1**.
-- The approved Home background and app emblem remain accepted assets.
-- The devotional opening on Home is intended to present each invocation in the order **Arabic → transliteration → English meaning**. Arabic is gold and the block should use a consistent typographic system.
-- The Media / *The Message* player is **locked**. Do not alter its accepted desktop iframe behavior, iPhone/iPad scaling workaround, full-screen handling, Exit-full-screen handling, or sizing while doing unrelated work.
-- The *The Message* source/provenance block was intentionally removed because the maintainer cannot account for the provenance of every project copy and does not want to imply certainty that is not available.
-- Future Media additions go around the accepted player rather than through it unless the maintainer explicitly requests a player change.
+Accepted elements include:
 
-## Media — The Message (1976)
+- approved Hanafi Learning Deck icon;
+- approved Home background;
+- corrected mobile background treatment;
+- **Amarante** display typography for the approved Home title/heading treatment;
+- revised Home branding and density;
+- current devotional opening and project principle;
+- Home page as the canonical visible `v2.1` version surface;
+- About, Legal, Charity, Live, Makkah, Explorer, Qur'an, Media, and card-study pages inside the same Web App family.
 
-Current Media page:
+Rejected button experiments are not baselines. Do not recreate or reapply rejected styling merely because related files or old commits still exist in history.
 
-`https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/`
+## Media — current v2.1 architecture
 
-Implemented:
+The old Google Drive iframe player is historical. It is **not** the current accepted implementation.
 
-- English production of *The Message* (1976) through Google Drive embedded playback;
-- separately filmed Arabic production **الرسالة / Al-Risalah (1976)**;
-- **English / العربية** selection;
-- multiple project copies selectable through the page;
-- direct Google Drive fallback follows the selected copy;
-- desktop Google Drive embedded playback retained because it works correctly;
-- iPhone/iPad-specific player layout and page-level full-screen workaround retained because it is required for correct mobile control placement and usability;
-- a separate **Exit full screen** control on the mobile workaround;
-- film information and study note;
-- Video / Audio Media tabs.
+Current architecture:
 
-The accepted player code is now considered fragile and locked. Do not replace the iPhone-specific implementation with a superficially cleaner responsive iframe implementation: that regression previously moved Google Drive controls to the wrong place and broke accepted behavior.
+```text
+GitHub Pages Hanafi Web App
+        |
+        | HTTPS
+        v
+saxondesktop / Nginx
+        |
+        | loopback :8097
+        v
+Hanafi media bridge
+        |
+        | loopback :8098
+        v
+Nougat integrated Jellyfin
+        |
+        v
+local Hosted media files
+```
 
-External subtitle files are not integrated into the current Google Drive embedded player. Current copies rely on subtitles already present in the video where applicable.
+Important points:
 
-## Media-player attribution
+- movie files remain on the maintainer's own machine;
+- GitHub contains interface/server code and stable IDs, not the movie payloads;
+- Jellyfin stays backend infrastructure and is not the visible player;
+- the bridge exposes only manifest-listed IDs;
+- useful Nougat server/range/transcoding work is reused;
+- Nougat's tactical/military desktop player UI is **not** used in Hanafi.
 
-The current Hanafi Learning Deck Media page uses **Google Drive embedded playback**.
+### Accepted player
 
-It does **not** bundle VLC or libVLC.
+The current accepted player is the **DK Media single-player Web implementation**.
 
-The maintainer's separate Nougat media-player work may use VideoLAN technology, but that does not make VLC part of the current Hanafi Web App. If VLC/libVLC is later integrated directly, the applicable VideoLAN attribution and license information must be included.
+There is exactly **one** `<video>` player. The media library selector changes what that one player loads.
 
-## Card library navigation
+Accepted behavior includes:
 
-All five card-set sections in the Web App are independently collapsible.
+- Play/Pause
+- −10 seconds
+- +30 seconds
+- seek timeline/time display
+- volume
+- speed
+- fullscreen
+- keyboard controls
+- remembered volume/speed
+- per-title resume position
+- selected-title/source information
+- external subtitle on/off when a subtitle file is configured
 
-The browser remembers the open/closed state locally. Clicking a card-set navigation control should reopen the destination set when needed.
+Do not return to stacked video players.
 
-## Advanced Learner Library / Secret Library
+Do not replace the DK Media player base with the Nougat tactical player unless explicitly ordered.
 
-This is an approved direction now entering implementation.
+## Current Media manifest at v2.1 closeout
 
-Purpose:
+Current checked-in test entries:
 
-- provide a separate environment for advanced, difficult, controversial, comparative, or research-oriented material;
-- keep the ordinary learning path inviting and uncluttered;
-- preserve the same source and review discipline used elsewhere in the project.
+```text
+ten-commandments-1923
+the-message-1976-english
+```
 
-Visual direction:
+The English *The Message* file is mapped to:
 
-- emerald, black-green, and gold scholarly library environment;
-- Islamic arches and geometric lattice;
-- bookshelves and stacked classical books;
-- hanging lanterns;
-- writing desk details such as ink, quill, scrolls, or manuscripts where appropriate;
-- visually related to the main Hanafi Learning Deck identity, but recognizably its own deeper library space;
-- the **locked gate** appears over the library environment;
-- after a correct research key, the gate disappears and the user remains in the same library environment rather than being sent to an unrelated generic page.
+`/home/dereksparks1982/Videos/Hosted/Al-Risalah/The.Message.1976.YouTube.mp4`
 
-Secrecy rule:
+The additional temporary Arabic/English hard-sub YouTube copy being downloaded during closeout is **not yet part of the manifest**. Do not add a `.part` file or guess its final state. Wait for the maintainer to confirm the completed download before any later Media addition.
 
-- public docs may name and describe the Advanced Learner Library;
-- public docs must **not publish the hidden access gesture, click/tap count, research key, or equivalent unlock secret** unless the maintainer explicitly orders publication;
-- source code necessarily contains client-side implementation details and is not a security boundary. The feature is an easter-egg/research gate, not protection for sensitive personal or confidential data.
+## Subtitle state
 
-Current implementation work is authorized for the hidden access path, gate, unlocked shell, and supporting visuals. Content population remains a separate future task unless specifically approved.
+The v2.1 bridge supports one optional external subtitle path per media item.
 
-## Prayer tools already implemented
+- `.srt` is converted to browser-compatible WebVTT by the bridge;
+- the DK Media Web player exposes the configured subtitle as an on/off choice;
+- this allows one video master plus a separate subtitle file instead of requiring a duplicate video with burned-in subtitles.
+
+Do not claim multiple named external subtitle tracks per item as completed v2.1 functionality. That is future work unless explicitly authorized.
+
+## Public media-server state reached in v2.1
+
+The self-hosted path was proven end to end during v2.1 development.
+
+Known operational design:
+
+- Hanafi bridge: `127.0.0.1:8097`
+- Nougat integrated Jellyfin: `127.0.0.1:8098`
+- Nginx provides the public HTTPS front end
+- browser playback uses byte-range delivery when directly compatible
+- FFmpeg/Jellyfin fallback remains available for incompatible media
+- CORS is restricted to the Hanafi GitHub Pages origin
+
+The router destination was corrected during testing and *The Ten Commandments* successfully played through the public path. Do not reopen the old Safari/Range diagnosis unless a new playback failure actually occurs.
+
+## Advanced Learner Library
+
+The gated advanced-study library shell is implemented.
+
+Public documentation may describe the purpose and standards of the library, but **must not publish the hidden access gesture, count, key, or equivalent unlock secret** unless the maintainer explicitly orders that disclosure.
+
+The gate and unlocked library remain different states of the same approved library environment.
+
+## Charity / support
+
+The Web App has a dedicated Charity area.
+
+- voluntary project support belongs there rather than on Home;
+- Patreon is not to be added to the GitHub project page merely because it exists in the Web App;
+- project support is not presented as Zakat;
+- the no-advertising principle remains in force.
+
+## Prayer tools
 
 Implemented:
 
@@ -141,96 +218,47 @@ Implemented:
 - daily schedule;
 - Makkah-specific prayer clock on the Makkah page.
 
+Adhan playback remains future work and is **not** automatically assigned to a version.
+
 ## Holy Places Explorer
 
-The Explorer uses CesiumJS and currently includes guided locations such as Masjid al-Haram, Mina, ʿArafāt, Muzdalifah, Jabal al-Nūr, Jabal Thawr, Masjid an-Nabawī, and Al-Aqsa Mosque.
+The Explorer uses CesiumJS and includes guided Islamic locations such as Masjid al-Haram, Mina, ʿArafāt, Muzdalifah, Jabal al-Nūr, Jabal Thawr, Masjid an-Nabawī, and Al-Aqsa Mosque.
 
-Tor Browser compatibility is a required acceptance target.
+Tor Browser compatibility remains an acceptance target. Do not restore unnecessary depth-dependent operations that previously broke hardened/Tor browsing behavior.
 
-A Tor failure caused by restricted WebGL depth-buffer/picking behavior was fixed by removing unnecessary depth-dependent operations rather than weakening Tor Browser privacy behavior.
+## Qur'an Reader
 
-The current viewer does not require real terrain clamping. If terrain is added later, marker placement and Tor compatibility must be retested.
+The Qur'an Reader is a normal page-based reader, not a card expansion.
 
-## Qur'an Reader — page by page
+Surah al-Fatihah is the first implemented construction page. The familiar 604-page Madinah Mushaf structure is the long-term page framework, not a single-release promise.
 
-The Qur'an Reader is a **normal page-based reader, not a card expansion**.
-
-The first implemented construction page is Surah al-Fatihah.
-
-The reader is a **long-running page-by-page project**. It is not a single build that is supposed to complete the entire Qur'an at once. Each page should be constructed, checked, and improved in sequence, and the work may take months.
-
-The standard **604-page Madinah Mushaf structure** is the page framework and long-term reference structure only. It is not a promise that all 604 pages belong to one release target.
-
-Each ayah should support:
+Each ayah layer is intended to support:
 
 1. Arabic Qur'an text
 2. project-created transliteration
 3. English meaning
 
-Arabic Qur'an text must never be silently altered. Source/provenance decisions must remain explicit and reviewable.
+Arabic Qur'an text must never be silently altered.
 
-## Unified card relationships
+## Current future directions
 
-Future digital architecture should let cards link into relevant project content rather than leaving every feature isolated.
+Retained future work includes:
 
-Conceptual relationship types:
-
-- Qur'an
-- places / Explorer
-- hadith
-- related cards
-- media
-- live feeds
-- sources / further study
-
-The printable PNG remains authoritative card artwork. Digital relationships are an additional study/navigation layer.
-
-## Featured Mosques and Live Masjids
-
-Future category:
-
-**Featured Mosque**
-
-This is for functioning mosques the project intentionally highlights without implying that they are sacred or historically famous.
-
-First identified example:
-
-- Islamic Society of Wichita — Wichita, Kansas, USA
-
-`Live` should be treated as an attribute/badge where a reliable feed exists, not as the religious category itself.
-
-Future live filters may include Video, Audio, Full Salah, Adhan/Recitation, Khutbah, and 24/7.
-
-## Islamic Ruins & Lost Cities
-
-This remains a planned historical Web App section.
-
-First intended subject:
-
-**Minaret of Jam / probable lost Ghurid Firuzkuh — Ghor Province, Afghanistan**
-
-Each entry should include location, dynasty/period, significance, surviving remains, losses/destruction, preservation condition, maps, photographs where usable, and named sources.
-
-## Existing future content work
-
-Retained on the roadmap:
-
+- continued page-by-page Qur'an Reader construction;
+- card-to-content relationships;
 - Main Deck continuation / Everyday Islamic Speech;
+- Important Places cards one at a time;
 - The Hanafi School: Origins, Method & Legacy;
 - The Prophets of Islam;
 - The Life of Prophet Muhammad ﷺ;
-- continuing Important Places cards one at a time;
-- deeper Arabic literacy where it directly supports Qur'an/fiqh study;
-- qualified imam/scholar review;
 - Islamic Ruins & Lost Cities;
-- future educational games, with **Caravan Crossing** as the first selected game concept;
-- Advanced Learner Library content after its access shell and visual environment are accepted.
+- qualified imam/scholar review;
+- educational games, with Caravan Crossing as the first selected concept;
+- future Media additions and better source copies;
+- optional future expansion from one external subtitle track to multiple named tracks;
+- future adhan/audio work.
 
-## Documentation / project management
-
-The GitHub Wiki has been created and can later be polished into pages for Getting Started, Card Collections, Qur'an Reader, Prayer Tools, Makkah Live, Explorer, Media, Live Madrasas, Sources, Legal/Attribution, Roadmap, and Development History.
-
-The same roadmap should also be represented visually in the maintainer's GitHub Project (`users/dereksparks1982/projects/1`) when project-board editing is available.
+Roadmap entries are plans, not permission to build them.
 
 ## Legal/source policy
 
@@ -243,14 +271,16 @@ Core rules:
 - no claim of ownership over the Qur'an itself;
 - project-created original material is licensed CC BY-NC-SA 4.0 only where the project has the right to license it;
 - third-party films, photos, recordings, translations, datasets, libraries, and services retain their own status/terms;
-- source provenance should be preserved where provenance is actually known;
-- do not invent or imply provenance for a project copy when it cannot be reliably accounted for;
-- Media embedding/hosting does not make a third-party film project property;
-- the contemporary Shariah disagreement over intellectual property is documented rather than hidden;
+- hosting or self-hosting a project copy does not make the underlying film project property;
+- provenance should be recorded where actually known and should not be invented where it is not;
 - the project remains noncommercial and free of advertising, subscriptions, paywalls, and behavioral tracking by the Hanafi Learning Deck.
 
-## Approval rule
+## Recovery order
 
-Roadmap entries are plans, not automatic permission to build them.
+If work resumes after context loss:
 
-The maintainer's explicit approval remains the gate for active implementation.
+1. read `docs/COMPANY_BIBLE.md`;
+2. read this file;
+3. read `docs/V2.1_CLOSEOUT.md`;
+4. fetch the current affected source files before proposing or changing anything;
+5. get explicit approval for the next build scope.
