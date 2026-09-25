@@ -38,6 +38,7 @@
       this.speed = document.getElementById(options.speedId);
       this.fullscreenButton = document.getElementById(options.fullscreenButtonId);
       this.sourceLink = document.getElementById(options.sourceLinkId);
+      this.centerPlay = document.getElementById(options.centerPlayId);
       this.playerShell = this.video.closest(".dk-media-player") || this.video;
       this.pointerHideTimer = null;
 
@@ -60,6 +61,7 @@
       this.mediaSelect.addEventListener("change", () => this.loadMedia(this.mediaSelect.value));
       this.subtitleSelect.addEventListener("change", () => this.applySubtitleSelection());
       this.playButton.addEventListener("click", () => this.togglePlayback());
+      if (this.centerPlay) this.centerPlay.addEventListener("click", event => { event.stopPropagation(); this.togglePlayback(); });
       this.rewindButton.addEventListener("click", () => this.seekRelative(-10));
       this.forwardButton.addEventListener("click", () => this.seekRelative(10));
       this.fullscreenButton.addEventListener("click", () => this.toggleFullscreen());
@@ -95,9 +97,11 @@
       this.video.addEventListener("dblclick", () => this.toggleFullscreen());
       this.video.addEventListener("play", () => {
         this.playButton.textContent = "||";
+        if (this.centerPlay) this.centerPlay.hidden = true;
       });
       this.video.addEventListener("pause", () => {
         this.playButton.textContent = "^";
+        if (this.centerPlay && this.video.src) this.centerPlay.hidden = false;
       });
       this.video.addEventListener("loadedmetadata", () => {
         this.restorePosition();
@@ -111,6 +115,7 @@
       this.video.addEventListener("ended", () => {
         this.clearPosition();
         this.playButton.textContent = "^";
+        if (this.centerPlay && this.video.src) this.centerPlay.hidden = false;
       });
       this.video.addEventListener("error", () => {
         const code = this.video.error ? this.video.error.code : 0;
@@ -227,6 +232,7 @@
 
       if (catalogItem && catalogItem.ready === false) {
         this.video.hidden = true;
+        if (this.centerPlay) this.centerPlay.hidden = true;
         this.placeholder.hidden = false;
         this.placeholder.textContent = "This media file is currently unavailable on the Hanafi media server.";
         this.setStatus(`${entry.title} is listed but not currently available.`);
@@ -235,6 +241,7 @@
 
       this.video.src = this.backend.mediaUrl(mediaId);
       this.video.hidden = false;
+      if (this.centerPlay) this.centerPlay.hidden = false;
       this.placeholder.hidden = true;
       this.video.load();
       this.setStatus(`${entry.title} · self-hosted through Nougat Media Core.`);
