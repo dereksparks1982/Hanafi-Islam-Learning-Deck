@@ -11,16 +11,43 @@
   <link rel="stylesheet" href="../version-position.css?rev=20260923a">
   <link rel="stylesheet" href="../mobile-background.css?rev=20260923mobile2">
   <style>
-    .media-main{width:min(1000px,calc(100% - 2rem));margin:0 auto 3rem}
+    .media-main{width:min(1040px,calc(100% - 2rem));margin:0 auto 3rem}
     .media-header-row{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     .media-release{color:#d8b560;font-weight:700}
-    .media-panel,.media-info{margin-top:1.25rem;padding:1.25rem;border:1px solid rgba(216,181,96,.28);border-radius:20px;background:rgba(255,255,255,.04)}
-    .media-player{position:relative;width:100%;aspect-ratio:16/9;display:grid;place-items:center;overflow:hidden;border-radius:14px;background:#000}
-    .media-player video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
+    .media-panel{margin-top:1.25rem;padding:1.25rem;border:1px solid rgba(216,181,96,.28);border-radius:20px;background:rgba(255,255,255,.04)}
+    .media-toolbar{display:grid;grid-template-columns:minmax(0,1fr) minmax(160px,240px);gap:.9rem;align-items:end;margin-bottom:1rem}
+    .media-toolbar label,.dk-control-group label{display:block;color:#d8d2c2;font-size:.86rem;margin-bottom:.35rem}
+    .media-toolbar select,.dk-controls select{width:100%;min-height:42px;border-radius:9px;border:1px solid rgba(216,181,96,.35);background:#111;color:#eee;padding:.5rem .65rem}
+    .dk-media-player{overflow:hidden;border:1px solid rgba(216,181,96,.28);border-radius:14px;background:#050505}
+    .dk-video-stage{position:relative;width:100%;aspect-ratio:16/9;display:grid;place-items:center;background:#000}
+    .dk-video-stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000}
     .media-placeholder{max-width:680px;padding:1.2rem;color:#d8d2c2;line-height:1.6;text-align:center}
-    .media-status,.media-info p{color:#d8d2c2;line-height:1.65}
-    .media-info a{color:#d8b560}
+    .dk-controls{padding:.8rem;background:#101010;color:#eee}
+    .dk-timeline{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.8rem;align-items:center;margin-bottom:.7rem}
+    .dk-timeline input{width:100%}
+    .dk-time{font-variant-numeric:tabular-nums;white-space:nowrap;font-size:.88rem;color:#d8d2c2}
+    .dk-control-row{display:flex;gap:.55rem;align-items:center;flex-wrap:wrap}
+    .dk-control-row button{min-height:40px;border:1px solid rgba(216,181,96,.35);border-radius:8px;background:#1b1b1b;color:#f4f1e8;padding:.45rem .75rem;cursor:pointer}
+    .dk-control-row button:hover{background:#262626}
+    .dk-control-group{display:flex;align-items:center;gap:.4rem}
+    .dk-control-group label{margin:0;white-space:nowrap}
+    .dk-control-group input[type="range"]{width:110px}
+    .dk-control-group select{width:auto;min-width:90px}
+    .media-title-block{margin-top:1rem}
+    .media-title-block h2{margin:.15rem 0}
+    .media-edition,.media-status,.media-source{color:#d8d2c2;line-height:1.6}
+    .media-source a{color:#d8b560}
     [hidden]{display:none!important}
+    @media(max-width:680px){
+      .media-toolbar{grid-template-columns:1fr}
+      .dk-timeline{grid-template-columns:1fr}
+      .dk-time{text-align:right}
+      .dk-control-row{align-items:stretch}
+      .dk-control-row button{flex:1 1 auto}
+      .dk-control-group{width:100%}
+      .dk-control-group input[type="range"]{flex:1}
+      .dk-control-group select{flex:1}
+    }
   </style>
 </head>
 <body id="top">
@@ -34,26 +61,69 @@
   </header>
 
   <main class="media-main">
-    <section class="media-panel" aria-labelledby="tenCommandmentsHeading">
-      <p class="eyebrow">Self-hosted test</p>
-      <h2 id="tenCommandmentsHeading">The Ten Commandments (1923)</h2>
-      <div class="media-player">
-        <video id="tenCommandmentsVideo" controls playsinline preload="metadata" crossorigin="anonymous" hidden></video>
-        <div id="tenCommandmentsPlaceholder" class="media-placeholder">Connecting to the Hanafi media server…</div>
-      </div>
-      <p id="tenCommandmentsStatus" class="media-status" role="status" aria-live="polite"></p>
-      <p class="media-status">Source: <a href="https://www.youtube.com/watch?v=XLwq-SdJkic" target="_blank" rel="noopener noreferrer">YouTube</a>.</p>
-    </section>
+    <section class="media-panel" aria-labelledby="mediaPlayerHeading">
+      <p class="eyebrow">DK Media · Nougat Media Core</p>
 
-    <section class="media-panel" aria-labelledby="messageHeading">
-      <p class="eyebrow">English · no subtitles</p>
-      <h2 id="messageHeading">The Message (1976)</h2>
-      <div class="media-player">
-        <video id="messageVideo" controls playsinline preload="metadata" crossorigin="anonymous" hidden></video>
-        <div id="messagePlaceholder" class="media-placeholder">Connecting to the Hanafi media server…</div>
+      <div class="media-toolbar">
+        <div>
+          <label for="mediaSelect">Media</label>
+          <select id="mediaSelect" aria-label="Choose media"></select>
+        </div>
+        <div>
+          <label for="subtitleSelect">Subtitles</label>
+          <select id="subtitleSelect" aria-label="Subtitle track" disabled>
+            <option value="off">Off</option>
+          </select>
+        </div>
       </div>
-      <p id="messageStatus" class="media-status" role="status" aria-live="polite"></p>
-      <p class="media-status">Source: <a href="https://www.youtube.com/watch?v=vUAOCnIN1kE" target="_blank" rel="noopener noreferrer">YouTube</a>.</p>
+
+      <div class="dk-media-player">
+        <div class="dk-video-stage">
+          <video id="mediaVideo" playsinline preload="metadata" crossorigin="anonymous" hidden></video>
+          <div id="mediaPlaceholder" class="media-placeholder">Connecting to the Hanafi media server…</div>
+        </div>
+
+        <div class="dk-controls" aria-label="DK Media playback controls">
+          <div class="dk-timeline">
+            <input id="mediaTimeline" type="range" min="0" max="1000" value="0" step="1" aria-label="Seek">
+            <span id="mediaTime" class="dk-time">00:00:00 / 00:00:00</span>
+          </div>
+
+          <div class="dk-control-row">
+            <button id="mediaRewind" type="button">−10s</button>
+            <button id="mediaPlay" type="button">Play</button>
+            <button id="mediaForward" type="button">+30s</button>
+
+            <div class="dk-control-group">
+              <label for="mediaVolume">Volume</label>
+              <input id="mediaVolume" type="range" min="0" max="100" value="100" step="1">
+              <span id="mediaVolumeLabel">100%</span>
+            </div>
+
+            <div class="dk-control-group">
+              <label for="mediaSpeed">Speed</label>
+              <select id="mediaSpeed">
+                <option value="0.5">0.5×</option>
+                <option value="0.75">0.75×</option>
+                <option value="1" selected>1×</option>
+                <option value="1.25">1.25×</option>
+                <option value="1.5">1.5×</option>
+                <option value="2">2×</option>
+              </select>
+            </div>
+
+            <button id="mediaFullscreen" type="button">Fullscreen</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="media-title-block">
+        <h2 id="mediaPlayerHeading">Media Player</h2>
+        <h2 id="mediaTitle"></h2>
+        <p id="mediaEdition" class="media-edition"></p>
+        <p id="mediaStatus" class="media-status" role="status" aria-live="polite"></p>
+        <p class="media-source">Source: <a id="mediaSourceLink" href="#" target="_blank" rel="noopener noreferrer">Source</a>.</p>
+      </div>
     </section>
   </main>
 
@@ -63,48 +133,49 @@
 
   <script src="nougat-config.js?rev=20260925a"></script>
   <script src="nougat-backend.js?rev=20260924c"></script>
+  <script src="dk-media-player.js?rev=20260925a"></script>
   <script>
     (() => {
-      const nougat = window.HanafiNougatBackend;
-
-      function connectPlayer(videoId, placeholderId, statusId, mediaId, label) {
-        const video = document.getElementById(videoId);
-        const placeholder = document.getElementById(placeholderId);
-        const status = document.getElementById(statusId);
-
-        if (!(nougat && nougat.enabled())) {
-          placeholder.textContent = "The public Hanafi media endpoint is currently disabled.";
-          status.textContent = `${label} is mapped but not being served.`;
-          return;
+      const library = [
+        {
+          id: "ten-commandments-1923",
+          title: "The Ten Commandments (1923)",
+          edition: "Self-hosted test copy",
+          sourceUrl: "https://www.youtube.com/watch?v=XLwq-SdJkic",
+          sourceLabel: "YouTube"
+        },
+        {
+          id: "the-message-1976-english",
+          title: "The Message (1976)",
+          edition: "English · no subtitles",
+          sourceUrl: "https://www.youtube.com/watch?v=vUAOCnIN1kE",
+          sourceLabel: "YouTube"
         }
+      ];
 
-        video.src = nougat.mediaUrl(mediaId);
-        video.hidden = false;
-        placeholder.hidden = true;
-        video.load();
-        status.textContent = `${label} · self-hosted through Nougat Media Core.`;
+      const player = new window.DKMediaWebPlayer({
+        backend: window.HanafiNougatBackend,
+        library,
+        videoId: "mediaVideo",
+        placeholderId: "mediaPlaceholder",
+        statusId: "mediaStatus",
+        titleId: "mediaTitle",
+        editionId: "mediaEdition",
+        mediaSelectId: "mediaSelect",
+        subtitleSelectId: "subtitleSelect",
+        timelineId: "mediaTimeline",
+        timeLabelId: "mediaTime",
+        playButtonId: "mediaPlay",
+        rewindButtonId: "mediaRewind",
+        forwardButtonId: "mediaForward",
+        volumeId: "mediaVolume",
+        volumeLabelId: "mediaVolumeLabel",
+        speedId: "mediaSpeed",
+        fullscreenButtonId: "mediaFullscreen",
+        sourceLinkId: "mediaSourceLink"
+      });
 
-        video.addEventListener("error", () => {
-          const code = video.error ? video.error.code : 0;
-          status.textContent = `Playback error${code ? ` (media code ${code})` : ""}.`;
-        });
-      }
-
-      connectPlayer(
-        "tenCommandmentsVideo",
-        "tenCommandmentsPlaceholder",
-        "tenCommandmentsStatus",
-        "ten-commandments-1923",
-        "The Ten Commandments (1923)"
-      );
-
-      connectPlayer(
-        "messageVideo",
-        "messagePlaceholder",
-        "messageStatus",
-        "the-message-1976-english",
-        "The Message (1976) · English · no subtitles"
-      );
+      player.initialize();
     })();
   </script>
 </body>
