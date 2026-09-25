@@ -37,6 +37,10 @@ The **v2.1 DK Media single-player Web implementation** is the accepted Media-pla
 - **Nougat Media Plus** is used only for useful server/media infrastructure. Its desktop military/tactical player UI is not the Hanafi Media-player design.
 - Jellyfin remains backend infrastructure and is not exposed as the user-facing Hanafi player.
 - Future Media additions should normally be added to the library/manifest and fed into the accepted single player rather than creating new player instances.
+- The Media library is film-first: card view is the default, with a compact list-view toggle. Both views open the same dedicated film page rather than starting playback directly.
+- A film page may expose multiple clearly labeled editions/languages through the same accepted single player. Editions do not become duplicate top-level library cards.
+- Library cards are artwork-led. Ratings, synopsis, cast/crew, source links, IMDb/Wikipedia/Rotten Tomatoes references, and other detailed metadata belong on the individual film page rather than the front card.
+- Movie card artwork is resolved from metadata and cached locally in the browser using IndexedDB; poster payloads do not need to be checked into GitHub.
 - The previous Google Drive iframe player and its old mobile iframe workaround are historical implementations and are no longer the accepted Media baseline.
 
 For the **Important Places of the Muslim World** expansion, the rule is especially strict:
