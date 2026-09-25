@@ -114,6 +114,7 @@ local Hosted media files
 Important points:
 
 - movie files remain on the maintainer's own machine;
+- Media card artwork is film-specific: Al-Risalah uses Arabic-production artwork, The Message retains its English-production artwork, Lion of the Desert has a per-film crop adjustment to remove the source image's white top strip, and The Ten Commandments (1923) resolves its poster through the Wikimedia Commons API before local caching;
 - GitHub contains interface/server code and stable IDs, not the movie payloads;
 - Jellyfin stays backend infrastructure and is not the visible player;
 - the bridge exposes only manifest-listed IDs;
