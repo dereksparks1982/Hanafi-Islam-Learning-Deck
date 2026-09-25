@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#03130e">
+  <title>Advanced Learner Library</title>
+  <script>
+    if (sessionStorage.getItem("hanafi-advanced-library-unlocked") !== "1") {
+      window.location.replace("../");
+    }
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --library-gold: #d9b45f;
+      --library-gold-soft: #b18b43;
+      --library-ink: #06110d;
+      --library-wood: #25170e;
+      --library-wood-dark: #100a06;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { width: 100%; min-height: 100%; }
+    html { background: #03130e; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      overflow: hidden;
+      background-color: #03130e;
+      background-image: url("../assets/hanafi-advanced-library-background-approved.png?rev=20260924a");
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #f0dfad;
+    }
+
+    body.library-viewer-open { overflow: hidden; }
+
+    main {
+      position: relative;
+      min-height: 100dvh;
+      isolation: isolate;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .library-shelf-shell {
+      position: fixed;
+      left: 50%;
+      bottom: max(2.2vh, env(safe-area-inset-bottom));
+      width: min(1120px, 86vw);
+      height: clamp(170px, 22vh, 240px);
+      z-index: 20;
+      transform: translateX(-50%);
+      display: grid;
+      grid-template-rows: 1fr 22px;
+      perspective: 900px;
+      filter: drop-shadow(0 20px 30px rgba(0,0,0,.55));
+    }
+
+    .library-shelf-scroll {
+      position: relative;
+      display: flex;
+      align-items: end;
+      gap: 3px;
+      width: 100%;
+      min-width: 0;
+      padding: 24px 30px 7px;
+      overflow-x: auto;
+      overflow-y: visible;
+      scrollbar-width: none;
+      overscroll-behavior-inline: contain;
+      scroll-behavior: smooth;
+      touch-action: pan-x;
+      -webkit-overflow-scrolling: touch;
+      background:
+        linear-gradient(90deg, rgba(3,11,8,.36), transparent 8% 92%, rgba(3,11,8,.36)),
+        linear-gradient(180deg, rgba(6,18,13,.12), rgba(5,12,9,.38));
+      border-inline: 1px solid rgba(199,152,65,.15);
+    }
+
+    .library-shelf-scroll::-webkit-scrollbar { display: none; }
+
+    .library-shelf-scroll::before,
+    .library-shelf-scroll::after {
+      content: "";
+      flex: 0 0 18px;
+      height: 1px;
+    }
+
+    .library-shelf-plank {
+      position: relative;
+      border: 1px solid rgba(215,168,76,.52);
+      border-radius: 2px 2px 8px 8px;
+      background:
+        linear-gradient(180deg, rgba(224,178,91,.16), transparent 18%),
+        repeating-linear-gradient(94deg, rgba(255,255,255,.018) 0 2px, transparent 2px 17px),
+        linear-gradient(180deg, #3c2514, #1a0f08 58%, #0b0704);
+      box-shadow:
+        inset 0 1px 0 rgba(255,217,130,.26),
+        inset 0 -5px 9px rgba(0,0,0,.58),
+        0 6px 12px rgba(0,0,0,.48);
+    }
+
+    .library-shelf-plank::after {
+      content: "";
+      position: absolute;
+      left: 2%;
+      right: 2%;
+      top: 5px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(226,181,89,.5), transparent);
+    }
+
+    .library-book {
+      --book-h: 150px;
+      --book-w: 42px;
+      --cover-w: calc(var(--book-h) * .67);
+      --book-lean: 0deg;
+      position: relative;
+      flex: 0 0 var(--book-w);
+      width: var(--book-w);
+      height: var(--book-h);
+      padding: 0;
+      margin: 0;
+      border: 0;
+      outline: 0;
+      cursor: pointer;
+      appearance: none;
+      color: #dfc078;
+      background: transparent;
+      transform-origin: 50% 100%;
+      transform: rotate(var(--book-lean));
+      transition: transform .2s ease, filter .2s ease;
+      touch-action: manipulation;
+      perspective: 760px;
+      overflow: visible;
+    }
+
+    .library-book:focus-visible .book-spine {
+      outline: 2px solid #e2bd64;
+      outline-offset: 2px;
+    }
+
+    .library-book.is-selected {
+      z-index: 15;
+      transform: rotate(0deg) translateY(-6px);
+      filter: brightness(1.04);
+    }
+
+    .book-spine {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 3;
+      border: 1px solid rgba(211,168,81,.55);
+      border-radius: 3px 3px 1px 1px;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.35), transparent 18% 73%, rgba(255,220,137,.08) 75%, rgba(0,0,0,.22)),
+        linear-gradient(180deg, rgba(255,219,130,.07), transparent 12% 88%, rgba(0,0,0,.36)),
+        var(--book-color, #234c39);
+      box-shadow:
+        inset 4px 0 7px rgba(0,0,0,.28),
+        inset -2px 0 4px rgba(255,230,161,.05),
+        1px 3px 6px rgba(0,0,0,.45);
+      transition: opacity .18s ease, filter .18s ease;
+    }
+
+    .library-book.is-selected .book-spine {
+      opacity: .42;
+      filter: brightness(.82);
+    }
+
+    .book-spine::before,
+    .book-spine::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      height: 1px;
+      background: rgba(221,178,84,.72);
+      box-shadow: 0 2px 0 rgba(0,0,0,.38);
+    }
+
+    .book-spine::before { top: 12px; }
+    .book-spine::after { bottom: 12px; }
+
+    .book-spine-title {
+      max-height: calc(100% - 38px);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      overflow: hidden;
+      color: var(--spine-text, #e0bd6c);
+      font-size: clamp(.55rem, .72vw, .72rem);
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-shadow: 0 1px 2px rgba(0,0,0,.62);
+      white-space: nowrap;
+    }
+
+    .book-cover {
+      position: absolute;
+      left: calc(var(--book-w) * .48);
+      bottom: 0;
+      width: var(--cover-w);
+      height: var(--book-h);
+      z-index: 4;
+      transform-origin: 0 50%;
+      transform: rotateY(-89deg);
+      opacity: 0;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      transition: transform .36s cubic-bezier(.2,.75,.25,1), opacity .16s ease;
+      pointer-events: none;
+      filter: drop-shadow(14px 18px 15px rgba(0,0,0,.44));
+    }
+
+    .library-book.is-selected .book-cover {
+      transform: rotateY(0deg);
+      opacity: 1;
+    }
+
+    .book-cover img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 1px solid rgba(222,181,80,.72);
+      border-radius: 2px 7px 7px 2px;
+      background: #17120a;
+      box-shadow:
+        inset 7px 0 8px rgba(0,0,0,.2),
+        0 0 0 1px rgba(43,27,12,.7);
+    }
+
+    .library-viewer[hidden] { display: none !important; }
+
+    .library-viewer {
+      position: fixed;
+      inset: 0;
+      z-index: 2147483000;
+      display: grid;
+      place-items: center;
+      padding:
+        max(12px, env(safe-area-inset-top))
+        max(12px, env(safe-area-inset-right))
+        max(12px, env(safe-area-inset-bottom))
+        max(12px, env(safe-area-inset-left));
+      background: rgba(0, 7, 5, .88);
+      backdrop-filter: blur(7px) saturate(.7);
+      -webkit-backdrop-filter: blur(7px) saturate(.7);
+    }
+
+    .library-viewer-panel {
+      width: min(1180px, 96vw);
+      height: min(94dvh, 980px);
+      min-height: 320px;
+      display: grid;
+      grid-template-rows: 52px 1fr;
+      overflow: hidden;
+      border: 1px solid rgba(219, 177, 82, .7);
+      border-radius: 10px;
+      background: #070e0a;
+      box-shadow:
+        0 30px 90px rgba(0,0,0,.72),
+        inset 0 0 0 1px rgba(255,231,168,.05);
+    }
+
+    .library-viewer-bar {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 0 8px 0 18px;
+      border-bottom: 1px solid rgba(216,174,80,.42);
+      background:
+        linear-gradient(180deg, rgba(54,85,58,.45), rgba(8,29,21,.76)),
+        #0a1d15;
+      box-shadow: inset 0 1px 0 rgba(255,225,150,.08);
+    }
+
+    .library-viewer-title {
+      min-width: 0;
+      overflow: hidden;
+      color: #e5c675;
+      font-size: clamp(.8rem, 1.5vw, 1rem);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .library-viewer-close {
+      width: 40px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(218,177,84,.48);
+      border-radius: 6px;
+      color: #efd68f;
+      background: rgba(9,38,27,.82);
+      font: 400 1.65rem/1 Georgia, serif;
+      cursor: pointer;
+    }
+
+    .library-viewer-close:hover,
+    .library-viewer-close:focus-visible {
+      background: rgba(21,72,51,.95);
+      border-color: #e0bb60;
+      outline: none;
+    }
+
+    .library-viewer-content {
+      min-height: 0;
+      position: relative;
+      background: #141811;
+    }
+
+    .library-pdf-frame,
+    .library-video-frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #e9e2cf;
+    }
+
+    .library-video-frame {
+      object-fit: contain;
+      background: #000;
+    }
+
+    .library-pdf-frame[hidden],
+    .library-video-frame[hidden] { display: none !important; }
+
+    @media (max-width: 760px) {
+      body {
+        background-attachment: scroll;
+        background-position: center center;
+      }
+
+      .library-shelf-shell {
+        width: 94vw;
+        height: clamp(150px, 24vh, 205px);
+        bottom: max(1vh, env(safe-area-inset-bottom));
+      }
+
+      .library-shelf-scroll { padding-inline: 18px; }
+
+      .library-viewer {
+        padding: max(5px, env(safe-area-inset-top)) max(5px, env(safe-area-inset-right)) max(5px, env(safe-area-inset-bottom)) max(5px, env(safe-area-inset-left));
+      }
+
+      .library-viewer-panel {
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+      }
+    }
+
+    @media (max-height: 520px) and (orientation: landscape) {
+      .library-shelf-shell {
+        height: 135px;
+        width: 90vw;
+      }
+      .library-viewer-panel { grid-template-rows: 44px 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main aria-labelledby="libraryTitle">
+    <h1 id="libraryTitle" class="visually-hidden">Advanced Learner Library</h1>
+
+    <section class="library-shelf-shell" aria-label="Library shelf">
+      <div id="libraryShelf" class="library-shelf-scroll" tabindex="0">
+        <button
+          class="library-book"
+          type="button"
+          data-book-id="the-green-book"
+          data-title="The Green Book"
+          data-kind="pdf"
+          data-src="books/the-green-book.pdf"
+          aria-label="The Green Book by Muammar Al Qaddafi"
+          aria-pressed="false"
+          style="--book-h:158px; --book-w:46px; --book-lean:-1deg; --book-color:#c2a53b; --spine-text:#113425;"
+        >
+          <span class="book-spine">
+            <span class="book-spine-title">The Green Book</span>
+          </span>
+          <span class="book-cover" aria-hidden="true">
+            <img src="books/the-green-book-cover.png" alt="">
+          </span>
+        </button>
+      </div>
+      <div class="library-shelf-plank" aria-hidden="true"></div>
+    </section>
+  </main>
+
+  <section id="libraryViewer" class="library-viewer" hidden aria-modal="true" role="dialog" aria-labelledby="libraryViewerTitle">
+    <div class="library-viewer-panel">
+      <header class="library-viewer-bar">
+        <div id="libraryViewerTitle" class="library-viewer-title">Library Reader</div>
+        <button id="libraryViewerClose" class="library-viewer-close" type="button" aria-label="Close reader">×</button>
+      </header>
+      <div class="library-viewer-content">
+        <iframe id="libraryPdfFrame" class="library-pdf-frame" title="Book reader" hidden></iframe>
+        <video id="libraryVideoFrame" class="library-video-frame" controls playsinline hidden></video>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const shelf = document.getElementById("libraryShelf");
+      const viewer = document.getElementById("libraryViewer");
+      const viewerTitle = document.getElementById("libraryViewerTitle");
+      const viewerClose = document.getElementById("libraryViewerClose");
+      const pdfFrame = document.getElementById("libraryPdfFrame");
+      const videoFrame = document.getElementById("libraryVideoFrame");
+      let selectedBook = null;
+      let lastTouchBook = null;
+      let lastTouchAt = 0;
+      let openedBook = null;
+
+      const books = () => Array.from(shelf.querySelectorAll(".library-book"));
+
+      const setSelectedBook = book => {
+        selectedBook = book || null;
+        books().forEach(item => {
+          const selected = item === selectedBook;
+          item.classList.toggle("is-selected", selected);
+          item.setAttribute("aria-pressed", selected ? "true" : "false");
+        });
+      };
+
+      const closeViewer = () => {
+        if (viewer.hidden) return;
+        viewer.hidden = true;
+        document.body.classList.remove("library-viewer-open");
+        pdfFrame.hidden = true;
+        pdfFrame.removeAttribute("src");
+        videoFrame.pause();
+        videoFrame.hidden = true;
+        videoFrame.removeAttribute("src");
+        videoFrame.load();
+        const focusTarget = openedBook;
+        openedBook = null;
+        if (focusTarget) requestAnimationFrame(() => focusTarget.focus({ preventScroll: true }));
+      };
+
+      const openViewer = book => {
+        if (!book || !book.dataset.src) return;
+        setSelectedBook(null);
+        openedBook = book;
+        viewerTitle.textContent = book.dataset.title || "Library Reader";
+        const kind = book.dataset.kind || "pdf";
+
+        if (kind === "video") {
+          pdfFrame.hidden = true;
+          pdfFrame.removeAttribute("src");
+          videoFrame.src = book.dataset.src;
+          videoFrame.hidden = false;
+        } else {
+          videoFrame.pause();
+          videoFrame.hidden = true;
+          videoFrame.removeAttribute("src");
+          pdfFrame.src = `${book.dataset.src}#view=FitH`;
+          pdfFrame.hidden = false;
+        }
+
+        viewer.hidden = false;
+        document.body.classList.add("library-viewer-open");
+        requestAnimationFrame(() => viewerClose.focus({ preventScroll: true }));
+      };
+
+      const openBook = book => {
+        if (!book) return;
+        book.dispatchEvent(new CustomEvent("library:open-book", { bubbles: true, detail: { id: book.dataset.bookId } }));
+      };
+
+      shelf.addEventListener("wheel", event => {
+        if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+        if (shelf.scrollWidth <= shelf.clientWidth) return;
+        event.preventDefault();
+        shelf.scrollLeft += event.deltaY;
+      }, { passive: false });
+
+      shelf.addEventListener("click", event => {
+        if (!viewer.hidden) return;
+        const book = event.target.closest(".library-book");
+        if (!book) return;
+        setSelectedBook(book);
+      });
+
+      shelf.addEventListener("dblclick", event => {
+        const book = event.target.closest(".library-book");
+        if (!book) return;
+        event.preventDefault();
+        openBook(book);
+      });
+
+      shelf.addEventListener("pointerup", event => {
+        if (event.pointerType === "mouse" || !viewer.hidden) return;
+        const book = event.target.closest(".library-book");
+        if (!book) return;
+        const now = Date.now();
+        if (lastTouchBook === book && now - lastTouchAt < 360) {
+          lastTouchBook = null;
+          lastTouchAt = 0;
+          openBook(book);
+          return;
+        }
+        lastTouchBook = book;
+        lastTouchAt = now;
+        setSelectedBook(book);
+      });
+
+      document.addEventListener("library:open-book", event => {
+        const book = event.target.closest?.(".library-book");
+        if (book) openViewer(book);
+      });
+
+      viewerClose.addEventListener("click", closeViewer);
+
+      viewer.addEventListener("click", event => {
+        if (event.target === viewer) closeViewer();
+      });
+
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !viewer.hidden) {
+          event.preventDefault();
+          closeViewer();
+        }
+      });
+
+      document.addEventListener("click", event => {
+        if (!viewer.hidden) return;
+        if (event.target.closest(".library-book")) return;
+        setSelectedBook(null);
+      });
+
+      window.HanafiLibraryShelf = {
+        shelf,
+        setSelectedBook,
+        openBook,
+        openViewer,
+        closeViewer
+      };
+    })();
+  </script>
+</body>
+</html>
