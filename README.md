@@ -1,4 +1,4 @@
-<h1 align="center">Hanafi Learning Deck v2.1</h1>
+<h1 align="center">Hanafi Learning Deck v2.2</h1>
 
 <div align="center">
 
@@ -24,11 +24,11 @@ A growing, printable, offline-capable, and mobile-friendly library for learning 
 
 The project began as a small personal study deck. It has grown into a connected learning system built around the same idea: useful Islamic material should be clear, traceable, practical, and easy to return to every day.
 
-> **Current published checkpoint:** **v2.1**
+> **Current published checkpoint:** **v2.2**
 >
-> **v2.1 status:** **closed and accepted**
+> **v2.2 status:** **closed and accepted**
 >
-> **Next public version:** **not assigned**
+> **Next planned build:** **v2.3**
 >
 > **Published card library:** **209 cards across five independent sets**
 >
@@ -49,6 +49,8 @@ Current work is maintained on **`main`**.
 - **Holy Places Explorer:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/explore/
 - **Media:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/
 - **Live:** https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/live/
+- **v2.2 closeout:** [`docs/V2.2_CLOSEOUT.md`](docs/V2.2_CLOSEOUT.md)
+- **v2.3 Media artwork plan:** [`docs/V2.3_MEDIA_ARTWORK_PLAN.md`](docs/V2.3_MEDIA_ARTWORK_PLAN.md)
 - **v2.1 closeout:** [`docs/V2.1_CLOSEOUT.md`](docs/V2.1_CLOSEOUT.md)
 - **Current handoff:** [`docs/CURRENT_HANDOFF.md`](docs/CURRENT_HANDOFF.md)
 - **Company Bible:** [`docs/COMPANY_BIBLE.md`](docs/COMPANY_BIBLE.md)
