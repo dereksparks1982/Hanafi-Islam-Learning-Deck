@@ -19,6 +19,14 @@
     return `${base}${path}${query}`;
   }
 
+  window.HanafiPrivateNougatBackend = Object.freeze({
+    enabled,
+    healthUrl: () => route("/nougat/v1/health"),
+    catalogUrl: () => route("/nougat/v1/private/catalog"),
+    mediaUrl: id => route("/nougat/v1/private/media", id),
+    subtitleUrl: id => route("/nougat/v1/private/subtitle", id)
+  });
+
   window.HanafiNougatBackend = Object.freeze({
     enabled,
     healthUrl: () => route("/nougat/v1/health"),
