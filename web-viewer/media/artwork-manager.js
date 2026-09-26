@@ -32,4 +32,12 @@ el.querySelector("[data-save]").onclick=async()=>{status.textContent="Saving…"
 el.querySelector("[data-reset]").onclick=async()=>{await del(SETTINGS,settingKey(m.id));await del(POSTERS,customKey(m.id));status.textContent="Automatic artwork restored.";const r=await resolve(m);img.src=r.url||"";scale.value=r.crop.scale||1;x.value=parseFloat(r.crop.x)||50;y.value=parseFloat(r.crop.y)||50;paint();chosen={kind:"current",url:r.url,blob:null};if(onSaved)await onSaved(r)};
 }
 window.HanafiArtworkManager={open,resolve,setting,chooseArtworkFolder,localFolderMatch};
+if(location.pathname.includes("/advanced-library/")){
+  document.addEventListener("DOMContentLoaded",()=>{
+    const nav=document.querySelector(".library-mode-nav"),movies=document.getElementById("moviesMode"),books=document.getElementById("booksMode");
+    if(!nav||!movies||!books)return;
+    nav.insertBefore(movies,books);
+    movies.click();
+  });
+}
 })();
