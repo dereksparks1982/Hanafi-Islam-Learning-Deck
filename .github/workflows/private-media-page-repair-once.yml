@@ -1,0 +1,103 @@
+name: Apply Private Media page repair
+
+on:
+  push:
+    paths:
+      - '.github/workflows/private-media-page-repair-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Make Private Movies match Media page styling
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          page = Path('web-viewer/advanced-library/index.html')
+          text = page.read_text(encoding='utf-8')
+
+          old_css = '''    .private-movies[hidden],.library-shelf-shell[hidden]{display:none!important}
+    .private-movies{position:fixed;top:78px;bottom:5vh;left:50%;z-index:21;width:min(1120px,calc(100% - 2rem));transform:translateX(-50%);overflow:auto;padding:0;border:0!important;border-radius:0;background:none!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+    .private-movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+    .private-movie-card{display:block;text-decoration:none;color:inherit;border:1px solid rgba(216,181,96,.28);border-radius:16px;overflow:hidden;background:#101412;cursor:pointer;text-align:left;padding:0;transition:transform .15s,border-color .15s}
+    .private-movie-card:hover,.private-movie-card:focus-visible{transform:translateY(-2px);border-color:#d8b560;outline:none}
+    .private-movie-poster{aspect-ratio:2/3;position:relative;display:grid;place-items:end start;padding:0;overflow:hidden;background:linear-gradient(160deg,#17271f,#050706 70%);font:600 1rem Georgia,serif}.private-movie-poster img{display:block;width:100%;height:100%;object-fit:cover}
+    .private-movie-title{display:block;padding:.7rem .8rem;font-size:1rem;line-height:1.3}
+    @media(max-width:520px){.private-movie-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}}
+'''
+          new_css = '''    .private-movies[hidden],.library-shelf-shell[hidden]{display:none!important}
+    .private-movies{position:fixed;top:72px;bottom:0;left:50%;z-index:21;width:min(1120px,calc(100% - 2rem));transform:translateX(-50%);overflow:auto;padding:0 0 3rem;border:0!important;border-radius:0!important;background:transparent!important;background-color:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+    .private-media-head{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin:1rem 0}
+    .private-media-head h2{font-size:1.5rem;margin:0;color:#f4f1e8}
+    .private-media-head p{margin:.25rem 0;color:#d8d2c2}
+    .private-media-label{margin:0 0 .35rem!important;color:#d8b560!important;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}
+    .private-movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+    .private-movie-card{display:block;text-decoration:none;color:inherit;border:1px solid rgba(216,181,96,.28);border-radius:16px;overflow:hidden;background:#101412;color:inherit;cursor:pointer;text-align:left;padding:0;transition:transform .15s,border-color .15s}
+    .private-movie-card:hover,.private-movie-card:focus-visible{transform:translateY(-2px);border-color:#d8b560;outline:none}
+    .private-movie-poster{aspect-ratio:2/3;position:relative;display:grid;place-items:end start;padding:0;overflow:hidden;background:linear-gradient(160deg,#17271f,#050706 70%);font:600 1rem Georgia,serif}.private-movie-poster img{display:block;width:100%;height:100%;object-fit:cover}
+    .private-movie-title{display:block;padding:.7rem .8rem;font-size:1rem;line-height:1.3}
+    @media(max-width:520px){.private-media-head{margin:.75rem 0}.private-movie-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}}
+'''
+          if old_css not in text:
+              raise SystemExit('Current Private Movies CSS block not found')
+          text = text.replace(old_css, new_css, 1)
+
+          old_markup = '''    <section id="privateMovies" class="private-movies" hidden aria-label="Private movie collection">
+      <div id="privateMovieGrid" class="private-movie-grid"></div>
+    </section>
+'''
+          new_markup = '''    <section id="privateMovies" class="private-movies" hidden aria-label="Private Media">
+      <div class="private-media-head">
+        <div>
+          <p class="private-media-label">Hanafi Learning Deck</p>
+          <h2>Private Media</h2>
+          <p>Choose a film to open its private movie page.</p>
+        </div>
+      </div>
+      <div id="privateMovieGrid" class="private-movie-grid"></div>
+    </section>
+'''
+          if old_markup not in text:
+              raise SystemExit('Current Private Movies markup not found')
+          text = text.replace(old_markup, new_markup, 1)
+          page.write_text(text, encoding='utf-8')
+
+          sw = Path('web-viewer/sw.js')
+          sw_text = sw.read_text(encoding='utf-8')
+          old_rev = 'const SHELL_REV = "20260925-private-media-match-1";'
+          new_rev = 'const SHELL_REV = "20260925-private-media-page-2";'
+          if old_rev not in sw_text:
+              raise SystemExit('Current service-worker revision not found')
+          sw.write_text(sw_text.replace(old_rev, new_rev, 1), encoding='utf-8')
+          PY
+
+      - name: Verify exact requested changes
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -F '<h2>Private Media</h2>' web-viewer/advanced-library/index.html
+          grep -F 'background-color:transparent!important' web-viewer/advanced-library/index.html
+          ! grep -F '4 private movies' web-viewer/advanced-library/index.html
+          ! grep -F 'privateMovieStatus' web-viewer/advanced-library/index.html
+          grep -F 'const SHELL_REV = "20260925-private-media-page-2";' web-viewer/sw.js
+          git diff --check
+
+      - name: Commit and remove one-time workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/private-media-page-repair-once.yml
+          git config user.name 'Derek Sparks'
+          git config user.email 'dereksparks1982@users.noreply.github.com'
+          git add web-viewer/advanced-library/index.html web-viewer/sw.js .github/workflows/private-media-page-repair-once.yml
+          git commit -m 'Make Private Media match Media page styling'
+          git push origin HEAD:main
