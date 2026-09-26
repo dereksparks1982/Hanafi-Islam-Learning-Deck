@@ -1,3 +1,14 @@
+## v2.3 — Media artwork manager and movie-library refinement
+
+- Closed and accepted by maintainer on 2026-09-25.
+- Added the movie artwork-management workflow with automatic, selected, URL, and local artwork handling plus persistent IndexedDB storage.
+- Established film-first movie cards and dedicated movie pages while preserving the accepted single DK Media player.
+- Added local Movie Cards folder matching and manual artwork controls.
+- Locked the movie-card fit rule: when source artwork does not fit the enclosure, clone/recreate the artwork at the correct card dimensions rather than repeatedly fighting it with CSS crop/zoom. Finished artwork must have no white bars and must preserve important title/artwork content.
+- Locked cache behavior: deliberate artwork changes receive a new cacheKey; the current revision is cached locally so updates appear promptly without repeated remote downloads.
+- Documented Plex-style metadata/artwork direction and future movie/TV-ready artwork architecture.
+- Retained poster binaries outside GitHub by default.
+
 # Changelog
 
 ## v2.2 — Media library and player refinement — closed
