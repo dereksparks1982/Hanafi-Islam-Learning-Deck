@@ -399,9 +399,10 @@
     .private-library-head{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin:1rem 0}
     .private-library-head h2{font-family:Georgia,"Times New Roman",serif;font-size:1.5rem;margin:0;color:#f4f1e8}
     .private-library-head p{margin:.35rem 0 0;color:#d8d2c2}
+    .private-server-notice{margin:.15rem 0 1rem;padding:.8rem 1rem;border:1px solid rgba(216,181,96,.3);border-radius:12px;background:rgba(216,181,96,.07);color:#e7dfcc;line-height:1.55}
     .private-view-toggle{display:flex;gap:.4rem}
     .private-view-toggle button{border:1px solid rgba(216,181,96,.35);background:#111;color:#eee;border-radius:9px;padding:.6rem .85rem;cursor:pointer}
-    .private-view-toggle button[aria-pressed="true"]{background:#d8b560;color:#111}
+    .private-view-toggle button[aria-pressed="true"]{background:#d9b45f;color:#111}
     .private-movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
     .private-movie-card{display:block;text-decoration:none;color:inherit;border:1px solid rgba(216,181,96,.28);border-radius:16px;overflow:hidden;background:#101412;transition:transform .15s,border-color .15s}
     .private-movie-card:hover{transform:translateY(-2px);border-color:#d8b560}
@@ -458,13 +459,14 @@
       <div class="private-library-head">
         <div>
           <h2>Films</h2>
-          <p>Choose a film to view editions, subtitles, details and sources.</p>
+          <p>Choose a film to play.</p>
         </div>
         <div class="private-view-toggle" aria-label="Private Media view">
           <button id="privateCards" type="button" aria-pressed="true">Cards</button>
           <button id="privateList" type="button" aria-pressed="false">List</button>
         </div>
       </div>
+      <p class="private-server-notice"><strong>Private home server:</strong> These films are hosted from a private home server. A film may take up to 30 seconds to begin loading.</p>
       <section id="privateMovieGrid" class="private-movie-grid" aria-label="Private films"></section>
       <p class="private-tech-credit">DK Media · Nougat Media Core</p>
     </section>
