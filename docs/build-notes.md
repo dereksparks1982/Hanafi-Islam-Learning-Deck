@@ -132,9 +132,9 @@ When the maintainer says an image is approved or says that nothing else should c
 
 Verify first, transfer the approved binary, verify again.
 
-## v2.1 self-hosted Media path
+## Current self-hosted Media path
 
-The v2.1 Media system replaced the old Google Drive iframe path with a self-hosted architecture built from selected Nougat Media Plus server work.
+The current Media system, established in v2.1 and retained through v2.3, replaced the old Google Drive iframe path with a self-hosted architecture built from selected Nougat Media Plus server work.
 
 Accepted flow:
 
@@ -160,7 +160,7 @@ GitHub Pages Web App
 
 Do not revive old Safari/codec theories when the evidence points to routing. Diagnose the current failure from current evidence first.
 
-## v2.1 DK Media Web player
+## Current DK Media Web player
 
 The browser player is based on the separate DK Media Player project, but it is a Web implementation rather than the desktop Python/libVLC executable.
 
@@ -179,7 +179,7 @@ The current player code lives in:
 
 ## External subtitle handling
 
-Current v2.1 manifest format has one optional subtitle path per media item:
+Current manifest format has one optional subtitle path per media item:
 
 ```text
 id<TAB>absolute media path<TAB>MIME type<TAB>optional subtitle path
