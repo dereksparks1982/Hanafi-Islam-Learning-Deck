@@ -1,4 +1,4 @@
-const RELEASE = "v2.0";
+const RELEASE = "v2.3";
 const ADHAN_VERSION = "4.4.6";
 const ADHAN_URL = `https://unpkg.com/adhan@${ADHAN_VERSION}/lib/bundles/adhan.umd.min.js`;
 const PRAYER_STORAGE_KEY = "hanafi-deck-prayer-settings-v1";
@@ -165,7 +165,8 @@ async function startOfflineSupport() {
     return;
   }
   try {
-    const registration = await navigator.serviceWorker.register(`sw.js?release=${encodeURIComponent(RELEASE)}`, { scope:"./" });
+    const registration = await navigator.serviceWorker.register(`sw.js?release=${encodeURIComponent(RELEASE)}&rev=20260926shell1`, { scope:"./", updateViaCache:"none" });
+    await registration.update();
     const ready = await navigator.serviceWorker.ready;
     const worker = navigator.serviceWorker.controller || registration.active || ready.active;
     refreshButton.disabled = false;
