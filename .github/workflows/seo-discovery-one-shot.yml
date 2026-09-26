@@ -1,0 +1,145 @@
+name: One-shot Hanafi search discovery repair
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/seo-discovery-one-shot.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Apply approved SEO repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          root = Path("web-viewer")
+          index = root / "index.html"
+          text = index.read_text(encoding="utf-8")
+
+          old_description = '<meta name="description" content="Offline study Web App for the Hanafi Learning Deck.">'
+          new_description = '<meta name="description" content="A completely free Hanafi Islam learning resource with study cards, Quran, Hanafi fiqh, salah tools, Islamic media, live resources and more. No ads, accounts or paywalls.">'
+          old_title = '<title>Hanafi Learning Deck</title>'
+          new_title = '<title>Hanafi Islam Learning Deck | Free Hanafi Fiqh &amp; Islamic Learning</title>'
+          old_intro = '<p class="intro">Browse the card library, read the Quran, watch live resources, explore important places, use Media, check prayer times, or visit Charity, About, and Legal.</p>'
+          new_intro = '<p class="intro">The Hanafi Islam Learning Deck is a completely free Islamic learning resource focused on Hanafi fiqh and study, with cards, Quran, salah tools, live resources, Media, Explore, Charity, About, and Legal.</p>'
+
+          for needle, name in ((old_description, "description"), (old_title, "title"), (old_intro, "intro")):
+              count = text.count(needle)
+              if count != 1:
+                  raise SystemExit(f"Expected exactly one {name} target, found {count}")
+
+          text = text.replace(old_description, new_description)
+          text = text.replace(old_title, new_title)
+          text = text.replace(old_intro, new_intro)
+
+          seo_block = '''  <link rel="canonical" href="https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Hanafi Learning Deck">
+  <meta property="og:title" content="Hanafi Islam Learning Deck | Free Hanafi Fiqh &amp; Islamic Learning">
+  <meta property="og:description" content="A completely free Hanafi Islam learning resource with study cards, Quran, Hanafi fiqh, salah tools, Islamic media, live resources and more. No ads, accounts or paywalls.">
+  <meta property="og:url" content="https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/">
+  <meta property="og:image" content="https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/assets/hanafi-learning-deck-icon-approved.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["WebApplication", "LearningResource"],
+    "name": "Hanafi Islam Learning Deck",
+    "alternateName": "Hanafi Learning Deck",
+    "url": "https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/",
+    "description": "A completely free Hanafi Islam learning resource with study cards, Quran, Hanafi fiqh, salah tools, Islamic media, live resources and more. No ads, accounts or paywalls.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web",
+    "isAccessibleForFree": true,
+    "inLanguage": "en",
+    "educationalUse": ["self study", "reference"],
+    "about": [
+      {"@type": "Thing", "name": "Hanafi fiqh"},
+      {"@type": "Thing", "name": "Islamic learning"},
+      {"@type": "Thing", "name": "Quran"},
+      {"@type": "Thing", "name": "Salah"}
+    ]
+  }
+  </script>
+'''
+          marker = '  <link rel="manifest" href="manifest.webmanifest?release=v2.3">\n'
+          if text.count(marker) != 1:
+              raise SystemExit("Manifest marker was not found exactly once")
+          if 'rel="canonical"' in text or 'application/ld+json' in text or 'property="og:title"' in text:
+              raise SystemExit("SEO metadata already present; refusing duplicate insertion")
+          text = text.replace(marker, seo_block + marker)
+
+          index.write_text(text, encoding="utf-8")
+
+          (root / "robots.txt").write_text(
+              "User-agent: *\n"
+              "Allow: /\n\n"
+              "Sitemap: https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/sitemap.xml\n",
+              encoding="utf-8",
+          )
+
+          urls = [
+              "https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/",
+              "https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/quran/",
+              "https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/live/",
+              "https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/explore/",
+              "https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/media/",
+              "https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/charity/",
+              "https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/about/",
+              "https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/legal/",
+          ]
+          sitemap = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+          sitemap.extend(f"  <url><loc>{url}</loc></url>" for url in urls)
+          sitemap.append("</urlset>")
+          (root / "sitemap.xml").write_text("\n".join(sitemap) + "\n", encoding="utf-8")
+          PY
+
+      - name: Validate scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          import xml.etree.ElementTree as ET
+
+          index = Path("web-viewer/index.html").read_text(encoding="utf-8")
+          assert '<span class="home-version">v2.3</span>' in index
+          assert '<h1 class="home-brand-title">Hanafi Learning Deck</h1>' in index
+          assert '<title>Hanafi Islam Learning Deck | Free Hanafi Fiqh &amp; Islamic Learning</title>' in index
+          assert index.count('rel="canonical"') == 1
+          assert index.count('application/ld+json') == 1
+          assert index.count('property="og:title"') == 1
+          assert "No advertising. Islam is not for sale." in index
+          assert Path("web-viewer/robots.txt").read_text(encoding="utf-8").startswith("User-agent: *\nAllow: /")
+          ET.parse("web-viewer/sitemap.xml")
+          assert sum(1 for line in Path("web-viewer/sitemap.xml").read_text(encoding="utf-8").splitlines() if "<loc>" in line) == 8
+          print("PASS: v2.3 preserved and SEO/search discovery files validated")
+          PY
+          git diff --check
+          git status --short
+
+      - name: Commit approved repair and remove temporary workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web-viewer/index.html web-viewer/robots.txt web-viewer/sitemap.xml
+          git rm .github/workflows/seo-discovery-one-shot.yml
+          git commit -m "Improve Hanafi Learning Deck search discovery"
+          git push origin HEAD:main
