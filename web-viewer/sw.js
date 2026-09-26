@@ -1,4 +1,4 @@
-const RELEASE = "v2.1";
+const RELEASE = "v2.3";
 const CACHE_PREFIX = "hanafi-deck-";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}`;
 const CARD_CACHE = `${CACHE_PREFIX}cards-${RELEASE}`;
@@ -112,8 +112,7 @@ async function cacheCards(urls, source, mode = "download") {
 
 self.addEventListener("message", event => {
   const data = event.data || {};
-  /* Accept v2.0 messages during the one-time installed-app handoff to v2.1. */
-  if (data.release && data.release !== RELEASE && data.release !== "v2.0") return;
+  if (data.release && data.release !== RELEASE) return;
 
   if (data.type === "CACHE_CARDS" && Array.isArray(data.urls)) {
     event.waitUntil(cacheCards(data.urls, event.source, "download"));
