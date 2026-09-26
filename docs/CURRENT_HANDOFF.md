@@ -16,9 +16,9 @@ Active branch:
 
 Current accepted and published checkpoint:
 
-**v2.2 — closed**
+**v2.3 — closed and accepted**
 
-The maintainer explicitly authorized starting **v2.3** on 2026-09-25. Active scope is the Media artwork/metadata manager in `V2.3_MEDIA_ARTWORK_PLAN.md`. The first implementation is now on `main`: shared artwork-manager core, Edit artwork entry points, Commons search, manual URL/local image selection, crop/position controls, IndexedDB persistence/locking, and Reset to Automatic. Do not broaden v2.3 beyond this approved scope without authorization.
+The maintainer explicitly closed and accepted **v2.3** on 2026-09-25. No later public version is authorized. The accepted v2.3 Media artwork/metadata work is recorded in `V2.3_MEDIA_ARTWORK_PLAN.md`.
 
 Detailed release record:
 
@@ -69,9 +69,9 @@ Tor Mirror:
 
 `http://hanafiiix6xddzpmjxbpns5svgoujdnjwf3ky4a72rzai5mumxm4mzqd.onion/`
 
-## v2.1 accepted visual state
+## Current v2.3 accepted visual state
 
-v2.1 established the current Web App visual family.
+v2.3 retains the accepted Web App visual family established in v2.1 and refined through v2.2-v2.3.
 
 Accepted elements include:
 
@@ -81,12 +81,12 @@ Accepted elements include:
 - **Amarante** display typography for the approved Home title/heading treatment;
 - revised Home branding and density;
 - current devotional opening and project principle;
-- Home page as the canonical visible `v2.1` version surface;
+- Home page as the canonical visible `v2.3` version surface;
 - About, Legal, Charity, Live, Makkah, Explorer, Qur'an, Media, and card-study pages inside the same Web App family.
 
 Rejected button experiments are not baselines. Do not recreate or reapply rejected styling merely because related files or old commits still exist in history.
 
-## Media — current v2.1 architecture
+## Media — current v2.3 architecture
 
 The old Google Drive iframe player is historical. It is **not** the current accepted implementation.
 
@@ -142,7 +142,7 @@ Current approved player behavior:
 
 Do not return to stacked video players. Do not restore +30-second seeking or textual `-10s / Play / +30s` transport buttons.
 
-## Current Media manifest at v2.1 closeout
+## Current Media manifest
 
 Current checked-in test entries:
 
@@ -159,13 +159,13 @@ The additional temporary Arabic/English hard-sub YouTube copy being downloaded d
 
 ## Subtitle state
 
-The v2.1 bridge supports one optional external subtitle path per media item.
+The current bridge supports one optional external subtitle path per media item.
 
 - `.srt` is converted to browser-compatible WebVTT by the bridge;
 - the DK Media Web player exposes the configured subtitle as an on/off choice;
 - this allows one video master plus a separate subtitle file instead of requiring a duplicate video with burned-in subtitles.
 
-Do not claim multiple named external subtitle tracks per item as completed v2.1 functionality. That is future work unless explicitly authorized.
+Do not claim multiple named external subtitle tracks per item as completed functionality. That is future work unless explicitly authorized.
 
 ## Public media-server state reached in v2.1
 
