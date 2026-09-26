@@ -1,0 +1,178 @@
+#!/usr/bin/env python3
+# Hanafi/Nougat media bridge source.
+# Runtime target: /usr/local/bin/hanafi-jellyfin-bridge
+# v2.3 remains the accepted application version.
+
+import hashlib
+import json
+import mimetypes
+import os
+import re
+import subprocess
+import sys
+import threading
+import urllib.parse
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+
+BIND=os.environ.get("HANAFI_MEDIA_BIND","127.0.0.1")
+PORT=int(os.environ.get("HANAFI_MEDIA_PORT","8097"))
+MANIFEST=os.environ.get("HANAFI_MEDIA_MANIFEST","/etc/hanafi-media/media.tsv")
+PUBLIC_ROOT=Path(os.path.expanduser(os.environ.get("HANAFI_PUBLIC_MEDIA_ROOT","~/Videos/Hosted"))).resolve()
+PRIVATE_ROOT=Path(os.path.expanduser(os.environ.get("HANAFI_PRIVATE_MEDIA_ROOT","~/Videos/Private Hosted"))).resolve()
+ALLOWED_ORIGIN=os.environ.get("HANAFI_MEDIA_CORS_ORIGIN","https://dereksparks1982.github.io")
+FFMPEG=os.environ.get("HANAFI_FFMPEG","/usr/bin/ffmpeg")
+VIDEO_EXTS={".mp4",".m4v",".webm",".ogv",".ogg",".mov",".mkv",".avi",".ts",".m2ts"}
+
+def slug(text):
+    value=re.sub(r"[^a-z0-9]+","-",text.lower()).strip("-")
+    return value or hashlib.sha256(text.encode()).hexdigest()[:16]
+
+def title_from_path(path):
+    name=path.stem.replace("_"," ").replace("."," ")
+    name=re.sub(r"\s+"," ",name).strip()
+    # Remove common release noise while retaining useful title/year text.
+    name=re.split(r"\b(?:480p|720p|1080p|2160p|bluray|brrip|webrip|web-dl|hevc|x264|x265|h264|h265)\b",name,flags=re.I)[0].strip(" -.")
+    return name or path.stem
+
+def classify(path,root):
+    rel=path.relative_to(root)
+    parts=rel.parts
+    # A Season folder or SxxExx filename makes this a TV episode.
+    joined=" ".join(parts)
+    tv=bool(re.search(r"\bS\d{1,2}E\d{1,3}\b",joined,re.I) or re.search(r"\bSeason[ ._-]*\d+\b",joined,re.I))
+    return "tv" if tv else "movie"
+
+def scan(root,prefix):
+    items={}
+    if not root.is_dir(): return items
+    for path in sorted(root.rglob("*")):
+        if not path.is_file() or path.suffix.lower() not in VIDEO_EXTS: continue
+        rel=str(path.relative_to(root))
+        media_id=prefix+"-"+slug(rel)
+        items[media_id]={
+            "id":media_id,"path":str(path),"title":title_from_path(path),
+            "filename":path.name,"kind":classify(path,root),"automatic":True,
+            "content_type":mimetypes.guess_type(str(path))[0] or "application/octet-stream",
+            "subtitle_path":""
+        }
+    return items
+
+def manifest_items():
+    items={}
+    try:
+        with open(MANIFEST,"r",encoding="utf-8") as fh:
+            for raw in fh:
+                line=raw.rstrip("\r\n")
+                if not line or line.startswith("#"): continue
+                fields=line.split("\t")
+                if len(fields)<2: continue
+                mid,path=fields[0],fields[1]
+                items[mid]={"id":mid,"path":path,"title":title_from_path(Path(path)),
+                    "filename":Path(path).name,"kind":"movie","automatic":False,
+                    "content_type":fields[2] if len(fields)>2 and fields[2] else (mimetypes.guess_type(path)[0] or "application/octet-stream"),
+                    "subtitle_path":fields[3] if len(fields)>3 else ""}
+    except OSError: pass
+    return items
+
+def browser_direct(path):
+    return Path(path).suffix.lower() in {".mp4",".m4v",".webm",".ogv",".ogg"}
+
+class State:
+    def __init__(self): self.lock=threading.Lock()
+    def public(self):
+        # Manifest preserves editions/subtitles. Folder scan adds anything new automatically.
+        result=manifest_items()
+        known={os.path.normcase(os.path.normpath(v["path"])) for v in result.values()}
+        for mid,item in scan(PUBLIC_ROOT,"auto-public").items():
+            if os.path.normcase(os.path.normpath(item["path"])) not in known: result[mid]=item
+        return result
+    def private(self): return scan(PRIVATE_ROOT,"private")
+    def get(self,mid,private=False): return (self.private() if private else self.public()).get(mid)
+
+STATE=State()
+
+class Handler(BaseHTTPRequestHandler):
+    server_version="Hanafi-Nougat-Media"
+    protocol_version="HTTP/1.1"
+    def log_message(self,fmt,*args): sys.stderr.write("%s - - [%s] %s\n"%(self.address_string(),self.log_date_time_string(),fmt%args))
+    def cors(self):
+        self.send_header("Access-Control-Allow-Origin",ALLOWED_ORIGIN)
+        self.send_header("Access-Control-Allow-Methods","GET, HEAD, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers","Range, Content-Type")
+        self.send_header("Access-Control-Expose-Headers","Accept-Ranges, Content-Range, Content-Length, X-Hanafi-Stream-Mode")
+        self.send_header("Vary","Origin")
+    def json(self,status,payload,head=False):
+        body=json.dumps(payload,separators=(",",":")).encode()
+        self.send_response(status); self.send_header("Content-Type","application/json; charset=utf-8"); self.send_header("Content-Length",str(len(body))); self.send_header("Cache-Control","no-store"); self.send_header("Connection","close"); self.cors(); self.end_headers()
+        if not head:self.wfile.write(body)
+        self.close_connection=True
+    def do_OPTIONS(self):
+        self.send_response(204);self.send_header("Content-Length","0");self.cors();self.end_headers()
+    def do_HEAD(self):self.handle(True)
+    def do_GET(self):self.handle(False)
+    def handle(self,head):
+        parsed=urllib.parse.urlsplit(self.path); q=urllib.parse.parse_qs(parsed.query); mid=q.get("id",[""])[0]
+        if parsed.path=="/nougat/v1/health":
+            pub=STATE.public();self.json(200,{"ok":True,"available":sum(os.path.isfile(x["path"]) for x in pub.values()),"total":len(pub)},head);return
+        if parsed.path=="/nougat/v1/catalog":
+            items=[]
+            for x in STATE.public().values():
+                y={k:x.get(k) for k in ("id","title","filename","kind","automatic","content_type")};y["ready"]=os.path.isfile(x["path"]);items.append(y)
+            self.json(200,{"ok":True,"items":items},head);return
+        if parsed.path=="/nougat/v1/private/catalog":
+            items=[]
+            for x in STATE.private().values():
+                y={k:x.get(k) for k in ("id","title","filename","kind","automatic","content_type")};y["ready"]=os.path.isfile(x["path"]);items.append(y)
+            self.json(200,{"ok":True,"items":items},head);return
+        if parsed.path in ("/nougat/v1/media","/nougat/v1/private/media"):
+            self.stream(STATE.get(mid,parsed.path.startswith("/nougat/v1/private/")),head);return
+        if parsed.path=="/robots.txt":
+            body=b"User-agent: *\nDisallow: /\n";self.send_response(200);self.send_header("Content-Length",str(len(body)));self.end_headers();
+            if not head:self.wfile.write(body)
+            return
+        self.json(404,{"ok":False,"error":"Unknown route."},head)
+    def stream(self,item,head):
+        if not item or not os.path.isfile(item["path"]):self.json(404,{"ok":False,"error":"Media unavailable."},head);return
+        if not browser_direct(item["path"]):self.ffmpeg(item,head);return
+        path=item["path"];size=os.path.getsize(path);first,last=0,max(0,size-1);status=200
+        r=self.headers.get("Range","")
+        if r.startswith("bytes=") and "," not in r:
+            a,b=r[6:].split("-",1)
+            try:
+                if a:first=int(a);last=int(b) if b else size-1
+                elif b:first=max(0,size-int(b));last=size-1
+                last=min(last,size-1);status=206
+            except ValueError:pass
+        length=max(0,last-first+1)
+        self.send_response(status);self.send_header("Content-Type",item["content_type"]);self.send_header("Content-Length",str(length));self.send_header("Accept-Ranges","bytes");self.send_header("Cache-Control","private, max-age=0");self.send_header("X-Hanafi-Stream-Mode","nougat-byte-range")
+        if status==206:self.send_header("Content-Range",f"bytes {first}-{last}/{size}")
+        self.cors();self.end_headers()
+        if not head and length:
+            try:
+                with open(path,"rb") as fh:
+                    fh.seek(first);remaining=length
+                    while remaining:
+                        chunk=fh.read(min(262144,remaining))
+                        if not chunk:break
+                        self.wfile.write(chunk);remaining-=len(chunk)
+            except (OSError,BrokenPipeError,ConnectionResetError):pass
+    def ffmpeg(self,item,head):
+        if head:self.send_response(200);self.send_header("Content-Type","video/mp4");self.cors();self.end_headers();return
+        cmd=[FFMPEG,"-nostdin","-hide_banner","-loglevel","error","-i",item["path"],"-map","0:v:0?","-map","0:a:0?","-sn","-c:v","libx264","-preset","veryfast","-crf","23","-pix_fmt","yuv420p","-c:a","aac","-b:a","160k","-movflags","+frag_keyframe+empty_moov+default_base_moof","-f","mp4","pipe:1"]
+        p=subprocess.Popen(cmd,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL)
+        self.send_response(200);self.send_header("Content-Type","video/mp4");self.send_header("Transfer-Encoding","chunked");self.send_header("X-Hanafi-Stream-Mode","nougat-ffmpeg");self.cors();self.end_headers()
+        try:
+            while True:
+                chunk=p.stdout.read(65536)
+                if not chunk:break
+                self.wfile.write(f"{len(chunk):X}\r\n".encode()+chunk+b"\r\n");self.wfile.flush()
+            self.wfile.write(b"0\r\n\r\n")
+        except (OSError,BrokenPipeError,ConnectionResetError):p.terminate()
+        finally:
+            if p.stdout:p.stdout.close()
+
+def main():
+    print(f"Hanafi/Nougat automatic media bridge: {len(STATE.public())} public, {len(STATE.private())} private",flush=True)
+    ThreadingHTTPServer((BIND,PORT),Handler).serve_forever()
+if __name__=="__main__":main()
