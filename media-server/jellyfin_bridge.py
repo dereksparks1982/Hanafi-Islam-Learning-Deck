@@ -309,10 +309,10 @@ class Handler(BaseHTTPRequestHandler):
             if not item:
                 self.json_response(404, {'ok': False, 'error': 'Unknown private media id.'}, head)
                 return
-            if browser_direct_preferred(item['path']):
-                self.stream_local_file(item, head)
-            else:
-                self.stream_ffmpeg(item, head)
+            # Private Library accepts arbitrary source containers/codecs.
+            # Always normalize playback through FFmpeg to browser-safe H.264/AAC MP4
+            # instead of assuming that a .webm/.mp4 container is browser-decodable.
+            self.stream_ffmpeg(item, head)
             return
 
         if parsed.path == '/nougat/v1/media':
