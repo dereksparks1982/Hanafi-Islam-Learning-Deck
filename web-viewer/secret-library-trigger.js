@@ -23,7 +23,7 @@
 
   const REQUIRED_ACTIVATIONS = 7;
   const RESET_AFTER_MS = 8000;
-  const KEY_PARTS = ["14", "9", "5", "7"];
+  const PRIVATE_BASE = "https://97.201.65.144";
   let count = 0;
   let resetTimer = null;
 
@@ -240,17 +240,28 @@
     inputs[3].focus({ preventScroll: true });
   });
 
-  form.addEventListener("submit", event => {
+  form.addEventListener("submit", async event => {
     event.preventDefault();
-    const candidate = inputs.map(input => input.value);
-    const correct = KEY_PARTS.every((part, index) => candidate[index] === part);
-    if (!correct) {
-      rejectKey();
-      return;
+    const pin = inputs.map(input => input.value).join("");
+    status.textContent = "Checking library key…";
+    try {
+      const response = await fetch(PRIVATE_BASE + "/nougat/v1/private/unlock", {
+        method: "POST",
+        cache: "no-store",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pin })
+      });
+      const payload = await response.json();
+      if (!response.ok || !payload.token) {
+        rejectKey();
+        return;
+      }
+      sessionStorage.setItem("hanafi-advanced-library-unlocked", "1");
+      sessionStorage.setItem("hanafi-private-media-token", payload.token);
+      window.location.assign("advanced-library/");
+    } catch {
+      status.textContent = "Private library server is unavailable.";
     }
-
-    sessionStorage.setItem("hanafi-advanced-library-unlocked", "1");
-    window.location.assign("advanced-library/");
   });
 
   trigger.addEventListener("click", () => {
