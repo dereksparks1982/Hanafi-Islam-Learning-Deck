@@ -79,8 +79,10 @@ Binary images that already exist as final files should be uploaded directly as G
 - Version numbers change only with explicit maintainer authorization.
 - Every visible version surface must agree after an approved version change.
 - A rejected candidate does not advance the version.
-- Current accepted Web App checkpoint: **v2.2**.
-- **v2.2 is closed.** The maintainer explicitly authorized **v2.3** as the active build on 2026-09-25.
+- Current accepted Web App checkpoint: **v2.3**.
+- **v2.2 is closed.**
+- **v2.3 is closed and accepted.** The maintainer explicitly authorized closeout on 2026-09-25.
+- No later public version is authorized until the maintainer explicitly assigns one.
 - The Home page is the canonical user-facing version display. Interior pages do not need visible version labels unless the maintainer specifically wants them.
 - Internal release/cache identifiers may still exist where technically required, but they must not silently advance the public version.
 
