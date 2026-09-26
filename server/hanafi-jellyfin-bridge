@@ -11,7 +11,9 @@ import re
 import subprocess
 import sys
 import threading
+import urllib.error
 import urllib.parse
+import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -22,7 +24,28 @@ PUBLIC_ROOT=Path(os.path.expanduser(os.environ.get("HANAFI_PUBLIC_MEDIA_ROOT","~
 PRIVATE_ROOT=Path(os.path.expanduser(os.environ.get("HANAFI_PRIVATE_MEDIA_ROOT","~/Videos/Private Hosted"))).resolve()
 ALLOWED_ORIGIN=os.environ.get("HANAFI_MEDIA_CORS_ORIGIN","https://dereksparks1982.github.io")
 FFMPEG=os.environ.get("HANAFI_FFMPEG","/usr/bin/ffmpeg")
+JELLYFIN_URL=os.environ.get("HANAFI_JELLYFIN_URL","http://127.0.0.1:8098").rstrip("/")
+TOKEN_OVERRIDE=os.environ.get("HANAFI_JELLYFIN_TOKEN","").strip()
+NOUGAT_CLIENT_STATE=os.path.expanduser(os.environ.get("HANAFI_NOUGAT_CLIENT_STATE","~/.config/reddmedia/server/client.json"))
 VIDEO_EXTS={".mp4",".m4v",".webm",".ogv",".ogg",".mov",".mkv",".avi",".ts",".m2ts"}
+
+def jellyfin_token():
+    if TOKEN_OVERRIDE:
+        return TOKEN_OVERRIDE
+    try:
+        with open(NOUGAT_CLIENT_STATE,"r",encoding="utf-8") as fh:
+            return str(json.load(fh).get("AccessToken","")).strip()
+    except (OSError,ValueError,TypeError):
+        return ""
+
+def vtt_from_srt(text):
+    text=text.lstrip("\ufeff")
+    lines=[]
+    for line in text.splitlines():
+        if " --> " in line:
+            line=line.replace(",",".")
+        lines.append(line)
+    return "WEBVTT\\n\\n"+"\\n".join(lines)+"\\n"
 
 def slug(text):
     value=re.sub(r"[^a-z0-9]+","-",text.lower()).strip("-")
