@@ -287,3 +287,30 @@ If work resumes after context loss:
 3. read `docs/V2.1_CLOSEOUT.md`;
 4. fetch the current affected source files before proposing or changing anything;
 5. get explicit approval for the next build scope.
+
+
+## 2026-09-25 — Private Movies manifest work and current state
+
+Owner direction:
+- Private Movies must follow the same manifest/catalog model used by the existing public Media section.
+- Movie files stay on saxondesktop. Movie binaries are NOT stored in GitHub.
+- Do NOT use an automatic folder scanner for this feature.
+- Do NOT change the accepted Private Library lock/PIN/entrance.
+
+Changes made:
+- Added `media-server/private-media.tsv.example` containing manifest entries for the four existing Private Hosted movies. The entries point to the local files under `/home/dereksparks1982/Videos/Private Hosted/`; only IDs, local paths, MIME types, and optional subtitle fields are in GitHub.
+- Updated `media-server/jellyfin_bridge.py` so Private Library catalog/media requests use `HANAFI_PRIVATE_MEDIA_MANIFEST`, defaulting to `/etc/hanafi-media/private-media.tsv`, instead of recursively scanning the Private Hosted directory.
+- Updated `media-server/deploy/enable-jellyfin-public.sh` so the existing deployment flow installs `private-media.tsv.example` as `/etc/hanafi-media/private-media.tsv` and exports `HANAFI_PRIVATE_MEDIA_MANIFEST` alongside the existing public manifest.
+- Rejected hardcoded Private Movies UI work and the temporary explicit private-file route were reverted. The Advanced Library file was restored to blob `01d225a7bb9ec889a61b8b2b8c442c41b6ab2248`, and the bridge was restored before the manifest implementation continued.
+
+Relevant commits:
+- `b7ee93d4eaaca7545a7f7f1e4627d7b906dd25e8` — add Private Library media manifest.
+- `ca0e00cc2ddd945ee98f24e29bb25f29026309b2` — make Private Library use its manifest.
+- `3b17842dd678bc7b27004104c77ce95e06ec9591` — wire private manifest into the existing deployment path.
+- Reverts of rejected approach: `65e1d84352dd37567720875573c16bce98047bba` and `9d6132ec527fcf7c41592ff8a9078d845e902369`.
+
+Current runtime status:
+- GitHub source/deployment wiring is updated.
+- The owner reported that no movies were visible in the Private Movies section before the deployment wiring correction.
+- Do NOT claim the Private Movies section is working live until the updated deployment has actually been applied on saxondesktop and the owner verifies it.
+- Do not alter unrelated Private Library behavior while continuing this repair.
