@@ -583,38 +583,49 @@
       const privateMovieGrid = document.getElementById("privateMovieGrid");
       const privateMovieStatus = document.getElementById("privateMovieStatus");
       let privateMoviesLoaded = false;
-      const privateMovieCatalog = [
-        { id: "kingdom-of-heaven-2005", title: "Kingdom of Heaven (2005)", file: "Kingdom of Heaven 2005 DC Roadshow Version 1080p BluRay HEVC x265 5.1 BONE.mkv" },
-        { id: "night-of-the-living-dead-1968", title: "Night of the Living Dead (1968)", file: "Night of the Living Dead (1968).webm" },
-        { id: "practical-magic-1998", title: "Practical Magic (1998)", file: "Practical Magic 1998 1080p BluRay HEVC x265 5.1 BONE.mkv" },
-        { id: "steamboat-willie-1928", title: "Steamboat Willie (1928)", file: "Steamboat_Willie_(1928)_by_Walt_Disney.webm" }
-      ];
 
       const privateBase = "https://97.201.65.144";
       const movieTitle = item => item.title || item.name || item.filename || item.id || "Private movie";
       const movieId = item => item.id || item.mediaId || item.key || "";
 
-      function loadPrivateMovies() {
+      async function loadPrivateMovies() {
         if (privateMoviesLoaded) return;
-        privateMovieGrid.replaceChildren();
-        for (const item of privateMovieCatalog) {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "private-movie-card";
-          button.innerHTML = '<span class="private-movie-poster"></span><span class="private-movie-title"></span>';
-          button.querySelector(".private-movie-poster").textContent = item.title;
-          button.querySelector(".private-movie-title").textContent = item.title;
-          button.addEventListener("click", () => {
-            const virtualBook = document.createElement("button");
-            virtualBook.dataset.title = item.title;
-            virtualBook.dataset.kind = "video";
-            virtualBook.dataset.src = privateBase + "/nougat/v1/private/file?name=" + encodeURIComponent(item.file);
-            openViewer(virtualBook);
+        privateMovieStatus.textContent = "Scanning Private Hosted…";
+        try {
+          const token = sessionStorage.getItem("hanafi-private-media-token") || "";
+          const response = await fetch(privateBase + "/nougat/v1/private/catalog", {
+            cache:"no-store",
+            headers:{ "Authorization":"Bearer " + token }
           });
-          privateMovieGrid.appendChild(button);
+          if (!response.ok) throw new Error("Private movie catalog unavailable");
+          const payload = await response.json();
+          const items = Array.isArray(payload) ? payload : (payload.items || payload.movies || []);
+          privateMovieGrid.replaceChildren();
+          for (const item of items) {
+            const id = movieId(item);
+            if (!id) continue;
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "private-movie-card";
+            button.innerHTML = '<span class="private-movie-poster"></span><span class="private-movie-title"></span>';
+            button.querySelector(".private-movie-poster").textContent = movieTitle(item);
+            button.querySelector(".private-movie-title").textContent = movieTitle(item);
+            button.addEventListener("click", () => {
+              const virtualBook = document.createElement("button");
+              virtualBook.dataset.title = movieTitle(item);
+              virtualBook.dataset.kind = "video";
+              virtualBook.dataset.src = privateBase + "/nougat/v1/private/media?id=" + encodeURIComponent(id) + "&token=" + encodeURIComponent(sessionStorage.getItem("hanafi-private-media-token") || "");
+              openViewer(virtualBook);
+            });
+            privateMovieGrid.appendChild(button);
+          }
+          privateMovieStatus.textContent = privateMovieGrid.children.length
+            ? privateMovieGrid.children.length + " private movie" + (privateMovieGrid.children.length === 1 ? "" : "s")
+            : "Private Hosted is empty.";
+          privateMoviesLoaded = true;
+        } catch (error) {
+          privateMovieStatus.textContent = "Private movie scanner is not available on saxondesktop yet.";
         }
-        privateMovieStatus.textContent = privateMovieCatalog.length + " private movies";
-        privateMoviesLoaded = true;
       }
 
       booksMode.addEventListener("click", () => {
