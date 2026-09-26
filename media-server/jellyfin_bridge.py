@@ -308,6 +308,24 @@ class Handler(BaseHTTPRequestHandler):
             self.json_response(200, {'ok': True, 'items': items}, head)
             return
 
+        if parsed.path == '/nougat/v1/private/file':
+            name = params.get('name', [''])[0]
+            candidate = (PRIVATE_ROOT / name).resolve()
+            try:
+                candidate.relative_to(PRIVATE_ROOT)
+            except ValueError:
+                self.json_response(403, {'ok': False, 'error': 'Invalid private media path.'}, head)
+                return
+            if not candidate.is_file() or candidate.suffix.lower() not in VIDEO_EXTS:
+                self.json_response(404, {'ok': False, 'error': 'Private media file is unavailable.'}, head)
+                return
+            item = {'id': 'private-' + private_slug(name), 'path': str(candidate), 'title': private_title(candidate), 'filename': candidate.name, 'content_type': media_content_type(str(candidate))}
+            if browser_direct_preferred(item['path']):
+                self.stream_local_file(item, head)
+            else:
+                self.stream_ffmpeg(item, head)
+            return
+
         if parsed.path == '/nougat/v1/private/media':
             item = private_items().get(media_id)
             if not item:
