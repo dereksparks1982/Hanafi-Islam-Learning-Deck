@@ -1,0 +1,9 @@
+# Hanafi Private Library media manifest
+#
+# Format, tab-separated:
+# id<TAB>absolute media path<TAB>MIME type<TAB>optional subtitle path
+#
+kingdom-of-heaven-2005	/home/dereksparks1982/Videos/Private Hosted/Kingdom of Heaven 2005 DC Roadshow Version 1080p BluRay HEVC x265 5.1 BONE.mkv	video/x-matroska	
+night-of-the-living-dead-1968	/home/dereksparks1982/Videos/Private Hosted/Night of the Living Dead (1968).webm	video/webm	
+practical-magic-1998	/home/dereksparks1982/Videos/Private Hosted/Practical Magic 1998 1080p BluRay HEVC x265 5.1 BONE.mkv	video/x-matroska	
+steamboat-willie-1928	/home/dereksparks1982/Videos/Private Hosted/Steamboat_Willie_(1928)_by_Walt_Disney.webm	video/webm	
