@@ -23,7 +23,9 @@ const films={
 };
 const params=new URLSearchParams(location.search),dynamicMedia=params.get("media"),privateMedia=params.get("private")==="1",key=params.get("film")||"the-message";
 const mediaBack=document.getElementById("mediaBack");
+const mediaEyebrow=document.querySelector(".app-header .eyebrow");
 if(privateMedia){
+  if(mediaEyebrow)mediaEyebrow.textContent="Hanafi Learning Deck · Private Media";
   mediaBack.textContent="← Private Library";
   mediaBack.href="../advanced-library/#movies";
   mediaBack.addEventListener("click",event=>{event.preventDefault();window.location.assign("../advanced-library/#movies");});
