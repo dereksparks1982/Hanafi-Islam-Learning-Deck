@@ -309,10 +309,10 @@ class Handler(BaseHTTPRequestHandler):
             if not item:
                 self.json_response(404, {'ok': False, 'error': 'Unknown private media id.'}, head)
                 return
-            # Kingdom of Heaven is already a browser-safe H.264/AAC MP4.
-            # Serve that finished file with normal byte ranges instead of live transcoding.
+            # Kingdom of Heaven and Practical Magic are browser-safe H.264/AAC MP4 files.
+            # Serve those finished files with normal byte ranges instead of live transcoding.
             # Other private titles retain their current behavior until separately approved.
-            if media_id == 'kingdom-of-heaven-2005':
+            if media_id in {'kingdom-of-heaven-2005', 'practical-magic-1998'}:
                 self.stream_local_file(item, head)
             else:
                 self.stream_ffmpeg(item, head)
