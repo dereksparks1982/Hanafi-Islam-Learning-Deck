@@ -29,7 +29,7 @@ Before changing the project, establish the exact requested scope.
 
 ### Locked Media player
 
-The **v2.1 DK Media single-player Web implementation** is the accepted Media-player baseline.
+The **v2.3 Media implementation**, retaining the DK Media single-player Web player established in v2.1, is the accepted Media baseline.
 
 - The Media page uses **one video player total**. Media choices switch the source loaded into that single player; separate stacked players are not the accepted design.
 - **DK Media Player** is the behavioral/design base for the browser player. The Web App reimplements the useful player behavior in HTML/CSS/JavaScript rather than embedding the desktop Python/libVLC application.
