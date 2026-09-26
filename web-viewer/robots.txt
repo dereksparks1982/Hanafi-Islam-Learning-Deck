@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/sitemap.xml
