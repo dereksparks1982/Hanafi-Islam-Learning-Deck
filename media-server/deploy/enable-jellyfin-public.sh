@@ -229,7 +229,8 @@ WantedBy=multi-user.target
 EOF
 
 sudo systemctl daemon-reload
-sudo systemctl enable --now hanafi-jellyfin-bridge.service
+sudo systemctl enable hanafi-jellyfin-bridge.service >/dev/null
+sudo systemctl restart hanafi-jellyfin-bridge.service
 for attempt in $(seq 1 20); do
   if curl -fsS http://127.0.0.1:8097/nougat/v1/health >/dev/null 2>&1; then
     break
