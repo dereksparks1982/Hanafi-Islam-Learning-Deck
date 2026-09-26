@@ -64,13 +64,6 @@
       this.forwardButton.addEventListener("click", () => this.seekRelative(10));
       this.fullscreenButton.addEventListener("click", () => this.toggleFullscreen());
 
-      const adjustVolumeByWheel = event => {
-        event.preventDefault();
-        const direction = event.deltaY < 0 ? 1 : -1;
-        this.setVolume((this.video.volume * 100) + (direction * 5));
-        this.showPointerTemporarily();
-      };
-      this.playerShell.addEventListener("wheel", adjustVolumeByWheel, { passive: false });
       this.playerShell.addEventListener("mousemove", () => this.showPointerTemporarily());
       this.playerShell.addEventListener("mouseenter", () => this.showPointerTemporarily());
       this.playerShell.addEventListener("mouseleave", () => this.clearPointerTimer());
