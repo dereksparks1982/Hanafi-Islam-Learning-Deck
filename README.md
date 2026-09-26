@@ -428,7 +428,7 @@ These external resources complement the deck and remain on their original creato
 
 ## Where the project goes next
 
-**v2.1 is closed and no later public version number has been assigned.**
+**v2.3 is closed and accepted. No later public version number has been assigned.**
 
 Current future directions include:
 
@@ -509,4 +509,4 @@ A legal or rights claim should identify the exact material at issue, the person 
 
 ---
 
-**Hanafi Learning Deck · v2.1 published checkpoint · closed and accepted**
+**Hanafi Learning Deck · v2.3 published checkpoint · closed and accepted**
