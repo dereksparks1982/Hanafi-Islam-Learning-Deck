@@ -13,57 +13,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Apply approved Private Movies styling
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
-
           page = Path('web-viewer/advanced-library/index.html')
           text = page.read_text(encoding='utf-8')
-
-          old = '''    .private-movies[hidden],.library-shelf-shell[hidden]{display:none!important}
-    .private-movies{position:fixed;inset:78px 5vw 5vh;z-index:21;overflow:auto;padding:1rem;border:0;border-radius:0;background:transparent;backdrop-filter:none}
-    .private-movie-status{color:#d9c58c;margin:.2rem 0 1rem}
-    .private-movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}
-    .private-movie-card{border:1px solid rgba(216,181,96,.28);border-radius:16px;overflow:hidden;background:#101412;color:#f1e5bd;cursor:pointer;text-align:left;padding:0;transition:transform .15s,border-color .15s}
-    .private-movie-card:hover,.private-movie-card:focus-visible{border-color:#d8b560;outline:none;transform:translateY(-2px)}
-    .private-movie-poster{aspect-ratio:2/3;display:grid;place-items:end start;padding:0;overflow:hidden;background:linear-gradient(155deg,#244532,#080c09 72%);font:600 1rem Georgia,serif}.private-movie-poster img{display:block;width:100%;height:100%;object-fit:cover}
-    .private-movie-title{display:block;padding:.7rem .8rem;line-height:1.3}
-'''
-          new = '''    .private-movies[hidden],.library-shelf-shell[hidden]{display:none!important}
-    .private-movies{position:fixed;top:78px;bottom:5vh;left:50%;z-index:21;width:min(1120px,calc(100% - 2rem));transform:translateX(-50%);overflow:auto;padding:0;border:0!important;border-radius:0;background:none!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-    .private-movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
-    .private-movie-card{display:block;text-decoration:none;color:inherit;border:1px solid rgba(216,181,96,.28);border-radius:16px;overflow:hidden;background:#101412;cursor:pointer;text-align:left;padding:0;transition:transform .15s,border-color .15s}
-    .private-movie-card:hover,.private-movie-card:focus-visible{transform:translateY(-2px);border-color:#d8b560;outline:none}
-    .private-movie-poster{aspect-ratio:2/3;position:relative;display:grid;place-items:end start;padding:0;overflow:hidden;background:linear-gradient(160deg,#17271f,#050706 70%);font:600 1rem Georgia,serif}.private-movie-poster img{display:block;width:100%;height:100%;object-fit:cover}
-    .private-movie-title{display:block;padding:.7rem .8rem;font-size:1rem;line-height:1.3}
-    @media(max-width:520px){.private-movie-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}}
-'''
-          if old not in text:
-              raise SystemExit('Expected Private Movies CSS block not found')
-          text = text.replace(old, new, 1)
-
-          status_markup = '      <p id="privateMovieStatus" class="private-movie-status">Loading private movie collection…</p>\n'
-          if status_markup not in text:
-              raise SystemExit('Expected private movie status markup not found')
-          text = text.replace(status_markup, '', 1)
-
-          status_const = '      const privateMovieStatus = document.getElementById("privateMovieStatus");\n'
-          if status_const not in text:
-              raise SystemExit('Expected private movie status binding not found')
-          text = text.replace(status_const, '', 1)
-
-          status_assignment = '        privateMovieStatus.textContent = privateMovieCatalog.length + " private movies";\n'
-          if status_assignment not in text:
-              raise SystemExit('Expected private movie count assignment not found')
-          text = text.replace(status_assignment, '', 1)
-
+          replacements = {
+              '    .private-movies{position:fixed;inset:78px 5vw 5vh;z-index:21;overflow:auto;padding:1rem;border:0;border-radius:0;background:transparent;backdrop-filter:none}\n': '    .private-movies{position:fixed;top:78px;bottom:5vh;left:50%;z-index:21;width:min(1120px,calc(100% - 2rem));transform:translateX(-50%);overflow:auto;padding:0;border:0!important;border-radius:0;background:none!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}\n',
+              '    .private-movie-status{color:#d9c58c;margin:.2rem 0 1rem}\n': '',
+              '    .private-movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}\n': '    .private-movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}\n',
+              '    .private-movie-card{border:1px solid rgba(216,181,96,.28);border-radius:16px;overflow:hidden;background:#101412;color:#f1e5bd;cursor:pointer;text-align:left;padding:0;transition:transform .15s,border-color .15s}\n': '    .private-movie-card{display:block;text-decoration:none;color:inherit;border:1px solid rgba(216,181,96,.28);border-radius:16px;overflow:hidden;background:#101412;cursor:pointer;text-align:left;padding:0;transition:transform .15s,border-color .15s}\n',
+              '    .private-movie-card:hover,.private-movie-card:focus-visible{border-color:#d8b560;outline:none;transform:translateY(-2px)}\n': '    .private-movie-card:hover,.private-movie-card:focus-visible{transform:translateY(-2px);border-color:#d8b560;outline:none}\n',
+              '    .private-movie-poster{aspect-ratio:2/3;display:grid;place-items:end start;padding:0;overflow:hidden;background:linear-gradient(155deg,#244532,#080c09 72%);font:600 1rem Georgia,serif}.private-movie-poster img{display:block;width:100%;height:100%;object-fit:cover}\n': '    .private-movie-poster{aspect-ratio:2/3;position:relative;display:grid;place-items:end start;padding:0;overflow:hidden;background:linear-gradient(160deg,#17271f,#050706 70%);font:600 1rem Georgia,serif}.private-movie-poster img{display:block;width:100%;height:100%;object-fit:cover}\n',
+              '    .private-movie-title{display:block;padding:.7rem .8rem;line-height:1.3}\n': '    .private-movie-title{display:block;padding:.7rem .8rem;font-size:1rem;line-height:1.3}\n    @media(max-width:520px){.private-movie-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}}\n',
+              '      <p id="privateMovieStatus" class="private-movie-status">Loading private movie collection…</p>\n': '',
+              '      const privateMovieStatus = document.getElementById("privateMovieStatus");\n': '',
+              '        privateMovieStatus.textContent = privateMovieCatalog.length + " private movies";\n': '',
+          }
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit('Expected Private Movies source fragment not found: ' + old.strip())
+              text = text.replace(old, new, 1)
           page.write_text(text, encoding='utf-8')
-
           sw = Path('web-viewer/sw.js')
           sw_text = sw.read_text(encoding='utf-8')
           old_rev = 'const SHELL_REV = "20260925-private-return-1";'
@@ -80,7 +54,6 @@ jobs:
           grep -F 'width:min(1120px,calc(100% - 2rem))' web-viewer/advanced-library/index.html
           grep -F 'grid-template-columns:repeat(auto-fill,minmax(210px,1fr))' web-viewer/advanced-library/index.html
           grep -F 'background:none!important' web-viewer/advanced-library/index.html
-          ! grep -F '4 private movies' web-viewer/advanced-library/index.html
           ! grep -F 'privateMovieStatus' web-viewer/advanced-library/index.html
           grep -F 'const SHELL_REV = "20260925-private-media-match-1";' web-viewer/sw.js
           git diff --check
