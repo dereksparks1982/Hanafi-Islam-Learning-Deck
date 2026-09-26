@@ -198,7 +198,6 @@ HANAFI_MEDIA_BIND=127.0.0.1
 HANAFI_MEDIA_PORT=8097
 HANAFI_MEDIA_MANIFEST=$MANIFEST_DST
 HANAFI_PRIVATE_MEDIA_MANIFEST=$PRIVATE_MANIFEST_DST
-HANAFI_PRIVATE_MEDIA_ROOT=/home/dereksparks1982/Videos/Private Hosted
 HANAFI_MEDIA_CORS_ORIGIN=https://dereksparks1982.github.io
 HANAFI_JELLYFIN_URL=http://127.0.0.1:8098
 HANAFI_NOUGAT_CLIENT_STATE=$NOUGAT_CLIENT_STATE
@@ -223,7 +222,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=read-only
-ReadOnlyPaths=/home/dereksparks1982/Videos/Hosted /home/dereksparks1982/.config/reddmedia/server /etc/hanafi-media
+ReadOnlyPaths=/home/dereksparks1982/Videos/Hosted "/home/dereksparks1982/Videos/Private Hosted" /home/dereksparks1982/.config/reddmedia/server /etc/hanafi-media
 
 [Install]
 WantedBy=multi-user.target
