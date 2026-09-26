@@ -585,7 +585,7 @@
       let privateMoviesLoaded = false;
 
       const privateBase = "https://97.201.65.144";
-      const privateMovies = [
+      const privateMovieCatalog = [
         {id:"kingdom-of-heaven-2005", title:"Kingdom of Heaven (2005)"},
         {id:"night-of-the-living-dead-1968", title:"Night of the Living Dead (1968)"},
         {id:"practical-magic-1998", title:"Practical Magic (1998)"},
@@ -597,7 +597,7 @@
       function loadPrivateMovies() {
         if (privateMoviesLoaded) return;
         privateMovieGrid.replaceChildren();
-        for (const item of privateMovies) {
+        for (const item of privateMovieCatalog) {
           const button = document.createElement("button");
           button.type = "button";
           button.className = "private-movie-card";
@@ -613,7 +613,7 @@
           });
           privateMovieGrid.appendChild(button);
         }
-        privateMovieStatus.textContent = privateMovies.length + " private movies";
+        privateMovieStatus.textContent = privateMovieCatalog.length + " private movies";
         privateMoviesLoaded = true;
       }
 
