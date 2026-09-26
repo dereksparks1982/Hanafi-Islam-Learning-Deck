@@ -384,9 +384,22 @@
       }
       .library-viewer-panel { grid-template-rows: 44px 1fr; }
     }
-  </style>
+  
+    .library-mode-nav{position:fixed;top:max(16px,env(safe-area-inset-top));left:50%;z-index:30;transform:translateX(-50%);display:flex;gap:8px;padding:6px;border:1px solid rgba(217,180,95,.55);border-radius:12px;background:rgba(3,19,14,.92);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .library-mode-nav button{border:1px solid rgba(217,180,95,.35);border-radius:8px;background:#0a2118;color:#ead18c;padding:.58rem .95rem;font:600 .82rem Georgia,serif;cursor:pointer}
+    .library-mode-nav button[aria-pressed="true"]{background:#d9b45f;color:#07110d}
+    .private-movies[hidden],.library-shelf-shell[hidden]{display:none!important}
+    .private-movies{position:fixed;inset:78px 5vw 5vh;z-index:21;overflow:auto;padding:1rem;border:1px solid rgba(217,180,95,.42);border-radius:16px;background:rgba(3,14,10,.91);backdrop-filter:blur(5px)}
+    .private-movie-status{color:#d9c58c;margin:.2rem 0 1rem}
+    .private-movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}
+    .private-movie-card{border:1px solid rgba(217,180,95,.35);border-radius:13px;overflow:hidden;background:#0b1510;color:#f1e5bd;cursor:pointer;text-align:left;padding:0}
+    .private-movie-card:hover,.private-movie-card:focus-visible{border-color:#d9b45f;outline:none;transform:translateY(-2px)}
+    .private-movie-poster{aspect-ratio:2/3;display:grid;place-items:end start;padding:1rem;background:linear-gradient(155deg,#244532,#080c09 72%);font:600 1rem Georgia,serif}
+    .private-movie-title{display:block;padding:.7rem .8rem;line-height:1.3}
+</style>
 </head>
 <body>
+  <nav class="library-mode-nav" aria-label="Private library sections"><button id="booksMode" type="button" aria-pressed="true">Books</button><button id="moviesMode" type="button" aria-pressed="false">Movies</button></nav>
   <main aria-labelledby="libraryTitle">
     <h1 id="libraryTitle" class="visually-hidden">Advanced Learner Library</h1>
 
@@ -412,6 +425,10 @@
         </button>
       </div>
       <div class="library-shelf-plank" aria-hidden="true"></div>
+    </section>
+    <section id="privateMovies" class="private-movies" hidden aria-label="Private movie collection">
+      <p id="privateMovieStatus" class="private-movie-status">Loading private movie collection…</p>
+      <div id="privateMovieGrid" class="private-movie-grid"></div>
     </section>
   </main>
 
@@ -558,6 +575,67 @@
         if (!viewer.hidden) return;
         if (event.target.closest(".library-book")) return;
         setSelectedBook(null);
+      });
+
+      const booksMode = document.getElementById("booksMode");
+      const moviesMode = document.getElementById("moviesMode");
+      const privateMovies = document.getElementById("privateMovies");
+      const privateMovieGrid = document.getElementById("privateMovieGrid");
+      const privateMovieStatus = document.getElementById("privateMovieStatus");
+      let privateMoviesLoaded = false;
+
+      const privateBase = "https://97.201.65.144";
+      const movieTitle = item => item.title || item.name || item.filename || item.id || "Private movie";
+      const movieId = item => item.id || item.mediaId || item.key || "";
+
+      async function loadPrivateMovies() {
+        if (privateMoviesLoaded) return;
+        privateMovieStatus.textContent = "Scanning Private Hosted…";
+        try {
+          const response = await fetch(privateBase + "/nougat/v1/private/catalog", { cache:"no-store" });
+          if (!response.ok) throw new Error("Private movie catalog unavailable");
+          const payload = await response.json();
+          const items = Array.isArray(payload) ? payload : (payload.items || payload.movies || []);
+          privateMovieGrid.replaceChildren();
+          for (const item of items) {
+            const id = movieId(item);
+            if (!id) continue;
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "private-movie-card";
+            button.innerHTML = '<span class="private-movie-poster"></span><span class="private-movie-title"></span>';
+            button.querySelector(".private-movie-poster").textContent = movieTitle(item);
+            button.querySelector(".private-movie-title").textContent = movieTitle(item);
+            button.addEventListener("click", () => {
+              const virtualBook = document.createElement("button");
+              virtualBook.dataset.title = movieTitle(item);
+              virtualBook.dataset.kind = "video";
+              virtualBook.dataset.src = privateBase + "/nougat/v1/private/media?id=" + encodeURIComponent(id);
+              openViewer(virtualBook);
+            });
+            privateMovieGrid.appendChild(button);
+          }
+          privateMovieStatus.textContent = privateMovieGrid.children.length
+            ? privateMovieGrid.children.length + " private movie" + (privateMovieGrid.children.length === 1 ? "" : "s")
+            : "Private Hosted is empty.";
+          privateMoviesLoaded = true;
+        } catch (error) {
+          privateMovieStatus.textContent = "Private movie scanner is not available on saxondesktop yet.";
+        }
+      }
+
+      booksMode.addEventListener("click", () => {
+        document.querySelector(".library-shelf-shell").hidden = false;
+        privateMovies.hidden = true;
+        booksMode.setAttribute("aria-pressed","true");
+        moviesMode.setAttribute("aria-pressed","false");
+      });
+      moviesMode.addEventListener("click", () => {
+        document.querySelector(".library-shelf-shell").hidden = true;
+        privateMovies.hidden = false;
+        booksMode.setAttribute("aria-pressed","false");
+        moviesMode.setAttribute("aria-pressed","true");
+        loadPrivateMovies();
       });
 
       window.HanafiLibraryShelf = {
