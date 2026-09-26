@@ -1,5 +1,6 @@
 # Hanafi Learning Deck public crawler policy
 User-agent: *
 Allow: /
+Disallow: /Hanafi-Islam-Learning-Deck/advanced-library/
 
 Sitemap: https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/sitemap.xml
