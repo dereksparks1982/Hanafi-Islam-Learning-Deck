@@ -654,11 +654,7 @@
             }).catch(() => {});
           }
           button.addEventListener("click", () => {
-            const virtualBook = document.createElement("button");
-            virtualBook.dataset.title = item.title;
-            virtualBook.dataset.kind = "media-page";
-            virtualBook.dataset.src = "../media/movie.html?media=" + encodeURIComponent(item.id) + "&title=" + encodeURIComponent(item.title);
-            openViewer(virtualBook);
+            window.location.assign("../media/movie.html?private=1&media=" + encodeURIComponent(item.id) + "&title=" + encodeURIComponent(item.title));
           });
           privateMovieGrid.appendChild(button);
         }
