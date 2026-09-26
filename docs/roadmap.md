@@ -1,8 +1,8 @@
 # Hanafi Learning Deck — Roadmap
 
-## Current published checkpoint: v2.1 — closed
+## Current published checkpoint: v2.3 — closed and accepted
 
-**v2.1 is the current accepted and published checkpoint.** No later public version number has been assigned.
+**v2.3 is the current accepted and published checkpoint.** No later public version number has been assigned.
 
 A future release number begins only when the maintainer explicitly authorizes and names it. Roadmap entries are plans, not automatic permission to build them.
 
@@ -18,9 +18,9 @@ The project remains a **Hanafi study aid pending qualified imam/scholar review**
 
 All current development is kept on **`main`**. GitHub Pages is built from the current `main` Web App workflow. The Tor mirror is an alternate deployment of the same current project rather than a separate development branch.
 
-Detailed v2.1 closeout record:
+Current closeout/artwork record:
 
-[`V2.1_CLOSEOUT.md`](V2.1_CLOSEOUT.md)
+[`V2.3_MEDIA_ARTWORK_PLAN.md`](V2.3_MEDIA_ARTWORK_PLAN.md)
 
 ## What is already working
 
@@ -97,7 +97,7 @@ The temporary Arabic/English hard-sub *The Message* copy that was still download
 
 Multiple named external sidecar subtitle tracks per single media item remain a future enhancement. v2.1 supports one optional sidecar subtitle path per item.
 
-## Future Media work
+## Media after v2.3
 
 Possible later Media work includes:
 
