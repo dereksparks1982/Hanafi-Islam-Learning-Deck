@@ -1,19 +1,19 @@
 const RELEASE = "v2.3";
 const CACHE_PREFIX = "hanafi-deck-";
-const SHELL_REV = "20260926-private-media-final-1";
+const SHELL_REV = "20260926-shell-refresh-2";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}-${SHELL_REV}`;
 const CARD_CACHE = `${CACHE_PREFIX}cards-${RELEASE}`;
 const ADHAN_LIBRARY_URL = "https://unpkg.com/adhan@4.4.6/lib/bundles/adhan.umd.min.js";
 const SHELL = [
   "./",
-  `./index.html?release=${RELEASE}`,
-  `./styles.css?release=${RELEASE}`,
-  `./mobile-background.css?rev=20260923mobile2`,
-  `./app.js?release=${RELEASE}`,
+  `./index.html?release=${RELEASE}&rev=20260926shell1`,
+  `./styles.css?release=${RELEASE}&rev=20260926shell1`,
+  `./mobile-background.css?rev=20260926shell1`,
+  `./app.js?release=${RELEASE}&rev=20260926shell1`,
   `./card-viewer.js?release=${RELEASE}`,
   `./secret-library-trigger.js?rev=20260924b`,
-  `./manifest.webmanifest?release=${RELEASE}`,
-  `./assets/hanafi-learning-deck-icon-approved.png?rev=20260923a`,
+  `./manifest.webmanifest?release=${RELEASE}&rev=20260926shell1`,
+  `./assets/hanafi-learning-deck-icon-approved.png?rev=20260926shell1`,
   `./quran/index.html?release=${RELEASE}`,
   `./quran/styles.css?release=${RELEASE}`,
   `./quran/app.js?release=${RELEASE}`,
@@ -35,7 +35,12 @@ const SHELL = [
 self.addEventListener("install", event => {
   event.waitUntil((async () => {
     const cache = await caches.open(SHELL_CACHE);
-    await cache.addAll(SHELL);
+    for (const url of SHELL) {
+      const request = new Request(url, { cache:"reload" });
+      const response = await fetch(request);
+      if (!response.ok) throw new Error(`Shell fetch failed: ${response.status} ${url}`);
+      await cache.put(request, response);
+    }
     await self.skipWaiting();
   })());
 });
@@ -151,12 +156,12 @@ async function offlineNavigationFallback(url) {
   for (const [route, cachedPath] of routes) {
     if (url.pathname.endsWith(`/${route}/`) || url.pathname.endsWith(`/${route}/index.html`)) {
       return (await caches.match(cachedPath)) ||
-        (await caches.match(`./index.html?release=${RELEASE}`)) ||
+        (await caches.match(`./index.html?release=${RELEASE}&rev=20260926shell1`)) ||
         (await caches.match("./"));
     }
   }
 
-  return (await caches.match(`./index.html?release=${RELEASE}`)) || (await caches.match("./"));
+  return (await caches.match(`./index.html?release=${RELEASE}&rev=20260926shell1`)) || (await caches.match("./"));
 }
 
 self.addEventListener("fetch", event => {
@@ -168,7 +173,7 @@ self.addEventListener("fetch", event => {
       const cache = await caches.open(SHELL_CACHE);
       const cached = await cache.match(event.request);
       try {
-        const response = await fetch(event.request, { cache:"no-cache" });
+        const response = await fetch(event.request, { cache:"reload" });
         if (response.ok) await cache.put(event.request, response.clone());
         return response;
       } catch {
@@ -180,13 +185,11 @@ self.addEventListener("fetch", event => {
 
   if (url.origin !== self.location.origin) return;
 
-  /* Mobile background CSS is always network-first so installed iOS/Android apps
-     wait for the current framing rules instead of painting an older cached copy. */
   if (url.pathname.endsWith("/mobile-background.css")) {
     event.respondWith((async () => {
       const cache = await caches.open(SHELL_CACHE);
       try {
-        const response = await fetch(event.request, { cache:"no-cache" });
+        const response = await fetch(event.request, { cache:"reload" });
         if (response.ok) await cache.put(event.request, response.clone());
         return response;
       } catch {
@@ -199,7 +202,7 @@ self.addEventListener("fetch", event => {
   if (event.request.mode === "navigate") {
     event.respondWith((async () => {
       try {
-        return await fetch(event.request, { cache:"no-cache" });
+        return await fetch(event.request, { cache:"reload" });
       } catch {
         return offlineNavigationFallback(url);
       }
@@ -221,11 +224,10 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  /* App shell assets are network-first. Cache is fallback only, never first paint. */
   event.respondWith((async () => {
     const cached = await caches.match(event.request);
     try {
-      const response = await fetch(event.request, { cache:"no-cache" });
+      const response = await fetch(event.request, { cache:"reload" });
       if (response.ok && /\.(?:svg|css|js|json|webmanifest)$/i.test(url.pathname)) {
         const cache = await caches.open(SHELL_CACHE);
         await cache.put(event.request, response.clone());
