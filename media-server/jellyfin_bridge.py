@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
+import hashlib
 import json
 import mimetypes
+import re
 import os
 import subprocess
 import sys
@@ -19,6 +21,8 @@ from pathlib import Path
 BIND = os.environ.get('HANAFI_MEDIA_BIND', '127.0.0.1')
 PORT = int(os.environ.get('HANAFI_MEDIA_PORT', '8097'))
 MANIFEST = os.environ.get('HANAFI_MEDIA_MANIFEST', '/etc/hanafi-media/media.tsv')
+PRIVATE_ROOT = Path(os.path.expanduser(os.environ.get('HANAFI_PRIVATE_MEDIA_ROOT', '~/Videos/Private Hosted'))).resolve()
+VIDEO_EXTS = {'.mp4', '.m4v', '.webm', '.ogv', '.ogg', '.mov', '.mkv', '.avi', '.ts', '.m2ts'}
 ALLOWED_ORIGIN = os.environ.get('HANAFI_MEDIA_CORS_ORIGIN', 'https://dereksparks1982.github.io')
 JELLYFIN_URL = os.environ.get('HANAFI_JELLYFIN_URL', 'http://127.0.0.1:8098').rstrip('/')
 TOKEN_OVERRIDE = os.environ.get('HANAFI_JELLYFIN_TOKEN', '').strip()
@@ -65,6 +69,26 @@ def parse_manifest(path):
         raise RuntimeError('Media manifest contains no playable items')
     return items
 
+
+def private_slug(text):
+    value = re.sub(r'[^a-z0-9]+', '-', text.lower()).strip('-')
+    return value or hashlib.sha256(text.encode('utf-8')).hexdigest()[:16]
+
+def private_title(path):
+    name = path.stem.replace('_', ' ').replace('.', ' ')
+    return re.sub(r'\\s+', ' ', name).strip() or path.stem
+
+def private_items():
+    items = {}
+    if not PRIVATE_ROOT.is_dir():
+        return items
+    for path in sorted(PRIVATE_ROOT.rglob('*')):
+        if not path.is_file() or path.suffix.lower() not in VIDEO_EXTS:
+            continue
+        rel = str(path.relative_to(PRIVATE_ROOT))
+        media_id = 'private-' + private_slug(rel)
+        items[media_id] = {'id': media_id, 'path': str(path), 'title': private_title(path), 'filename': path.name, 'content_type': media_content_type(str(path))}
+    return items
 
 def extension_lower(path):
     return os.path.splitext(path)[1].lower()
@@ -215,7 +239,7 @@ class Handler(BaseHTTPRequestHandler):
     def cors(self):
         self.send_header('Access-Control-Allow-Origin', ALLOWED_ORIGIN)
         self.send_header('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Range, Content-Type')
+        self.send_header('Access-Control-Allow-Headers', 'Range, Content-Type, Authorization')
         self.send_header(
             'Access-Control-Expose-Headers',
             'Accept-Ranges, Content-Range, Content-Length, X-Hanafi-Stream-Mode'
@@ -277,6 +301,22 @@ class Handler(BaseHTTPRequestHandler):
                 'service': 'Nougat extracted media server',
                 'items': STATE.all_public(),
             }, head)
+            return
+
+        if parsed.path == '/nougat/v1/private/catalog':
+            items = [{'id': x['id'], 'title': x['title'], 'filename': x['filename'], 'type': x['content_type'], 'ready': os.path.isfile(x['path'])} for x in private_items().values()]
+            self.json_response(200, {'ok': True, 'items': items}, head)
+            return
+
+        if parsed.path == '/nougat/v1/private/media':
+            item = private_items().get(media_id)
+            if not item:
+                self.json_response(404, {'ok': False, 'error': 'Unknown private media id.'}, head)
+                return
+            if browser_direct_preferred(item['path']):
+                self.stream_local_file(item, head)
+            else:
+                self.stream_ffmpeg(item, head)
             return
 
         if parsed.path == '/nougat/v1/media':
