@@ -1,3 +1,4 @@
+# Hanafi Learning Deck public crawler policy
 User-agent: *
 Allow: /
 
