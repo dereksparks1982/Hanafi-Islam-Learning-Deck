@@ -391,13 +391,32 @@
     .library-mode-nav button{border:1px solid rgba(217,180,95,.35);border-radius:8px;background:#0a2118;color:#ead18c;padding:.58rem .95rem;font:600 .82rem Georgia,serif;cursor:pointer}
     .library-mode-nav button[aria-pressed="true"]{background:#d9b45f;color:#07110d}
     .private-movies[hidden],.library-shelf-shell[hidden]{display:none!important}
-    .private-movies{position:fixed;top:78px;bottom:5vh;left:50%;z-index:21;width:min(1120px,calc(100% - 2rem));transform:translateX(-50%);overflow:auto;padding:0;border:0!important;border-radius:0;background:none!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+    .private-movies{position:fixed;top:72px;bottom:0;left:50%;z-index:21;width:min(1120px,calc(100% - 2rem));transform:translateX(-50%);overflow:auto;padding:0 0 3rem;border:0!important;border-radius:0!important;background:transparent!important;background-color:transparent!important;background-image:none!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+    .private-media-header{padding:1.2rem 0 .35rem}
+    .private-media-eyebrow{margin:0 0 .35rem;color:#d8b560;font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem}
+    .private-media-header h1{margin:0;max-width:18ch;font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.2rem,8vw,4.8rem);line-height:.95;color:#f7f1df}
+    .private-library-head{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin:1rem 0}
+    .private-library-head h2{font-family:Georgia,"Times New Roman",serif;font-size:1.5rem;margin:0;color:#f4f1e8}
+    .private-library-head p{margin:.35rem 0 0;color:#d8d2c2}
+    .private-view-toggle{display:flex;gap:.4rem}
+    .private-view-toggle button{border:1px solid rgba(216,181,96,.35);background:#111;color:#eee;border-radius:9px;padding:.6rem .85rem;cursor:pointer}
+    .private-view-toggle button[aria-pressed="true"]{background:#d8b560;color:#111}
     .private-movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
-    .private-movie-card{display:block;text-decoration:none;color:inherit;border:1px solid rgba(216,181,96,.28);border-radius:16px;overflow:hidden;background:#101412;cursor:pointer;text-align:left;padding:0;transition:transform .15s,border-color .15s}
-    .private-movie-card:hover,.private-movie-card:focus-visible{transform:translateY(-2px);border-color:#d8b560;outline:none}
-    .private-movie-poster{aspect-ratio:2/3;position:relative;display:grid;place-items:end start;padding:0;overflow:hidden;background:linear-gradient(160deg,#17271f,#050706 70%);font:600 1rem Georgia,serif}.private-movie-poster img{display:block;width:100%;height:100%;object-fit:cover}
-    .private-movie-title{display:block;padding:.7rem .8rem;font-size:1rem;line-height:1.3}
-    @media(max-width:520px){.private-movie-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}}
+    .private-movie-card{display:block;text-decoration:none;color:inherit;border:1px solid rgba(216,181,96,.28);border-radius:16px;overflow:hidden;background:#101412;transition:transform .15s,border-color .15s}
+    .private-movie-card:hover{transform:translateY(-2px);border-color:#d8b560}
+    .private-movie-link{display:block;text-decoration:none;color:inherit}
+    .private-movie-poster{aspect-ratio:2/3;position:relative;background:linear-gradient(160deg,#17271f,#050706 70%);overflow:hidden}
+    .private-movie-poster img{width:100%;height:100%;object-fit:cover;display:block;transform:scaleX(var(--art-scale-x,var(--art-scale,1))) scaleY(var(--art-scale-y,var(--art-scale,1)));transform-origin:center var(--art-y,50%);object-position:center var(--art-y,50%)}
+    .private-movie-fallback{position:absolute;inset:0;display:grid;place-items:end start;padding:1rem;font-size:1.2rem;font-weight:800;color:#f4f1e8}
+    .private-card-info{padding:.7rem .8rem}
+    .private-card-info h2{font-size:1rem;margin:0}
+    .private-movie-grid.list{display:flex;flex-direction:column;gap:.55rem}
+    .private-movie-grid.list .private-movie-card{display:grid;grid-template-columns:1fr auto;align-items:center}
+    .private-movie-grid.list .private-movie-link{display:grid!important;grid-template-columns:72px 1fr;align-items:center}
+    .private-movie-grid.list .private-movie-poster{aspect-ratio:2/3;width:54px;height:80px;min-height:0;padding:0}
+    .private-movie-grid.list .private-card-info{display:block}
+    .private-tech-credit{text-align:center;color:#8f938d;font-size:.72rem;margin-top:2rem}
+    @media(max-width:520px){.private-movie-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}.private-movie-poster{font-size:1rem}.private-movie-grid.list .private-card-info{display:block}}
 </style>
   <script src="../media/artwork-manager.js?rev=20260925h"></script>
 </head>
@@ -430,8 +449,23 @@
       </div>
       <div class="library-shelf-plank" aria-hidden="true"></div>
     </section>
-    <section id="privateMovies" class="private-movies" hidden aria-label="Private movie collection">
-      <div id="privateMovieGrid" class="private-movie-grid"></div>
+    <section id="privateMovies" class="private-movies" hidden aria-label="Private Media">
+      <header class="private-media-header">
+        <p class="private-media-eyebrow">Hanafi Learning Deck</p>
+        <h1>Private Media</h1>
+      </header>
+      <div class="private-library-head">
+        <div>
+          <h2>Films</h2>
+          <p>Choose a film to view editions, subtitles, details and sources.</p>
+        </div>
+        <div class="private-view-toggle" aria-label="Private Media view">
+          <button id="privateCards" type="button" aria-pressed="true">Cards</button>
+          <button id="privateList" type="button" aria-pressed="false">List</button>
+        </div>
+      </div>
+      <section id="privateMovieGrid" class="private-movie-grid" aria-label="Private films"></section>
+      <p class="private-tech-credit">DK Media · Nougat Media Core</p>
     </section>
   </main>
 
@@ -591,6 +625,8 @@
       const moviesMode = document.getElementById("moviesMode");
       const privateMovies = document.getElementById("privateMovies");
       const privateMovieGrid = document.getElementById("privateMovieGrid");
+      const privateCards = document.getElementById("privateCards");
+      const privateList = document.getElementById("privateList");
       let privateMoviesLoaded = false;
 
       const showBooks = () => {
@@ -598,6 +634,7 @@
         privateMovies.hidden = true;
         booksMode.setAttribute("aria-pressed","true");
         moviesMode.setAttribute("aria-pressed","false");
+        document.title = "Advanced Learner Library";
         history.replaceState({ privateLibraryMode:"books" }, "", location.pathname + location.search);
       };
 
@@ -606,6 +643,7 @@
         privateMovies.hidden = false;
         booksMode.setAttribute("aria-pressed","false");
         moviesMode.setAttribute("aria-pressed","true");
+        document.title = "Private Media · Hanafi Learning Deck";
         loadPrivateMovies();
         history.replaceState({ privateLibraryMode:"movies" }, "", location.pathname + location.search + "#movies");
       };
@@ -647,37 +685,43 @@
         if (privateMoviesLoaded) return;
         privateMovieGrid.replaceChildren();
         for (const item of privateMovieCatalog) {
-          const button = document.createElement("button");
-          button.type = "button";
-          button.className = "private-movie-card";
-          button.innerHTML = '<span class="private-movie-poster"></span><span class="private-movie-title"></span>';
-          const poster = button.querySelector(".private-movie-poster");
-          poster.textContent = item.title;
-          button.querySelector(".private-movie-title").textContent = item.title;
+          const card = document.createElement("article");
+          card.className = "private-movie-card";
+          const href = "../media/movie.html?private=1&return=private-movies&media=" + encodeURIComponent(item.id) + "&title=" + encodeURIComponent(item.title);
+          card.innerHTML = '<a class="private-movie-link" href="' + href + '"><div class="private-movie-poster"><span class="private-movie-fallback">' + item.title + '</span></div><div class="private-card-info"><h2>' + item.title + '</h2></div></a>';
+          const poster = card.querySelector(".private-movie-poster");
+          const fallback = card.querySelector(".private-movie-fallback");
           if (window.HanafiArtworkManager) {
             window.HanafiArtworkManager.resolve(item).then(resolved => {
               if (!resolved?.url) return;
               const img = new Image();
               img.alt = item.title + " poster";
-              img.style.width = "100%";
-              img.style.height = "100%";
-              img.style.objectFit = "cover";
+              img.style.setProperty("--art-scale", resolved.crop?.scale || 1);
+              img.style.setProperty("--art-scale-x", resolved.crop?.scaleX || resolved.crop?.scale || 1);
+              img.style.setProperty("--art-scale-y", resolved.crop?.scaleY || resolved.crop?.scale || 1);
+              img.style.setProperty("--art-y", resolved.crop?.y || "50%");
+              img.style.objectPosition = (resolved.crop?.x || "50%") + " " + (resolved.crop?.y || "50%");
               exactPosterArtwork(resolved.url).then(exactUrl => {
-                img.onload = () => { poster.textContent = ""; poster.appendChild(img); };
+                img.onload = () => { poster.appendChild(img); fallback.hidden = true; };
                 img.src = exactUrl;
               }).catch(() => {
-                img.onload = () => { poster.textContent = ""; poster.appendChild(img); };
+                img.onload = () => { poster.appendChild(img); fallback.hidden = true; };
                 img.src = resolved.url;
               });
             }).catch(() => {});
           }
-          button.addEventListener("click", () => {
-            window.location.assign("../media/movie.html?private=1&return=private-movies&media=" + encodeURIComponent(item.id) + "&title=" + encodeURIComponent(item.title));
-          });
-          privateMovieGrid.appendChild(button);
+          privateMovieGrid.appendChild(card);
         }
         privateMoviesLoaded = true;
       }
+
+      const setPrivateView = view => {
+        privateMovieGrid.classList.toggle("list", view === "list");
+        privateCards.setAttribute("aria-pressed", view === "cards" ? "true" : "false");
+        privateList.setAttribute("aria-pressed", view === "list" ? "true" : "false");
+      };
+      privateCards.addEventListener("click", () => setPrivateView("cards"));
+      privateList.addEventListener("click", () => setPrivateView("list"));
 
       booksMode.addEventListener("click", showBooks);
       moviesMode.addEventListener("click", showMovies);
