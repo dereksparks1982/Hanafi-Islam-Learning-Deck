@@ -3,8 +3,15 @@
 
   const config = window.HANAFI_NOUGAT_MEDIA || {};
 
+  function isXbox() {
+    return /Xbox/i.test((window.navigator && window.navigator.userAgent) || "");
+  }
+
   function normalizedBaseUrl() {
-    const value = typeof config.baseUrl === "string" ? config.baseUrl.trim() : "";
+    const configured = isXbox() && typeof config.xboxBaseUrl === "string"
+      ? config.xboxBaseUrl
+      : config.baseUrl;
+    const value = typeof configured === "string" ? configured.trim() : "";
     return value.replace(/\/+$/, "");
   }
 
