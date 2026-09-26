@@ -594,11 +594,34 @@
 
       const privateBase = "https://97.201.65.144";
       const privateMovieCatalog = [
-        {id:"kingdom-of-heaven-2005", title:"Kingdom of Heaven (2005)", artwork:{provider:"wikipedia",page:"Kingdom_of_Heaven_(film)",cacheKey:"private-kingdom-of-heaven-2005-v1"}},
-        {id:"night-of-the-living-dead-1968", title:"Night of the Living Dead (1968)", artwork:{provider:"wikipedia",page:"Night_of_the_Living_Dead",cacheKey:"private-night-of-the-living-dead-1968-v1"}},
-        {id:"practical-magic-1998", title:"Practical Magic (1998)", artwork:{provider:"wikipedia",page:"Practical_Magic",cacheKey:"private-practical-magic-1998-v1"}},
-        {id:"steamboat-willie-1928", title:"Steamboat Willie (1928)", artwork:{provider:"wikipedia",page:"Steamboat_Willie",cacheKey:"private-steamboat-willie-1928-v1"}}
+        {id:"kingdom-of-heaven-2005", title:"Kingdom of Heaven (2005)", artwork:{provider:"wikipedia",page:"Kingdom_of_Heaven_(film)",cacheKey:"private-kingdom-of-heaven-2005-v2"}},
+        {id:"night-of-the-living-dead-1968", title:"Night of the Living Dead (1968)", artwork:{provider:"wikipedia",page:"Night_of_the_Living_Dead",cacheKey:"private-night-of-the-living-dead-1968-v2"}},
+        {id:"practical-magic-1998", title:"Practical Magic (1998)", artwork:{provider:"wikipedia",page:"Practical_Magic",cacheKey:"private-practical-magic-1998-v2"}},
+        {id:"steamboat-willie-1928", title:"Steamboat Willie (1928)", artwork:{provider:"wikipedia",page:"Steamboat_Willie",cacheKey:"private-steamboat-willie-1928-v2"}}
       ];
+      async function exactPosterArtwork(url) {
+        return await new Promise((resolve, reject) => {
+          const source = new Image();
+          source.onload = () => {
+            const canvas = document.createElement("canvas");
+            canvas.width = 900;
+            canvas.height = 1350;
+            const ctx = canvas.getContext("2d");
+            const cover = Math.max(canvas.width / source.naturalWidth, canvas.height / source.naturalHeight);
+            const coverW = source.naturalWidth * cover;
+            const coverH = source.naturalHeight * cover;
+            ctx.drawImage(source, (canvas.width-coverW)/2, (canvas.height-coverH)/2, coverW, coverH);
+            const contain = Math.min(canvas.width / source.naturalWidth, canvas.height / source.naturalHeight);
+            const containW = source.naturalWidth * contain;
+            const containH = source.naturalHeight * contain;
+            ctx.drawImage(source, (canvas.width-containW)/2, (canvas.height-containH)/2, containW, containH);
+            canvas.toBlob(blob => blob ? resolve(URL.createObjectURL(blob)) : reject(new Error("poster conversion failed")), "image/webp", .92);
+          };
+          source.onerror = reject;
+          source.src = url;
+        });
+      }
+
       const movieTitle = item => item.title || item.name || item.filename || item.id || "Private movie";
       const movieId = item => item.id || item.mediaId || item.key || "";
 
@@ -621,8 +644,13 @@
               img.style.width = "100%";
               img.style.height = "100%";
               img.style.objectFit = "cover";
-              img.onload = () => { poster.textContent = ""; poster.appendChild(img); };
-              img.src = resolved.url;
+              exactPosterArtwork(resolved.url).then(exactUrl => {
+                img.onload = () => { poster.textContent = ""; poster.appendChild(img); };
+                img.src = exactUrl;
+              }).catch(() => {
+                img.onload = () => { poster.textContent = ""; poster.appendChild(img); };
+                img.src = resolved.url;
+              });
             }).catch(() => {});
           }
           button.addEventListener("click", () => {
