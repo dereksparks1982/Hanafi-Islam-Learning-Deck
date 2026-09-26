@@ -1,6 +1,6 @@
 const RELEASE = "v2.3";
 const CACHE_PREFIX = "hanafi-deck-";
-const SHELL_REV = "20260925-private-movies-2";
+const SHELL_REV = "20260925-private-movies-3";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}-${SHELL_REV}`;
 const CARD_CACHE = `${CACHE_PREFIX}cards-${RELEASE}`;
 const ADHAN_LIBRARY_URL = "https://unpkg.com/adhan@4.4.6/lib/bundles/adhan.umd.min.js";
