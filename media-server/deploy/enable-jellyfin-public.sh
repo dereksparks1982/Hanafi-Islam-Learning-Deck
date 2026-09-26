@@ -3,6 +3,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 MANIFEST_SRC="$REPO_ROOT/media-server/media.tsv.example"
+PRIVATE_MANIFEST_SRC="$REPO_ROOT/media-server/private-media.tsv.example"
 BRIDGE_SRC="$REPO_ROOT/media-server/jellyfin_bridge.py"
 
 NOUGAT_ROOT="${NOUGAT_ROOT:-/home/dereksparks1982/DKLab/Projects/Nougat Media Plus}"
@@ -16,6 +17,7 @@ NOUGAT_CLIENT_STATE="$NOUGAT_CONFIG/client.json"
 
 MEDIA_DIR="/etc/hanafi-media"
 MANIFEST_DST="$MEDIA_DIR/media.tsv"
+PRIVATE_MANIFEST_DST="$MEDIA_DIR/private-media.tsv"
 ENV_FILE="$MEDIA_DIR/jellyfin.env"
 PUBLIC_URL_FILE="$MEDIA_DIR/public-base-url"
 BRIDGE_SERVICE="/etc/systemd/system/hanafi-jellyfin-bridge.service"
@@ -28,7 +30,7 @@ need_cmd() {
   command -v "$1" >/dev/null 2>&1
 }
 
-for required in "$MANIFEST_SRC" "$BRIDGE_SRC"; do
+for required in "$MANIFEST_SRC" "$PRIVATE_MANIFEST_SRC" "$BRIDGE_SRC"; do
   if [[ ! -f "$required" ]]; then
     echo "Missing required Hanafi media file: $required" >&2
     exit 1
@@ -188,12 +190,14 @@ fi
 sudo install -d -m 0755 "$MEDIA_DIR"
 sudo install -m 0755 "$BRIDGE_SRC" /usr/local/bin/hanafi-jellyfin-bridge
 sudo install -m 0644 "$MANIFEST_SRC" "$MANIFEST_DST"
+sudo install -m 0644 "$PRIVATE_MANIFEST_SRC" "$PRIVATE_MANIFEST_DST"
 
 sudo tee "$ENV_FILE" >/dev/null <<EOF
 HOME=/home/dereksparks1982
 HANAFI_MEDIA_BIND=127.0.0.1
 HANAFI_MEDIA_PORT=8097
 HANAFI_MEDIA_MANIFEST=$MANIFEST_DST
+HANAFI_PRIVATE_MEDIA_MANIFEST=$PRIVATE_MANIFEST_DST
 HANAFI_PRIVATE_MEDIA_ROOT=/home/dereksparks1982/Videos/Private Hosted
 HANAFI_MEDIA_CORS_ORIGIN=https://dereksparks1982.github.io
 HANAFI_JELLYFIN_URL=http://127.0.0.1:8098
