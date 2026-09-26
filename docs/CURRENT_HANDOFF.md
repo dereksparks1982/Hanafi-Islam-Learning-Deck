@@ -185,6 +185,16 @@ The router destination was corrected during testing and *The Ten Commandments* s
 
 The gated advanced-study library shell is implemented.
 
+### Protected bridge deployment workaround
+
+For the Hanafi/Nougat bridge, do not invent an installer, second bridge, second Jellyfin instance, replacement service, or alternate architecture merely because ChatGPT cannot directly write protected files on saxondesktop.
+
+The authoritative bridge source stays in the project repository. After repository-side changes are complete, deployment to protected system paths is performed with one controlled terminal operation on saxondesktop: copy the authoritative project bridge over the existing `/usr/local/bin/hanafi-jellyfin-bridge`, restart the existing `hanafi-jellyfin-bridge.service`, and verify the live endpoint. The established local Git + SSH workflow remains the publication path.
+
+Live chain: project bridge source -> `/usr/local/bin/hanafi-jellyfin-bridge` -> existing `hanafi-jellyfin-bridge.service` -> `127.0.0.1:8097` -> existing Nougat-integrated Jellyfin at `127.0.0.1:8098` -> local media.
+
+This deployment boundary is not permission to modify unrelated working behavior. Preserve the accepted Private Library trigger, lock, PIN/key behavior, entrance flow, and other working surfaces unless the maintainer explicitly authorizes those specific changes.
+
 
 
 ## Charity / support
