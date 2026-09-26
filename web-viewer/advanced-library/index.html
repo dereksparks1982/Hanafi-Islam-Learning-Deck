@@ -592,6 +592,23 @@
       const privateMovieStatus = document.getElementById("privateMovieStatus");
       let privateMoviesLoaded = false;
 
+      const showBooks = () => {
+        document.querySelector(".library-shelf-shell").hidden = false;
+        privateMovies.hidden = true;
+        booksMode.setAttribute("aria-pressed","true");
+        moviesMode.setAttribute("aria-pressed","false");
+        history.replaceState({ privateLibraryMode:"books" }, "", location.pathname + location.search);
+      };
+
+      const showMovies = () => {
+        document.querySelector(".library-shelf-shell").hidden = true;
+        privateMovies.hidden = false;
+        booksMode.setAttribute("aria-pressed","false");
+        moviesMode.setAttribute("aria-pressed","true");
+        loadPrivateMovies();
+        history.replaceState({ privateLibraryMode:"movies" }, "", location.pathname + location.search + "#movies");
+      };
+
       const privateBase = "https://97.201.65.144";
       const privateMovieCatalog = [
         {id:"kingdom-of-heaven-2005", title:"Kingdom of Heaven (2005)", artwork:{provider:"wikipedia",page:"Kingdom_of_Heaven_(film)",cacheKey:"private-kingdom-of-heaven-2005-v2"}},
@@ -654,7 +671,7 @@
             }).catch(() => {});
           }
           button.addEventListener("click", () => {
-            window.location.assign("../media/movie.html?private=1&media=" + encodeURIComponent(item.id) + "&title=" + encodeURIComponent(item.title));
+            window.location.assign("../media/movie.html?private=1&return=private-movies&media=" + encodeURIComponent(item.id) + "&title=" + encodeURIComponent(item.title));
           });
           privateMovieGrid.appendChild(button);
         }
@@ -662,19 +679,10 @@
         privateMoviesLoaded = true;
       }
 
-      booksMode.addEventListener("click", () => {
-        document.querySelector(".library-shelf-shell").hidden = false;
-        privateMovies.hidden = true;
-        booksMode.setAttribute("aria-pressed","true");
-        moviesMode.setAttribute("aria-pressed","false");
-      });
-      moviesMode.addEventListener("click", () => {
-        document.querySelector(".library-shelf-shell").hidden = true;
-        privateMovies.hidden = false;
-        booksMode.setAttribute("aria-pressed","false");
-        moviesMode.setAttribute("aria-pressed","true");
-        loadPrivateMovies();
-      });
+      booksMode.addEventListener("click", showBooks);
+      moviesMode.addEventListener("click", showMovies);
+
+      if (location.hash === "#movies") showMovies();
 
       window.HanafiLibraryShelf = {
         shelf,
