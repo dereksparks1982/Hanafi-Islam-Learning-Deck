@@ -97,6 +97,8 @@ Binary images that already exist as final files should be uploaded directly as G
 
 ## 8. Validation before claiming success
 
+- Any terminal command provided to the maintainer must leave the current terminal/session open. Never include `exit`, `logout`, or any shell-closing command.
+
 Before saying a repository change is complete:
 
 - verify the target branch and current head;
