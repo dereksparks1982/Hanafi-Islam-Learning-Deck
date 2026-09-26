@@ -300,7 +300,7 @@ class Handler(BaseHTTPRequestHandler):
             return
 
         if parsed.path == '/nougat/v1/private/catalog':
-            items = [{'id': x['id'], 'title': x['title'], 'filename': x['filename'], 'type': x['content_type'], 'ready': os.path.isfile(x['path'])} for x in private_items().values()]
+            items = [{'id': x['id'], 'type': x['content_type'], 'subtitles': bool(x['subtitle_path']), 'ready': os.path.isfile(x['path'])} for x in private_items().values()]
             self.json_response(200, {'ok': True, 'items': items}, head)
             return
 
@@ -321,6 +321,10 @@ class Handler(BaseHTTPRequestHandler):
 
         if parsed.path == '/nougat/v1/transcode':
             self.stream_media(media_id, head, force_transcode=True)
+            return
+
+        if parsed.path == '/nougat/v1/private/subtitle':
+            self.stream_private_subtitle(media_id, head)
             return
 
         if parsed.path == '/nougat/v1/subtitle':
@@ -566,11 +570,14 @@ class Handler(BaseHTTPRequestHandler):
             upstream.close()
         self.close_connection = True
 
-    def stream_subtitle(self, media_id, head):
-        item = STATE.get(media_id)
+    def stream_private_subtitle(self, media_id, head):
+        item = private_items().get(media_id)
         if not item:
-            self.json_response(404, {'ok': False, 'error': 'Unknown media id.'}, head)
+            self.json_response(404, {'ok': False, 'error': 'Unknown private media id.'}, head)
             return
+        self.stream_subtitle_item(item, head)
+
+    def stream_subtitle_item(self, item, head):
         subtitle = item.get('subtitle_path') or ''
         if not subtitle or not os.path.isfile(subtitle):
             self.json_response(404, {
@@ -585,13 +592,20 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-Type', 'text/vtt; charset=utf-8')
         self.send_header('Content-Length', str(len(body)))
-        self.send_header('Cache-Control', 'public, max-age=3600')
+        self.send_header('Cache-Control', 'private, max-age=0')
         self.send_header('Connection', 'close')
         self.cors()
         self.end_headers()
         if not head:
             self.wfile.write(body)
         self.close_connection = True
+
+    def stream_subtitle(self, media_id, head):
+        item = STATE.get(media_id)
+        if not item:
+            self.json_response(404, {'ok': False, 'error': 'Unknown media id.'}, head)
+            return
+        self.stream_subtitle_item(item, head)
 
 
 def main():
