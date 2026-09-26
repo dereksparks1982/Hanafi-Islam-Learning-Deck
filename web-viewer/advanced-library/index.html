@@ -592,7 +592,11 @@
         if (privateMoviesLoaded) return;
         privateMovieStatus.textContent = "Scanning Private Hosted…";
         try {
-          const response = await fetch(privateBase + "/nougat/v1/private/catalog", { cache:"no-store" });
+          const token = sessionStorage.getItem("hanafi-private-media-token") || "";
+          const response = await fetch(privateBase + "/nougat/v1/private/catalog", {
+            cache:"no-store",
+            headers:{ "Authorization":"Bearer " + token }
+          });
           if (!response.ok) throw new Error("Private movie catalog unavailable");
           const payload = await response.json();
           const items = Array.isArray(payload) ? payload : (payload.items || payload.movies || []);
@@ -610,7 +614,7 @@
               const virtualBook = document.createElement("button");
               virtualBook.dataset.title = movieTitle(item);
               virtualBook.dataset.kind = "video";
-              virtualBook.dataset.src = privateBase + "/nougat/v1/private/media?id=" + encodeURIComponent(id);
+              virtualBook.dataset.src = privateBase + "/nougat/v1/private/media?id=" + encodeURIComponent(id) + "&token=" + encodeURIComponent(sessionStorage.getItem("hanafi-private-media-token") || "");
               openViewer(virtualBook);
             });
             privateMovieGrid.appendChild(button);
