@@ -391,13 +391,13 @@
     .library-mode-nav button{border:1px solid rgba(217,180,95,.35);border-radius:8px;background:#0a2118;color:#ead18c;padding:.58rem .95rem;font:600 .82rem Georgia,serif;cursor:pointer}
     .library-mode-nav button[aria-pressed="true"]{background:#d9b45f;color:#07110d}
     .private-movies[hidden],.library-shelf-shell[hidden]{display:none!important}
-    .private-movies{position:fixed;inset:78px 5vw 5vh;z-index:21;overflow:auto;padding:1rem;border:0;border-radius:0;background:transparent;backdrop-filter:none}
-    .private-movie-status{color:#d9c58c;margin:.2rem 0 1rem}
-    .private-movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem}
-    .private-movie-card{border:1px solid rgba(216,181,96,.28);border-radius:16px;overflow:hidden;background:#101412;color:#f1e5bd;cursor:pointer;text-align:left;padding:0;transition:transform .15s,border-color .15s}
-    .private-movie-card:hover,.private-movie-card:focus-visible{border-color:#d8b560;outline:none;transform:translateY(-2px)}
-    .private-movie-poster{aspect-ratio:2/3;display:grid;place-items:end start;padding:0;overflow:hidden;background:linear-gradient(155deg,#244532,#080c09 72%);font:600 1rem Georgia,serif}.private-movie-poster img{display:block;width:100%;height:100%;object-fit:cover}
-    .private-movie-title{display:block;padding:.7rem .8rem;line-height:1.3}
+    .private-movies{position:fixed;top:78px;bottom:5vh;left:50%;z-index:21;width:min(1120px,calc(100% - 2rem));transform:translateX(-50%);overflow:auto;padding:0;border:0!important;border-radius:0;background:none!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+    .private-movie-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+    .private-movie-card{display:block;text-decoration:none;color:inherit;border:1px solid rgba(216,181,96,.28);border-radius:16px;overflow:hidden;background:#101412;cursor:pointer;text-align:left;padding:0;transition:transform .15s,border-color .15s}
+    .private-movie-card:hover,.private-movie-card:focus-visible{transform:translateY(-2px);border-color:#d8b560;outline:none}
+    .private-movie-poster{aspect-ratio:2/3;position:relative;display:grid;place-items:end start;padding:0;overflow:hidden;background:linear-gradient(160deg,#17271f,#050706 70%);font:600 1rem Georgia,serif}.private-movie-poster img{display:block;width:100%;height:100%;object-fit:cover}
+    .private-movie-title{display:block;padding:.7rem .8rem;font-size:1rem;line-height:1.3}
+    @media(max-width:520px){.private-movie-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.65rem}}
 </style>
   <script src="../media/artwork-manager.js?rev=20260925h"></script>
 </head>
@@ -431,7 +431,6 @@
       <div class="library-shelf-plank" aria-hidden="true"></div>
     </section>
     <section id="privateMovies" class="private-movies" hidden aria-label="Private movie collection">
-      <p id="privateMovieStatus" class="private-movie-status">Loading private movie collection…</p>
       <div id="privateMovieGrid" class="private-movie-grid"></div>
     </section>
   </main>
@@ -592,7 +591,6 @@
       const moviesMode = document.getElementById("moviesMode");
       const privateMovies = document.getElementById("privateMovies");
       const privateMovieGrid = document.getElementById("privateMovieGrid");
-      const privateMovieStatus = document.getElementById("privateMovieStatus");
       let privateMoviesLoaded = false;
 
       const showBooks = () => {
@@ -678,7 +676,6 @@
           });
           privateMovieGrid.appendChild(button);
         }
-        privateMovieStatus.textContent = privateMovieCatalog.length + " private movies";
         privateMoviesLoaded = true;
       }
 
