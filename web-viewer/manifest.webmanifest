@@ -2,14 +2,14 @@
   "name": "Hanafi Learning Deck",
   "short_name": "Hanafi Deck",
   "description": "Offline Hanafi study Web App with cards, Qur'an Reader, and prayer-time tools.",
-  "start_url": "./",
+  "start_url": "./?release=v2.3&rev=20260926shell1",
   "scope": "./",
   "display": "standalone",
   "background_color": "#071b15",
   "theme_color": "#0b3d2e",
   "icons": [
     {
-      "src": "assets/hanafi-learning-deck-icon-approved.png",
+      "src": "assets/hanafi-learning-deck-icon-approved.png?rev=20260926shell1",
       "sizes": "1254x1254",
       "type": "image/png",
       "purpose": "any"
