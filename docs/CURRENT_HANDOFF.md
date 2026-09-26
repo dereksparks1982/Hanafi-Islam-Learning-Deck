@@ -314,3 +314,14 @@ Current runtime status:
 - The owner reported that no movies were visible in the Private Movies section before the deployment wiring correction.
 - Do NOT claim the Private Movies section is working live until the updated deployment has actually been applied on saxondesktop and the owner verifies it.
 - Do not alter unrelated Private Library behavior while continuing this repair.
+
+## 2026-09-26 — Remote viewing device validation
+
+Current remote-viewing status as explicitly verified by the maintainer:
+
+- **iPhone:** working.
+- **Android:** pending.
+- **Xbox:** pending.
+- **PlayStation:** pending.
+
+Do not mark Android, Xbox, or PlayStation as working until the maintainer explicitly verifies successful remote viewing on each device.
