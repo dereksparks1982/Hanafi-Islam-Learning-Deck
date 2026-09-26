@@ -173,6 +173,16 @@
         return;
       }
 
+      const initial = this.library[0];
+      if (!initial) {
+        this.placeholder.textContent = "No media is currently listed.";
+        this.setStatus("No media available.");
+        return;
+      }
+
+      this.mediaSelect.value = initial.id;
+      this.loadMedia(initial.id);
+
       try {
         const response = await fetch(this.backend.catalogUrl(), {
           mode: "cors",
@@ -183,19 +193,26 @@
         (payload.items || []).forEach(item => this.catalog.set(item.id, item));
       } catch (error) {
         console.warn("Hanafi media catalog unavailable:", error);
+        return;
       }
 
-      const firstReady = this.library.find(item => {
-        const catalogItem = this.catalog.get(item.id);
-        return !catalogItem || catalogItem.ready !== false;
-      }) || this.library[0];
+      const currentCatalogItem = this.current ? this.catalog.get(this.current.id) : null;
+      if (currentCatalogItem && currentCatalogItem.ready === false) {
+        const firstReady = this.library.find(item => {
+          const catalogItem = this.catalog.get(item.id);
+          return !catalogItem || catalogItem.ready !== false;
+        });
+        if (firstReady && firstReady.id !== this.current.id) {
+          this.mediaSelect.value = firstReady.id;
+          this.loadMedia(firstReady.id);
+        } else {
+          this.loadMedia(this.current.id);
+        }
+        return;
+      }
 
-      if (firstReady) {
-        this.mediaSelect.value = firstReady.id;
-        this.loadMedia(firstReady.id);
-      } else {
-        this.placeholder.textContent = "No media is currently listed.";
-        this.setStatus("No media available.");
+      if (this.current) {
+        this.configureSubtitles(this.current.id, currentCatalogItem);
       }
     }
 
