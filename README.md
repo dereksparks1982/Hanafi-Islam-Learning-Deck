@@ -1,4 +1,4 @@
-<h1 align="center">Hanafi Learning Deck v2.2</h1>
+<h1 align="center">Hanafi Learning Deck v2.3</h1>
 
 <div align="center">
 
@@ -24,11 +24,11 @@ A growing, printable, offline-capable, and mobile-friendly library for learning 
 
 The project began as a small personal study deck. It has grown into a connected learning system built around the same idea: useful Islamic material should be clear, traceable, practical, and easy to return to every day.
 
-> **Current published checkpoint:** **v2.2**
+> **Current published checkpoint:** **v2.3**
 >
-> **v2.2 status:** **closed and accepted**
+> **v2.3 status:** **closed and accepted**
 >
-> **Next planned build:** **v2.3**
+> **Next planned build:** **not assigned**
 >
 > **Published card library:** **209 cards across five independent sets**
 >
@@ -164,9 +164,9 @@ Current approved cards:
 
 Important Places uses a strict one-card-at-a-time approval process. Candidate subject, wording, image, layout, border, and final artwork are reviewed before publication.
 
-## Web App identity and v2.1 shell
+## Web App identity and current v2.3 shell
 
-v2.1 established the current visual family for the Web App:
+The current v2.3 Web App retains the visual family established in v2.1 and refined through v2.2-v2.3:
 
 - approved Hanafi Learning Deck icon;
 - approved Home background;
@@ -174,8 +174,8 @@ v2.1 established the current visual family for the Web App:
 - **Amarante** display typography for the approved Home title/heading treatment;
 - revised Home branding, spacing, and information density;
 - the devotional opening retained as part of the project identity;
-- Home as the canonical visible `v2.1` version surface;
-- network-first v2.1 Web App shell while retaining offline-capable card study.
+- Home as the canonical visible `v2.3` version surface;
+- network-first v2.3 Web App shell while retaining offline-capable card study.
 
 Rejected or superseded visual experiments are not release baselines.
 
@@ -234,7 +234,7 @@ The Explorer concept and selected viewer patterns are adapted from Bilawal Sidhu
 
 ## Live Madrasas, Masjids & Islamic discovery
 
-The **Live** area was established in v2.0 and remains part of the current v2.1 Web App.
+The **Live** area was established in v2.0 and remains part of the current v2.3 Web App.
 
 It organizes resources into groups such as:
 
@@ -246,9 +246,9 @@ The Hanafi Learning Deck does not insert advertising into the directory. Externa
 
 A remote mosque livestream is treated as a viewing/study resource and is not presented as making a remote viewer part of the local congregational prayer.
 
-## Media - current v2.1 system
+## Media - current v2.3 system
 
-The Media system changed substantially in v2.1. The old Google Drive iframe arrangement from v1.9 is **historical and no longer the current player**.
+The Media system was rebuilt in v2.1 and refined through v2.2-v2.3. The old Google Drive iframe arrangement from v1.9 is **historical and no longer the current player**.
 
 ### One DK Media-based player
 
@@ -349,13 +349,13 @@ The movie files remain self-hosted on the maintainer's computer and are delivere
 
 ### External subtitles
 
-The current v2.1 manifest can associate **one optional external subtitle file per media item**.
+The current Media manifest can associate **one optional external subtitle file per media item**.
 
 If the file is SRT, the Hanafi bridge converts it to browser-compatible WebVTT and the DK Media Web player can turn it on or off.
 
 This means a clean video can be kept once and paired with a separate subtitle file rather than making another encoded copy just to burn subtitles into the picture.
 
-Multiple named subtitle tracks such as separate English and Arabic sidecars on the same media item are a planned possible extension, but are **not claimed as completed v2.1 functionality**.
+Multiple named subtitle tracks such as separate English and Arabic sidecars on the same media item are a planned possible extension, but are **not claimed as completed functionality**.
 
 Media deployment documentation:
 
