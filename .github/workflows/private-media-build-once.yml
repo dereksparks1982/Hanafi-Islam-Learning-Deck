@@ -1,0 +1,77 @@
+name: Private Media build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/private-media-build-once.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Apply approved scope
+        run: python3 .github/private_media_build_once.py
+
+      - name: Validate Private Media UI scope
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          page = Path('web-viewer/advanced-library/index.html').read_text(encoding='utf-8')
+          assert 'background-image: url("../assets/hanafi-advanced-library-background-approved.png?rev=20260924a");' in page
+          assert 'sessionStorage.getItem("hanafi-advanced-library-unlocked") !== "1"' in page
+          assert '<h1>Private Media</h1>' in page
+          assert '<h2>Films</h2>' in page
+          assert 'id="privateCards"' in page and 'id="privateList"' in page
+          assert 'Choose a film to view editions, subtitles, details and sources.' in page
+          assert '4 private movies' not in page
+          assert 'privateMovieStatus' not in page
+          assert 'background-color:transparent!important' in page
+          assert 'private-movie-grid.list' in page
+          print('PASS: Private Media matches the Media card/list structure without changing the approved background or lock.')
+          PY
+
+      - name: Validate Kingdom of Heaven direct MP4 playback path
+        run: |
+          set -euo pipefail
+          python3 -m py_compile media-server/jellyfin_bridge.py
+          mkdir -p /tmp/hanafi-private-test
+          printf '0123456789abcdefghijklmnopqrstuvwxyz' > /tmp/hanafi-private-test/kingdom.mp4
+          printf 'sample\t/tmp/hanafi-private-test/kingdom.mp4\tvideo/mp4\t\n' > /tmp/hanafi-private-test/public.tsv
+          printf 'kingdom-of-heaven-2005\t/tmp/hanafi-private-test/kingdom.mp4\tvideo/mp4\t\n' > /tmp/hanafi-private-test/private.tsv
+          HANAFI_MEDIA_MANIFEST=/tmp/hanafi-private-test/public.tsv HANAFI_PRIVATE_MEDIA_MANIFEST=/tmp/hanafi-private-test/private.tsv HANAFI_MEDIA_PORT=18097 python3 media-server/jellyfin_bridge.py >/tmp/hanafi-private-test/bridge.log 2>&1 &
+          echo $! > /tmp/hanafi-private-test/bridge.pid
+          trap 'kill "$(cat /tmp/hanafi-private-test/bridge.pid)" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:18097/nougat/v1/private/catalog >/dev/null 2>&1 && break; sleep .2; done
+          test "$(curl -fsS -H 'Range: bytes=5-9' 'http://127.0.0.1:18097/nougat/v1/private/media?id=kingdom-of-heaven-2005')" = '56789'
+          curl -fsSI -H 'Range: bytes=5-9' 'http://127.0.0.1:18097/nougat/v1/private/media?id=kingdom-of-heaven-2005' | tr -d '\r' | grep -qi '^X-Hanafi-Stream-Mode: nougat-byte-range$'
+          curl -fsSI -H 'Range: bytes=5-9' 'http://127.0.0.1:18097/nougat/v1/private/media?id=kingdom-of-heaven-2005' | tr -d '\r' | grep -qi '^Content-Type: video/mp4$'
+          grep -F $'kingdom-of-heaven-2005\t/home/dereksparks1982/Videos/Private Hosted/Kingdom of Heaven 2005 DC Roadshow Version 1080p H264 AAC.mp4\tvideo/mp4\t' media-server/private-media.tsv.example
+          echo 'PASS: Kingdom of Heaven uses seekable direct MP4 byte-range playback.'
+
+      - name: Verify exact changed scope
+        run: |
+          set -euo pipefail
+          git diff --check
+          git diff -- web-viewer/advanced-library/index.html media-server/jellyfin_bridge.py
+
+      - name: Commit approved repair and remove temporary tooling
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/private-media-page-repair-once.yml
+          rm -f .github/workflows/private-media-build-once.yml
+          rm -f .github/private_media_build_once.py
+          git config user.name 'Derek Sparks'
+          git config user.email 'dereksparks1982@users.noreply.github.com'
+          git add web-viewer/advanced-library/index.html media-server/jellyfin_bridge.py .github/workflows/private-media-page-repair-once.yml .github/workflows/private-media-build-once.yml .github/private_media_build_once.py
+          git diff --cached --check
+          git commit -m 'Repair Private Media and Kingdom MP4 playback'
+          git push origin HEAD:main
