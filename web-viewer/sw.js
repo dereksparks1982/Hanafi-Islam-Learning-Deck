@@ -1,6 +1,7 @@
 const RELEASE = "v2.3";
 const CACHE_PREFIX = "hanafi-deck-";
-const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}`;
+const SHELL_REV = "20260925-private-movies-1";
+const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}-${SHELL_REV}`;
 const CARD_CACHE = `${CACHE_PREFIX}cards-${RELEASE}`;
 const ADHAN_LIBRARY_URL = "https://unpkg.com/adhan@4.4.6/lib/bundles/adhan.umd.min.js";
 const SHELL = [
@@ -22,6 +23,7 @@ const SHELL = [
   `./makkah/app.js?release=${RELEASE}`,
   `./live/index.html?release=${RELEASE}`,
   `./media/index.html?release=${RELEASE}`,
+  `./advanced-library/index.html?release=${RELEASE}&rev=${SHELL_REV}`,
   `./explore/index.html?release=${RELEASE}`,
   `./explore/styles.css?release=${RELEASE}`,
   `./explore/app.js?release=${RELEASE}`,
