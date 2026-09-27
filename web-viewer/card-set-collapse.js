@@ -6,6 +6,7 @@
     "arabic-alphabet": "Arabic Alphabet",
     "important-places": "Important Places"
   };
+  const INDEX_CARD_PATHS = Array.from({ length: 6 }, (_, i) => `cards/card_I${String(i + 1).padStart(2, "0")}.svg`);
 
   const style = document.createElement("style");
   style.textContent = `
@@ -41,6 +42,42 @@
     .card-grid[hidden] { display: none !important; }
   `;
   document.head.appendChild(style);
+
+  function appendIndexCards() {
+    const section = document.getElementById("main-deck");
+    const grid = section?.querySelector(".card-grid");
+    if (!section || !grid || grid.querySelector("[data-index-card]")) return;
+
+    INDEX_CARD_PATHS.forEach((path, index) => {
+      const versioned = `${path}?release=v2.3&rev=20260927index1`;
+      const cardLabel = `Index I-${index + 1}`;
+
+      const link = document.createElement("a");
+      link.className = "card-link";
+      link.href = versioned;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.dataset.indexCard = String(index + 1);
+
+      const img = document.createElement("img");
+      img.src = versioned;
+      img.alt = cardLabel;
+      img.loading = "lazy";
+      img.decoding = "async";
+
+      const text = document.createElement("span");
+      text.className = "card-label";
+      text.textContent = cardLabel;
+
+      link.append(img, text);
+      grid.appendChild(link);
+    });
+
+    const count = section.querySelector(".set-heading > span");
+    if (count) count.textContent = `${grid.querySelectorAll(".card-link").length} cards`;
+  }
+
+  appendIndexCards();
 
   let saved = {};
   try {
@@ -119,7 +156,6 @@
       setCollapsed(section, false);
     });
   });
-
 
   document.getElementById("setNav")?.classList.remove("card-layout-pending");
   document.getElementById("library")?.classList.remove("card-layout-pending");

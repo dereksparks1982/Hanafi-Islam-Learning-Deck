@@ -1,0 +1,95 @@
+[
+  {
+    "n": "I-1",
+    "title": "HANAFI RULINGS",
+    "entries": [
+      ["FARD", "Obligatory. In Hanafi law, a fard duty is established by decisive evidence; deliberately leaving it is sinful."],
+      ["WAJIB", "Required in Hanafi law, but established by evidence that is less decisive than fard. Deliberately leaving it is sinful."],
+      ["SUNNAH MU’AKKADAH", "An emphasized Sunnah that the Prophet regularly practiced. Habitually neglecting it without excuse is blameworthy."],
+      ["SUNNAH", "A practice taught or modeled by the Prophet. Following it is rewarded."],
+      ["MUSTAHABB / MANDUB", "Recommended. Doing it is rewarded; leaving it is not sinful."],
+      ["MUBAH", "Permitted or neutral. The act is allowed in itself."],
+      ["MAKRUH TANZIHI", "Mildly disliked. Avoiding it is better and rewarded; doing it is not treated like a prohibited act."],
+      ["MAKRUH TAHRIMI", "Prohibitively disliked in Hanafi law. It must be avoided and deliberately doing it is sinful."],
+      ["HARAM", "Forbidden. Deliberately doing it is sinful."]
+    ]
+  },
+  {
+    "n": "I-2",
+    "title": "PURIFICATION TERMS",
+    "entries": [
+      ["TAHARAH", "Purity or purification, including ritual purity and removal of physical impurity."],
+      ["WUDU", "The minor ritual washing required for salah and certain other acts of worship."],
+      ["GHUSL", "A full ritual bath required after major ritual impurity and in certain other situations."],
+      ["TAYAMMUM", "Dry purification using clean earth or a qualifying earth-like substance when water cannot be used."],
+      ["NAJASAH", "Physical impurity, such as urine or blood, that must be removed when required for worship."],
+      ["HADATH", "A state of ritual impurity that requires wudu or ghusl. It is not the same thing as physical dirt."],
+      ["MA’DHUR", "An excused person under Hanafi law whose chronic condition continuously causes something that would normally break wudu."],
+      ["ISTINJA", "Cleaning the private areas after using the toilet."],
+      ["MASAH", "Wiping with wet hands, such as wiping part of the head during wudu."]
+    ]
+  },
+  {
+    "n": "I-3",
+    "title": "SALAH TERMS",
+    "entries": [
+      ["SALAH", "The formal Islamic prayer."],
+      ["RAK’AH", "One complete unit of salah, containing its prescribed standing, recitation, bowing, prostrations, and other actions."],
+      ["QIYAM", "Standing in salah."],
+      ["QIRA’AH", "Recitation, especially recitation of the Qur’an in salah."],
+      ["TAKBIR", "Saying “Allahu Akbar.” The opening takbir begins the prayer."],
+      ["RUKU’", "Bowing in salah."],
+      ["SUJUD / SAJDAH", "Prostration in salah, with the forehead and nose placed on the ground along with the required limbs."],
+      ["QA’DAH", "The sitting position in salah."],
+      ["TASHAHHUD", "The testimony recited while sitting in salah, beginning with al-Tahiyyat."],
+      ["TASLIM / SALAM", "The greeting that ends the prayer, turning to the right and left."]
+    ]
+  },
+  {
+    "n": "I-4",
+    "title": "PEOPLE & PRACTICE",
+    "entries": [
+      ["IMAM", "The person leading the congregational prayer."],
+      ["MUQTADI", "A person praying behind and following an imam."],
+      ["JAMA’AH", "A congregation praying together."],
+      ["MASBUQ", "A latecomer who joins the imam after missing part of the congregational prayer."],
+      ["ADHAN", "The call announcing that the time for an obligatory prayer has entered."],
+      ["IQAMAH", "The second call given immediately before the congregational obligatory prayer begins."],
+      ["MU’ADHDHIN", "The person who gives the adhan."],
+      ["QIBLAH", "The direction of the Ka‘bah in Makkah, toward which Muslims face in salah."],
+      ["NIYYAH", "Intention in the heart to perform an act of worship."],
+      ["KHUTBAH", "A formal sermon, such as the sermon delivered before the Jumu‘ah prayer."]
+    ]
+  },
+  {
+    "n": "I-5",
+    "title": "HANAFI STUDY WORDS",
+    "entries": [
+      ["FIQH", "The understanding and study of practical Islamic rulings and how they apply."],
+      ["MADHHAB", "A disciplined school and method of Islamic law. The Hanafi madhhab is one of the four major Sunni schools."],
+      ["HANAFI", "Relating to the school of Islamic law associated with Imam Abu Hanifa and developed by his students and later jurists."],
+      ["FATWA", "A legal answer or opinion given by a qualified scholar in response to a religious question."],
+      ["MUFTI", "A qualified scholar who gives fatwas."],
+      ["IJTIHAD", "Qualified scholarly effort used to derive or determine a ruling from the Islamic sources."],
+      ["QIYAS", "Legal analogy: applying a known ruling to a new case because they share a legally relevant cause."],
+      ["IJMA’", "Scholarly consensus. It is one of the recognized sources used in Islamic legal reasoning."],
+      ["USUL AL-FIQH", "The principles and methods used to understand the legal sources and derive rulings from them."]
+    ]
+  },
+  {
+    "n": "I-6",
+    "title": "COMMON ISLAMIC TERMS",
+    "entries": [
+      ["DU’A", "Supplication: directly asking Allah for help, forgiveness, guidance, or any good."],
+      ["DHIKR", "Remembrance of Allah through words, recitation, praise, and other acts of remembrance."],
+      ["TAWBAH", "Repentance: turning back to Allah, leaving the sin, regretting it, and sincerely intending not to return to it."],
+      ["TAQWA", "Consciousness of Allah that leads a person to obey Him and guard against sin."],
+      ["HALAL", "Permitted or lawful."],
+      ["HARAM", "Forbidden or unlawful."],
+      ["SADAQAH", "Voluntary charity given for the sake of Allah."],
+      ["ZAKAT", "Obligatory charity due on qualifying wealth when its conditions are met."],
+      ["NISAB", "The minimum qualifying amount of wealth used in determining whether zakat is due."],
+      ["NAFL", "Voluntary worship beyond what is obligatory or required."]
+    ]
+  }
+]

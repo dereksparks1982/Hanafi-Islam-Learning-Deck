@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1400" viewBox="0 0 1000 1400" role="img" aria-labelledby="title desc">
+<title id="title">I-3 SALAH TERMS</title>
+<desc id="desc">Index card of Islamic and Hanafi terms with plain-English meanings.</desc>
+<rect width="1000" height="1400" fill="#ffffff"/>
+<rect x="20" y="20" width="960" height="1360" rx="42" fill="none" stroke="#0050a5" stroke-width="8"/>
+<rect x="34" y="34" width="932" height="1332" rx="34" fill="none" stroke="#b58b2a" stroke-width="3"/>
+<text x="62" y="95" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="48" fill="#000000">I-3. SALAH TERMS</text>
+<text x="942" y="153" text-anchor="end" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="24" fill="#0050a5">INDEX • TERMS &amp; MEANINGS</text>
+<line x1="48" y1="186" x2="952" y2="186" stroke="#000000" stroke-width="3"/>
+<text x="76" y="240" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">SALAH</text>
+<text x="90" y="276" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">The formal Islamic prayer.</text>
+<text x="76" y="321" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">RAK’AH</text>
+<text x="90" y="357" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">One complete unit of salah, containing its prescribed standing,</text>
+<text x="90" y="385" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">recitation, bowing, prostrations, and other actions.</text>
+<text x="76" y="430" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">QIYAM</text>
+<text x="90" y="466" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Standing in salah.</text>
+<text x="76" y="511" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">QIRA’AH</text>
+<text x="90" y="547" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Recitation, especially recitation of the Qur’an in salah.</text>
+<text x="76" y="592" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">TAKBIR</text>
+<text x="90" y="628" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Saying “Allahu Akbar.” The opening takbir begins the prayer.</text>
+<text x="76" y="673" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">RUKU’</text>
+<text x="90" y="709" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Bowing in salah.</text>
+<text x="76" y="754" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">SUJUD / SAJDAH</text>
+<text x="90" y="790" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Prostration in salah, with the forehead and nose placed on the ground</text>
+<text x="90" y="818" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">along with the required limbs.</text>
+<text x="76" y="863" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">QA’DAH</text>
+<text x="90" y="899" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">The sitting position in salah.</text>
+<text x="76" y="944" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">TASHAHHUD</text>
+<text x="90" y="980" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">The testimony recited while sitting in salah, beginning with</text>
+<text x="90" y="1008" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">al-Tahiyyat.</text>
+<text x="76" y="1053" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">TASLIM / SALAM</text>
+<text x="90" y="1089" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">The greeting that ends the prayer, turning to the right and left.</text>
+</svg>

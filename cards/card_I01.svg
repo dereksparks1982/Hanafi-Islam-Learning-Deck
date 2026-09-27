@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1400" viewBox="0 0 1000 1400" role="img" aria-labelledby="title desc">
+<title id="title">I-1 HANAFI RULINGS</title>
+<desc id="desc">Index card of Islamic and Hanafi terms with plain-English meanings.</desc>
+<rect width="1000" height="1400" fill="#ffffff"/>
+<rect x="20" y="20" width="960" height="1360" rx="42" fill="none" stroke="#0050a5" stroke-width="8"/>
+<rect x="34" y="34" width="932" height="1332" rx="34" fill="none" stroke="#b58b2a" stroke-width="3"/>
+<text x="62" y="95" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="48" fill="#000000">I-1. HANAFI RULINGS</text>
+<text x="942" y="153" text-anchor="end" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="24" fill="#0050a5">INDEX • TERMS &amp; MEANINGS</text>
+<line x1="48" y1="186" x2="952" y2="186" stroke="#000000" stroke-width="3"/>
+<text x="76" y="240" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">FARD</text>
+<text x="90" y="276" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Obligatory. In Hanafi law, a fard duty is established by decisive</text>
+<text x="90" y="304" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">evidence; deliberately leaving it is sinful.</text>
+<text x="76" y="349" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">WAJIB</text>
+<text x="90" y="385" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Required in Hanafi law, but established by evidence that is less</text>
+<text x="90" y="413" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">decisive than fard. Deliberately leaving it is sinful.</text>
+<text x="76" y="458" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">SUNNAH MU’AKKADAH</text>
+<text x="90" y="494" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">An emphasized Sunnah that the Prophet regularly practiced.</text>
+<text x="90" y="522" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Habitually neglecting it without excuse is blameworthy.</text>
+<text x="76" y="567" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">SUNNAH</text>
+<text x="90" y="603" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">A practice taught or modeled by the Prophet. Following it is rewarded.</text>
+<text x="76" y="648" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">MUSTAHABB / MANDUB</text>
+<text x="90" y="684" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Recommended. Doing it is rewarded; leaving it is not sinful.</text>
+<text x="76" y="729" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">MUBAH</text>
+<text x="90" y="765" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Permitted or neutral. The act is allowed in itself.</text>
+<text x="76" y="805" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">MAKRUH TANZIHI</text>
+<text x="90" y="841" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Mildly disliked. Avoiding it is better and rewarded; doing it is not</text>
+<text x="90" y="869" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">treated like a prohibited act.</text>
+<text x="76" y="914" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">MAKRUH TAHRIMI</text>
+<text x="90" y="950" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Prohibitively disliked in Hanafi law. It must be avoided and</text>
+<text x="90" y="978" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">deliberately doing it is sinful.</text>
+<text x="76" y="1023" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="28" fill="#0050a5">HARAM</text>
+<text x="90" y="1059" font-family="DejaVu Sans, Arial, sans-serif" font-size="24" fill="#000000">Forbidden. Deliberately doing it is sinful.</text>
+</svg>
