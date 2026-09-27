@@ -1,6 +1,9 @@
 const RELEASE = "v2.3";
 const CACHE_PREFIX = "hanafi-deck-";
-const SHELL_REV = "20260927fiveslot1";
+// Must match the revision hard-coded in index.html and manifest.webmanifest.
+const SHELL_REV = "20260927links1";
+// Separate deploy token used only to force origin/CDN-fresh shell requests.
+const SW_BUILD = "20260927startupfix1";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}-${SHELL_REV}`;
 const CARD_CACHE = `${CACHE_PREFIX}cards-${RELEASE}`;
 const ADHAN_LIBRARY_URL = "https://unpkg.com/adhan@4.4.6/lib/bundles/adhan.umd.min.js";
@@ -34,14 +37,31 @@ const SHELL = [
   `./charity/index.html?release=${RELEASE}`
 ];
 
+function withBuildToken(input) {
+  const fresh = new URL(input, self.registration.scope);
+  fresh.searchParams.set("swbuild", SW_BUILD);
+  return fresh.href;
+}
+
+async function fetchCurrent(input) {
+  return fetch(withBuildToken(input), {
+    cache: "no-store",
+    credentials: "same-origin",
+    redirect: "follow"
+  });
+}
+
 self.addEventListener("install", event => {
   event.waitUntil((async () => {
+    // The previous index and worker used different shell revisions. Rebuild the
+    // authoritative shell cache from scratch so an old layout cannot survive.
+    await caches.delete(SHELL_CACHE);
     const cache = await caches.open(SHELL_CACHE);
     for (const url of SHELL) {
-      const request = new Request(url, { cache:"reload" });
-      const response = await fetch(request);
+      const cacheKey = new Request(url);
+      const response = await fetchCurrent(url);
       if (!response.ok) throw new Error(`Shell fetch failed: ${response.status} ${url}`);
-      await cache.put(request, response);
+      await cache.put(cacheKey, response.clone());
     }
     await self.skipWaiting();
   })());
@@ -56,10 +76,27 @@ self.addEventListener("activate", event => {
         .filter(name => name.startsWith(CACHE_PREFIX) && !keep.has(name))
         .map(name => caches.delete(name))
     );
+
+    // Navigation preload can hand the worker an older CDN/browser response.
+    // The worker now performs its own cache-busted navigation request instead.
     if (self.registration.navigationPreload) {
-      await self.registration.navigationPreload.enable();
+      try { await self.registration.navigationPreload.disable(); } catch {}
     }
+
     await self.clients.claim();
+
+    // If this worker replaced the stale-shell worker while the app is open,
+    // reload that client exactly once onto the current shell automatically.
+    const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+    await Promise.all(windows.map(async client => {
+      try {
+        const clientUrl = new URL(client.url);
+        if (!clientUrl.href.startsWith(self.registration.scope)) return;
+        if (clientUrl.searchParams.get("swbuild") === SW_BUILD) return;
+        clientUrl.searchParams.set("swbuild", SW_BUILD);
+        await client.navigate(clientUrl.href);
+      } catch {}
+    }));
   })());
 });
 
@@ -190,28 +227,28 @@ self.addEventListener("fetch", event => {
 
   if (url.origin !== self.location.origin) return;
 
-  if (url.pathname.endsWith("/mobile-background.css")) {
+  if (event.request.mode === "navigate") {
     event.respondWith((async () => {
-      const cache = await caches.open(SHELL_CACHE);
       try {
-        const response = await fetch(event.request, { cache:"reload" });
-        if (response.ok) await cache.put(event.request, response.clone());
+        const response = await fetchCurrent(event.request.url);
+        if (!response.ok) throw new Error(`Navigation fetch failed: ${response.status}`);
         return response;
       } catch {
-        return (await cache.match(event.request)) || Response.error();
+        return offlineNavigationFallback(url);
       }
     })());
     return;
   }
 
-  if (event.request.mode === "navigate") {
+  if (url.pathname.endsWith("/mobile-background.css")) {
     event.respondWith((async () => {
+      const cache = await caches.open(SHELL_CACHE);
       try {
-        const preload = await event.preloadResponse;
-        if (preload) return preload;
-        return await fetch(event.request, { cache:"reload" });
+        const response = await fetchCurrent(event.request.url);
+        if (response.ok) await cache.put(event.request, response.clone());
+        return response;
       } catch {
-        return offlineNavigationFallback(url);
+        return (await cache.match(event.request)) || Response.error();
       }
     })());
     return;
@@ -234,7 +271,7 @@ self.addEventListener("fetch", event => {
   event.respondWith((async () => {
     const cached = await caches.match(event.request);
     try {
-      const response = await fetch(event.request, { cache:"reload" });
+      const response = await fetchCurrent(event.request.url);
       if (response.ok && /\.(?:svg|css|js|json|webmanifest|avif)$/i.test(url.pathname)) {
         const cache = await caches.open(SHELL_CACHE);
         await cache.put(event.request, response.clone());
