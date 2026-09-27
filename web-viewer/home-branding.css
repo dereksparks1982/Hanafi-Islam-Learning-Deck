@@ -1,7 +1,24 @@
 /* Home page branding. The approved icon image itself is not modified. */
 
-/* Do not allow the old/base home layout to paint before the current layout scripts finish. */
+/* Keep the current no-flash gate, but never hide the body itself. On iPhone
+   standalone launches, hiding the whole body leaves WebKit's black launch surface
+   visible until deferred scripts finish. Instead, keep the emerald app background
+   visible immediately and hide only page content until the current layout is ready. */
+html.hanafi-launch-guard body#top,
 html:not(.hanafi-layout-ready) body#top {
+  visibility: visible !important;
+  min-height: 100dvh;
+  background-color: #03130e !important;
+}
+
+html.hanafi-launch-guard body#top > header,
+html.hanafi-launch-guard body#top > main,
+html.hanafi-launch-guard body#top > footer,
+html.hanafi-launch-guard body#top > .home-lantern-glow,
+html:not(.hanafi-layout-ready) body#top > header,
+html:not(.hanafi-layout-ready) body#top > main,
+html:not(.hanafi-layout-ready) body#top > footer,
+html:not(.hanafi-layout-ready) body#top > .home-lantern-glow {
   visibility: hidden !important;
 }
 
