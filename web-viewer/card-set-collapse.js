@@ -6,7 +6,7 @@
     "arabic-alphabet": "Arabic Alphabet",
     "important-places": "Important Places"
   };
-  const INDEX_CARD_PATHS = Array.from({ length: 6 }, (_, i) => `cards/card_I${String(i + 1).padStart(2, "0")}.svg`);
+  const INDEX_CARD_PATHS = Array.from({ length: 13 }, (_, i) => `cards/card_I${String(i + 1).padStart(2, "0")}.svg`);
 
   const style = document.createElement("style");
   style.textContent = `
@@ -49,7 +49,7 @@
     if (!section || !grid || grid.querySelector("[data-index-card]")) return;
 
     INDEX_CARD_PATHS.forEach((path, index) => {
-      const versioned = `${path}?release=v2.3&rev=20260927index1`;
+      const versioned = `${path}?release=v2.3&rev=20260927index2`;
       const cardLabel = `Index I-${index + 1}`;
 
       const link = document.createElement("a");
