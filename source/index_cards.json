@@ -91,5 +91,105 @@
       ["NISAB", "The minimum qualifying amount of wealth used in determining whether zakat is due."],
       ["NAFL", "Voluntary worship beyond what is obligatory or required."]
     ]
+  },
+  {
+    "n": "I-7",
+    "title": "FOUNDATIONAL TERMS",
+    "entries": [
+      ["QUR'AN", "Allah’s revealed Book sent to Prophet Muhammad ﷺ."],
+      ["SURAH", "A chapter of the Qur’an."],
+      ["AYAH", "A verse of the Qur’an. The word also means a sign."],
+      ["HADITH", "A transmitted report about the Prophet’s words, actions, approvals, or descriptions."],
+      ["SAHIH", "A hadith grading meaning sound or authentic. It is also used in the titles Sahih al-Bukhari and Sahih Muslim."],
+      ["SHAHADA", "The testimony of faith: none is worthy of worship except Allah, and Muhammad is the Messenger of Allah."],
+      ["MASJID", "A mosque; literally a place of prostration."],
+      ["AMIN", "A supplication meaning roughly “O Allah, answer.” It is said after al-Fatihah and is not part of the Qur’an."],
+      ["AYAT AL-KURSI", "Qur’an 2:255, commonly called the Verse of the Throne."]
+    ]
+  },
+  {
+    "n": "I-8",
+    "title": "RECITATION & DHIKR WORDS",
+    "entries": [
+      ["THANA", "The opening praise recited near the beginning of salah after the opening takbir."],
+      ["TA'AWWUDH", "Seeking refuge in Allah from Shaytan, beginning A‘udhu billahi min ash-shaytan ir-rajim."],
+      ["BASMALAH", "Saying Bismillahir-Rahmanir-Rahim: “In the name of Allah, the Most Compassionate, the Most Merciful.”"],
+      ["TASBIH", "Glorifying Allah, especially with phrases such as SubhanAllah. The word is also used for repeated praises in prayer."],
+      ["SALAWAT", "Prayers and blessings sent upon Prophet Muhammad ﷺ."],
+      ["ISTIGHFAR", "Seeking Allah’s forgiveness, such as by saying Astaghfirullah."],
+      ["TAWAKKUL", "Relying upon Allah while still taking the lawful means available to you."],
+      ["QUNUT", "A special supplication. In this deck it mainly refers to the du‘a recited in the third rak‘ah of Hanafi Witr."]
+    ]
+  },
+  {
+    "n": "I-9",
+    "title": "SALAH REPAIR & TIMING",
+    "entries": [
+      ["'AWRAH", "The parts of the body that must be covered for salah and in situations where Islamic law requires covering."],
+      ["SAJDAT AL-SAHW", "Two prostrations of forgetfulness used to repair certain accidental mistakes involving wajib acts in salah."],
+      ["SAJDAT AL-TILAWAH", "A single prostration connected to designated Qur’an verses; it becomes wajib in Hanafi law when its conditions are met."],
+      ["SAJDAT AL-SHUKR", "A prostration of gratitude to Allah after a major blessing or the removal of a calamity."],
+      ["QADA", "Making up an obligatory act of worship after its proper time has passed. In this deck it usually means a missed prayer."],
+      ["ZAWAL", "The brief time when the sun is at its highest point, immediately before Dhuhr begins."],
+      ["JAHR", "Audible Qur’an recitation in salah."],
+      ["SIRR", "Quiet Qur’an recitation in salah."],
+      ["WASWASA", "Recurring whisperings or intrusive doubts. In worship, this can mean doubts that should not be repeatedly fed or chased."]
+    ]
+  },
+  {
+    "n": "I-10",
+    "title": "DAILY PRAYER NAMES",
+    "entries": [
+      ["FAJR", "The dawn prayer. It has 2 fard rak‘ahs."],
+      ["DHUHR", "The midday prayer after the sun passes its zenith. It has 4 fard rak‘ahs."],
+      ["ASR", "The afternoon prayer. It has 4 fard rak‘ahs; the Hanafi school uses its own relied-upon start-time calculation."],
+      ["MAGHRIB", "The sunset prayer. It has 3 fard rak‘ahs."],
+      ["ISHA", "The night prayer after evening twilight disappears. It has 4 fard rak‘ahs."],
+      ["WITR", "An odd-numbered night prayer after Isha. In the Hanafi school it is 3 rak‘ahs and wajib."],
+      ["JUMU'AH", "The Friday congregational prayer that replaces Dhuhr for those upon whom it is obligatory."]
+    ]
+  },
+  {
+    "n": "I-11",
+    "title": "VOLUNTARY PRAYER TERMS",
+    "entries": [
+      ["TAHAJJUD", "Voluntary night prayer, especially prayer offered after sleeping and then waking during the night."],
+      ["QIYAM AL-LAYL", "Night worship after Isha and before Fajr. It is broader than Tahajjud."],
+      ["ISHRAQ", "Voluntary prayer near the beginning of the Duha time, after the sunrise restriction has ended."],
+      ["DUHA", "Voluntary morning prayer after the sunrise restriction and before zawal."],
+      ["AWWABIN", "A name used for recommended voluntary prayer after Maghrib; this deck follows the classical Hanafi six-rak‘ah practice."],
+      ["ISTIKHARA", "Prayer and supplication asking Allah to guide you to what is good in a permissible choice."],
+      ["SALAT AL-TAWBAH", "A voluntary prayer connected with sincere repentance."],
+      ["SALAT AL-HAJAH", "A voluntary prayer in which a person asks Allah for a lawful need."],
+      ["SALAT AL-TASBIH", "A four-rak‘ah voluntary prayer containing repeated tasbih, 300 repetitions in the method used in this deck."]
+    ]
+  },
+  {
+    "n": "I-12",
+    "title": "RAMADAN, EID & FUNERAL",
+    "entries": [
+      ["RAMADAN", "The ninth Islamic month, during which fasting is obligatory for Muslims who meet the conditions."],
+      ["SAWM", "Fasting for Allah. In Ramadan this means abstaining from food, drink, and other fast-breakers from true dawn until sunset."],
+      ["IFTAR", "Breaking the fast at sunset."],
+      ["TARAWIH", "The Ramadan night prayer after Isha. The established Hanafi practice in this deck is 20 rak‘ahs."],
+      ["LAYLAT AL-QADR", "The Night of Decree, a blessed night sought especially in the odd nights of Ramadan’s last ten nights."],
+      ["EID AL-FITR", "The festival and Eid prayer marking the end of Ramadan."],
+      ["EID AL-ADHA", "The festival and Eid prayer during the Hajj season, associated with the sacrifice."],
+      ["JANAZAH", "Funeral rites; in this deck the term usually means the funeral prayer for a deceased Muslim."],
+      ["TALQIN", "Gently prompting a dying Muslim to say La ilaha illallah without badgering the person."]
+    ]
+  },
+  {
+    "n": "I-13",
+    "title": "TRAVEL & SPECIAL WORSHIP",
+    "entries": [
+      ["HAJJ", "The pilgrimage to Makkah and its sacred sites performed in its appointed season by Muslims who are able."],
+      ["QASR", "Shortening the 4-rak‘ah fard prayers of Dhuhr, Asr, and Isha to 2 rak‘ahs for a qualifying Hanafi traveler."],
+      ["'ARAFAH", "The plain near Makkah where standing on the ninth day of the Hajj season is a central rite of Hajj."],
+      ["MUZDALIFAH", "A sacred Hajj site between ‘Arafah and Mina; Hanafi prayer-combining rules have a special Hajj exception there."],
+      ["KUSUF", "A solar eclipse. Salat al-Kusuf is the special prayer offered during a solar eclipse."],
+      ["ISTISQA", "Seeking rain from Allah through repentance, du‘a, and, according to a recognized Hanafi position, a special prayer."],
+      ["SALAT AL-KHAWF", "The prayer of fear: a special arrangement for obligatory prayer during serious armed danger."]
+    ]
   }
 ]
