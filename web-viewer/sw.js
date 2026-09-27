@@ -1,6 +1,6 @@
 const RELEASE = "v2.3";
 const CACHE_PREFIX = "hanafi-deck-";
-const SHELL_REV = "20260927links1";
+const SHELL_REV = "20260927fiveslot1";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}-${SHELL_REV}`;
 const CARD_CACHE = `${CACHE_PREFIX}cards-${RELEASE}`;
 const ADHAN_LIBRARY_URL = "https://unpkg.com/adhan@4.4.6/lib/bundles/adhan.umd.min.js";
@@ -10,9 +10,11 @@ const SHELL = [
   `./mobile-background.css?rev=${SHELL_REV}`,
   `./app.js?release=${RELEASE}&rev=${SHELL_REV}`,
   `./card-viewer.js?release=${RELEASE}`,
-  `./secret-library-trigger.js?rev=20260925c`,
+  `./secret-library-trigger.js?rev=${SHELL_REV}`,
   `./manifest.webmanifest?release=${RELEASE}&rev=${SHELL_REV}`,
   `./assets/hanafi-learning-deck-icon-approved.png?rev=${SHELL_REV}`,
+  `./assets/hanafi-secret-library-lock-approved.png?rev=${SHELL_REV}`,
+  `./assets/hanafi-secret-library-five-slot-row.avif?rev=${SHELL_REV}`,
   `./quran/index.html?release=${RELEASE}`,
   `./quran/styles.css?release=${RELEASE}`,
   `./quran/app.js?release=${RELEASE}`,
@@ -233,7 +235,7 @@ self.addEventListener("fetch", event => {
     const cached = await caches.match(event.request);
     try {
       const response = await fetch(event.request, { cache:"reload" });
-      if (response.ok && /\.(?:svg|css|js|json|webmanifest)$/i.test(url.pathname)) {
+      if (response.ok && /\.(?:svg|css|js|json|webmanifest|avif)$/i.test(url.pathname)) {
         const cache = await caches.open(SHELL_CACHE);
         await cache.put(event.request, response.clone());
       }
