@@ -23,7 +23,7 @@
 
   const REQUIRED_ACTIVATIONS = 7;
   const RESET_AFTER_MS = 8000;
-  const KEY_PARTS = ["14", "9", "5", "7"];
+  const KEY_PARTS = ["1", "4", "9", "5", "7"];
   let count = 0;
   let resetTimer = null;
 
@@ -60,27 +60,17 @@
       user-select: none;
       -webkit-user-drag: none;
     }
-    .secret-library-lock-instruction {
+    .secret-library-lock-five-slot-row {
       position: absolute;
-      left: 21%;
-      top: 47.8%;
-      width: 58%;
-      min-height: 6.2%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: .25em .7em;
-      background: rgba(5, 39, 29, .98);
-      color: #e8d8ae;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(.58rem, 1.18vw, 1.18rem);
-      line-height: 1.32;
-      text-align: center;
-      text-shadow: 0 1px 4px rgba(0,0,0,.7);
-    }
-    .secret-library-lock-instruction strong {
-      color: #f0d98e;
-      font-weight: 400;
+      left: 22.1354%;
+      top: 52.2461%;
+      width: 55.6641%;
+      height: 20.0195%;
+      display: block;
+      object-fit: fill;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
     }
     .secret-key-input {
       position: absolute;
@@ -89,26 +79,35 @@
       height: 10.2%;
       margin: 0;
       padding: 0;
-      border: 0;
-      border-radius: 8%;
-      outline: none;
-      background: #092b20;
+      border: 0 !important;
+      border-radius: 0;
+      outline: none !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      -webkit-appearance: none;
+      appearance: none;
       color: #f1d98d;
       font-family: Georgia, "Times New Roman", serif;
       font-size: clamp(1.3rem, 4.2vw, 4rem);
       line-height: 1;
       text-align: center;
       text-shadow: 0 2px 5px rgba(0,0,0,.65);
-      box-shadow: inset 0 0 1.2vw rgba(0,0,0,.28);
+      box-shadow: none !important;
       caret-color: #f1d98d;
     }
-    .secret-key-input:focus {
-      box-shadow: inset 0 0 1.2vw rgba(0,0,0,.28), 0 0 0 .12vw rgba(241,217,141,.65);
+    .secret-key-input:focus,
+    .secret-key-input:focus-visible {
+      border: 0 !important;
+      outline: none !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      box-shadow: none !important;
     }
-    .secret-key-1 { left: 30.1%; }
-    .secret-key-2 { left: 41.25%; }
-    .secret-key-3 { left: 52.35%; }
-    .secret-key-4 { left: 63.45%; }
+    .secret-key-1 { left: 25.10%; }
+    .secret-key-2 { left: 35.45%; }
+    .secret-key-3 { left: 46.58%; }
+    .secret-key-4 { left: 57.59%; }
+    .secret-key-5 { left: 68.38%; }
     .secret-library-unlock-hit {
       position: absolute;
       left: 34.6%;
@@ -158,15 +157,14 @@
   overlay.setAttribute("aria-label", "Advanced Learner Library entrance");
   overlay.innerHTML = `
     <div class="secret-library-lock-stage">
-      <img class="secret-library-lock-art" src="assets/hanafi-secret-library-lock-approved.png?rev=20260924a" alt="Advanced Learner Library locked entrance">
-      <div class="secret-library-lock-instruction">
-        <span>This section contains advanced and controversial texts for serious students only.<br><strong>Enter the religiously significant numbers in the correct order.</strong></span>
-      </div>
+      <img class="secret-library-lock-art" src="assets/hanafi-secret-library-lock-approved.png?rev=20260927fiveslot1" alt="Advanced Learner Library locked entrance">
+      <img class="secret-library-lock-five-slot-row" src="assets/hanafi-secret-library-five-slot-row.avif?rev=20260927fiveslot1" alt="" aria-hidden="true">
       <form class="secret-library-lock-form" autocomplete="off">
-        <input class="secret-key-input secret-key-1" aria-label="First number" inputmode="numeric" pattern="[0-9]*" maxlength="2" autocomplete="off">
+        <input class="secret-key-input secret-key-1" aria-label="First number" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off">
         <input class="secret-key-input secret-key-2" aria-label="Second number" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off">
         <input class="secret-key-input secret-key-3" aria-label="Third number" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off">
         <input class="secret-key-input secret-key-4" aria-label="Fourth number" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off">
+        <input class="secret-key-input secret-key-5" aria-label="Fifth number" inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off">
         <button class="secret-library-unlock-hit" type="submit" aria-label="Unlock Advanced Learner Library"></button>
         <p class="secret-library-lock-status" role="status" aria-live="polite"></p>
       </form>
@@ -216,8 +214,8 @@
 
   inputs.forEach((input, index) => {
     input.addEventListener("input", () => {
-      input.value = input.value.replace(/\D/g, "").slice(0, input.maxLength);
-      if (input.value.length === input.maxLength && inputs[index + 1]) {
+      input.value = input.value.replace(/\D/g, "").slice(0, 1);
+      if (input.value.length === 1 && inputs[index + 1]) {
         inputs[index + 1].focus({ preventScroll: true });
       }
     });
@@ -233,11 +231,8 @@
     const digits = (event.clipboardData?.getData("text") || "").replace(/\D/g, "");
     if (digits.length !== 5) return;
     event.preventDefault();
-    inputs[0].value = digits.slice(0, 2);
-    inputs[1].value = digits.slice(2, 3);
-    inputs[2].value = digits.slice(3, 4);
-    inputs[3].value = digits.slice(4, 5);
-    inputs[3].focus({ preventScroll: true });
+    inputs.forEach((input, index) => { input.value = digits[index]; });
+    inputs[4].focus({ preventScroll: true });
   });
 
   form.addEventListener("submit", event => {
