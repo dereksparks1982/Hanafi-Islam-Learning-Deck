@@ -1,50 +1,68 @@
 const RELEASE = "v2.3";
+const BUILD = "20260927staticdeck1";
 const CACHE_PREFIX = "hanafi-deck-";
-// Must match the revision hard-coded in index.html and manifest.webmanifest.
-const SHELL_REV = "20260927links1";
-// Separate deploy token used only to force origin/CDN-fresh shell requests.
-const SW_BUILD = "20260927startupfix1";
-const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}-${SHELL_REV}`;
+const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}-${BUILD}`;
 const CARD_CACHE = `${CACHE_PREFIX}cards-${RELEASE}`;
 const ADHAN_LIBRARY_URL = "https://unpkg.com/adhan@4.4.6/lib/bundles/adhan.umd.min.js";
+
 const SHELL = [
-  `./index.html?release=${RELEASE}&rev=${SHELL_REV}`,
-  `./styles.css?release=${RELEASE}&rev=${SHELL_REV}`,
-  `./mobile-background.css?rev=${SHELL_REV}`,
-  `./app.js?release=${RELEASE}&rev=${SHELL_REV}`,
-  `./card-viewer.js?release=${RELEASE}`,
-  `./secret-library-trigger.js?rev=${SHELL_REV}`,
-  `./manifest.webmanifest?release=${RELEASE}&rev=${SHELL_REV}`,
-  `./assets/hanafi-learning-deck-icon-approved.png?rev=${SHELL_REV}`,
-  `./assets/hanafi-secret-library-lock-approved.png?rev=${SHELL_REV}`,
-  `./assets/hanafi-secret-library-five-slot-row.avif?rev=${SHELL_REV}`,
-  `./quran/index.html?release=${RELEASE}`,
-  `./quran/styles.css?release=${RELEASE}`,
-  `./quran/app.js?release=${RELEASE}`,
-  `./quran/data/page-001.json?release=${RELEASE}`,
-  `./makkah/index.html?release=${RELEASE}`,
-  `./makkah/styles.css?release=${RELEASE}`,
-  `./makkah/app.js?release=${RELEASE}`,
-  `./live/index.html?release=${RELEASE}`,
-  `./media/index.html?release=${RELEASE}`,
-  `./advanced-library/index.html?release=${RELEASE}&rev=${SHELL_REV}`,
-  `./explore/index.html?release=${RELEASE}`,
-  `./explore/styles.css?release=${RELEASE}`,
-  `./explore/app.js?release=${RELEASE}`,
-  `./links/index.html?release=${RELEASE}`,
-  `./about/index.html?release=${RELEASE}`,
-  `./legal/index.html?release=${RELEASE}`,
-  `./charity/index.html?release=${RELEASE}`
+  "./",
+  "./index.html",
+  "./styles.css",
+  "./ornate-buttons.css",
+  "./city-picker.css",
+  "./home-branding.css",
+  "./mobile-background.css",
+  "./home-app.js",
+  "./secret-library-trigger.js",
+  "./manifest.webmanifest",
+  "./card-set-collapse.js",
+  "./card-viewer.js",
+  "./deck/",
+  "./deck/index.html",
+  "./deck/app.js",
+  "./quran/",
+  "./quran/index.html",
+  "./quran/styles.css",
+  "./quran/app.js",
+  "./makkah/",
+  "./makkah/index.html",
+  "./makkah/styles.css",
+  "./makkah/app.js",
+  "./live/",
+  "./live/index.html",
+  "./media/",
+  "./media/index.html",
+  "./advanced-library/",
+  "./advanced-library/index.html",
+  "./explore/",
+  "./explore/index.html",
+  "./explore/styles.css",
+  "./explore/app.js",
+  "./links/",
+  "./links/index.html",
+  "./about/",
+  "./about/index.html",
+  "./legal/",
+  "./legal/index.html",
+  "./charity/",
+  "./charity/index.html",
+  "./assets/hanafi-learning-deck-icon-approved.png",
+  "./assets/hanafi-home-background-approved.png",
+  "./assets/hanafi-secret-library-lock-approved.png",
+  "./assets/hanafi-secret-library-five-slot-row.avif"
 ];
 
-function withBuildToken(input) {
-  const fresh = new URL(input, self.registration.scope);
-  fresh.searchParams.set("swbuild", SW_BUILD);
-  return fresh.href;
+function sameOriginKey(input) {
+  const url = new URL(input, self.registration.scope);
+  if (url.origin !== self.location.origin) return new Request(url.href);
+  url.search = "";
+  url.hash = "";
+  return new Request(url.href);
 }
 
-async function fetchCurrent(input) {
-  return fetch(withBuildToken(input), {
+async function fetchFresh(input) {
+  return fetch(input, {
     cache: "no-store",
     credentials: "same-origin",
     redirect: "follow"
@@ -53,15 +71,15 @@ async function fetchCurrent(input) {
 
 self.addEventListener("install", event => {
   event.waitUntil((async () => {
-    // The previous index and worker used different shell revisions. Rebuild the
-    // authoritative shell cache from scratch so an old layout cannot survive.
-    await caches.delete(SHELL_CACHE);
     const cache = await caches.open(SHELL_CACHE);
-    for (const url of SHELL) {
-      const cacheKey = new Request(url);
-      const response = await fetchCurrent(url);
-      if (!response.ok) throw new Error(`Shell fetch failed: ${response.status} ${url}`);
-      await cache.put(cacheKey, response.clone());
+    for (const path of SHELL) {
+      try {
+        const url = new URL(path, self.registration.scope).href;
+        const response = await fetchFresh(url);
+        if (response.ok) await cache.put(sameOriginKey(url), response.clone());
+      } catch (error) {
+        console.warn("Shell preload skipped:", path, error);
+      }
     }
     await self.skipWaiting();
   })());
@@ -69,39 +87,21 @@ self.addEventListener("install", event => {
 
 self.addEventListener("activate", event => {
   event.waitUntil((async () => {
-    const keep = new Set([SHELL_CACHE, CARD_CACHE]);
     const names = await caches.keys();
     await Promise.all(
       names
-        .filter(name => name.startsWith(CACHE_PREFIX) && !keep.has(name))
+        .filter(name => name.startsWith(CACHE_PREFIX) && name !== SHELL_CACHE && name !== CARD_CACHE)
         .map(name => caches.delete(name))
     );
-
-    // Navigation preload can hand the worker an older CDN/browser response.
-    // The worker now performs its own cache-busted navigation request instead.
     if (self.registration.navigationPreload) {
       try { await self.registration.navigationPreload.disable(); } catch {}
     }
-
     await self.clients.claim();
-
-    // If this worker replaced the stale-shell worker while the app is open,
-    // reload that client exactly once onto the current shell automatically.
-    const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
-    await Promise.all(windows.map(async client => {
-      try {
-        const clientUrl = new URL(client.url);
-        if (!clientUrl.href.startsWith(self.registration.scope)) return;
-        if (clientUrl.searchParams.get("swbuild") === SW_BUILD) return;
-        clientUrl.searchParams.set("swbuild", SW_BUILD);
-        await client.navigate(clientUrl.href);
-      } catch {}
-    }));
   })());
 });
 
 function absoluteCardUrl(url) {
-  return new URL(url, self.location.href).href;
+  return new URL(url, self.registration.scope).href;
 }
 
 async function countCached(urls) {
@@ -122,10 +122,6 @@ async function tellClient(source, message) {
   clients.forEach(client => client.postMessage(message));
 }
 
-async function fetchFresh(requestUrl) {
-  return fetch(requestUrl, { cache:"reload" });
-}
-
 async function cacheCards(urls, source, mode = "download") {
   const cache = await caches.open(CARD_CACHE);
   let nextIndex = 0;
@@ -141,7 +137,7 @@ async function cacheCards(urls, source, mode = "download") {
       try {
         const existing = await cache.match(requestUrl);
         if (force || !existing) {
-          const response = await fetchFresh(requestUrl);
+          const response = await fetch(requestUrl, { cache:"reload" });
           if (!response.ok) throw new Error(`${response.status} ${requestUrl}`);
           await cache.put(requestUrl, response.clone());
         }
@@ -183,27 +179,13 @@ self.addEventListener("message", event => {
   }
 });
 
-async function offlineNavigationFallback(url) {
-  const routes = [
-    ["quran", `./quran/index.html?release=${RELEASE}`],
-    ["makkah", `./makkah/index.html?release=${RELEASE}`],
-    ["live", `./live/index.html?release=${RELEASE}`],
-    ["media", `./media/index.html?release=${RELEASE}`],
-    ["explore", `./explore/index.html?release=${RELEASE}`],
-    ["links", `./links/index.html?release=${RELEASE}`],
-    ["about", `./about/index.html?release=${RELEASE}`],
-    ["legal", `./legal/index.html?release=${RELEASE}`],
-    ["charity", `./charity/index.html?release=${RELEASE}`]
-  ];
+async function navigationFallback(url) {
+  const cache = await caches.open(SHELL_CACHE);
+  const exact = await cache.match(sameOriginKey(url.href));
+  if (exact) return exact;
 
-  for (const [route, cachedPath] of routes) {
-    if (url.pathname.endsWith(`/${route}/`) || url.pathname.endsWith(`/${route}/index.html`)) {
-      return (await caches.match(cachedPath)) ||
-        (await caches.match(`./index.html?release=${RELEASE}&rev=${SHELL_REV}`));
-    }
-  }
-
-  return (await caches.match(`./index.html?release=${RELEASE}&rev=${SHELL_REV}`)) || Response.error();
+  const home = await cache.match(sameOriginKey(new URL("./index.html", self.registration.scope).href));
+  return home || Response.error();
 }
 
 self.addEventListener("fetch", event => {
@@ -229,56 +211,47 @@ self.addEventListener("fetch", event => {
 
   if (event.request.mode === "navigate") {
     event.respondWith((async () => {
-      try {
-        const response = await fetchCurrent(event.request.url);
-        if (!response.ok) throw new Error(`Navigation fetch failed: ${response.status}`);
-        return response;
-      } catch {
-        return offlineNavigationFallback(url);
-      }
-    })());
-    return;
-  }
-
-  if (url.pathname.endsWith("/mobile-background.css")) {
-    event.respondWith((async () => {
       const cache = await caches.open(SHELL_CACHE);
+      const key = sameOriginKey(event.request.url);
       try {
-        const response = await fetchCurrent(event.request.url);
-        if (response.ok) await cache.put(event.request, response.clone());
+        const response = await fetchFresh(event.request);
+        if (!response.ok) throw new Error(`Navigation fetch failed: ${response.status}`);
+        await cache.put(key, response.clone());
         return response;
       } catch {
-        return (await cache.match(event.request)) || Response.error();
+        return navigationFallback(url);
       }
     })());
     return;
   }
 
-  if (/\.png$/i.test(url.pathname)) {
+  if (/\.(?:png|svg|avif|webp|jpg|jpeg)$/i.test(url.pathname)) {
     event.respondWith((async () => {
-      const cache = await caches.open(CARD_CACHE);
+      const cardCache = await caches.open(CARD_CACHE);
+      const shellCache = await caches.open(SHELL_CACHE);
       try {
         const response = await fetch(event.request, { cache:"reload" });
-        if (response.ok) await cache.put(event.request, response.clone());
+        if (response.ok) {
+          const target = /\/cards\/|Expansion\//i.test(url.pathname) ? cardCache : shellCache;
+          await target.put(event.request, response.clone());
+        }
         return response;
       } catch {
-        return (await cache.match(event.request)) || Response.error();
+        return (await cardCache.match(event.request)) || (await shellCache.match(sameOriginKey(event.request.url))) || Response.error();
       }
     })());
     return;
   }
 
   event.respondWith((async () => {
-    const cached = await caches.match(event.request);
+    const cache = await caches.open(SHELL_CACHE);
+    const key = sameOriginKey(event.request.url);
     try {
-      const response = await fetchCurrent(event.request.url);
-      if (response.ok && /\.(?:svg|css|js|json|webmanifest|avif)$/i.test(url.pathname)) {
-        const cache = await caches.open(SHELL_CACHE);
-        await cache.put(event.request, response.clone());
-      }
+      const response = await fetchFresh(event.request);
+      if (response.ok) await cache.put(key, response.clone());
       return response;
     } catch {
-      return cached || Response.error();
+      return (await cache.match(key)) || Response.error();
     }
   })());
 });

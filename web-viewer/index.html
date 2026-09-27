@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="hanafi-layout-ready">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -9,37 +9,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Hanafi Deck">
   <title>Hanafi Islam Learning Deck | Free Hanafi Fiqh &amp; Islamic Learning</title>
-  <script>
-    (() => {
-      const shellRev = "20260927links1";
-      const root = document.documentElement;
-      root.classList.add("hanafi-launch-guard");
-
-      if ("caches" in window) {
-        caches.keys().then(names => Promise.all(
-          names
-            .filter(name => name.startsWith("hanafi-deck-shell-") && !name.endsWith(shellRev))
-            .map(name => caches.delete(name))
-        )).catch(() => {});
-      }
-
-      window.addEventListener("DOMContentLoaded", () => {
-        root.classList.remove("hanafi-launch-guard");
-      }, { once:true });
-
-      window.addEventListener("pagehide", event => {
-        if (event.persisted) root.classList.add("hanafi-launch-guard");
-      });
-
-      window.addEventListener("pageshow", event => {
-        if (!event.persisted) return;
-        root.classList.add("hanafi-launch-guard");
-        const fresh = new URL(window.location.href);
-        fresh.searchParams.set("rev", shellRev);
-        window.location.replace(fresh.href);
-      });
-    })();
-  </script>
+  <style>
+    html, body { background-color:#03130e; }
+    body { min-height:100dvh; }
+  </style>
   <link rel="canonical" href="https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Hanafi Learning Deck">
@@ -50,10 +23,7 @@
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": [
-    "WebApplication",
-    "LearningResource"
-  ],
+  "@type": ["WebApplication","LearningResource"],
   "name": "Hanafi Islam Learning Deck",
   "alternateName": "Hanafi Learning Deck",
   "url": "https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/",
@@ -62,44 +32,24 @@
   "operatingSystem": "Web",
   "isAccessibleForFree": true,
   "inLanguage": "en",
-  "educationalUse": [
-    "self study",
-    "reference"
-  ],
+  "educationalUse": ["self study","reference"],
   "about": [
-    {
-      "@type": "Thing",
-      "name": "Hanafi fiqh"
-    },
-    {
-      "@type": "Thing",
-      "name": "Islamic learning"
-    },
-    {
-      "@type": "Thing",
-      "name": "Quran"
-    },
-    {
-      "@type": "Thing",
-      "name": "Salah"
-    }
+    {"@type":"Thing","name":"Hanafi fiqh"},
+    {"@type":"Thing","name":"Islamic learning"},
+    {"@type":"Thing","name":"Quran"},
+    {"@type":"Thing","name":"Salah"}
   ]
 }
   </script>
-  <link rel="manifest" href="manifest.webmanifest?release=v2.3&rev=20260927links1">
-  <link rel="icon" href="assets/hanafi-learning-deck-icon-approved.png?rev=20260927links1" type="image/png" sizes="1254x1254">
-  <link rel="apple-touch-icon" href="assets/hanafi-learning-deck-icon-approved.png?rev=20260927links1">
-  <link rel="stylesheet" href="styles.css?release=v2.3&rev=20260927links1">
-  <link rel="stylesheet" href="ornate-buttons.css?rev=20260924a">
-  <link rel="stylesheet" href="city-picker.css?rev=20260922a">
-  <link rel="stylesheet" href="home-branding.css?rev=20260927links1">
-  <link rel="stylesheet" href="mobile-background.css?rev=20260927links1">
+  <link rel="manifest" href="manifest.webmanifest?release=v2.3&rev=20260927staticdeck1">
+  <link rel="icon" href="assets/hanafi-learning-deck-icon-approved.png?rev=20260927staticdeck1" type="image/png" sizes="1254x1254">
+  <link rel="apple-touch-icon" href="assets/hanafi-learning-deck-icon-approved.png?rev=20260927staticdeck1">
+  <link rel="stylesheet" href="styles.css?release=v2.3&rev=20260927staticdeck1">
+  <link rel="stylesheet" href="ornate-buttons.css?rev=20260927staticdeck1">
+  <link rel="stylesheet" href="city-picker.css?rev=20260927staticdeck1">
+  <link rel="stylesheet" href="home-branding.css?rev=20260927staticdeck1">
+  <link rel="stylesheet" href="mobile-background.css?rev=20260927staticdeck1">
   <style>
-    .hanafi-launch-guard body { visibility: hidden !important; }
-
-    #setNav.card-layout-pending,
-    #library.card-layout-pending { visibility: hidden; }
-
     .home-devotion {
       width: min(860px, 100%);
       margin: 1.15rem auto 1.35rem;
@@ -141,7 +91,7 @@
   <header class="app-header home-header">
     <span class="home-version">v2.3</span>
     <div class="home-branding">
-      <img class="home-brand-icon" src="assets/hanafi-learning-deck-icon-approved.png?rev=20260927links1" alt="Hanafi Learning Deck emblem">
+      <img class="home-brand-icon" src="assets/hanafi-learning-deck-icon-approved.png?rev=20260927staticdeck1" alt="Hanafi Learning Deck emblem">
       <h1 class="home-brand-title">Hanafi Learning Deck</h1>
       <section class="home-devotion" aria-labelledby="homeBismillah">
         <h2 id="homeBismillah" class="home-devotion-arabic" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</h2>
@@ -161,6 +111,7 @@
     </div>
 
     <div class="actions" aria-label="Web App actions">
+      <a class="secondary action-link" href="deck/">Deck</a>
       <a class="secondary action-link" href="quran/">Quran</a>
       <a class="secondary action-link" href="live/">Live</a>
       <a class="secondary action-link" href="explore/">Explore</a>
@@ -170,8 +121,6 @@
       <a class="secondary action-link" href="about/">About</a>
       <a class="secondary action-link" href="legal/">Legal</a>
       <button id="installButton" class="secondary" hidden>Install App</button>
-      <button id="offlineButton" class="primary">Download for Offline Use</button>
-      <button id="refreshButton" class="secondary" disabled>Update</button>
     </div>
 
     <aside id="iosInstallHint" hidden aria-label="iPhone installation instructions" style="margin-top:1rem;padding:1rem 1.1rem;border:1px solid rgba(216,181,96,.28);border-radius:16px;background:rgba(255,255,255,.04);color:#f7f1df;line-height:1.55;">
@@ -197,8 +146,6 @@
       </ol>
       <span>The Hanafi Learning Deck icon will then appear on your Home Screen and open like an app. No Play Store is required.</span>
     </aside>
-
-    <p id="status" class="status" role="status" aria-live="polite">Checking offline library…</p>
   </header>
 
   <main>
@@ -285,9 +232,6 @@
       <p class="prayer-source">Prayer calculations use <strong>Adhan JS 4.4.6</strong> by Batoul Apps under the MIT License. Calculation conventions differ by region, so the method can be changed to match a trusted local timetable.</p>
     </section>
 
-    <nav id="setNav" class="set-nav card-layout-pending" aria-label="Card sets"></nav>
-    <section id="library" class="library card-layout-pending" aria-live="polite"></section>
-
     <div class="back-to-top">
       <a class="secondary action-link" href="#top">↑ Back to top</a>
     </div>
@@ -305,21 +249,10 @@
       const standalone = navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches;
       if (isiOS && !standalone) document.getElementById("iosInstallHint").hidden = false;
       if (isAndroid && !standalone) document.getElementById("androidInstallHint").hidden = false;
-
-      const refreshButton = document.getElementById("refreshButton");
-      if (refreshButton) {
-        const keepUpdateLabel = () => {
-          if (refreshButton.textContent === "Update Deck") refreshButton.textContent = "Update";
-        };
-        keepUpdateLabel();
-        new MutationObserver(keepUpdateLabel).observe(refreshButton, { childList:true });
-      }
     })();
   </script>
-  <script src="secret-library-trigger.js?rev=20260925c" defer></script>
-  <script src="app.js?release=v2.3&rev=20260927links1" defer></script>
-  <script src="city-picker.js?rev=20260922a" defer></script>
-  <script src="card-set-collapse.js?rev=20260923d" defer></script>
-  <script src="card-viewer.js?release=v2.3" defer></script>
+  <script src="secret-library-trigger.js?rev=20260927staticdeck1" defer></script>
+  <script src="home-app.js?release=v2.3&rev=20260927staticdeck1" defer></script>
+  <script src="city-picker.js?rev=20260927staticdeck1" defer></script>
 </body>
 </html>

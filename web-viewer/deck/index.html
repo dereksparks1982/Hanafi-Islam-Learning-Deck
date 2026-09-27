@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b3d2e">
+  <title>Deck | Hanafi Learning Deck</title>
+  <style>
+    html, body { background-color:#03130e; }
+    body { min-height:100dvh; }
+  </style>
+  <link rel="icon" href="../assets/hanafi-learning-deck-icon-approved.png?rev=20260927staticdeck1" type="image/png">
+  <link rel="stylesheet" href="../styles.css?release=v2.3&rev=20260927staticdeck1">
+  <link rel="stylesheet" href="../ornate-buttons.css?rev=20260927staticdeck1">
+  <link rel="stylesheet" href="../mobile-background.css?rev=20260927staticdeck1">
+  <style>
+    .deck-header { padding-bottom:.5rem; }
+    .deck-header h1 { max-width:none; }
+    .deck-header .actions { margin-top:1rem; }
+    .deck-intro { max-width:70ch; }
+  </style>
+</head>
+<body id="deckTop">
+  <header class="app-header deck-header">
+    <p class="eyebrow">Hanafi Learning Deck · v2.3</p>
+    <h1>Deck</h1>
+    <p class="intro deck-intro">The complete learning card collection, including the main deck and every expansion currently included in the Web App.</p>
+    <div class="actions">
+      <a class="secondary action-link" href="../">← Home</a>
+      <button id="offlineButton" class="primary" type="button">Download for Offline Use</button>
+      <button id="refreshButton" class="secondary" type="button" disabled>Update</button>
+    </div>
+    <p id="status" class="status" role="status" aria-live="polite">Checking offline library…</p>
+  </header>
+
+  <main>
+    <nav id="setNav" class="set-nav" aria-label="Card sets"></nav>
+    <section id="library" class="library" aria-live="polite"></section>
+    <div class="back-to-top">
+      <a class="secondary action-link" href="#deckTop">↑ Back to top</a>
+    </div>
+  </main>
+
+  <footer>
+    <p><strong>No advertising. Islam is not for sale.</strong> Repository card images remain authoritative.</p>
+  </footer>
+
+  <script src="app.js?release=v2.3&rev=20260927staticdeck1" defer></script>
+  <script src="../card-set-collapse.js?rev=20260927staticdeck1" defer></script>
+  <script src="../card-viewer.js?release=v2.3&rev=20260927staticdeck1" defer></script>
+</body>
+</html>
