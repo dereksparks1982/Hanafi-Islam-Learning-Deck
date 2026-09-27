@@ -1,4 +1,21 @@
 (() => {
+  const root = document.documentElement;
+  let revealFallback = window.setTimeout(() => {
+    root.classList.add("hanafi-layout-ready");
+  }, 4000);
+
+  const revealCurrentLayout = () => {
+    if (revealFallback) {
+      clearTimeout(revealFallback);
+      revealFallback = null;
+    }
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        root.classList.add("hanafi-layout-ready");
+      });
+    });
+  };
+
   const STORAGE_KEY = "hanafi-deck-card-set-collapse-v1";
   const DISPLAY_TITLES = {
     "sacred-places": "Sacred Places",
@@ -159,4 +176,5 @@
 
   document.getElementById("setNav")?.classList.remove("card-layout-pending");
   document.getElementById("library")?.classList.remove("card-layout-pending");
+  revealCurrentLayout();
 })();
