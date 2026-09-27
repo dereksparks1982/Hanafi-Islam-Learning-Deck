@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1400" viewBox="0 0 1000 1400" role="img" aria-labelledby="title desc">
+<title id="title">I-10. DAILY PRAYER NAMES</title>
+<desc id="desc">Index card of Islamic and Hanafi terms with plain-English meanings.</desc>
+<rect width="1000" height="1400" fill="#ffffff"/>
+<rect x="20" y="20" width="960" height="1360" rx="42" fill="none" stroke="#0050a5" stroke-width="8"/>
+<rect x="34" y="34" width="932" height="1332" rx="34" fill="none" stroke="#b58b2a" stroke-width="3"/>
+<text x="62" y="95" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="48" fill="#000000">I-10. DAILY PRAYER NAMES</text>
+<text x="942" y="153" text-anchor="end" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="24" fill="#0050a5">INDEX • TERMS &amp; MEANINGS</text>
+<line x1="48" y1="186" x2="952" y2="186" stroke="#000000" stroke-width="3"/>
+<text x="76" y="238" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="27" fill="#0050a5">FAJR</text>
+<text x="90" y="275" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" fill="#000000">The dawn prayer. It has 2 fard rak‘ahs.</text>
+<text x="76" y="331" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="27" fill="#0050a5">DHUHR</text>
+<text x="90" y="368" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" fill="#000000">The midday prayer after the sun passes its zenith. It has 4 fard</text>
+<text x="90" y="396" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" fill="#000000">rak‘ahs.</text>
+<text x="76" y="452" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="27" fill="#0050a5">ASR</text>
+<text x="90" y="489" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" fill="#000000">The afternoon prayer. It has 4 fard rak‘ahs; the Hanafi school uses its</text>
+<text x="90" y="517" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" fill="#000000">own relied-upon start-time calculation.</text>
+<text x="76" y="573" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="27" fill="#0050a5">MAGHRIB</text>
+<text x="90" y="610" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" fill="#000000">The sunset prayer. It has 3 fard rak‘ahs.</text>
+<text x="76" y="666" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="27" fill="#0050a5">ISHA</text>
+<text x="90" y="703" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" fill="#000000">The night prayer after evening twilight disappears. It has 4 fard</text>
+<text x="90" y="731" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" fill="#000000">rak‘ahs.</text>
+<text x="76" y="787" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="27" fill="#0050a5">WITR</text>
+<text x="90" y="824" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" fill="#000000">An odd-numbered night prayer after Isha. In the Hanafi school it is 3</text>
+<text x="90" y="852" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" fill="#000000">rak‘ahs and wajib.</text>
+<text x="76" y="908" font-family="DejaVu Sans, Arial, sans-serif" font-weight="700" font-size="27" fill="#0050a5">JUMU&#x27;AH</text>
+<text x="90" y="945" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" fill="#000000">The Friday congregational prayer that replaces Dhuhr for those upon whom</text>
+<text x="90" y="973" font-family="DejaVu Sans, Arial, sans-serif" font-size="23" fill="#000000">it is obligatory.</text>
+</svg>
