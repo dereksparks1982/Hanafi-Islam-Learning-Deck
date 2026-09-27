@@ -1,4 +1,4 @@
-/* Shared phone background behavior for the entire Hanafi Learning Deck Web App.
+/* Shared background behavior for the Hanafi Learning Deck Web App.
    The approved artwork is never modified; this file only controls how it is displayed. */
 
 html {
@@ -6,13 +6,40 @@ html {
   text-size-adjust: 100%;
 }
 
-/* Keep the site-wide lantern glow behind page content without changing the
-   approved background image itself. */
 body {
   position: relative;
   isolation: isolate;
 }
 
+/* HOME: always use the approved current artwork, never the old gradient preview. */
+body#top {
+  background-color: #03130e !important;
+  background-image:
+    url("assets/hanafi-home-background-approved.png?rev=20260927visualfix1"),
+    linear-gradient(180deg, #06271c 0, #031a13 34rem, #02110d 100%) !important;
+  background-position: center top, center top !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-size: cover, cover !important;
+  background-attachment: fixed, fixed !important;
+}
+
+/* Keep the approved emblem visible even if WebKit momentarily fails the <img> request.
+   The same approved image is provided as a CSS fallback behind it. */
+body#top .home-brand-icon {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: clamp(132px, 14vw, 182px) !important;
+  height: clamp(132px, 14vw, 182px) !important;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  background: transparent url("assets/hanafi-learning-deck-icon-approved.png?rev=20260927visualfix1") center / contain no-repeat;
+  position: relative;
+  z-index: 2;
+}
+
+/* Keep the site-wide lantern glow behind page content without changing the
+   approved background image itself. */
 body::after {
   content: "";
   position: fixed;
@@ -56,7 +83,7 @@ body:has(> .home-lantern-glow)::after {
   }
 }
 
-/* Phones and touch-first mobile devices use one shared fixed background layer. */
+/* Phones and touch-first mobile devices use one fixed approved background layer. */
 @media (max-width: 760px), (hover: none) and (pointer: coarse) {
   html {
     background: #03130e;
@@ -70,8 +97,6 @@ body:has(> .home-lantern-glow)::after {
     overflow-x: clip;
   }
 
-  /* A fixed layer is used instead of background-attachment: fixed because iOS Safari
-     does not keep body backgrounds reliably pinned while scrolling or rotating. */
   body::before {
     content: "";
     position: fixed;
@@ -80,19 +105,37 @@ body:has(> .home-lantern-glow)::after {
     pointer-events: none;
     background-color: #03130e;
     background-image:
-      url("assets/hanafi-home-background-approved.png?rev=20260923mobile2"),
+      url("assets/hanafi-home-background-approved.png?rev=20260927visualfix1"),
       linear-gradient(180deg, #06271c 0, #031a13 34rem, #02110d 100%);
     background-position: center top, center top;
     background-repeat: no-repeat, no-repeat;
   }
 
-  /* Keep page titles from growing dramatically merely because the phone rotates. */
+  /* On Home, keep the approved artwork above the body's solid fallback and below content.
+     This avoids the iPhone black/blank launch while still showing the real artwork. */
+  body#top::before {
+    z-index: 0;
+  }
+
+  body#top > .home-lantern-glow,
+  body#top > header,
+  body#top > main,
+  body#top > footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  body#top .home-brand-icon {
+    width: clamp(112px, 34vw, 150px) !important;
+    height: clamp(112px, 34vw, 150px) !important;
+  }
+
   body h1 {
     font-size: clamp(2.1rem, 10vmin, 3.35rem) !important;
   }
 }
 
-/* Portrait: fill the phone from top to bottom while cropping the lanterns off the sides. */
+/* Portrait: fill the phone from top to bottom while cropping the artwork at the sides. */
 @media (orientation: portrait) and (max-width: 760px),
        (orientation: portrait) and (hover: none) and (pointer: coarse) {
   body::before {
@@ -105,7 +148,7 @@ body:has(> .home-lantern-glow)::after {
   }
 }
 
-/* Landscape: keep the lanterns and full side frame visible while filling the viewport. */
+/* Landscape: keep the full approved frame visible. */
 @media (orientation: landscape) and (max-height: 760px),
        (orientation: landscape) and (hover: none) and (pointer: coarse) {
   body::before {
