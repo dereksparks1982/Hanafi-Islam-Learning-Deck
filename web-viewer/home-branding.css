@@ -1,5 +1,10 @@
 /* Home page branding. The approved icon image itself is not modified. */
 
+/* Do not allow the old/base home layout to paint before the current layout scripts finish. */
+html:not(.hanafi-layout-ready) body#top {
+  visibility: hidden !important;
+}
+
 body#top .home-header {
   padding-top: calc(1.25rem + env(safe-area-inset-top, 0px));
 }
