@@ -1,19 +1,18 @@
 const RELEASE = "v2.3";
 const CACHE_PREFIX = "hanafi-deck-";
-const SHELL_REV = "20260926-shell-refresh-2";
+const SHELL_REV = "20260927links1";
 const SHELL_CACHE = `${CACHE_PREFIX}shell-${RELEASE}-${SHELL_REV}`;
 const CARD_CACHE = `${CACHE_PREFIX}cards-${RELEASE}`;
 const ADHAN_LIBRARY_URL = "https://unpkg.com/adhan@4.4.6/lib/bundles/adhan.umd.min.js";
 const SHELL = [
-  "./",
-  `./index.html?release=${RELEASE}&rev=20260926shell1`,
-  `./styles.css?release=${RELEASE}&rev=20260926shell1`,
-  `./mobile-background.css?rev=20260926shell1`,
-  `./app.js?release=${RELEASE}&rev=20260926shell1`,
+  `./index.html?release=${RELEASE}&rev=${SHELL_REV}`,
+  `./styles.css?release=${RELEASE}&rev=${SHELL_REV}`,
+  `./mobile-background.css?rev=${SHELL_REV}`,
+  `./app.js?release=${RELEASE}&rev=${SHELL_REV}`,
   `./card-viewer.js?release=${RELEASE}`,
-  `./secret-library-trigger.js?rev=20260924b`,
-  `./manifest.webmanifest?release=${RELEASE}&rev=20260926shell1`,
-  `./assets/hanafi-learning-deck-icon-approved.png?rev=20260926shell1`,
+  `./secret-library-trigger.js?rev=20260925c`,
+  `./manifest.webmanifest?release=${RELEASE}&rev=${SHELL_REV}`,
+  `./assets/hanafi-learning-deck-icon-approved.png?rev=${SHELL_REV}`,
   `./quran/index.html?release=${RELEASE}`,
   `./quran/styles.css?release=${RELEASE}`,
   `./quran/app.js?release=${RELEASE}`,
@@ -27,6 +26,7 @@ const SHELL = [
   `./explore/index.html?release=${RELEASE}`,
   `./explore/styles.css?release=${RELEASE}`,
   `./explore/app.js?release=${RELEASE}`,
+  `./links/index.html?release=${RELEASE}`,
   `./about/index.html?release=${RELEASE}`,
   `./legal/index.html?release=${RELEASE}`,
   `./charity/index.html?release=${RELEASE}`
@@ -54,6 +54,9 @@ self.addEventListener("activate", event => {
         .filter(name => name.startsWith(CACHE_PREFIX) && !keep.has(name))
         .map(name => caches.delete(name))
     );
+    if (self.registration.navigationPreload) {
+      await self.registration.navigationPreload.enable();
+    }
     await self.clients.claim();
   })());
 });
@@ -148,6 +151,7 @@ async function offlineNavigationFallback(url) {
     ["live", `./live/index.html?release=${RELEASE}`],
     ["media", `./media/index.html?release=${RELEASE}`],
     ["explore", `./explore/index.html?release=${RELEASE}`],
+    ["links", `./links/index.html?release=${RELEASE}`],
     ["about", `./about/index.html?release=${RELEASE}`],
     ["legal", `./legal/index.html?release=${RELEASE}`],
     ["charity", `./charity/index.html?release=${RELEASE}`]
@@ -156,12 +160,11 @@ async function offlineNavigationFallback(url) {
   for (const [route, cachedPath] of routes) {
     if (url.pathname.endsWith(`/${route}/`) || url.pathname.endsWith(`/${route}/index.html`)) {
       return (await caches.match(cachedPath)) ||
-        (await caches.match(`./index.html?release=${RELEASE}&rev=20260926shell1`)) ||
-        (await caches.match("./"));
+        (await caches.match(`./index.html?release=${RELEASE}&rev=${SHELL_REV}`));
     }
   }
 
-  return (await caches.match(`./index.html?release=${RELEASE}&rev=20260926shell1`)) || (await caches.match("./"));
+  return (await caches.match(`./index.html?release=${RELEASE}&rev=${SHELL_REV}`)) || Response.error();
 }
 
 self.addEventListener("fetch", event => {
@@ -202,6 +205,8 @@ self.addEventListener("fetch", event => {
   if (event.request.mode === "navigate") {
     event.respondWith((async () => {
       try {
+        const preload = await event.preloadResponse;
+        if (preload) return preload;
         return await fetch(event.request, { cache:"reload" });
       } catch {
         return offlineNavigationFallback(url);
