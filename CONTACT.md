@@ -1,8 +1,12 @@
 # Contact
 
-For project correspondence, including scholarly corrections, source questions, attribution matters, licensing questions, rights claims, or other legal correspondence, contact:
+For Hanafi Learning Deck project correspondence, including scholarly corrections, source questions, attribution matters, and general project correspondence, contact:
 
 **hanaficards@proton.me**
+
+For Elderred Softworks LLC correspondence, including licensing, rights claims, takedown requests, business matters, or other legal correspondence, contact:
+
+**elderredsoftworks@proton.me**
 
 For a source, licensing, or rights claim, please identify as specifically as possible:
 
@@ -15,4 +19,4 @@ For a source, licensing, or rights claim, please identify as specifically as pos
 
 Providing these details allows the project to examine the matter against its source record, attribution history, applicable license terms, relevant civil-law questions where necessary, and the project's documented Shariah analysis.
 
-This address is the public contact for the Hanafi Learning Deck. It is intended to provide a clear channel for good-faith correspondence without requiring use of a maintainer's personal email address.
+These are the public contact addresses for the Hanafi Learning Deck and Elderred Softworks LLC. They provide clear project and legal correspondence channels without requiring use of a maintainer's personal email address.
