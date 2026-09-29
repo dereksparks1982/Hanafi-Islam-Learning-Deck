@@ -1,53 +1,59 @@
 # Hanafi Learning Deck Web App
 
-This directory contains the installable, local-first **Web App** for the Hanafi Learning Deck.
+This directory contains the installable, local-first **Web App** for the Hanafi Learning Deck. The implementation directory remains `web-viewer/`; the user-facing product is the **Web App**.
 
-The directory name remains `web-viewer/` for implementation continuity, but the user-facing product is the **Web App**.
+## Current release state
 
-## Current development: v2.0 — Live Madrasas & Masjids
+- **Accepted published checkpoint:** **v2.4 — closed and accepted**
+- **Active build:** **v2.5 — automatic public Media metadata and artwork onboarding**
+- **v2.5 status:** candidate built, awaiting live runtime validation
+- **Source branch:** `main` only
+- **Deployment:** GitHub Pages through `.github/workflows/deploy-web-viewer-pages.yml`
 
-v1.9 is the published checkpoint. v2.0 development has now started with a dedicated `/live/` hub for verified live or regularly scheduled Islamic teaching and masjid broadcasts.
+## Current Web App surfaces
 
-The first v2.0 directory entries are:
+The current Web App includes:
 
-- **SeekersGuidance Live Classes** — official live schedule with Qur'an, hadith, Islamic studies, Hanafi fiqh, spirituality, and Q&A programming;
-- **Masjid al-Haram** — linked to the existing Makkah Live & Prayer Clock inside the Web App;
-- **East London Mosque** — official live video and live audio sources;
-- **Birmingham Central Mosque** — official live mosque radio source.
-
-The v2.0 hub distinguishes teaching sources from masjid broadcasts and labels video, audio, salah, adhan, khutbah, lessons, and related categories rather than treating every source as the same kind of stream.
-
-## Published v1.9 capabilities
-
-- browse the current five card sets;
-- collapse or expand each card set independently;
-- remember the local collapsed/expanded state;
-- explicit **Download for Offline Use** and deck-refresh controls;
-- cache the current 209 approved card images on request;
-- Home Screen installation support on compatible devices;
-- local prayer-time calculation with **Hanafi ʿAṣr**;
-- exact city lookup, device-location use, and manual coordinates;
-- Qur'an Reader entry point;
+- the 222-resource card library and offline-capable study support;
+- Hanafi prayer-time tools;
+- Qur'an Reader foundation;
 - Makkah Live & Prayer Clock;
-- Cesium-based Holy Places Explorer;
-- Media section, beginning with *The Message* (1976), with English and Arabic viewing choices;
-- current Media copies: English 720p, Arabic standard 360p, and Arabic alternate 480p;
-- iPhone/iPad-specific Google Drive player layout and page-level full-screen handling;
-- separate direct Google Drive fallback for the selected Media copy;
-- no account, advertising, commercial paywall, or behavioral tracking by the Hanafi Learning Deck.
+- Holy Places Explorer;
+- Live, Links, Media, Charity, About, and Legal sections;
+- the locked Advanced Learner Library;
+- the current approved Home identity and devotional opening.
 
-The authoritative card PNGs remain in their existing repository directories. The Web App references those files without modifying them.
+## Media
 
-## Deployment
+The accepted public Media player is exactly one DK Media-based browser player. The eight v2.4 public films were confirmed playing at closeout:
 
-GitHub Pages deployment is handled by `.github/workflows/deploy-web-viewer-pages.yml` from **`main`**. The project no longer uses a separate development or `gh-pages` branch as the working source of truth.
+1. Al-Risalah (1976)
+2. Aao Hajj Karein (2012)
+3. Joseph in the Land of Egypt (1914)
+4. Lion of the Desert (1981)
+5. Pakistan (1950)
+6. The Message (1976)
+7. The Soviets and Islam (1972)
+8. The Ten Commandments (1923)
 
-The Tor mirror is an alternate access path to the same Web App and is updated separately through the repository's Tor-mirror update script.
+v2.5 is removing the per-title hand-wiring process. The active candidate obtains public catalog metadata and poster state from the Hanafi bridge, uses the existing Nougat-integrated Jellyfin metadata/provider system, and creates future public movie cards from catalog records.
 
-## Media playback
+The accepted v2.4 playback bridge is preserved separately as `../server/hanafi-jellyfin-bridge-stable.py`; v2.5 layers discovery/metadata/poster behavior on top rather than replacing the known-working playback core.
 
-The published v1.9 movie page uses **Google Drive embedded playback**. It does not bundle VLC or libVLC.
+Detailed build state: [`../docs/V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md`](../docs/V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md).
 
-The three current project copies are not all interchangeable cuts: the Arabic 480p alternate includes English subtitles burned into the picture plus additional opening explanatory/chanting material, while the Arabic 360p copy has Arabic subtitles burned into the picture. Better source copies may be added later without reopening the v1.9 checkpoint.
+## Deployment boundary
+
+GitHub Pages contains the Web App, not the movie files. Public movie payloads remain on saxondesktop and are delivered through HTTPS/Nginx to the local Hanafi bridge and Nougat-integrated Jellyfin backend.
+
+The one-time v2.5 runtime transition helper is:
+
+`../media-server/deploy/update-v25-metadata.sh`
+
+Once that transition is accepted, placing a correctly named movie under the public Hosted library is intended to be the onboarding action. A future movie should not require another individual edit to the Web App's Media index, movie page, or public manifest.
+
+## Project rules
+
+The authoritative repository rules are in [`../docs/COMPANY_BIBLE.md`](../docs/COMPANY_BIBLE.md) and the current recovery state is in [`../docs/CURRENT_HANDOFF.md`](../docs/CURRENT_HANDOFF.md).
 
 Third-party films, streams, imagery, libraries, and external services remain subject to their own source and licensing terms. See [`../docs/LEGAL_AND_SOURCE_POLICY.md`](../docs/LEGAL_AND_SOURCE_POLICY.md).
