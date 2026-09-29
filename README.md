@@ -1,4 +1,4 @@
-<h1 align="center">Hanafi Learning Deck v2.3</h1>
+<h1 align="center">Hanafi Learning Deck v2.4</h1>
 
 <div align="center">
 
@@ -24,17 +24,38 @@ A growing, printable, offline-capable, and mobile-friendly library for learning 
 
 The project began as a small personal study deck. It has grown into a connected learning system built around the same idea: useful Islamic material should be clear, traceable, practical, and easy to return to every day.
 
-> **Current published checkpoint:** **v2.3**
+> **Current published checkpoint:** **v2.4**
 >
-> **v2.3 status:** **closed and accepted**
+> **v2.4 status:** **closed and accepted**
 >
 > **Current branch:** **`main`**
 >
-> **Next controlled teaching build:** **Sawm / Ramadan cards** — planned, not yet built
+> **Next authorized build:** **v2.5 — automatic Media metadata and artwork onboarding**
 >
 > **Published card resources:** **222 total** — 209 established cards across five sets plus 13 glossary/index cards
 >
 > **Status:** educational study aid, under continuing manual source review and pending qualified imam/scholar review.
+
+## v2.4 — Media expansion, bridge stabilization, and current Web App closeout
+
+**v2.4 is closed and accepted as of 2026-09-29.**
+
+This checkpoint records the current project state before the automatic Media metadata build begins:
+
+- the published card resources are **222 total**, including glossary/index cards I-1 through I-13;
+- current Web App launch/cache repairs, the separate Deck page, and the approved Home presentation are retained;
+- the locked Advanced Learner Library and current five-slot private-library entrance treatment are retained;
+- public Media expanded from four films to **eight** explicit film pages;
+- **Aao Hajj Karein (2012)**, **Joseph in the Land of Egypt (1914)**, **Pakistan (1950)**, and **The Soviets and Islam (1972)** were added;
+- **Al-Risalah (1976)** was repaired after its Hosted folder rename by correcting the media path;
+- the stable Hanafi media bridge was restored after a rejected regression;
+- the maintainer confirmed that **all eight public films play** at closeout;
+- the accepted one-player DK Media Web architecture remains unchanged.
+
+The four newest movies still lack automatically resolved box art. That is not being patched with another round of hand-wired poster URLs. **v2.5 is authorized to replace that process with Plex/Emby/Jellyfin-style automatic movie identification, metadata, and artwork onboarding through the existing Jellyfin-backed server path.**
+
+Full closeout: [`docs/V2.4_CLOSEOUT.md`](docs/V2.4_CLOSEOUT.md)  
+Active v2.5 plan: [`docs/V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md`](docs/V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md)
 
 ## Project principle
 
@@ -195,9 +216,9 @@ Current approved cards:
 
 Important Places uses a strict one-card-at-a-time approval process. Candidate subject, wording, image, layout, border, and final artwork are reviewed before publication.
 
-## Web App identity and current v2.3 shell
+## Web App identity and current v2.4 shell
 
-The current v2.3 Web App retains the visual family established in v2.1 and refined through v2.2-v2.3:
+The current v2.4 Web App retains the visual family established in v2.1 and refined through v2.2-v2.4:
 
 - approved Hanafi Learning Deck icon;
 - approved Home background and corrected mobile background handling;
@@ -297,9 +318,9 @@ https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/links/
 
 External resources remain on their original creators' and organizations' sites.
 
-## Media - current v2.3 system
+## Media - current v2.4 system
 
-The Media system was rebuilt in v2.1 and refined through v2.2-v2.3. The old Google Drive iframe arrangement from v1.9 is **historical and no longer the current player**.
+The Media system was rebuilt in v2.1 and refined through v2.2-v2.4. The old Google Drive iframe arrangement from v1.9 is **historical and no longer the current player**.
 
 ### One DK Media-based player
 
@@ -345,8 +366,7 @@ Useful retained server behavior includes:
 - H.264/AAC MP4 fallback for incompatible source media;
 - CORS restricted to the Hanafi Web App origin;
 - health and catalog endpoints;
-- SRT-to-WebVTT subtitle conversion;
-- automatic discovery of ready public Media items from the backend catalog.
+- SRT-to-WebVTT subtitle conversion.
 
 Because Media is delivered from a **private home server**, the interface explicitly warns:
 
@@ -357,13 +377,19 @@ Because Media is delivered from a **private home server**, the interface explici
 Current public film pages include:
 
 - **Al-Risalah (1976)** — Arabic production;
+- **Aao Hajj Karein (2012)**;
+- **Joseph in the Land of Egypt (1914)**;
 - **Lion of the Desert (1981)**;
+- **Pakistan (1950)**;
 - **The Message (1976)**;
+- **The Soviets and Islam (1972)**;
 - **The Ten Commandments (1923)**.
+
+All eight were confirmed playing by the maintainer at the v2.4 closeout.
 
 The Media home page supports both **poster-card view** and a **compact list view**. Both open the same dedicated page for the selected film. Individual film pages provide film information and relevant controls/links appropriate to public Media.
 
-Movie artwork metadata supports per-film source selection plus per-film crop/position adjustments, and the browser can cache resolved artwork locally.
+Movie artwork metadata supports per-film source selection plus per-film crop/position adjustments, and the browser can cache resolved artwork locally. The four movies added in v2.4 still lack automatic box art; v2.5 is specifically assigned to make provider metadata/artwork automatic for new Hosted films rather than hand-wiring posters one by one.
 
 The locked Advanced Learner Library has separate maintainer-only books/media behavior. Its private catalog is intentionally not presented here as public project content.
 
@@ -445,9 +471,11 @@ Additional useful study/reference links retained by the project:
 
 ## Where the project goes next
 
-**v2.3 is closed and accepted. No later public version number has been assigned.**
+**v2.4 is closed and accepted. v2.5 is the active owner-authorized Media metadata/artwork build.**
 
-The current teaching order is:
+The v2.5 acceptance target is straightforward: add a correctly named movie under the public Hosted library, refresh the existing server/library path, and have Hanafi produce the movie's stable ID, title/year, verified provider metadata, box art, dedicated movie page, and working playback **without hand-editing the Media index, movie page, or manifest for that individual movie**.
+
+After the active v2.5 Media build, retained teaching directions include:
 
 1. **Sawm / Ramadan** teaching cards;
 2. **Zakat** teaching cards;
@@ -491,6 +519,9 @@ Development, legal, release, and operating notes live in [`docs/`](docs/):
 - [`docs/COMPANY_BIBLE.md`](docs/COMPANY_BIBLE.md) - project rules and approval gates
 - [`docs/V2.1_CLOSEOUT.md`](docs/V2.1_CLOSEOUT.md) - accepted v2.1 release record
 - [`docs/V2.2_CLOSEOUT.md`](docs/V2.2_CLOSEOUT.md) - accepted v2.2 release record
+- [`docs/V2.3_MEDIA_ARTWORK_PLAN.md`](docs/V2.3_MEDIA_ARTWORK_PLAN.md) - accepted v2.3 Media artwork/metadata record
+- [`docs/V2.4_CLOSEOUT.md`](docs/V2.4_CLOSEOUT.md) - accepted v2.4 closeout
+- [`docs/V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md`](docs/V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md) - active owner-authorized v2.5 build
 - [`docs/CURRENT_HANDOFF.md`](docs/CURRENT_HANDOFF.md) - current recovery point
 - [`docs/roadmap.md`](docs/roadmap.md) - current and future direction
 - [`docs/LEGAL_AND_SOURCE_POLICY.md`](docs/LEGAL_AND_SOURCE_POLICY.md) - Qur'an/source/copyright policy and third-party Media rules
@@ -530,4 +561,4 @@ A legal or rights claim should identify the exact material at issue, the person 
 
 ---
 
-**Hanafi Learning Deck · v2.3 published checkpoint · closed and accepted**
+**Hanafi Learning Deck · v2.4 published checkpoint · closed and accepted**

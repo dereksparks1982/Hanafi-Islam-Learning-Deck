@@ -1,3 +1,16 @@
+## v2.4 — Public Media expansion and bridge stabilization — closed
+
+- Closed and accepted by the maintainer on 2026-09-29.
+- Recorded **222 published card resources**: the established 209-card library plus glossary/index cards I-1 through I-13.
+- Retained the repaired current Web App launch/cache behavior, Deck-page separation, approved Home presentation, and locked five-slot Advanced Learner Library entrance.
+- Expanded public Media from four films to eight while preserving the accepted single DK Media Web player.
+- Added **Aao Hajj Karein (2012)**, **Joseph in the Land of Egypt (1914)**, **Pakistan (1950)**, and **The Soviets and Islam (1972)**.
+- Repaired **Al-Risalah (1976)** after its Hosted folder rename by correcting the media path.
+- Restored the stable Hanafi media bridge after a rejected server regression and retained the existing Nginx -> Hanafi bridge -> Nougat/Jellyfin -> local-media architecture.
+- Maintainer confirmed that all eight public films play at closeout.
+- Recorded the remaining artwork limitation: the four newest films do not yet receive box art automatically.
+- Authorized **v2.5** as the next build for Plex/Emby/Jellyfin-style automatic movie identification, metadata, poster artwork, catalog creation, and playback onboarding without per-title hand edits.
+
 ## v2.3 — Media artwork manager and movie-library refinement
 
 - Closed and accepted by maintainer on 2026-09-25.
@@ -30,7 +43,7 @@
 - Kept the Home page as the canonical visible `v2.1` version surface.
 - Added/consolidated dedicated **About**, **Legal**, and **Charity** areas and redirected older Contact/Zakat routes into the current structure.
 - Kept voluntary Patreon project support in the Charity context rather than on the Home page, and did not present project support as Zakat.
-- Replaced the old Google Drive iframe Media architecture with a self-hosted path from GitHub Pages through HTTPS/Nginx to the Hanafi media bridge and the selected Nougat/Jellyfin backend work on the maintainer's own computer.
+- Replaced the old Google Drive iframe Media architecture with a self-hosted path from GitHub Pages through HTTPS/Nginx to the Hanafi bridge and the selected Nougat/Jellyfin backend work on the maintainer's own computer.
 - Kept movie payloads off GitHub and exposed only manifest-listed stable media IDs through the Hanafi bridge.
 - Reused useful Nougat server work including HTTP byte-range delivery, local-file fallback, Jellyfin integration, FFmpeg H.264/AAC fallback, health/catalog endpoints, and SRT-to-WebVTT subtitle conversion.
 - Did **not** import Nougat's Games, Live TV, World TV, Search, P2P, AI, radio, security tooling, or tactical/military desktop Player UI into Hanafi.
@@ -51,10 +64,10 @@
 ## v2.0 — Live Madrasas, Masjids & Islamic discovery — closed
 
 - **Officially closed v2.0** as the Live discovery release before v2.1 work began.
-- Added a dedicated **Live** Web App area instead of mixing live teaching and mosque resources into unrelated pages.
+- Added a dedicated **Live** Web App area instead of mixing live study resources into unrelated pages.
 - Organized the published directory into **Madrasas**, **Masjids**, and **Islamic TV & discovery** groups.
 - Began the Madrasa group with SeekersGuidance live classes and retained source links rather than presenting external platforms as project-owned content.
-- Included Masjid al-Haram through the project's Makkah page and selected mosque live resources.
+- Included Masjid al-Haram through the project's Makkah page and selected mosque resources.
 - Included Islam Channel Live and open discovery links with clear distinction between project-curated access and external religious instruction.
 - Kept the rule that a remote mosque livestream is a viewing/study resource and does not make a remote viewer part of the local congregational prayer.
 - Brought the Qur'an Reader, Makkah Live, Holy Places Explorer, Media, card previews, prayer schedule, navigation, offline shell, and visible versioning into the v2.0 release family.

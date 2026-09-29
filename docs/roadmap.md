@@ -1,14 +1,14 @@
 # Hanafi Learning Deck — Roadmap
 
-## Current published checkpoint: v2.3 — closed and accepted
+## Current published checkpoint: v2.4 — closed and accepted
 
-**v2.3 is the current accepted and published checkpoint.** No later public version number has been assigned.
+**v2.4 is the current accepted and published checkpoint.** **v2.5 is the active owner-authorized build** for automatic public Media metadata and artwork onboarding.
 
-A future release number begins only when the maintainer explicitly authorizes and names it. Roadmap entries are plans, not automatic permission to build them.
+A future release number begins only when the maintainer explicitly authorizes and names it. Roadmap entries are plans, not automatic permission to build them. v2.5 is active because the maintainer explicitly authorized it on 2026-09-29.
 
-The project currently contains **209 cards across five independent sets**:
+The project currently contains **222 published card resources across five independent sets**:
 
-- **Main Deck:** 147 cards total, consisting of the Card 00 frontispiece plus numbered Cards 1–146
+- **Main Deck:** 160 resources total, consisting of Card 00, numbered Cards 1–146, and glossary/index Cards I-1 through I-13
 - **Sacred Places Expansion:** Cards 1–19
 - **99 Names of Allah Expansion:** Cards 1–12
 - **Arabic Alphabet Expansion:** Cards 1–28
@@ -18,16 +18,34 @@ The project remains a **Hanafi study aid pending qualified imam/scholar review**
 
 All current development is kept on **`main`**. GitHub Pages is built from the current `main` Web App workflow. The Tor mirror is an alternate deployment of the same current project rather than a separate development branch.
 
-Current closeout/artwork record:
+Current release/build records:
 
-[`V2.3_MEDIA_ARTWORK_PLAN.md`](V2.3_MEDIA_ARTWORK_PLAN.md)
+- [`V2.4_CLOSEOUT.md`](V2.4_CLOSEOUT.md)
+- [`V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md`](V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md)
+- [`V2.3_MEDIA_ARTWORK_PLAN.md`](V2.3_MEDIA_ARTWORK_PLAN.md)
+
+## Active v2.5 build — automatic Media metadata and artwork onboarding
+
+v2.5 replaces the current per-title hand-wiring process for future public movies with the same general scanner/provider/cache model used by mature media servers.
+
+Authorized acceptance target:
+
+- place a correctly named public movie under the configured Hosted library;
+- identify it from title/year and stored provider IDs where available;
+- use the existing Nougat-integrated Jellyfin metadata/provider system first;
+- expose normalized title/year/overview/runtime/provider IDs and poster state through the Hanafi bridge;
+- cache/proxy poster artwork without putting movie-poster binaries into Git;
+- create the Web App movie card and dedicated movie page from catalog metadata;
+- preserve local/manual artwork overrides and locked selections;
+- preserve the existing one-player DK Media architecture and all eight v2.4 working public movies;
+- require no per-title hand edit to `web-viewer/media/index.html`, `web-viewer/media/movie.html`, or `media-server/media.tsv.example`.
 
 ## What is already working
 
 The project is now larger than the printed deck. Current implemented study and project surfaces include:
 
 - the installable/offline-capable **Web App**;
-- the 209-card library with independently collapsible card-set sections;
+- the 222-resource card library with independently collapsible card-set sections;
 - offline card caching/update support where the browser permits it;
 - local prayer-time calculation with **Hanafi ʿAṣr**;
 - exact city lookup, device location, and manual-coordinate prayer calculation;
@@ -36,10 +54,12 @@ The project is now larger than the printed deck. Current implemented study and p
 - Tor Browser compatibility for the Explorer after removing unnecessary depth-buffer picking behavior;
 - the page-based **Qur'an Reader** foundation with Surah al-Fatihah implemented as the first construction page;
 - the v2.0 **Live** discovery area for madrasas, masjids, and Islamic live resources;
-- dedicated **About**, **Legal**, and **Charity** areas;
-- the v2.1 self-hosted **Media** path using the Hanafi bridge and selected Nougat/Jellyfin backend work;
+- dedicated **About**, **Legal**, **Links**, and **Charity** areas;
+- the self-hosted **Media** path using the Hanafi bridge and selected Nougat/Jellyfin backend work;
 - the accepted **DK Media single-player Web player**;
-- one optional external subtitle path per media item, including SRT-to-WebVTT conversion.
+- eight public film pages confirmed playing at v2.4 closeout;
+- one optional external subtitle path per media item, including SRT-to-WebVTT conversion;
+- the locked Advanced Learner Library and current private-library entrance flow.
 
 ## v1.9 — Media: The Message (1976) — historical closed checkpoint
 
@@ -66,7 +86,6 @@ Published v2.0 work includes:
 - v2.0 Web App navigation/version/offline-shell closeout across current major surfaces;
 - Tor mirror updater hardening.
 
-
 **v2.1 is officially closed.**
 
 Accepted v2.1 work includes:
@@ -86,26 +105,24 @@ Accepted v2.1 work includes:
 - Tor/deployment improvements and reusable media-server build/smoke-test tooling;
 - cleanup of obsolete one-time workflows at closeout.
 
-Current checked-in Media test IDs at v2.1 closeout are:
+Current checked-in Media test IDs at v2.1 closeout were:
 
 ```text
 ten-commandments-1923
 the-message-1976-english
 ```
 
-The temporary Arabic/English hard-sub *The Message* copy that was still downloading when v2.1 closed is **not** part of the closed manifest. It remains later Media work after the completed file is confirmed and explicitly authorized.
+That historical list is not the current v2.4 public Media library.
 
 Multiple named external sidecar subtitle tracks per single media item remain a future enhancement. v2.1 supports one optional sidecar subtitle path per item.
 
-## Media after v2.3
+## Media after v2.4
 
-Possible later Media work includes:
+The active v2.5 build takes priority over manual per-title Media additions. Other later Media work can still include:
 
-- replacing temporary test/YouTube project copies with better authenticated editions when the maintainer chooses;
-- adding the completed Arabic production as a separate media item because its audio/performance is genuinely different from the English production;
+- replacing temporary copies with better authenticated editions when the maintainer chooses;
 - attaching downloaded sidecar subtitles to clean video masters rather than keeping duplicate video encodes solely for subtitle differences;
-- extending the manifest/catalog/player to support multiple named external subtitle tracks such as English and Arabic on one media item;
-- adding further religious/historical media one item at a time;
+- extending the catalog/player to support multiple named external subtitle tracks such as English and Arabic on one media item;
 - maintaining the one-player DK Media architecture rather than adding a separate player per title.
 
 No future Media item is authorized merely by appearing here.
@@ -205,8 +222,6 @@ Planned reader development includes, over time:
 
 Arabic source text must never be silently altered. Source/provenance rules live in the Qur'an documentation and legal/source policy.
 
-
-
 The longer-term library direction can continue toward a shared bookshelf/reader model for open and advanced material:
 
 - books sit spine-out, side-by-side on shelves;
@@ -219,7 +234,6 @@ The longer-term library direction can continue toward a shared bookshelf/reader 
 The **Open Library** can provide full readable copies of unrestricted religious, historical, and reference works where source status permits.
 
 Advanced/restricted treatment should be based on the character of material and project content policy, not the ethnicity or religion associated with a text.
-
 
 ## Zakat, Sadaqah, and Charity directory
 
@@ -251,7 +265,7 @@ Future prayer/audio work may include:
 - continued comparison against trusted local timetables;
 - platform-specific scheduling refinements.
 
-**Adhan playback is not assigned to v2.1 or to any later version number at this time.**
+**Adhan playback is not assigned to a release number at this time.**
 
 Local prayer calculations must remain separate from the Makkah live-page clock.
 
@@ -336,7 +350,7 @@ The working concept includes material such as:
 - seriousness of Wallahi and other oaths
 - A'udhu billah
 
-These are planned cards, not part of the current published 209-card library.
+These are planned cards, not part of the current published 222-resource library.
 
 ## Planned expansions
 
@@ -433,4 +447,4 @@ The project is increasingly concerned not only with **what** a Hanafi ruling is 
 
 Roadmap entries are plans, not automatic authorization to build them.
 
-Implementation remains subject to the normal project approval gate. A future item does not become an active build merely because it appears here.
+Implementation remains subject to the normal project approval gate. The v2.5 Media metadata build is active because it has already received explicit maintainer authorization.

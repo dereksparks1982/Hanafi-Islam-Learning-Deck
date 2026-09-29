@@ -1,96 +1,47 @@
 # Current Project Handoff
 
-## Purpose of this file
-
-This document is the recovery point for the current development thread. Read it before resuming work after context loss.
-
 ## Repository state
 
-Repository:
+Repository: `dereksparks1982/Hanafi-Islam-Learning-Deck`  
+Active and only branch: `main`
 
-`dereksparks1982/Hanafi-Islam-Learning-Deck`
+Current accepted and published checkpoint: **v2.4 — closed and accepted**.
 
-Active branch:
+Active owner-authorized build: **v2.5 — automatic public Media metadata and artwork onboarding**.
 
-`main`
+Governing rules: [`COMPANY_BIBLE.md`](COMPANY_BIBLE.md). Stop means stop. No branch other than `main` may be created. Version changes, closeouts, and acceptance remain owner-controlled.
 
-Current accepted and published checkpoint:
+## Current card/library state
 
-**v2.3 — closed and accepted**
+The project has **222 published card resources across five independent sets**:
 
-The maintainer explicitly closed and accepted **v2.3** on 2026-09-25. No later public version is authorized. The accepted v2.3 Media artwork/metadata work is recorded in `V2.3_MEDIA_ARTWORK_PLAN.md`.
-
-Detailed release record:
-
-[`V2.2_CLOSEOUT.md`](V2.2_CLOSEOUT.md)
-
-The published card library remains **209 cards across five independent sets**:
-
-- Main Deck: Card 00 + Cards 1–146 = 147
+- Main Deck: Card 00 + Cards 1–146 + Index I-1 through I-13 = 160 resources
 - Sacred Places Expansion: 19
 - 99 Names of Allah Expansion: 12
 - Arabic Alphabet Expansion: 28
 - Important Places of the Muslim World: 3
 
-## Governing rules
+The 13 index cards are glossary/reference cards and do not renumber the established Main Deck lesson cards.
 
-Read [`COMPANY_BIBLE.md`](COMPANY_BIBLE.md) before changing the repository.
+## Current Web App state
 
-Critical rules:
+The approved current Web App family includes:
 
-- discussion is not build authorization;
-- explicit maintainer approval defines scope;
-- **stop means stop**;
-- version changes require explicit authorization;
-- rejected candidates are not baselines;
-- the current accepted Media player is locked unless the maintainer explicitly reopens it;
-- temporary one-time workflows must be removed after use.
+- approved Hanafi Learning Deck icon and Home background;
+- devotional Home opening and current information density;
+- separate Deck page and current no-stale-layout launch/cache behavior;
+- local Hanafi prayer tools;
+- Qur'an Reader foundation;
+- Makkah Live & Prayer Clock;
+- Holy Places Explorer;
+- Live, Links, Media, Charity, About, and Legal;
+- locked Advanced Learner Library and current five-slot private-library entrance flow.
 
-## Current product surfaces
+Rejected UI experiments are not baselines and must not be restored.
 
-User-facing names:
+## Media architecture
 
-- **Web App** = normal GitHub Pages version
-- **Tor Mirror** = `.onion` mirror of the same current project
-- **Qur'an Reader** = page-based reader/book system
-- **Holy Places Explorer** = CesiumJS geographic study surface
-- **Media** = self-hosted project media area
-- **Live** = madrasas, masjids, and Islamic live/discovery area
-- **Charity** = giving/support directory
-- **About** and **Legal** = project information and legal/contact surfaces
-
-The implementation directory remains `web-viewer/`, but public documentation should call it the **Web App**.
-
-Public Web App:
-
-`https://dereksparks1982.github.io/Hanafi-Islam-Learning-Deck/`
-
-Tor Mirror:
-
-`http://hanafiiix6xddzpmjxbpns5svgoujdnjwf3ky4a72rzai5mumxm4mzqd.onion/`
-
-## Current v2.3 accepted visual state
-
-v2.3 retains the accepted Web App visual family established in v2.1 and refined through v2.2-v2.3.
-
-Accepted elements include:
-
-- approved Hanafi Learning Deck icon;
-- approved Home background;
-- corrected mobile background treatment;
-- **Amarante** display typography for the approved Home title/heading treatment;
-- revised Home branding and density;
-- current devotional opening and project principle;
-- Home page as the canonical visible `v2.3` version surface;
-- About, Legal, Charity, Live, Makkah, Explorer, Qur'an, Media, and card-study pages inside the same Web App family.
-
-Rejected button experiments are not baselines. Do not recreate or reapply rejected styling merely because related files or old commits still exist in history.
-
-## Media — current v2.3 architecture
-
-The old Google Drive iframe player is historical. It is **not** the current accepted implementation.
-
-Current architecture:
+Current public chain:
 
 ```text
 GitHub Pages Hanafi Web App
@@ -105,223 +56,87 @@ Hanafi media bridge
         |
         | loopback :8098
         v
-Nougat integrated Jellyfin
+Nougat-integrated Jellyfin
         |
         v
 local Hosted media files
 ```
 
-Important points:
+Movie files remain on the maintainer's machine. GitHub carries interface/server code, stable public IDs, manifest examples, and documentation, not the movie payloads.
 
-- movie files remain on the maintainer's own machine;
-- Media card artwork is film-specific: Al-Risalah uses Arabic-production artwork, The Message retains its English-production artwork, Lion of the Desert has a per-film crop adjustment to remove the source image's white top strip, and The Ten Commandments (1923) resolves its poster through the Wikimedia Commons API before local caching;
-- GitHub contains interface/server code and stable IDs, not the movie payloads;
-- Jellyfin stays backend infrastructure and is not the visible player;
-- the bridge exposes only manifest-listed IDs;
-- useful Nougat server/range/transcoding work is reused;
-- Nougat's tactical/military desktop player UI is **not** used in Hanafi.
+The current accepted player is exactly one DK Media-based Web player. Preserve its existing playback controls and do not return to stacked players or add extra Play panels.
 
-### Accepted player
+## v2.4 public Media state
 
-The current accepted player is the **DK Media single-player Web implementation**. The maintainer explicitly reopened its controls on **2026-09-25** to align interaction with Nougat conventions.
+Eight public films are present and the maintainer confirmed that all eight play:
 
-The Media home page is film-first: poster cards by default plus a compact list view. Both views open the same dedicated film page. Editions/languages are selected inside that page and feed exactly **one** `<video>` player.
+1. Al-Risalah (1976)
+2. Aao Hajj Karein (2012)
+3. Joseph in the Land of Egypt (1914)
+4. Lion of the Desert (1981)
+5. Pakistan (1950)
+6. The Message (1976)
+7. The Soviets and Islam (1972)
+8. The Ten Commandments (1923)
 
-Current approved player behavior:
-
-- Nougat transport language is **<<  <  ^  >  >>**; **^ is Play** and must not be replaced with the conventional right-pointing triangle.
-- The current movie-page transport uses the applicable **<< / ^ / >>** controls.
-- **<<** seeks backward 10 seconds and **>>** seeks forward 10 seconds.
-- Keyboard Left/Right also seek 10 seconds.
-- The **<< / ^ / >>** transport group is centered beneath the video in both normal and fullscreen layouts.
-- Do **not** place a separate Play/^ overlay over the video picture. The video surface itself remains clickable to toggle play/pause.
-- Mouse wheel anywhere over the player, including the volume control, changes volume in 5% steps. The slider can still be dragged.
-- The mouse pointer auto-hides after 3 seconds of inactivity over the player.
-- In fullscreen the same custom controls remain available; pointer and controls auto-hide after 3 seconds of inactivity and return on pointer movement.
-- Timeline/time display, playback speed, fullscreen, remembered volume/speed, per-title resume position and external subtitle selection remain supported.
-
-Do not return to stacked video players. Do not restore +30-second seeking or textual `-10s / Play / +30s` transport buttons.
-
-## Current Media manifest
-
-Current checked-in test entries:
+Current checked-in public manifest IDs include:
 
 ```text
 ten-commandments-1923
 the-message-1976-english
+the-message-1976-urdu
+al-risala-1976-arabic-english-hardsubs
+lion-of-the-desert-1981
+aao-hajj-karein-2012
+joseph-in-the-land-of-egypt-1914
+pakistan-1950
+the-soviets-and-islam-1972
 ```
 
-The English *The Message* file is mapped to:
+Al-Risalah's current local file is:
 
-`/home/dereksparks1982/Videos/Hosted/Al-Risalah/The.Message.1976.YouTube.mp4`
+`/home/dereksparks1982/Videos/Hosted/Al-Risalah (1976)/Al-Risala.1976.Arabic-English.Hardsubs.mp4`
 
-The additional temporary Arabic/English hard-sub YouTube copy being downloaded during closeout is **not yet part of the manifest**. Do not add a `.part` file or guess its final state. Wait for the maintainer to confirm the completed download before any later Media addition.
+It is playable. Its previous failure was a stale folder path after the folder was renamed, not an unsupported-media problem.
 
-## Subtitle state
+The bridge source restored at the end of v2.4 is the stable manifest-based implementation at `server/hanafi-jellyfin-bridge`. Do not reintroduce the rejected handler implementation that overrode `BaseHTTPRequestHandler.handle()` with an incompatible signature.
 
-The current bridge supports one optional external subtitle path per media item.
+## Current artwork limitation
 
-- `.srt` is converted to browser-compatible WebVTT by the bridge;
-- the DK Media Web player exposes the configured subtitle as an on/off choice;
-- this allows one video master plus a separate subtitle file instead of requiring a duplicate video with burned-in subtitles.
+The four movies added in v2.4 play but do not yet have automatically resolved box art:
 
-Do not claim multiple named external subtitle tracks per item as completed functionality. That is future work unless explicitly authorized.
+- Aao Hajj Karein (2012)
+- Joseph in the Land of Egypt (1914)
+- Pakistan (1950)
+- The Soviets and Islam (1972)
 
-## Public media-server state reached in v2.1
+The existing `artwork-manager.js` supports IndexedDB caching, local artwork, manual URLs/files, cropping, and locked selections. Its current TMDb search code is browser-side and is not a proper authenticated automatic provider path. Do not solve v2.5 by hardcoding four more poster URLs.
 
-The self-hosted path was proven end to end during v2.1 development.
+## v2.5 authorized build
 
-Known operational design:
+The owner explicitly authorized moving to v2.5 for a Plex/Emby/Jellyfin-style metadata pipeline.
 
-- Hanafi bridge: `127.0.0.1:8097`
-- Nougat integrated Jellyfin: `127.0.0.1:8098`
-- Nginx provides the public HTTPS front end
-- browser playback uses byte-range delivery when directly compatible
-- FFmpeg/Jellyfin fallback remains available for incompatible media
-- CORS is restricted to the Hanafi GitHub Pages origin
+Required target:
 
-The router destination was corrected during testing and *The Ten Commandments* successfully played through the public path. Do not reopen the old Safari/Range diagnosis unless a new playback failure actually occurs.
+1. detect a correctly named movie placed under the public Hosted library;
+2. parse title/year and provider IDs where available;
+3. use the existing Nougat-integrated Jellyfin metadata/provider system first;
+4. obtain normalized title, original title, year, overview, runtime, provider IDs, and primary poster state from the server where available;
+5. expose safe metadata and poster delivery through the Hanafi bridge without exposing credentials or filesystem paths;
+6. cache metadata/posters;
+7. create the Web App movie card and dedicated movie page automatically;
+8. retain local/manual artwork as overrides and preserve locked manual choices;
+9. preserve all eight v2.4 working movies and the one-player DK Media architecture;
+10. require no individual hand edit to `web-viewer/media/index.html`, `web-viewer/media/movie.html`, or `media-server/media.tsv.example` for future correctly named movies.
 
+Primary design reference: Jellyfin's scanner + remote metadata provider + remote image provider flow, with Plex/Emby used as behavioral references for the same general mature-media-server pattern.
 
-The gated advanced-study library shell is implemented.
+Detailed active plan: [`V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md`](V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md).
 
-### Protected bridge deployment workaround
+## Terminal/deployment boundary
 
-For the Hanafi/Nougat bridge, do not invent an installer, second bridge, second Jellyfin instance, replacement service, or alternate architecture merely because ChatGPT cannot directly write protected files on saxondesktop.
+The authoritative bridge source lives in the repository. Protected runtime deployment on saxondesktop uses the existing `/usr/local/bin/hanafi-jellyfin-bridge` and existing `hanafi-jellyfin-bridge.service`.
 
-The authoritative bridge source stays in the project repository. After repository-side changes are complete, deployment to protected system paths is performed with one controlled terminal operation on saxondesktop: copy the authoritative project bridge over the existing `/usr/local/bin/hanafi-jellyfin-bridge`, restart the existing `hanafi-jellyfin-bridge.service`, and verify the live endpoint. The established local Git + SSH workflow remains the publication path.
+When a terminal command is required, it must be one complete non-interactive physical command line, must return directly to the shell, must not use `read`, `exit`, `logout`, a pager/editor, a heredoc, a trailing continuation backslash, or anything that can leave a `>`/`:` continuation state or ask the maintainer for further input.
 
-Live chain: project bridge source -> `/usr/local/bin/hanafi-jellyfin-bridge` -> existing `hanafi-jellyfin-bridge.service` -> `127.0.0.1:8097` -> existing Nougat-integrated Jellyfin at `127.0.0.1:8098` -> local media.
-
-This deployment boundary is not permission to modify unrelated working behavior. Preserve the accepted Private Library trigger, lock, PIN/key behavior, entrance flow, and other working surfaces unless the maintainer explicitly authorizes those specific changes.
-
-
-
-## Charity / support
-
-The Web App has a dedicated Charity area.
-
-- voluntary project support belongs there rather than on Home;
-- Patreon is not to be added to the GitHub project page merely because it exists in the Web App;
-- project support is not presented as Zakat;
-- the no-advertising principle remains in force.
-
-## Prayer tools
-
-Implemented:
-
-- local prayer-time calculation;
-- **Hanafi ʿAṣr**;
-- selectable calculation methods;
-- exact city lookup;
-- device-location option;
-- manual coordinates;
-- current prayer period;
-- next prayer and countdown;
-- daily schedule;
-- Makkah-specific prayer clock on the Makkah page.
-
-Adhan playback remains future work and is **not** automatically assigned to a version.
-
-## Holy Places Explorer
-
-The Explorer uses CesiumJS and includes guided Islamic locations such as Masjid al-Haram, Mina, ʿArafāt, Muzdalifah, Jabal al-Nūr, Jabal Thawr, Masjid an-Nabawī, and Al-Aqsa Mosque.
-
-Tor Browser compatibility remains an acceptance target. Do not restore unnecessary depth-dependent operations that previously broke hardened/Tor browsing behavior.
-
-## Qur'an Reader
-
-The Qur'an Reader is a normal page-based reader, not a card expansion.
-
-Surah al-Fatihah is the first implemented construction page. The familiar 604-page Madinah Mushaf structure is the long-term page framework, not a single-release promise.
-
-Each ayah layer is intended to support:
-
-1. Arabic Qur'an text
-2. project-created transliteration
-3. English meaning
-
-Arabic Qur'an text must never be silently altered.
-
-## Current future directions
-
-Retained future work includes:
-
-- continued page-by-page Qur'an Reader construction;
-- card-to-content relationships;
-- Main Deck continuation / Everyday Islamic Speech;
-- Important Places cards one at a time;
-- The Hanafi School: Origins, Method & Legacy;
-- The Prophets of Islam;
-- The Life of Prophet Muhammad ﷺ;
-- Islamic Ruins & Lost Cities;
-- qualified imam/scholar review;
-- educational games, with Caravan Crossing as the first selected concept;
-- future Media additions and better source copies;
-- optional future expansion from one external subtitle track to multiple named tracks;
-- future adhan/audio work.
-
-Roadmap entries are plans, not permission to build them.
-
-## Legal/source policy
-
-Dedicated policy:
-
-[`LEGAL_AND_SOURCE_POLICY.md`](LEGAL_AND_SOURCE_POLICY.md)
-
-Core rules:
-
-- no claim of ownership over the Qur'an itself;
-- project-created original material is licensed CC BY-NC-SA 4.0 only where the project has the right to license it;
-- third-party films, photos, recordings, translations, datasets, libraries, and services retain their own status/terms;
-- hosting or self-hosting a project copy does not make the underlying film project property;
-- provenance should be recorded where actually known and should not be invented where it is not;
-- the project remains noncommercial and free of advertising, subscriptions, paywalls, and behavioral tracking by the Hanafi Learning Deck.
-
-## Recovery order
-
-If work resumes after context loss:
-
-1. read `docs/COMPANY_BIBLE.md`;
-2. read this file;
-3. read `docs/V2.1_CLOSEOUT.md`;
-4. fetch the current affected source files before proposing or changing anything;
-5. get explicit approval for the next build scope.
-
-
-## 2026-09-25 — Private Movies manifest work and current state
-
-Owner direction:
-- Private Movies must follow the same manifest/catalog model used by the existing public Media section.
-- Movie files stay on saxondesktop. Movie binaries are NOT stored in GitHub.
-- Do NOT use an automatic folder scanner for this feature.
-- Do NOT change the accepted Private Library lock/PIN/entrance.
-
-Changes made:
-- Added `media-server/private-media.tsv.example` containing manifest entries for the four existing Private Hosted movies. The entries point to the local files under `/home/dereksparks1982/Videos/Private Hosted/`; only IDs, local paths, MIME types, and optional subtitle fields are in GitHub.
-- Updated `media-server/jellyfin_bridge.py` so Private Library catalog/media requests use `HANAFI_PRIVATE_MEDIA_MANIFEST`, defaulting to `/etc/hanafi-media/private-media.tsv`, instead of recursively scanning the Private Hosted directory.
-- Updated `media-server/deploy/enable-jellyfin-public.sh` so the existing deployment flow installs `private-media.tsv.example` as `/etc/hanafi-media/private-media.tsv` and exports `HANAFI_PRIVATE_MEDIA_MANIFEST` alongside the existing public manifest.
-- Rejected hardcoded Private Movies UI work and the temporary explicit private-file route were reverted. The Advanced Library file was restored to blob `01d225a7bb9ec889a61b8b2b8c442c41b6ab2248`, and the bridge was restored before the manifest implementation continued.
-
-Relevant commits:
-- `b7ee93d4eaaca7545a7f7f1e4627d7b906dd25e8` — add Private Library media manifest.
-- `ca0e00cc2ddd945ee98f24e29bb25f29026309b2` — make Private Library use its manifest.
-- `3b17842dd678bc7b27004104c77ce95e06ec9591` — wire private manifest into the existing deployment path.
-- Reverts of rejected approach: `65e1d84352dd37567720875573c16bce98047bba` and `9d6132ec527fcf7c41592ff8a9078d845e902369`.
-
-Current runtime status:
-- GitHub source/deployment wiring is updated.
-- The owner reported that no movies were visible in the Private Movies section before the deployment wiring correction.
-- Do NOT claim the Private Movies section is working live until the updated deployment has actually been applied on saxondesktop and the owner verifies it.
-- Do not alter unrelated Private Library behavior while continuing this repair.
-
-## 2026-09-26 — Remote viewing device validation
-
-Current remote-viewing status as explicitly verified by the maintainer:
-
-- **iPhone:** working.
-- **Android:** pending.
-- **Xbox:** pending.
-- **PlayStation:** pending.
-
-Do not mark Android, Xbox, or PlayStation as working until the maintainer explicitly verifies successful remote viewing on each device.
+Do not claim a repository bridge change is live until the protected runtime copy is actually deployed and verified.
