@@ -1,67 +1,47 @@
 # Project Documentation
 
-This folder is the home for the Hanafi Learning Deck's development, legal, planning, release, and operating documents.
+This folder contains the Hanafi Learning Deck's operating rules, release records, recovery handoff, roadmap, legal/source policy, build notes, and active development plans.
 
-The project began as a small personal card set and has grown into a broader Hanafi Islamic learning project. Documentation is treated as part of the build itself so important source, legal, design, review, deployment, and recovery decisions are not lost between development sessions.
+## Current state
 
-## Start here
+- **Accepted published checkpoint:** **v2.4 — closed and accepted**
+- **Active build:** **v2.5 — automatic public Media metadata and artwork onboarding**
+- **v2.5 status:** candidate built, awaiting live runtime validation
+- **Active and only branch:** `main`
+- **Published card resources:** 222 across five sets
 
-- [`V2.1_CLOSEOUT.md`](V2.1_CLOSEOUT.md) — detailed record of what was accepted and closed in v2.1.
-- [`COMPANY_BIBLE.md`](COMPANY_BIBLE.md) — governing rules for changes to this repository.
-- [`roadmap.md`](roadmap.md) — current checkpoint and longer-term plans. Roadmap entries are not automatic build authorization.
-- [`LEGAL_AND_SOURCE_POLICY.md`](LEGAL_AND_SOURCE_POLICY.md) — Qur'an/source/copyright policy, third-party material rules, Media/self-hosting distinctions, and the documented Shariah disagreement over intellectual property.
-- [`changelog.md`](changelog.md) — release/checkpoint history.
-- [`build-notes.md`](build-notes.md) — technical notes and solved build/repair/deployment procedures.
-- [`main-deck-continuation.md`](main-deck-continuation.md) — concept plan for future Main Deck continuation focused on everyday Islamic expressions and when to use them.
+## Read in this order before project work
+
+1. [`COMPANY_BIBLE.md`](COMPANY_BIBLE.md) — governing operating law and approval gates.
+2. [`CURRENT_HANDOFF.md`](CURRENT_HANDOFF.md) — current recovery point and live project state.
+3. [`roadmap.md`](roadmap.md) — accepted checkpoint, active authorized work, and future direction.
+4. [`changelog.md`](changelog.md) — release/checkpoint history.
+5. The release/build record relevant to the requested work.
+
+## Current release and build records
+
+- [`V2.4_CLOSEOUT.md`](V2.4_CLOSEOUT.md) — accepted v2.4 closeout, including the eight-film public Media state and stable playback boundary.
+- [`V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md`](V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md) — active Plex/Emby/Jellyfin-style automatic movie metadata/artwork build.
+- [`V2.3_MEDIA_ARTWORK_PLAN.md`](V2.3_MEDIA_ARTWORK_PLAN.md) — v2.3 artwork-manager record.
+- [`V2.2_CLOSEOUT.md`](V2.2_CLOSEOUT.md) and [`V2.1_CLOSEOUT.md`](V2.1_CLOSEOUT.md) — earlier accepted checkpoints.
+
+## Current Media documentation
+
+- [`../media-server/DEPLOYMENT.md`](../media-server/DEPLOYMENT.md) — self-hosted Hanafi/Nougat Media architecture and current v2.5 metadata candidate.
+- [`../media-server/deploy/update-v25-metadata.sh`](../media-server/deploy/update-v25-metadata.sh) — one-time v2.5 runtime transition helper. After that transition, adding a correctly named Hosted movie is intended to be automatic rather than a per-title deployment task.
+
+The v2.4 accepted playback bridge is preserved byte-for-byte in `../server/hanafi-jellyfin-bridge-stable.py`. The active v2.5 wrapper layers discovery, metadata, and artwork on top of that stable playback implementation.
+
+## Other important documentation
+
+- [`LEGAL_AND_SOURCE_POLICY.md`](LEGAL_AND_SOURCE_POLICY.md) — Qur'an/source/copyright policy, third-party material rules, and Media/self-hosting distinctions.
+- [`build-notes.md`](build-notes.md) — technical notes and solved build/repair procedures.
+- [`main-deck-continuation.md`](main-deck-continuation.md) — future Main Deck continuation concepts.
 - [`digital-learning-roadmap.md`](digital-learning-roadmap.md) — broader digital-learning direction.
 - [`../quran/README.md`](../quran/README.md) — Qur'an Reader architecture, source plan, and page-by-page construction rules.
-- [`../media-server/DEPLOYMENT.md`](../media-server/DEPLOYMENT.md) — current self-hosted Hanafi/Nougat Media deployment architecture.
+- [`../AUDIT_AND_SOURCES.md`](../AUDIT_AND_SOURCES.md) — educational-content audit/source notes.
+- [`../IMAM_REVIEW_NOTES.md`](../IMAM_REVIEW_NOTES.md) — correction and imam/scholar review notes.
 
-## Content and scholarly review
+## Recovery rule
 
-Content sourcing and scholarly review remain distinct from development mechanics:
-
-- [`../AUDIT_AND_SOURCES.md`](../AUDIT_AND_SOURCES.md) — audit and source notes.
-- [`../IMAM_REVIEW_NOTES.md`](../IMAM_REVIEW_NOTES.md) — corrections and imam/scholar review notes.
-- Expansion-specific source notes remain inside their own expansion folders.
-
-The separation is intentional:
-
-- `docs/` records **how the project is governed, built, licensed, planned, resumed, deployed, and maintained**;
-- audit/source files record **what the educational material teaches and why particular claims are supported**;
-- Qur'an Reader documentation records **which textual sources are used, how they are verified, and how the reader is assembled**;
-- `media-server/` records **how the self-hosted media path is deployed and tested**.
-
-## Current documentation checkpoint
-
-Published baseline: **v2.1 — closed**
-
-Active branch: **`main`**
-
-No later public version number has been assigned.
-
-The v2.1 closeout preserves the following accepted state:
-
-- **209 cards across five independent sets**;
-- installable/offline-capable **Web App**;
-- approved v2.1 Hanafi visual identity, Home background, mobile background treatment, and Amarante display-heading treatment;
-- local prayer calculations with **Hanafi ʿAṣr**;
-- page-by-page **Qur'an Reader**;
-- **Makkah Live & Prayer Clock**;
-- Cesium-based **Holy Places Explorer**;
-- v2.0 **Live** directory retained;
-- **About**, **Legal**, and **Charity** Web App areas;
-- self-hosted **Media** architecture using the Hanafi bridge and selected Nougat/Jellyfin backend work;
-- the accepted **DK Media single-player Web player**, with one video element and library-driven source switching;
-- external subtitle support for one configured sidecar subtitle per media item, including SRT-to-WebVTT conversion;
-- `.onion` **Tor Mirror** as an alternate deployment of the same `main` project;
-- Tor-mirror update tooling;
-- dedicated legal/copyright/source policy;
-- reusable media-server build/smoke-test workflow;
-- the normal approval gate for every new build or substantial change.
-
-The old Google Drive iframe Media implementation is historical and must not be described as the current player.
-
-The additional Arabic/English hard-sub temporary copy being downloaded during v2.1 closeout is not part of the closed manifest. It remains later Media work after the completed file is confirmed and the maintainer authorizes its addition.
-
-If context is lost, **read `CURRENT_HANDOFF.md` and `V2.1_CLOSEOUT.md` before doing anything else**.
+If context is lost, start with the **Company Bible** and **Current Handoff**. Do not infer the live runtime state from repository code alone. Repository changes to the media bridge are not considered live until saxondesktop has been updated and verified.
