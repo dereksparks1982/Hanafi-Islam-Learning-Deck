@@ -1,8 +1,13 @@
-# Hanafi media server integration
+# Hanafi Media Server Integration
 
-The Hanafi Web App reuses only the server/media infrastructure needed from **Nougat Media Plus**. It does not import the Nougat desktop UI, Games, Console, Live TV, World TV, Search, crawler, P2P, AI, security center, radio, emulators, tactical Player UI, or the rest of the application.
+## Current release state
 
-The visible browser player is the v2.1 **DK Media single-player Web implementation**. Nougat/Jellyfin stays underneath it as backend infrastructure.
+- **Accepted public checkpoint:** **v2.4 — closed and accepted**
+- **Active build:** **v2.5 — automatic public Media metadata and artwork onboarding**
+- **v2.5 status:** candidate built, awaiting live runtime validation
+- **Repository branch:** `main` only
+
+The Hanafi Web App reuses only the server/media infrastructure needed from **Nougat Media Plus**. Jellyfin remains private backend infrastructure; the visible player is the accepted single DK Media browser player.
 
 ## Architecture
 
@@ -19,156 +24,177 @@ Hanafi media bridge
         |
         | loopback :8098
         v
-Nougat integrated Jellyfin 10.11.11
+Nougat-integrated Jellyfin
         |
         v
-local Hosted media files
+/home/dereksparks1982/Videos/Hosted
 ```
 
-The movies remain on `saxondesktop`. GitHub Pages contains the interface and stable media IDs, not the movie files.
+Movie files remain on `saxondesktop`. GitHub stores the interface, bridge/server source, stable IDs, examples, and deployment tooling, not the movie payloads.
 
-## Player boundary
+## Accepted v2.4 playback boundary
 
-The v2.1 Media page uses exactly **one browser `<video>` element**.
+v2.4 closed with all eight public films confirmed playing by the maintainer. The exact accepted bridge implementation is preserved byte-for-byte at:
 
-The media selector changes the source loaded into that one player. New titles should be added to the library/manifest and fed into the same player rather than creating another player panel.
+```text
+server/hanafi-jellyfin-bridge-stable.py
+```
 
-The Web player carries forward useful DK Media behavior such as Play/Pause, seeking, rewind/forward, volume, speed, fullscreen, keyboard controls, remembered preferences, resume state, and external-subtitle selection.
+The active v2.5 bridge at:
 
-## What is reused from Nougat
+```text
+server/hanafi-jellyfin-bridge
+```
 
-The deployment uses the accepted Nougat server layout rather than installing a second Jellyfin stack:
+imports that stable core and layers public discovery, metadata, and artwork behavior on top. Do not replace the stable core merely to change metadata behavior.
 
-- integrated Jellyfin runtime under `components/jellyfin/runtime/jellyfin/jellyfin`;
-- backend port `127.0.0.1:8098`;
-- Nougat server data at `~/.local/share/reddmedia/server/data`;
-- Nougat server configuration at `~/.config/reddmedia/server`;
-- Nougat cache and log directories;
-- Nougat private Jellyfin client session at `~/.config/reddmedia/server/client.json`;
-- browser-compatible H.264/AAC delivery/transcoding where needed;
-- the principle that Jellyfin itself stays private rather than being exposed directly to the Internet;
-- HTTP Range delivery concepts and local-file fallback used by the narrow Hanafi bridge.
+The rejected bridge implementation that overrode `BaseHTTPRequestHandler.handle()` with an incompatible signature must never be restored.
 
-The Hanafi bridge exposes only items listed in the installed manifest. A visitor cannot use it as a general Jellyfin browser.
+## Current public v2.4 library
 
-## Current v2.1 stable media IDs
+The eight current public films are:
 
-At v2.1 closeout the checked-in example manifest contains exactly these current test entries:
+1. Al-Risalah (1976)
+2. Aao Hajj Karein (2012)
+3. Joseph in the Land of Egypt (1914)
+4. Lion of the Desert (1981)
+5. Pakistan (1950)
+6. The Message (1976)
+7. The Soviets and Islam (1972)
+8. The Ten Commandments (1923)
+
+Current explicit public IDs include:
 
 ```text
 ten-commandments-1923
 the-message-1976-english
+the-message-1976-urdu
+al-risala-1976-arabic-english-hardsubs
+lion-of-the-desert-1981
+aao-hajj-karein-2012
+joseph-in-the-land-of-egypt-1914
+pakistan-1950
+the-soviets-and-islam-1972
 ```
 
-The English *The Message* test entry maps to:
+Al-Risalah currently maps to:
 
 ```text
-/home/dereksparks1982/Videos/Hosted/Al-Risalah/The.Message.1976.YouTube.mp4
+/home/dereksparks1982/Videos/Hosted/Al-Risalah (1976)/Al-Risala.1976.Arabic-English.Hardsubs.mp4
 ```
 
-The Ten Commandments test entry currently maps to the prepared browser-compatible cache path recorded in `media.tsv.example`.
+Its earlier failure was a stale folder path after the folder rename, not an unsupported-media condition.
 
-The additional temporary Arabic/English hard-sub *The Message* copy that was still downloading when v2.1 closed is **not** part of this manifest. Do not add a `.part` file or infer a final filename from an incomplete download.
+## v2.5 automatic movie onboarding
 
-## Manifest format
+v2.5 is intended to replace the per-title hand-edit process with the same general scanner/provider/cache model used by mature media servers.
 
-The current manifest is tab-separated:
+The candidate flow is:
 
 ```text
-id<TAB>absolute media path<TAB>MIME type<TAB>optional subtitle path
+correctly named Hosted movie folder
+        |
+        v
+public library scan + title/year parsing
+        |
+        v
+Nougat-integrated Jellyfin movie library
+        |
+        v
+Jellyfin metadata/image providers
+        |
+        v
+Hanafi catalog metadata + poster endpoint
+        |
+        v
+Web App card + movie page
+        |
+        v
+existing stable DK Media playback
 ```
 
-The fourth field is one optional sidecar subtitle file for that media item.
+A normal movie folder should use the conventional form:
 
-Current v2.1 therefore supports **one optional external subtitle path per media item**. Multiple named sidecar subtitle tracks per one media item are not yet part of the manifest/catalog format.
+```text
+Movie Name (Year)
+```
 
-If the configured subtitle is `.srt`, the bridge converts it to WebVTT for browser playback.
+The v2.5 bridge assigns deterministic automatic IDs to newly discovered movies, while preserving every explicit v2.4 stable ID.
 
-## Hanafi bridge endpoints
+### Metadata exposed to the Web App
+
+The public catalog may expose safe normalized fields such as:
+
+- title;
+- original title;
+- production year;
+- overview;
+- runtime;
+- provider IDs;
+- poster availability;
+- readiness/index state.
+
+Local filesystem paths, Jellyfin credentials, and the Jellyfin management interface are not exposed to the Web App.
+
+### Poster priority
+
+For public Media, the v2.5 poster route uses this order:
+
+1. an existing explicit/manual artwork choice in the Web App;
+2. conventional local movie-folder artwork such as `poster.jpg`, `folder.jpg`, or `cover.jpg`;
+3. Jellyfin Primary artwork supplied by its configured metadata/image provider;
+4. a cached FFmpeg video-frame fallback when no provider/local poster is available.
+
+Manual/locked artwork remains an override and must not be silently replaced by automatic refreshes.
+
+## v2.5 bridge endpoints
+
+The existing playback endpoints remain, and v2.5 adds poster delivery:
 
 ```text
 GET  /nougat/v1/health
 GET  /nougat/v1/catalog
-GET  /nougat/v1/media?id=<stable-id>
-GET  /nougat/v1/transcode?id=<stable-id>
+GET  /nougat/v1/media?id=<stable-or-auto-id>
+GET  /nougat/v1/transcode?id=<stable-or-auto-id>
 GET  /nougat/v1/subtitle?id=<stable-id>
+GET  /nougat/v1/poster?id=<stable-or-auto-id>
 HEAD /nougat/v1/...
 OPTIONS /nougat/v1/...
 ```
 
-The Hanafi bridge listens on loopback port `8097`. Jellyfin remains on loopback port `8098`.
+The bridge listens on `127.0.0.1:8097`. Nougat-integrated Jellyfin remains on `127.0.0.1:8098`.
 
-### Direct local delivery
+## One-time v2.5 runtime transition
 
-For browser-direct media, the bridge provides seekable byte-range delivery and returns the appropriate `Content-Range`, `Content-Length`, and `Accept-Ranges` behavior.
-
-This path is preferred when the local file is already suitable for browser playback.
-
-### Compatibility/transcode delivery
-
-For incompatible containers or a forced transcode route, the bridge can use FFmpeg/Jellyfin to produce browser-compatible H.264/AAC MP4 delivery.
-
-Jellyfin remains a backend helper, not the public Web interface.
-
-### Subtitle delivery
+The permanent v2.5 updater is:
 
 ```text
-/nougat/v1/subtitle?id=<stable-id>
+media-server/deploy/update-v25-metadata.sh
 ```
 
-When the configured sidecar is SRT, the bridge converts comma timestamp separators to WebVTT form and serves `text/vtt` to the browser.
+It is a **one-time candidate deployment/update helper**, not a command that must be run for every new movie. It:
 
-The DK Media Web player then exposes the configured subtitle as an on/off selection.
+1. obtains the v2.5 wrapper and accepted v2.4 stable playback core from the selected repository revision;
+2. syntax-checks both before installation;
+3. installs both beside each other under `/usr/local/bin`;
+4. records the Hosted public root and writable poster-cache location in the existing `/etc/hanafi-media/jellyfin.env`;
+5. checks the existing Nougat-integrated Jellyfin libraries and registers the Hosted root as a **movies** library if it is not already present;
+6. requests a normal Jellyfin library refresh;
+7. restarts only the existing `hanafi-jellyfin-bridge.service`;
+8. verifies the live health endpoint and prints the live catalog.
 
-## Deployment on saxondesktop
+After that one-time transition is accepted, **placing a correctly named movie in the Hosted library is intended to be the onboarding action**. Adding a movie should not require another individual edit to `web-viewer/media/index.html`, `web-viewer/media/movie.html`, or `media-server/media.tsv.example`.
 
-The expected Nougat checkout is:
+## Existing runtime files on saxondesktop
 
-```text
-/home/dereksparks1982/DKLab/Projects/Nougat Media Plus
-```
-
-From a checkout of this Hanafi repository, the established deployment helper is:
-
-```bash
-bash media-server/deploy/enable-jellyfin-public.sh
-```
-
-The helper is designed to:
-
-1. use Nougat's existing integrated Jellyfin runtime;
-2. reuse the accepted Nougat Jellyfin data/config/cache/log directories and private session;
-3. keep Jellyfin private on `127.0.0.1:8098`;
-4. install the small Hanafi bridge on `127.0.0.1:8097`;
-5. install the Hanafi manifest without moving or copying the movies into GitHub;
-6. place Nginx in front of the bridge for HTTPS;
-7. use the configured certificate/public endpoint;
-8. expose the resulting public base URL for the Web App configuration.
-
-The deployment helper does **not** authorize a GitHub version change and does not make unrelated Nougat features part of Hanafi.
-
-## Why HTTPS is necessary
-
-The Hanafi Web App itself is served over HTTPS by GitHub Pages. A secure page cannot reliably load ordinary insecure HTTP active media. Nginx therefore provides the HTTPS front end for the connection from a visitor's browser to `saxondesktop`.
-
-The HTTPS layer is transport for the user's own server. It is not a separate rented media host.
-
-## Current network fact preserved from v2.1 validation
-
-During v2.1 testing, the media services themselves were healthy but public playback failed until the router destination was corrected to the machine's actual reserved LAN address.
-
-After the router destination was corrected, the public Web App successfully played *The Ten Commandments* through the self-hosted path.
-
-Future troubleshooting should therefore diagnose current routing, server state, and HTTP evidence rather than assuming a codec/Safari failure from old symptoms.
-
-## Runtime files installed on saxondesktop
-
-The established deployment can use files such as:
+The established runtime uses files including:
 
 ```text
 /usr/local/bin/hanafi-jellyfin-bridge
+/usr/local/bin/hanafi-jellyfin-bridge-stable.py
 /usr/local/bin/hanafi-nougat-jellyfin-ensure
 /etc/hanafi-media/media.tsv
+/etc/hanafi-media/private-media.tsv
 /etc/hanafi-media/jellyfin.env
 /etc/hanafi-media/public-base-url
 /etc/systemd/system/hanafi-nougat-jellyfin.service
@@ -176,26 +202,29 @@ The established deployment can use files such as:
 /etc/nginx/sites-available/hanafi-jellyfin
 ```
 
-No movie file is installed into `/etc`, `/usr`, GitHub, or another media host by this deployment.
+The v2.5 updater sets a writable transient poster fallback cache through `HANAFI_POSTER_CACHE`. Provider artwork remains primarily managed by the existing Jellyfin metadata/image system.
 
-## Validation gate
+## Existing full deployment helper
 
-For the current v2.1 manifest, useful checks are:
+`media-server/deploy/enable-jellyfin-public.sh` is the established full-server setup path from earlier releases. During the v2.5 candidate phase it is **not** the v2.5 metadata transition helper and should not be substituted for `update-v25-metadata.sh` when validating the v2.5 candidate.
 
-```text
-/nougat/v1/health                                      -> HTTP 200 when mapped media is available
-/nougat/v1/catalog                                     -> current mapped items report ready
-/nougat/v1/media?id=ten-commandments-1923              -> playable and seekable
-/nougat/v1/media?id=the-message-1976-english            -> playable and seekable
-/nougat/v1/subtitle?id=<item-with-configured-subtitle>  -> WEBVTT
-```
+The full clean-install helper can be reconciled with the v2.5 wrapper/stable pair after v2.5 is accepted. Do not use that future cleanup as a reason to alter the known-working v2.4 runtime during candidate validation.
 
-A subtitle endpoint returning 404 for a media item with no configured subtitle is expected behavior, not a server failure.
+## Player and private-library boundaries
 
-Only completed final media files should be added to the installed manifest. Never point a stable ID at an in-progress `.part` download.
+The public Media page continues to use exactly one browser `<video>` player. v2.5 does not authorize stacked players, a second visible Jellyfin UI, or an extra generic Play panel.
 
-## Persistent CI
+The Advanced Learner/Private Library is outside the v2.5 public metadata scope and must retain its current behavior.
 
-`.github/workflows/media-server-build.yml` is a reusable persistent workflow. It builds the standalone media-server component and smoke-tests health, HTTP Range behavior, and SRT-to-WebVTT subtitle conversion.
+## v2.5 validation gate
 
-Obsolete one-time Media repair workflows were removed during the v2.1 closeout.
+v2.5 remains a candidate until live testing on saxondesktop confirms all of the following:
+
+1. all eight accepted v2.4 public movies still play;
+2. the four v2.4 additions receive automatic artwork through the new metadata/poster path;
+3. a newly added correctly named Hosted movie is discovered without a per-title Web App or manifest edit;
+4. the generated public card opens a normal movie page and plays through the existing DK Media path;
+5. manual/locked artwork remains an override;
+6. Private Library behavior is unchanged.
+
+Repository source alone is not proof that the v2.5 runtime is live. Acceptance requires the protected runtime copy to be deployed and verified by the maintainer.
