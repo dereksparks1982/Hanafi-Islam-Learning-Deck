@@ -1,0 +1,33 @@
+name: Cleanup branches now
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/cleanup-branches-now.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete non-main branches
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          branches=(
+            five-slot-private-library-lock
+            lock-build-asset-test
+            lock-five-slot-build
+            lock-row-asset-upload
+            noop-test
+            private-library-five-slot-final
+            stale-shell-startup-fix
+            tmp-ignore
+            __tool_probe_do_not_keep
+          )
+          for branch in "${branches[@]}"; do
+            gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/${branch}" || true
+          done
