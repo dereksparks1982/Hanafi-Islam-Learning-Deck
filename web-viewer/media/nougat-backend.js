@@ -36,4 +36,12 @@
     mediaUrl: id => route("/nougat/v1/media", id),
     subtitleUrl: id => route("/nougat/v1/subtitle", id)
   });
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("media") && params.get("private") !== "1") {
+    document.addEventListener("DOMContentLoaded", () => {
+      const panel = document.getElementById("editionPanel");
+      if (panel) panel.hidden = true;
+    }, { once: true });
+  }
 })();
