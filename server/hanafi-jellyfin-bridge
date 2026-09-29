@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
-# Hanafi/Nougat media bridge source.
-# Runtime target: /usr/local/bin/hanafi-jellyfin-bridge
-# v2.3 remains the accepted application version.
-
 import hashlib
 import json
 import mimetypes
-import os
 import re
+import os
 import subprocess
 import sys
 import threading
@@ -17,356 +13,616 @@ import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
-BIND=os.environ.get("HANAFI_MEDIA_BIND","127.0.0.1")
-PORT=int(os.environ.get("HANAFI_MEDIA_PORT","8097"))
-MANIFEST=os.environ.get("HANAFI_MEDIA_MANIFEST","/etc/hanafi-media/media.tsv")
-PUBLIC_ROOT=Path(os.path.expanduser(os.environ.get("HANAFI_PUBLIC_MEDIA_ROOT","~/Videos/Hosted"))).resolve()
-PRIVATE_ROOT=Path(os.path.expanduser(os.environ.get("HANAFI_PRIVATE_MEDIA_ROOT","~/Videos/Private Hosted"))).resolve()
-ALLOWED_ORIGIN=os.environ.get("HANAFI_MEDIA_CORS_ORIGIN","https://dereksparks1982.github.io")
-FFMPEG=os.environ.get("HANAFI_FFMPEG","/usr/bin/ffmpeg")
-FFPROBE=os.environ.get("HANAFI_FFPROBE","/usr/bin/ffprobe")
-PROBE_TIMEOUT=float(os.environ.get("HANAFI_FFPROBE_TIMEOUT","12"))
-JELLYFIN_URL=os.environ.get("HANAFI_JELLYFIN_URL","http://127.0.0.1:8098").rstrip("/")
-TOKEN_OVERRIDE=os.environ.get("HANAFI_JELLYFIN_TOKEN","").strip()
-NOUGAT_CLIENT_STATE=os.path.expanduser(os.environ.get("HANAFI_NOUGAT_CLIENT_STATE","~/.config/reddmedia/server/client.json"))
+# Small public media bridge extracted from Nougat Media Plus server work.
+# Jellyfin stays private on loopback:8098. The manifest is authoritative for
+# the small Hanafi library, so playback still works when Jellyfin has not yet
+# indexed those exact paths. Browser-friendly files use Nougat-style byte-range
+# delivery; incompatible containers fall back to local FFmpeg transcoding.
+BIND = os.environ.get('HANAFI_MEDIA_BIND', '127.0.0.1')
+PORT = int(os.environ.get('HANAFI_MEDIA_PORT', '8097'))
+MANIFEST = os.environ.get('HANAFI_MEDIA_MANIFEST', '/etc/hanafi-media/media.tsv')
+PRIVATE_ROOT = Path(os.path.expanduser(os.environ.get('HANAFI_PRIVATE_MEDIA_ROOT', '~/Videos/Private Hosted'))).resolve()
+PRIVATE_MANIFEST = os.environ.get('HANAFI_PRIVATE_MEDIA_MANIFEST', '/etc/hanafi-media/private-media.tsv')
+VIDEO_EXTS = {'.mp4', '.m4v', '.webm', '.ogv', '.ogg', '.mov', '.mkv', '.avi', '.ts', '.m2ts'}
+ALLOWED_ORIGIN = os.environ.get('HANAFI_MEDIA_CORS_ORIGIN', 'https://dereksparks1982.github.io')
+JELLYFIN_URL = os.environ.get('HANAFI_JELLYFIN_URL', 'http://127.0.0.1:8098').rstrip('/')
+TOKEN_OVERRIDE = os.environ.get('HANAFI_JELLYFIN_TOKEN', '').strip()
+NOUGAT_CLIENT_STATE = os.path.expanduser(
+    os.environ.get('HANAFI_NOUGAT_CLIENT_STATE', '~/.config/reddmedia/server/client.json')
+)
+FFMPEG = os.environ.get('HANAFI_FFMPEG', '/usr/bin/ffmpeg')
 
-# The scanner is content-driven, not extension-driven. These are only obvious
-# non-video sidecars/artwork that should never be sent through ffprobe.
-NON_VIDEO_EXTS={
-    ".srt",".vtt",".ass",".ssa",".sub",".idx",".nfo",".txt",".md",".pdf",
-    ".jpg",".jpeg",".png",".webp",".gif",".avif",".svg",".bmp",".ico",
-    ".json",".xml",".yaml",".yml",".ini",".conf",".cue",".m3u",".m3u8",
-}
-PROBE_CACHE={}
-PROBE_CACHE_LOCK=threading.Lock()
 
 def jellyfin_token():
     if TOKEN_OVERRIDE:
         return TOKEN_OVERRIDE
     try:
-        with open(NOUGAT_CLIENT_STATE,"r",encoding="utf-8") as fh:
-            return str(json.load(fh).get("AccessToken","")).strip()
-    except (OSError,ValueError,TypeError):
-        return ""
+        with open(NOUGAT_CLIENT_STATE, 'r', encoding='utf-8') as fh:
+            return str(json.load(fh).get('AccessToken', '')).strip()
+    except (OSError, ValueError, TypeError):
+        return ''
 
-def vtt_from_srt(text):
-    text=text.lstrip("\ufeff")
-    lines=[]
-    for line in text.splitlines():
-        if " --> " in line:
-            line=line.replace(",",".")
-        lines.append(line)
-    return "WEBVTT\\n\\n"+"\\n".join(lines)+"\\n"
 
-def slug(text):
-    value=re.sub(r"[^a-z0-9]+","-",text.lower()).strip("-")
-    return value or hashlib.sha256(text.encode()).hexdigest()[:16]
+def parse_manifest(path):
+    items = {}
+    with open(path, 'r', encoding='utf-8') as fh:
+        for lineno, raw in enumerate(fh, 1):
+            line = raw.rstrip('\r\n')
+            if not line or line.startswith('#'):
+                continue
+            fields = line.split('\t')
+            if len(fields) < 2 or not fields[0] or not fields[1]:
+                raise RuntimeError(f'Invalid manifest row at line {lineno}')
+            media_id = fields[0]
+            file_path = fields[1]
+            content_type = fields[2] if len(fields) > 2 and fields[2] else (
+                mimetypes.guess_type(file_path)[0] or 'video/mp4'
+            )
+            subtitle_path = fields[3] if len(fields) > 3 else ''
+            items[media_id] = {
+                'id': media_id,
+                'path': file_path,
+                'content_type': content_type,
+                'subtitle_path': subtitle_path,
+                'jellyfin': None,
+            }
+    if not items:
+        raise RuntimeError('Media manifest contains no playable items')
+    return items
 
-def title_from_path(path):
-    name=path.stem.replace("_"," ").replace("."," ")
-    name=re.sub(r"\s+"," ",name).strip()
-    # Remove common release noise while retaining useful title/year text.
-    name=re.split(r"\b(?:480p|720p|1080p|2160p|bluray|brrip|webrip|web-dl|hevc|x264|x265|h264|h265)\b",name,flags=re.I)[0].strip(" -.")
-    return name or path.stem
 
-def classify(path,root):
-    rel=path.relative_to(root)
-    joined=" ".join(rel.parts)
-    tv=bool(re.search(r"\bS\d{1,2}E\d{1,3}\b",joined,re.I) or re.search(r"\bSeason[ ._-]*\d+\b",joined,re.I))
-    return "tv" if tv else "movie"
+def private_slug(text):
+    value = re.sub(r'[^a-z0-9]+', '-', text.lower()).strip('-')
+    return value or hashlib.sha256(text.encode('utf-8')).hexdigest()[:16]
 
-def _direct_browser_media(path,format_name,video_codec,audio_codec):
-    """Conservative cross-browser direct-play test; everything else transcodes."""
-    suffix=path.suffix.lower()
-    fmt=(format_name or "").lower()
-    v=(video_codec or "").lower()
-    a=(audio_codec or "").lower()
-    no_audio=not a
+def private_title(path):
+    name = path.stem.replace('_', ' ').replace('.', ' ')
+    return re.sub(r'\\s+', ' ', name).strip() or path.stem
 
-    if suffix in {".mp4",".m4v"} and ("mp4" in fmt or "mov" in fmt):
-        return v=="h264" and (no_audio or a in {"aac","mp3"})
-    if suffix==".webm" and "webm" in fmt:
-        return v in {"vp8","vp9","av1"} and (no_audio or a in {"opus","vorbis"})
-    return False
-
-def probe_video(path):
-    """Return video metadata for anything ffprobe recognizes as video, regardless of extension."""
+def private_items():
     try:
-        stat=path.stat()
-    except OSError:
+        return parse_manifest(PRIVATE_MANIFEST)
+    except (OSError, RuntimeError):
+        return {}
+
+
+def extension_lower(path):
+    return os.path.splitext(path)[1].lower()
+
+
+def browser_direct_preferred(path):
+    return extension_lower(path) in {'.mp4', '.m4v', '.webm', '.ogv', '.ogg'}
+
+
+def media_content_type(path, configured=''):
+    if configured:
+        return configured
+    extension = extension_lower(path)
+    return {
+        '.mp4': 'video/mp4',
+        '.m4v': 'video/mp4',
+        '.webm': 'video/webm',
+        '.ogv': 'video/ogg',
+        '.ogg': 'video/ogg',
+        '.mov': 'video/quicktime',
+        '.mkv': 'video/x-matroska',
+        '.avi': 'video/x-msvideo',
+        '.ts': 'video/mp2t',
+        '.m2ts': 'video/mp2t',
+    }.get(extension, 'application/octet-stream')
+
+
+def parse_range(value, size):
+    if not value:
         return None
-
-    key=(stat.st_size,stat.st_mtime_ns)
-    cache_key=str(path)
-    with PROBE_CACHE_LOCK:
-        cached=PROBE_CACHE.get(cache_key)
-        if cached and cached[0]==key:
-            return cached[1]
-
-    if path.suffix.lower() in NON_VIDEO_EXTS:
-        result=None
-    else:
-        cmd=[
-            FFPROBE,"-v","error","-print_format","json",
-            "-show_entries","format=format_name:stream=codec_type,codec_name:stream_disposition=attached_pic",
-            str(path),
-        ]
-        try:
-            proc=subprocess.run(cmd,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,text=True,timeout=PROBE_TIMEOUT,check=False)
-            payload=json.loads(proc.stdout or "{}") if proc.returncode==0 else {}
-            streams=payload.get("streams") or []
-            videos=[s for s in streams if s.get("codec_type")=="video" and not (s.get("disposition") or {}).get("attached_pic")]
-            if not videos:
-                result=None
-            else:
-                audio=next((s for s in streams if s.get("codec_type")=="audio"),{})
-                video=videos[0]
-                format_name=(payload.get("format") or {}).get("format_name","")
-                video_codec=video.get("codec_name","")
-                audio_codec=audio.get("codec_name","")
-                direct=_direct_browser_media(path,format_name,video_codec,audio_codec)
-                if direct and path.suffix.lower() in {".mp4",".m4v"}:
-                    content_type="video/mp4"
-                elif direct and path.suffix.lower()==".webm":
-                    content_type="video/webm"
-                else:
-                    content_type=mimetypes.guess_type(str(path))[0] or "application/octet-stream"
-                result={
-                    "format_name":format_name,
-                    "video_codec":video_codec,
-                    "audio_codec":audio_codec,
-                    "browser_direct":direct,
-                    "content_type":content_type,
-                }
-        except (OSError,subprocess.SubprocessError,ValueError,TypeError):
-            result=None
-
-    with PROBE_CACHE_LOCK:
-        PROBE_CACHE[cache_key]=(key,result)
-    return result
-
-def scan(root,prefix):
-    items={}
-    if not root.is_dir(): return items
-    for path in sorted(root.rglob("*")):
-        if not path.is_file(): continue
-        probe=probe_video(path)
-        if not probe: continue
-        rel=str(path.relative_to(root))
-        media_id=prefix+"-"+slug(rel)
-        items[media_id]={
-            "id":media_id,"path":str(path),"title":title_from_path(path),
-            "filename":path.name,"kind":classify(path,root),"automatic":True,
-            "content_type":probe["content_type"],"subtitle_path":"",
-            "browser_direct":probe["browser_direct"],
-            "video_codec":probe["video_codec"],"audio_codec":probe["audio_codec"],
-            "format_name":probe["format_name"],
-        }
-    return items
-
-def manifest_items():
-    items={}
+    if not value.startswith('bytes=') or ',' in value or size <= 0:
+        return False
+    spec = value[6:]
+    if '-' not in spec:
+        return False
+    first_text, last_text = spec.split('-', 1)
     try:
-        with open(MANIFEST,"r",encoding="utf-8") as fh:
-            for raw in fh:
-                line=raw.rstrip("\r\n")
-                if not line or line.startswith("#"): continue
-                fields=line.split("\t")
-                if len(fields)<2: continue
-                mid,path=fields[0],fields[1]
-                item={"id":mid,"path":path,"title":title_from_path(Path(path)),
-                    "filename":Path(path).name,"kind":"movie","automatic":False,
-                    "content_type":fields[2] if len(fields)>2 and fields[2] else (mimetypes.guess_type(path)[0] or "application/octet-stream"),
-                    "subtitle_path":fields[3] if len(fields)>3 else ""}
-                probe=probe_video(Path(path)) if os.path.isfile(path) else None
-                if probe:
-                    item["browser_direct"]=probe["browser_direct"]
-                    item["video_codec"]=probe["video_codec"]
-                    item["audio_codec"]=probe["audio_codec"]
-                    item["format_name"]=probe["format_name"]
-                    if not (len(fields)>2 and fields[2]):
-                        item["content_type"]=probe["content_type"]
-                items[mid]=item
-    except OSError: pass
-    return items
+        if not first_text:
+            if not last_text:
+                return False
+            suffix = int(last_text)
+            if suffix <= 0:
+                return False
+            count = min(suffix, size)
+            return size - count, size - 1
+        first = int(first_text)
+        if first < 0 or first >= size:
+            return False
+        if not last_text:
+            return first, size - 1
+        last = int(last_text)
+        if last < first:
+            return False
+        return first, min(last, size - 1)
+    except ValueError:
+        return False
 
-def browser_direct(item):
-    if "browser_direct" in item:
-        return bool(item["browser_direct"])
-    # Preserve direct play for an unavailable manifest item once it later appears,
-    # while remaining conservative for formats/codecs that need normalization.
-    return Path(item["path"]).suffix.lower() in {".mp4",".m4v"}
 
 class State:
-    def __init__(self): self.lock=threading.Lock()
-    def public(self):
-        # Manifest preserves editions/subtitles. Content probing adds any new video automatically.
-        result=manifest_items()
-        known={os.path.normcase(os.path.normpath(v["path"])) for v in result.values()}
-        for mid,item in scan(PUBLIC_ROOT,"auto-public").items():
-            if os.path.normcase(os.path.normpath(item["path"])) not in known: result[mid]=item
-        return result
-    def private(self): return scan(PRIVATE_ROOT,"private")
-    def get(self,mid,private=False): return (self.private() if private else self.public()).get(mid)
-    def jellyfin_match(self,item):
-        token=jellyfin_token()
-        if not token or not item:
-            return None
-        query=urllib.parse.urlencode({"Recursive":"true","Fields":"Path,MediaSources","IncludeItemTypes":"Movie,Video","Limit":"10000"})
-        req=urllib.request.Request(JELLYFIN_URL+"/Items?"+query,headers={"Accept":"application/json","X-Emby-Token":token})
-        try:
-            with urllib.request.urlopen(req,timeout=20) as response:
-                payload=json.load(response)
-        except Exception:
-            return None
-        wanted=os.path.normcase(os.path.normpath(item["path"]))
-        for candidate in payload.get("Items",[]):
-            path=candidate.get("Path")
-            if path and os.path.normcase(os.path.normpath(path))==wanted:
-                return candidate
-        return None
+    def __init__(self):
+        self.items = parse_manifest(MANIFEST)
+        self.lock = threading.Lock()
 
-STATE=State()
+    def request_json(self, path):
+        token = jellyfin_token()
+        if not token:
+            raise RuntimeError('Nougat Jellyfin session is unavailable')
+        req = urllib.request.Request(
+            JELLYFIN_URL + path,
+            headers={
+                'Accept': 'application/json',
+                'X-Emby-Token': token,
+            },
+        )
+        with urllib.request.urlopen(req, timeout=20) as response:
+            return json.load(response)
+
+    def refresh(self):
+        query = urllib.parse.urlencode({
+            'Recursive': 'true',
+            'Fields': 'Path,MediaSources',
+            'IncludeItemTypes': 'Movie,Video',
+            'Limit': '10000',
+        })
+        try:
+            payload = self.request_json('/Items?' + query)
+        except Exception:
+            payload = {'Items': []}
+
+        by_path = {}
+        for item in payload.get('Items', []):
+            path = item.get('Path')
+            if path:
+                by_path[os.path.normcase(os.path.normpath(path))] = item
+
+        indexed = 0
+        with self.lock:
+            for entry in self.items.values():
+                match = by_path.get(os.path.normcase(os.path.normpath(entry['path'])))
+                entry['jellyfin'] = match
+                if match:
+                    indexed += 1
+        return indexed
+
+    def get(self, media_id):
+        with self.lock:
+            item = self.items.get(media_id)
+            return dict(item) if item else None
+
+    def all_public(self):
+        with self.lock:
+            result = []
+            for value in self.items.values():
+                local_ready = os.path.isfile(value['path'])
+                result.append({
+                    'id': value['id'],
+                    'type': value['content_type'],
+                    'subtitles': bool(value['subtitle_path']),
+                    'ready': local_ready or bool(value['jellyfin']),
+                    'local': local_ready,
+                    'jellyfinIndexed': bool(value['jellyfin']),
+                })
+            return result
+
+
+STATE = State()
+
+
+def vtt_from_srt(text):
+    text = text.lstrip('\ufeff')
+    lines = []
+    for line in text.splitlines():
+        if ' --> ' in line:
+            line = line.replace(',', '.')
+        lines.append(line)
+    return 'WEBVTT\n\n' + '\n'.join(lines) + '\n'
+
 
 class Handler(BaseHTTPRequestHandler):
-    server_version="Hanafi-Nougat-Media"
-    protocol_version="HTTP/1.1"
-    def log_message(self,fmt,*args): sys.stderr.write("%s - - [%s] %s\n"%(self.address_string(),self.log_date_time_string(),fmt%args))
+    server_version = 'Hanafi-Nougat-Media'
+    protocol_version = 'HTTP/1.1'
+
+    def log_message(self, fmt, *args):
+        sys.stderr.write('%s - - [%s] %s\n' % (
+            self.address_string(), self.log_date_time_string(), fmt % args
+        ))
+
     def cors(self):
-        self.send_header("Access-Control-Allow-Origin",ALLOWED_ORIGIN)
-        self.send_header("Access-Control-Allow-Methods","GET, HEAD, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers","Range, Content-Type, Authorization")
-        self.send_header("Access-Control-Expose-Headers","Accept-Ranges, Content-Range, Content-Length, X-Hanafi-Stream-Mode")
-        self.send_header("Vary","Origin")
-    def json(self,status,payload,head=False):
-        body=json.dumps(payload,separators=(",",":")).encode()
-        self.send_response(status); self.send_header("Content-Type","application/json; charset=utf-8"); self.send_header("Content-Length",str(len(body))); self.send_header("Cache-Control","no-store"); self.send_header("Connection","close"); self.cors(); self.end_headers()
-        if not head:self.wfile.write(body)
-        self.close_connection=True
+        self.send_header('Access-Control-Allow-Origin', ALLOWED_ORIGIN)
+        self.send_header('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Range, Content-Type, Authorization')
+        self.send_header(
+            'Access-Control-Expose-Headers',
+            'Accept-Ranges, Content-Range, Content-Length, X-Hanafi-Stream-Mode'
+        )
+        self.send_header('Vary', 'Origin')
+
+    def json_response(self, status, payload, head=False):
+        body = json.dumps(payload, separators=(',', ':')).encode('utf-8')
+        self.send_response(status)
+        self.send_header('Content-Type', 'application/json; charset=utf-8')
+        self.send_header('Content-Length', str(len(body)))
+        self.send_header('Cache-Control', 'no-store')
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('Connection', 'close')
+        self.cors()
+        self.end_headers()
+        if not head:
+            self.wfile.write(body)
+        self.close_connection = True
+
     def do_OPTIONS(self):
-        self.send_response(204);self.send_header("Content-Length","0");self.cors();self.end_headers()
-    def do_HEAD(self):self.handle(True)
-    def do_GET(self):self.handle(False)
-    def handle(self,head):
-        parsed=urllib.parse.urlsplit(self.path); q=urllib.parse.parse_qs(parsed.query); mid=q.get("id",[""])[0]
-        if parsed.path=="/nougat/v1/health":
-            pub=STATE.public();self.json(200,{"ok":True,"available":sum(os.path.isfile(x["path"]) for x in pub.values()),"total":len(pub)},head);return
-        if parsed.path=="/nougat/v1/catalog":
-            items=[]
-            for x in STATE.public().values():
-                y={k:x.get(k) for k in ("id","title","filename","kind","automatic","content_type")};y["ready"]=os.path.isfile(x["path"]);items.append(y)
-            self.json(200,{"ok":True,"items":items},head);return
-        if parsed.path=="/nougat/v1/private/catalog":
-            items=[]
-            for x in STATE.private().values():
-                y={k:x.get(k) for k in ("id","title","filename","kind","automatic","content_type")};y["ready"]=os.path.isfile(x["path"]);items.append(y)
-            self.json(200,{"ok":True,"items":items},head);return
-        if parsed.path in ("/nougat/v1/media","/nougat/v1/private/media"):
-            self.stream(STATE.get(mid,parsed.path.startswith("/nougat/v1/private/")),head,False,parsed.path.startswith("/nougat/v1/private/"));return
-        if parsed.path=="/nougat/v1/transcode":
-            self.stream(STATE.get(mid,False),head,True,False);return
-        if parsed.path=="/nougat/v1/subtitle":
-            self.subtitle(STATE.get(mid,False),head);return
-        if parsed.path=="/robots.txt":
-            body=b"User-agent: *\nDisallow: /\n";self.send_response(200);self.send_header("Content-Length",str(len(body)));self.end_headers();
-            if not head:self.wfile.write(body)
+        self.send_response(204)
+        self.send_header('Content-Length', '0')
+        self.send_header('Connection', 'close')
+        self.cors()
+        self.end_headers()
+        self.close_connection = True
+
+    def do_HEAD(self):
+        self.handle_request(head=True)
+
+    def do_GET(self):
+        self.handle_request(head=False)
+
+    def handle_request(self, head=False):
+        parsed = urllib.parse.urlsplit(self.path)
+        params = urllib.parse.parse_qs(parsed.query)
+        media_id = params.get('id', [''])[0]
+
+        if parsed.path == '/nougat/v1/health':
+            indexed = STATE.refresh()
+            items = STATE.all_public()
+            available = sum(1 for item in items if item['ready'])
+            self.json_response(200 if available else 503, {
+                'ok': available > 0,
+                'product': 'Hanafi Learning Deck',
+                'service': 'Nougat extracted media server',
+                'backend': '127.0.0.1:8098',
+                'available': available,
+                'jellyfinIndexed': indexed,
+                'total': len(items),
+            }, head)
             return
-        self.json(404,{"ok":False,"error":"Unknown route."},head)
-    def stream(self,item,head,force_transcode=False,private=False):
+
+        if parsed.path == '/nougat/v1/catalog':
+            STATE.refresh()
+            self.json_response(200, {
+                'ok': True,
+                'service': 'Nougat extracted media server',
+                'items': STATE.all_public(),
+            }, head)
+            return
+
+        if parsed.path == '/nougat/v1/private/catalog':
+            items = [{'id': x['id'], 'type': x['content_type'], 'subtitles': bool(x['subtitle_path']), 'ready': os.path.isfile(x['path'])} for x in private_items().values()]
+            self.json_response(200, {'ok': True, 'items': items}, head)
+            return
+
+        if parsed.path == '/nougat/v1/private/media':
+            item = private_items().get(media_id)
+            if not item:
+                self.json_response(404, {'ok': False, 'error': 'Unknown private media id.'}, head)
+                return
+            # Kingdom of Heaven and Practical Magic are browser-safe H.264/AAC MP4 files.
+            # Serve those finished files with normal byte ranges instead of live transcoding.
+            # Other private titles retain their current behavior until separately approved.
+            if media_id in {'kingdom-of-heaven-2005', 'practical-magic-1998'}:
+                self.stream_local_file(item, head)
+            else:
+                self.stream_ffmpeg(item, head)
+            return
+
+        if parsed.path == '/nougat/v1/media':
+            self.stream_media(media_id, head, force_transcode=False)
+            return
+
+        if parsed.path == '/nougat/v1/transcode':
+            self.stream_media(media_id, head, force_transcode=True)
+            return
+
+        if parsed.path == '/nougat/v1/private/subtitle':
+            self.stream_private_subtitle(media_id, head)
+            return
+
+        if parsed.path == '/nougat/v1/subtitle':
+            self.stream_subtitle(media_id, head)
+            return
+
+        if parsed.path == '/robots.txt':
+            body = b'User-agent: *\nDisallow: /\n'
+            self.send_response(200)
+            self.send_header('Content-Type', 'text/plain; charset=utf-8')
+            self.send_header('Content-Length', str(len(body)))
+            self.send_header('Connection', 'close')
+            self.end_headers()
+            if not head:
+                self.wfile.write(body)
+            self.close_connection = True
+            return
+
+        self.json_response(404, {'ok': False, 'error': 'Unknown route.'}, head)
+
+    def stream_media(self, media_id, head, force_transcode=False):
+        item = STATE.get(media_id)
         if not item:
-            self.json(404,{"ok":False,"error":"Media unavailable."},head);return
-        if not os.path.isfile(item["path"]):
-            if not private:
-                jelly=STATE.jellyfin_match(item)
-                if jelly:
-                    self.jellyfin(item,jelly,head);return
-            self.json(404,{"ok":False,"error":"Media unavailable."},head);return
-        if force_transcode or not browser_direct(item):self.ffmpeg(item,head);return
-        path=item["path"];size=os.path.getsize(path);first,last=0,max(0,size-1);status=200
-        r=self.headers.get("Range","")
-        if r.startswith("bytes=") and "," not in r:
-            a,b=r[6:].split("-",1)
-            try:
-                if a:first=int(a);last=int(b) if b else size-1
-                elif b:first=max(0,size-int(b));last=size-1
-                last=min(last,size-1);status=206
-            except ValueError:pass
-        length=max(0,last-first+1)
-        self.send_response(status);self.send_header("Content-Type",item["content_type"]);self.send_header("Content-Length",str(length));self.send_header("Accept-Ranges","bytes");self.send_header("Cache-Control","private, max-age=0");self.send_header("X-Hanafi-Stream-Mode","nougat-byte-range")
-        if status==206:self.send_header("Content-Range",f"bytes {first}-{last}/{size}")
-        self.cors();self.end_headers()
+            self.json_response(404, {'ok': False, 'error': 'Unknown media id.'}, head)
+            return
+
+        path = item['path']
+        if os.path.isfile(path):
+            if force_transcode or not browser_direct_preferred(path):
+                self.stream_ffmpeg(item, head)
+            else:
+                self.stream_local_file(item, head)
+            return
+
+        if not item.get('jellyfin'):
+            STATE.refresh()
+            item = STATE.get(media_id)
+        if item and item.get('jellyfin'):
+            self.stream_jellyfin(item, head)
+            return
+
+        self.json_response(404, {
+            'ok': False,
+            'error': 'The selected media file is unavailable on saxondesktop.',
+        }, head)
+
+    def stream_local_file(self, item, head):
+        path = item['path']
+        try:
+            size = os.path.getsize(path)
+        except OSError:
+            self.json_response(404, {'ok': False, 'error': 'Media file is unavailable.'}, head)
+            return
+
+        parsed = parse_range(self.headers.get('Range', ''), size)
+        if parsed is False:
+            self.send_response(416)
+            self.send_header('Content-Range', f'bytes */{size}')
+            self.send_header('Content-Length', '0')
+            self.send_header('Connection', 'close')
+            self.cors()
+            self.end_headers()
+            self.close_connection = True
+            return
+
+        if parsed is None:
+            first, last = 0, max(size - 1, 0)
+            status = 200
+        else:
+            first, last = parsed
+            status = 206
+        length = 0 if size == 0 else last - first + 1
+
+        self.send_response(status)
+        self.send_header('Content-Type', media_content_type(path, item.get('content_type', '')))
+        self.send_header('Content-Length', str(length))
+        self.send_header('Accept-Ranges', 'bytes')
+        self.send_header('Cache-Control', 'private, max-age=0')
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('X-Hanafi-Stream-Mode', 'nougat-byte-range')
+        if status == 206:
+            self.send_header('Content-Range', f'bytes {first}-{last}/{size}')
+        self.send_header('Connection', 'close')
+        self.cors()
+        self.end_headers()
+
         if not head and length:
             try:
-                with open(path,"rb") as fh:
-                    fh.seek(first);remaining=length
-                    while remaining:
-                        chunk=fh.read(min(262144,remaining))
-                        if not chunk:break
-                        self.wfile.write(chunk);remaining-=len(chunk)
-            except (OSError,BrokenPipeError,ConnectionResetError):pass
-    def subtitle(self,item,head):
-        if not item:
-            self.json(404,{"ok":False,"error":"Unknown media id."},head);return
-        subtitle=item.get("subtitle_path") or ""
-        if not subtitle or not os.path.isfile(subtitle):
-            self.json(404,{"ok":False,"error":"No local subtitle track is configured for this item."},head);return
-        data=Path(subtitle).read_text(encoding="utf-8",errors="replace")
-        if subtitle.lower().endswith(".srt"):
-            data=vtt_from_srt(data)
-        body=data.encode("utf-8")
-        self.send_response(200);self.send_header("Content-Type","text/vtt; charset=utf-8");self.send_header("Content-Length",str(len(body)));self.send_header("Cache-Control","public, max-age=3600");self.send_header("Connection","close");self.cors();self.end_headers()
-        if not head:self.wfile.write(body)
-        self.close_connection=True
-    def jellyfin(self,item,jelly,head):
-        token=jellyfin_token(); item_id=jelly.get("Id")
-        if not token or not item_id:
-            self.json(503,{"ok":False,"error":"Nougat Jellyfin session is unavailable."},head);return
-        sources=jelly.get("MediaSources") or []; source_id=(sources[0].get("Id") or "") if sources else ""
-        query={"static":"false","VideoCodec":"h264","AudioCodec":"aac","AudioChannels":"2","MaxWidth":"1920","MaxHeight":"1080","EnableAutoStreamCopy":"true","AllowVideoStreamCopy":"true","AllowAudioStreamCopy":"true","api_key":token}
-        if source_id:query["MediaSourceId"]=source_id
-        target=f"{JELLYFIN_URL}/Videos/{urllib.parse.quote(item_id)}/stream.mp4?{urllib.parse.urlencode(query)}"
-        headers={"X-Emby-Token":token}
-        if self.headers.get("Range"):headers["Range"]=self.headers["Range"]
-        if self.headers.get("If-Range"):headers["If-Range"]=self.headers["If-Range"]
-        request=urllib.request.Request(target,method="HEAD" if head else "GET",headers=headers)
+                with open(path, 'rb') as fh:
+                    fh.seek(first)
+                    remaining = length
+                    while remaining > 0:
+                        chunk = fh.read(min(256 * 1024, remaining))
+                        if not chunk:
+                            break
+                        self.wfile.write(chunk)
+                        remaining -= len(chunk)
+            except (OSError, BrokenPipeError, ConnectionResetError):
+                pass
+        self.close_connection = True
+
+    def stream_ffmpeg(self, item, head):
+        if not os.path.isfile(FFMPEG) or not os.access(FFMPEG, os.X_OK):
+            self.json_response(503, {'ok': False, 'error': 'FFmpeg is unavailable.'}, head)
+            return
+
+        if head:
+            self.send_response(200)
+            self.send_header('Content-Type', 'video/mp4')
+            self.send_header('Cache-Control', 'no-store')
+            self.send_header('X-Hanafi-Stream-Mode', 'nougat-ffmpeg')
+            self.send_header('Connection', 'close')
+            self.cors()
+            self.end_headers()
+            self.close_connection = True
+            return
+
+        command = [
+            FFMPEG,
+            '-nostdin', '-hide_banner', '-loglevel', 'error',
+            '-i', item['path'],
+            '-map', '0:v:0?', '-map', '0:a:0?', '-sn',
+            '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23',
+            '-pix_fmt', 'yuv420p',
+            '-c:a', 'aac', '-b:a', '160k',
+            '-movflags', '+frag_keyframe+empty_moov+default_base_moof',
+            '-f', 'mp4', 'pipe:1',
+        ]
         try:
-            upstream=urllib.request.urlopen(request,timeout=60)
+            process = subprocess.Popen(
+                command,
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.DEVNULL,
+                start_new_session=True,
+            )
+        except OSError as exc:
+            self.json_response(500, {'ok': False, 'error': f'Could not start FFmpeg: {exc}'}, head)
+            return
+
+        self.send_response(200)
+        self.send_header('Content-Type', 'video/mp4')
+        self.send_header('Transfer-Encoding', 'chunked')
+        self.send_header('Cache-Control', 'no-store')
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.send_header('X-Hanafi-Stream-Mode', 'nougat-ffmpeg')
+        self.send_header('Connection', 'close')
+        self.cors()
+        self.end_headers()
+
+        try:
+            assert process.stdout is not None
+            while True:
+                chunk = process.stdout.read(64 * 1024)
+                if not chunk:
+                    break
+                self.wfile.write(f'{len(chunk):X}\r\n'.encode('ascii'))
+                self.wfile.write(chunk)
+                self.wfile.write(b'\r\n')
+                self.wfile.flush()
+            self.wfile.write(b'0\r\n\r\n')
+            self.wfile.flush()
+        except (BrokenPipeError, ConnectionResetError, OSError):
+            try:
+                process.terminate()
+            except OSError:
+                pass
+        finally:
+            if process.stdout:
+                process.stdout.close()
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait()
+        self.close_connection = True
+
+    def stream_jellyfin(self, item, head):
+        token = jellyfin_token()
+        jellyfin_item = item.get('jellyfin') or {}
+        item_id = jellyfin_item.get('Id')
+        if not token or not item_id:
+            self.json_response(503, {'ok': False, 'error': 'Nougat Jellyfin session is unavailable.'}, head)
+            return
+
+        media_source_id = ''
+        sources = jellyfin_item.get('MediaSources') or []
+        if sources:
+            media_source_id = sources[0].get('Id') or ''
+        query = {
+            'static': 'false',
+            'VideoCodec': 'h264',
+            'AudioCodec': 'aac',
+            'AudioChannels': '2',
+            'MaxWidth': '1920',
+            'MaxHeight': '1080',
+            'EnableAutoStreamCopy': 'true',
+            'AllowVideoStreamCopy': 'true',
+            'AllowAudioStreamCopy': 'true',
+            'api_key': token,
+        }
+        if media_source_id:
+            query['MediaSourceId'] = media_source_id
+        target = (
+            f"{JELLYFIN_URL}/Videos/{urllib.parse.quote(item_id)}/stream.mp4?"
+            f"{urllib.parse.urlencode(query)}"
+        )
+        headers = {'X-Emby-Token': token}
+        if self.headers.get('Range'):
+            headers['Range'] = self.headers['Range']
+        if self.headers.get('If-Range'):
+            headers['If-Range'] = self.headers['If-Range']
+        request = urllib.request.Request(target, method='HEAD' if head else 'GET', headers=headers)
+        try:
+            upstream = urllib.request.urlopen(request, timeout=60)
         except urllib.error.HTTPError as exc:
-            upstream=exc
+            upstream = exc
         except Exception as exc:
-            self.json(502,{"ok":False,"error":f"Jellyfin stream failed: {exc}"},head);return
+            self.json_response(502, {'ok': False, 'error': f'Jellyfin stream failed: {exc}'}, head)
+            return
+
         try:
             self.send_response(upstream.status)
-            for name in ("Content-Type","Content-Length","Content-Range","Accept-Ranges","ETag","Last-Modified"):
-                value=upstream.headers.get(name)
-                if value:self.send_header(name,value)
-            self.send_header("Cache-Control","no-store");self.send_header("X-Content-Type-Options","nosniff");self.send_header("X-Hanafi-Stream-Mode","jellyfin");self.send_header("Connection","close");self.cors();self.end_headers()
+            for name in ('Content-Type', 'Content-Length', 'Content-Range', 'Accept-Ranges', 'ETag', 'Last-Modified'):
+                value = upstream.headers.get(name)
+                if value:
+                    self.send_header(name, value)
+            self.send_header('Cache-Control', 'no-store')
+            self.send_header('X-Content-Type-Options', 'nosniff')
+            self.send_header('X-Hanafi-Stream-Mode', 'jellyfin')
+            self.send_header('Connection', 'close')
+            self.cors()
+            self.end_headers()
             if not head:
                 while True:
-                    chunk=upstream.read(262144)
-                    if not chunk:break
+                    chunk = upstream.read(256 * 1024)
+                    if not chunk:
+                        break
                     self.wfile.write(chunk)
-        except (BrokenPipeError,ConnectionResetError,OSError):
+        except (BrokenPipeError, ConnectionResetError, OSError):
             pass
         finally:
             upstream.close()
-        self.close_connection=True
-    def ffmpeg(self,item,head):
-        if head:self.send_response(200);self.send_header("Content-Type","video/mp4");self.cors();self.end_headers();return
-        cmd=[FFMPEG,"-nostdin","-hide_banner","-loglevel","error","-i",item["path"],"-map","0:v:0?","-map","0:a:0?","-sn","-c:v","libx264","-preset","veryfast","-crf","23","-pix_fmt","yuv420p","-c:a","aac","-b:a","160k","-movflags","+frag_keyframe+empty_moov+default_base_moof","-f","mp4","pipe:1"]
-        p=subprocess.Popen(cmd,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL)
-        self.send_response(200);self.send_header("Content-Type","video/mp4");self.send_header("Transfer-Encoding","chunked");self.send_header("X-Hanafi-Stream-Mode","nougat-ffmpeg");self.cors();self.end_headers()
-        try:
-            while True:
-                chunk=p.stdout.read(65536)
-                if not chunk:break
-                self.wfile.write(f"{len(chunk):X}\r\n".encode()+chunk+b"\r\n");self.wfile.flush()
-            self.wfile.write(b"0\r\n\r\n")
-        except (OSError,BrokenPipeError,ConnectionResetError):p.terminate()
-        finally:
-            if p.stdout:p.stdout.close()
+        self.close_connection = True
+
+    def stream_private_subtitle(self, media_id, head):
+        item = private_items().get(media_id)
+        if not item:
+            self.json_response(404, {'ok': False, 'error': 'Unknown private media id.'}, head)
+            return
+        self.stream_subtitle_item(item, head)
+
+    def stream_subtitle_item(self, item, head):
+        subtitle = item.get('subtitle_path') or ''
+        if not subtitle or not os.path.isfile(subtitle):
+            self.json_response(404, {
+                'ok': False,
+                'error': 'No local subtitle track is configured for this item.',
+            }, head)
+            return
+        data = Path(subtitle).read_text(encoding='utf-8', errors='replace')
+        if subtitle.lower().endswith('.srt'):
+            data = vtt_from_srt(data)
+        body = data.encode('utf-8')
+        self.send_response(200)
+        self.send_header('Content-Type', 'text/vtt; charset=utf-8')
+        self.send_header('Content-Length', str(len(body)))
+        self.send_header('Cache-Control', 'private, max-age=0')
+        self.send_header('Connection', 'close')
+        self.cors()
+        self.end_headers()
+        if not head:
+            self.wfile.write(body)
+        self.close_connection = True
+
+    def stream_subtitle(self, media_id, head):
+        item = STATE.get(media_id)
+        if not item:
+            self.json_response(404, {'ok': False, 'error': 'Unknown media id.'}, head)
+            return
+        self.stream_subtitle_item(item, head)
+
 
 def main():
-    print(f"Hanafi/Nougat automatic media bridge: {len(STATE.public())} public, {len(STATE.private())} private",flush=True)
-    ThreadingHTTPServer((BIND,PORT),Handler).serve_forever()
-if __name__=="__main__":main()
+    indexed = STATE.refresh()
+    available = sum(1 for item in STATE.all_public() if item['ready'])
+    print(
+        f'Hanafi/Nougat media bridge ready: {available}/{len(STATE.items)} files available, '
+        f'{indexed} currently indexed by Jellyfin.',
+        flush=True,
+    )
+    server = ThreadingHTTPServer((BIND, PORT), Handler)
+    print(f'Hanafi media bridge listening on http://{BIND}:{PORT}', flush=True)
+    server.serve_forever()
+
+
+if __name__ == '__main__':
+    main()
