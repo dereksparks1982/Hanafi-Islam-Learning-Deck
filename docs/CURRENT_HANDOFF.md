@@ -9,6 +9,8 @@ Current accepted and published checkpoint: **v2.4 — closed and accepted**.
 
 Active owner-authorized build: **v2.5 — automatic public Media metadata and artwork onboarding**.
 
+v2.5 is currently a **candidate awaiting live runtime validation**. It is not closed or accepted yet.
+
 Governing rules: [`COMPANY_BIBLE.md`](COMPANY_BIBLE.md). Stop means stop. No branch other than `main` may be created. Version changes, closeouts, and acceptance remain owner-controlled.
 
 ## Current card/library state
@@ -99,43 +101,52 @@ Al-Risalah's current local file is:
 
 It is playable. Its previous failure was a stale folder path after the folder was renamed, not an unsupported-media problem.
 
-The bridge source restored at the end of v2.4 is the stable manifest-based implementation at `server/hanafi-jellyfin-bridge`. Do not reintroduce the rejected handler implementation that overrode `BaseHTTPRequestHandler.handle()` with an incompatible signature.
+## Stable playback boundary
 
-## Current artwork limitation
+The exact accepted v2.4 playback implementation is preserved at:
 
-The four movies added in v2.4 play but do not yet have automatically resolved box art:
+`server/hanafi-jellyfin-bridge-stable.py`
 
-- Aao Hajj Karein (2012)
-- Joseph in the Land of Egypt (1914)
-- Pakistan (1950)
-- The Soviets and Islam (1972)
+The v2.5 `server/hanafi-jellyfin-bridge` imports that stable core and layers only public discovery, metadata, and poster behavior on top. Do not reintroduce the rejected implementation that overrode `BaseHTTPRequestHandler.handle()` with an incompatible signature.
 
-The existing `artwork-manager.js` supports IndexedDB caching, local artwork, manual URLs/files, cropping, and locked selections. Its current TMDb search code is browser-side and is not a proper authenticated automatic provider path. Do not solve v2.5 by hardcoding four more poster URLs.
+## v2.5 candidate behavior
 
-## v2.5 authorized build
+The current candidate is intended to remove per-movie hand wiring. It:
 
-The owner explicitly authorized moving to v2.5 for a Plex/Emby/Jellyfin-style metadata pipeline.
+- scans `/home/dereksparks1982/Videos/Hosted` for future public movie folders;
+- derives deterministic automatic IDs and parses `Movie Name (Year)`;
+- preserves all explicit v2.4 IDs;
+- uses the existing Nougat-integrated Jellyfin movie-library/provider system for normalized metadata and primary images;
+- exposes safe metadata in `/nougat/v1/catalog`;
+- exposes poster delivery at `/nougat/v1/poster?id=<media-id>`;
+- uses poster priority: explicit/manual browser artwork, local movie-folder artwork, Jellyfin primary image, then a cached FFmpeg frame fallback;
+- creates future Media cards from catalog records without another hardcoded Web App film entry;
+- fills dynamic movie pages with provider metadata when available;
+- leaves the accepted DK Media playback path underneath the metadata layer.
 
-Required target:
+The permanent one-time runtime transition helper is:
 
-1. detect a correctly named movie placed under the public Hosted library;
-2. parse title/year and provider IDs where available;
-3. use the existing Nougat-integrated Jellyfin metadata/provider system first;
-4. obtain normalized title, original title, year, overview, runtime, provider IDs, and primary poster state from the server where available;
-5. expose safe metadata and poster delivery through the Hanafi bridge without exposing credentials or filesystem paths;
-6. cache metadata/posters;
-7. create the Web App movie card and dedicated movie page automatically;
-8. retain local/manual artwork as overrides and preserve locked manual choices;
-9. preserve all eight v2.4 working movies and the one-player DK Media architecture;
-10. require no individual hand edit to `web-viewer/media/index.html`, `web-viewer/media/movie.html`, or `media-server/media.tsv.example` for future correctly named movies.
+`media-server/deploy/update-v25-metadata.sh`
 
-Primary design reference: Jellyfin's scanner + remote metadata provider + remote image provider flow, with Plex/Emby used as behavioral references for the same general mature-media-server pattern.
+It installs both bridge files, configures the Hosted root and writable poster cache, registers Hosted as a Jellyfin **movies** library if necessary, requests a library refresh, restarts only the existing bridge service, and prints live health/catalog results.
 
-Detailed active plan: [`V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md`](V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md).
+Once that one-time v2.5 runtime transition is accepted, **adding a movie to Hosted is supposed to be the onboarding action**. The user should not have to hand-edit `index.html`, `movie.html`, or `media.tsv.example` for each new correctly named movie.
+
+Detailed candidate plan: [`V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md`](V2.5_MEDIA_METADATA_AUTOMATION_PLAN.md).
+
+## v2.5 acceptance gate
+
+Do not close v2.5 until live validation confirms:
+
+1. all eight accepted v2.4 films still play;
+2. the four v2.4 additions receive automatic artwork through the new metadata/poster route;
+3. a newly added correctly named Hosted movie appears automatically without a per-title Web App or manifest edit;
+4. manual/locked artwork remains an override;
+5. Private Library behavior is unchanged.
 
 ## Terminal/deployment boundary
 
-The authoritative bridge source lives in the repository. Protected runtime deployment on saxondesktop uses the existing `/usr/local/bin/hanafi-jellyfin-bridge` and existing `hanafi-jellyfin-bridge.service`.
+Protected runtime deployment on saxondesktop uses the existing `/usr/local/bin/hanafi-jellyfin-bridge` and existing `hanafi-jellyfin-bridge.service`.
 
 When a terminal command is required, it must be one complete non-interactive physical command line, must return directly to the shell, must not use `read`, `exit`, `logout`, a pager/editor, a heredoc, a trailing continuation backslash, or anything that can leave a `>`/`:` continuation state or ask the maintainer for further input.
 
