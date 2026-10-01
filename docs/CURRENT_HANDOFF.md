@@ -37,9 +37,24 @@ The approved current Web App family includes:
 - Makkah Live & Prayer Clock;
 - Holy Places Explorer;
 - Live, Links, Media, Charity, About, and Legal;
+- **Majlis**, placed immediately after Media on the Home action row and linking into Folkhold's Village Square;
 - locked Advanced Learner Library and current five-slot private-library entrance flow.
 
 Rejected UI experiments are not baselines and must not be restored.
+
+## Hanafi / Folkhold companion bridge
+
+The owner defined Hanafi and Folkhold as complementary companion projects: Hanafi is the learning/faith side and Folkhold is the broader community/gathering side. They remain separate sites and separate repositories rather than being merged into one application.
+
+The Home **Majlis** button opens:
+
+`https://dereksparks1982.github.io/folkhold/?from=hanafi#square`
+
+The button deliberately uses **Majlis** rather than **Shura**. Majlis fits the intended gathering-place meaning without presenting Hanafi as an accredited religious council.
+
+The `from=hanafi` query marker is intentional. A separate future Folkhold slice should recognize that origin and expose a contextual **← Hanafi** route while retaining normal Folkhold navigation. The Folkhold return control is not part of the current Hanafi-side change.
+
+A Folkhold companion card also exists on the Hanafi Links page. The Majlis button is the direct community doorway and should remain immediately after Media unless the owner changes the Home navigation order.
 
 ## Media architecture
 
