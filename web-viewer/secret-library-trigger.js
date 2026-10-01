@@ -7,6 +7,18 @@
     const legalLink = actionLinks.find(link => link.textContent.trim() === "Legal");
     if (legalLink) legalLink.href = "legal/";
 
+    const existingMajlis = actionLinks.find(link => link.textContent.trim() === "Majlis");
+    if (!existingMajlis) {
+      const majlisLink = document.createElement("a");
+      majlisLink.className = "secondary action-link";
+      majlisLink.href = "https://dereksparks1982.github.io/folkhold/?from=hanafi#square";
+      majlisLink.textContent = "Majlis";
+      majlisLink.setAttribute("aria-label", "Open Majlis in Folkhold");
+      const mediaLink = actionLinks.find(link => link.textContent.trim() === "Media");
+      if (mediaLink) mediaLink.insertAdjacentElement("afterend", majlisLink);
+      else actions.insertBefore(majlisLink, actions.querySelector("button") || null);
+    }
+
     const existingCharity = actionLinks.find(link => link.textContent.trim() === "Charity");
     if (!existingCharity) {
       const charityLink = document.createElement("a");
