@@ -3,6 +3,7 @@ const SHELL_REV = "20260927staticdeck1";
 const ADHAN_VERSION = "4.4.6";
 const ADHAN_URL = `https://unpkg.com/adhan@${ADHAN_VERSION}/lib/bundles/adhan.umd.min.js`;
 const PRAYER_STORAGE_KEY = "hanafi-deck-prayer-settings-v1";
+const FOLKHOLD_MAJLIS_URL = "https://dereksparks1982.github.io/folkhold/?from=hanafi#square";
 
 const installButton = document.getElementById("installButton");
 const useLocationButton = document.getElementById("useLocationButton");
@@ -47,6 +48,21 @@ const prayerState = {
   next: null,
   dateKey: null
 };
+
+function ensureMajlisLink() {
+  const actions = document.querySelector(".actions");
+  if (!actions || actions.querySelector('[data-hanafi-majlis="true"]')) return;
+
+  const link = document.createElement("a");
+  link.className = "secondary action-link";
+  link.href = FOLKHOLD_MAJLIS_URL;
+  link.textContent = "Majlis";
+  link.dataset.hanafiMajlis = "true";
+  link.setAttribute("aria-label", "Open the Majlis in Folkhold");
+
+  const linksButton = actions.querySelector('a[href="links/"]');
+  actions.insertBefore(link, linksButton || installButton || null);
+}
 
 async function startOfflineSupport() {
   if (!("serviceWorker" in navigator)) return;
@@ -323,6 +339,7 @@ function restorePrayerSettings() {
   }
 }
 
+ensureMajlisLink();
 startOfflineSupport();
 restorePrayerSettings();
 prayerTimer = window.setInterval(updatePrayerCountdown, 1000);
